@@ -1,0 +1,15 @@
+{
+  "name": "simple",
+  "version": "0.0.0",
+  "description": "",
+  "main": "bundle.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "gulp-rimraf": "^0.1.0",
+    "rimraf": "^2.2.8"
+  }
+}
