@@ -9,13 +9,16 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^0.5.0",
     "gulp": "^3.8.5",
     "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.2.0",
     "gulp-using": "0.0.1",
     "gulp-util": "^2.2.19",
     "lodash": "^2.4.1",
-    "merge-stream": "^0.1.1"
+    "map-stream": "^0.1.0",
+    "merge-stream": "^0.1.1",
+    "mkdirp": "^0.5.0"
   },
   "devDependencies": {
     "load-common-gulp-tasks": "^0.2.2",
