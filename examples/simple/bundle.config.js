@@ -8,7 +8,7 @@ module.exports = {
       styles: [
         './content/**/*.css'
       ],
-      resources: './content/**/*.{png}'
+      resources: './content/**/*.{png,svg}'
     }
   },
   dest: './public'
