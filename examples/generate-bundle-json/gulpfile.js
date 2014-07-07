@@ -5,7 +5,7 @@ var gulp = require('gulp'),
 require('../../')(gulp);
 
 gulp.task('rimraf', function() {
-  return gulp.src([bundleConfig.dest], { read: false })
+  return gulp.src([bundleConfig.dest, '.gulp-bundle'], { read: false })
     .pipe(rimraf());
 });
 
