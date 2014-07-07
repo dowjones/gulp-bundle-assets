@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = { // todo render in dust/mu/etc
   bundle: {
     vendor: {
       scripts: [
@@ -12,7 +12,7 @@ module.exports = {
     },
     main: {
       scripts: [
-        './content/js/app.js'
+        './content/js/client.js'
       ],
       styles: './content/**/*.css'
     }

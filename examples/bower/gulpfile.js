@@ -10,5 +10,5 @@ gulp.task('rimraf', function() {
 });
 
 gulp.task('default', function() {
-  gulp.watch(['./content/**/*.*'], ['build']);
+  gulp.watch(['./content/**/*.*'], ['bundle']);
 });

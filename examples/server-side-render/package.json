@@ -1,0 +1,14 @@
+{
+  "name": "server-side-render",
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "gulp-rimraf": "^0.1.0"
+  }
+}
