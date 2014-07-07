@@ -8,3 +8,7 @@ gulp.task('rimraf', function() {
   return gulp.src([bundleConfig.dest, '.gulp-bundle'], { read: false })
     .pipe(rimraf());
 });
+
+gulp.task('default', function() {
+  gulp.watch(['./content/**/*.*'], ['build']);
+});
