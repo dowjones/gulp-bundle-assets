@@ -11,8 +11,10 @@
   "dependencies": {
     "chalk": "^0.5.0",
     "gulp": "^3.8.5",
-    "gulp-clean": "^0.3.1",
-    "gulp-concat": "^2.2.0",
+    "gulp-concat": "git+https://github.com/floridoo/gulp-concat.git#sourcemap_pipe2",
+    "gulp-minify-css": "^0.3.6",
+    "gulp-sourcemaps": "^0.4.4",
+    "gulp-uglify": "git+https://github.com/floridoo/gulp-uglify.git#sourcemap_pipe2",
     "gulp-using": "0.0.1",
     "gulp-util": "^2.2.19",
     "lodash": "^2.4.1",

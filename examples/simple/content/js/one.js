@@ -1,1 +1,4 @@
-console.log('one');
+function logOne() {
+  console.log('one');
+}
+logOne();

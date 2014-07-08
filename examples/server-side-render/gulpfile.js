@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 require('../../')(gulp);
 
-gulp.task('rimraf', function() {
+gulp.task('clean', function() {
   return gulp.src([bundleConfig.dest, '.gulp-bundle'], { read: false })
     .pipe(rimraf());
 });

@@ -1,1 +1,4 @@
-console.log('two');
+function logTwo() {
+  console.log('two');
+}
+logTwo();

@@ -8,6 +8,6 @@ module.exports = function (gulp, options) {
   }
 
   gulp.task('bundle', function () {
-    return bundle(gulp, options);
+    return bundle();
   });
 };
