@@ -55,8 +55,7 @@ function bundle(config) {
   return merge.apply(merge, streams);
 }
 
-function startBundler(file, enc, cb) {
-
+function readConfig(file, enc, cb) {
   if (file.isNull()) {
     this.push(file);
     return cb();
@@ -77,12 +76,12 @@ function startBundler(file, enc, cb) {
     return cb();
   }
 
-  bundle(config);
-
-  this.push(file);
+  this.push(config);
   cb();
 }
 
 module.exports = function () {
-  return through.obj(startBundler);
+  return fs.createReadStream('./bundle.config.js')
+    .pipe(through.obj(readConfig))
+    .pipe(bundle);
 };
