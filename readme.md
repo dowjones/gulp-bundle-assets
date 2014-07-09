@@ -10,6 +10,8 @@ npm install gulp-bundle-assets --save-dev
 
 ## Usage
 
+Create the following files:
+
 ```js
 // gulpfile.js
 var gulp = require('gulp'),
@@ -51,7 +53,7 @@ Then, calling
 $ gulp bundle
 ```
 
-Results in
+Results in the following folder structure:
 
 ```
 -- public
