@@ -27,10 +27,10 @@ function applyResults(key, type) {
     };
     this.push(file);
     cb();
-  })
+  });
 }
 
-function bundle(config) {
+function _bundle(config) {
   var streams = [];
 
   for (var key in config.bundle) {
@@ -83,7 +83,7 @@ function startBundle(file, enc, cb) {
   }
 
   if (file.isStream()) {
-    this.emit('error', new gutil.PluginError('gulp-asset-bundler', 'Streaming not supported'));
+    this.emit('error', new gutil.PluginError('gulp-bundle-assets', 'Streaming not supported'));
     return cb();
   }
 
@@ -91,11 +91,11 @@ function startBundle(file, enc, cb) {
     config = require(file.path); // todo eval contents instead since we already have it in buffer
   } catch (e) {
     gutil.log(gutil.colors.red('Failed to parse config file'));
-    this.emit('error', new gutil.PluginError('gulp-asset-bundler', e));
+    this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
     return cb();
   }
 
-  bundle(config)
+  _bundle(config)
     .on('data', function (file) {
       if (file.bundle) {
         bundleResults[file.bundle.name] = bundleResults[file.bundle.name] || {};
@@ -104,7 +104,7 @@ function startBundle(file, enc, cb) {
       }
     })
     .on('error', function (err) {
-      self.emit('error', new gutil.PluginError('gulp-asset-bundler', err));
+      self.emit('error', new gutil.PluginError('gulp-bundle-assets', err));
       return cb();
     })
     .on('end', function () {

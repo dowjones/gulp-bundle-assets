@@ -1,33 +1,37 @@
 {
-  "name": "gulp-asset-bundler",
-  "version": "0.0.0",
+  "name": "gulp-bundle-assets",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp ci"
   },
-  "author": "",
+  "author": {
+    "name": "Chris Montgomery",
+    "email": "chr.montgomery@gmail.com",
+    "url": "http://www.chrismontgomery.info/"
+  },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^0.5.0",
     "combine-stream": "0.0.4",
-    "gulp": "^3.8.5",
+    "gulp": "3.8.5",
     "gulp-concat": "git+https://github.com/floridoo/gulp-concat.git#sourcemap_pipe2",
-    "gulp-minify-css": "^0.3.6",
-    "gulp-sourcemaps": "^0.4.5",
+    "gulp-minify-css": "0.3.6",
+    "gulp-sourcemaps": "0.4.5",
     "gulp-uglify": "git+https://github.com/floridoo/gulp-uglify.git#sourcemap_pipe2",
     "gulp-using": "0.0.1",
-    "gulp-util": "^2.2.19",
-    "map-stream": "^0.1.0",
-    "merge-stream": "^0.1.1",
-    "mkdirp": "^0.5.0",
-    "through2": "^0.5.1",
-    "vinyl": "^0.2.3"
+    "gulp-util": "2.2.19",
+    "map-stream": "0.1.0",
+    "merge-stream": "0.1.1",
+    "mkdirp": "0.5.0",
+    "through2": "0.5.1",
+    "vinyl": "0.2.3"
   },
   "devDependencies": {
-    "load-common-gulp-tasks": "^0.2.2",
-    "proxyquire": "^1.0.1",
-    "should": "^4.0.4",
-    "sinon": "^1.10.2"
+    "gulp-help": "0.1.8",
+    "gulp-jshint": "1.7.0",
+    "gulp-nice-package": "0.0.1",
+    "gulp-shrinkwrap": "0.0.2",
+    "jshint-stylish": "0.3.0"
   }
 }
