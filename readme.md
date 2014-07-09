@@ -40,7 +40,24 @@ module.exports = {
 };
 ```
 
-see `/examples` for more info
+Then, when you call
+
+```shell
+$ gulp bundle
+```
+
+It would result in
+
+```
+/public
+    /content
+        /fonts
+        /images
+    main-bundle.css
+    main-bundle.js
+```
+
+see `/examples` for more detail
 
 [npm-url]: https://npmjs.org/package/gulp-bundle-assets
 [npm-image]: http://img.shields.io/npm/v/gulp-bundle-assets.svg
