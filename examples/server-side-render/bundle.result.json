@@ -1,6 +1,6 @@
 {
-  "bundles": [
-    "main-bundle.css",
-    "main-bundle.js"
-  ]
+  "main": {
+    "styles": "/main-bundle.css",
+    "scripts": "/main-bundle.js"
+  }
 }

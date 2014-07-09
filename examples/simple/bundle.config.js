@@ -2,8 +2,8 @@ module.exports = {
   bundle: {
     main: {
       scripts: [
-        './content/js/one.js',
-        './content/js/two.js'
+        './content/js/foo.js',
+        './content/js/baz.js'
       ],
       styles: [
         './content/**/*.css'

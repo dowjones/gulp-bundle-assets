@@ -1,2 +1,3 @@
-console.log('one');
-console.log('two');
+console.log("one"),console.log("two");
+//# sourceMappingURL=main-bundle.js.map
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbnRlbnQvanMvb25lLmpzIiwiY29udGVudC9qcy90d28uanMiXSwibmFtZXMiOlsiY29uc29sZSIsImxvZyJdLCJtYXBwaW5ncyI6IkFBQUFBLFFBQUFDLElBQUEsT0NBQUQsUUFBQUMsSUFBQSIsImZpbGUiOiJtYWluLWJ1bmRsZS5qcyIsInNvdXJjZXNDb250ZW50IjpbImNvbnNvbGUubG9nKCdvbmUnKTsiLCJjb25zb2xlLmxvZygndHdvJyk7Il0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9
