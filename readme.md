@@ -63,6 +63,13 @@ Results in the following folder structure:
 
 see `/examples` for more detail
 
+## Use your bundles
+
+You can programmatically render your bundles into your view via 
+[your favorite templating engine](https://www.google.com/webhp?ion=1&espv=2&ie=UTF-8#q=node%20js%20templating%20engine)
+and the resulting `bundle.result.json` file. 
+[See here for an example using hogan](examples/express-app-using-result-json/readme.md)
+
 [npm-url]: https://npmjs.org/package/gulp-bundle-assets
 [npm-image]: http://img.shields.io/npm/v/gulp-bundle-assets.svg
 [travis-image]: https://travis-ci.org/chmontgomery/gulp-bundle-assets.svg?branch=master

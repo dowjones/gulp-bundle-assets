@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    {{{ bundle.main.styles }}}
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <p>You should see the gulp logo below -></p>
+    <img src="/content/images/gulp.png" />
+    {{{ bundle.main.scripts }}}
+  </body>
+</html>

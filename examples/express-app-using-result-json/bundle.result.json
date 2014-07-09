@@ -1,0 +1,6 @@
+{
+  "main": {
+    "styles": "<link rel='stylesheet' href='/main-bundle.css' />",
+    "scripts": "<script type='text/javascript' src='/main-bundle.js'></script>"
+  }
+}

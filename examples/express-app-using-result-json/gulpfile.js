@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
   rimraf = require('gulp-rimraf'),
-  bundler = require('../../'),
+  bundler = require('../../index'),
   bundleConfig = require('./bundle.config.js');
 
 gulp.task('bundle', function() {
@@ -12,8 +12,4 @@ gulp.task('bundle', function() {
 gulp.task('clean', function() {
   return gulp.src(bundleConfig.dest, { read: false })
     .pipe(rimraf());
-});
-
-gulp.task('default', function() {
-  gulp.watch(['./content/**/*.*'], ['bundle']);
 });

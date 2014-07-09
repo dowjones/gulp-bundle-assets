@@ -3,6 +3,7 @@ var CombineStream = require('combine-stream'),
   path = require('path'),
   through = require('through2'),
   File = require('vinyl'),
+  bundleToHtml = require('./lib/bundleToHtml'),
   gulp = require('gulp'),
   concat = require('gulp-concat'),
   gusing = require('gulp-using'),
@@ -99,8 +100,8 @@ function startBundle(file, enc, cb) {
     .on('data', function (file) {
       if (file.bundle) {
         bundleResults[file.bundle.name] = bundleResults[file.bundle.name] || {};
-        bundleResults[file.bundle.name][file.bundle.type] = file.path.replace(file.base, '');
-        // todo also remove leading slash
+        bundleResults[file.bundle.name][file.bundle.type] =
+          bundleToHtml[file.bundle.type](file.path.replace(file.base, ''));
       }
     })
     .on('error', function (err) {
