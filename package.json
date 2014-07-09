@@ -1,6 +1,6 @@
 {
   "name": "gulp-bundle-assets",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,16 @@
     "url": "http://www.chrismontgomery.info/"
   },
   "license": "MIT",
+  "keywords": [
+    "gulp",
+    "gulpfriendly",
+    "bundle",
+    "assets"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chmontgomery/gulp-bundle-assets"
+  },
   "dependencies": {
     "combine-stream": "0.0.4",
     "gulp": "3.8.5",
