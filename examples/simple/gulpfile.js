@@ -9,7 +9,7 @@ gulp.task('bundle', function() {
 });
 
 gulp.task('clean', function() {
-  return gulp.src([bundleConfig.dest], { read: false })
+  return gulp.src(bundleConfig.dest, { read: false })
     .pipe(rimraf());
 });
 
