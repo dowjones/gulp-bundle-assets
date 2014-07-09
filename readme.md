@@ -1,4 +1,4 @@
-# [gulp](http://gulpjs.com/)-bundle-assets
+# [gulp](http://gulpjs.com/)-bundle-assets [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 
 > Creates asset (js, css) bundles out of a config file
 
@@ -41,3 +41,8 @@ module.exports = {
 ```
 
 see `/examples` for more info
+
+[npm-url]: https://npmjs.org/package/gulp-bundle-assets
+[npm-image]: http://img.shields.io/npm/v/gulp-bundle-assets.svg
+[travis-image]: https://travis-ci.org/chmontgomery/gulp-bundle-assets.svg?branch=master
+[travis-url]: https://travis-ci.org/chmontgomery/gulp-bundle-assets
