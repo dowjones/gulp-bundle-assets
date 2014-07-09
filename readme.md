@@ -32,15 +32,11 @@ module.exports = {
         './content/js/foo.js',
         './content/js/baz.js'
       ],
-      styles: [
-        './content/**/*.css'
-      ],
+      styles: './content/**/*.css',
       resources: './content/**/*.{png,svg}'
     },
     vendor: {
-      scripts: [
-        './bower_components/angular/angular.js'
-      ]
+      scripts: './bower_components/angular/angular.js'
     }
   },
   dest: './public'
