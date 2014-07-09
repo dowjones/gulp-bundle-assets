@@ -34,27 +34,33 @@ module.exports = {
         './content/**/*.css'
       ],
       resources: './content/**/*.{png,svg}'
+    },
+    vendor: {
+      scripts: [
+        './bower_components/angular/angular.js'
+      ]
     }
   },
   dest: './public'
 };
 ```
 
-Then, when you call
+Then, calling
 
 ```shell
 $ gulp bundle
 ```
 
-It would result in
+Results in
 
 ```
-/public
-    /content
-        /fonts
-        /images
-    main-bundle.css
-    main-bundle.js
+-- public
+   |-- content
+   |   |-- fonts
+   |   |-- images
+   `main-bundle.css
+   `main-bundle.js
+   `vendor-bundle.js
 ```
 
 see `/examples` for more detail
