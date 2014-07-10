@@ -1,11 +1,11 @@
 module.exports = {
   bundle: {
     main: {
-      scripts: [
+      js: [
         './content/js/foo.js',
         './content/js/baz.js'
       ],
-      styles: [
+      css: [
         './content/**/*.css'
       ],
       resources: './content/**/*.{png,svg}'

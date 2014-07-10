@@ -1,6 +1,6 @@
 {
   "name": "gulp-bundle-assets",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -42,6 +42,7 @@
     "gulp-jshint": "1.7.0",
     "gulp-nice-package": "0.0.1",
     "gulp-shrinkwrap": "0.0.2",
-    "jshint-stylish": "0.3.0"
+    "jshint-stylish": "0.3.0",
+    "gulp-mocha": "0.4.1"
   }
 }

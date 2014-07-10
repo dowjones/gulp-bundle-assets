@@ -28,15 +28,15 @@ gulp.task('bundle', function() {
 module.exports = {
   bundle: {
     main: {
-      scripts: [
+      js: [
         './content/js/foo.js',
         './content/js/baz.js'
       ],
-      styles: './content/**/*.css',
+      css: './content/**/*.css',
       resources: './content/**/*.{png,svg}'
     },
     vendor: {
-      scripts: './bower_components/angular/angular.js'
+      js: './bower_components/angular/angular.js'
     }
   },
   dest: './public'

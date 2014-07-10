@@ -1,4 +1,5 @@
 var gulp   = require('gulp'),
+  mocha = require('gulp-mocha'),
   jshint = require('gulp-jshint'),
   nicePackage = require('gulp-nice-package'),
   shrinkwrap = require('gulp-shrinkwrap');
@@ -26,4 +27,13 @@ gulp.task('lint', 'Lint all js', function() {
     .pipe(jshint.reporter('fail'));
 });
 
-gulp.task('ci', 'Runs all ci validation checks', ['lint', 'nice-package']);
+gulp.task('test', 'Tests', function() {
+  return gulp.src('./test/**/*.js')
+    .pipe(mocha({reporter: 'dot'}));
+});
+
+gulp.task('watch', 'Watch files and test on change', function() {
+  gulp.watch(['./lib/**/*.js', './test/**/*.js'], ['test']);
+});
+
+gulp.task('ci', 'Runs all ci validation checks', ['lint', 'test', 'nice-package']);

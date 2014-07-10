@@ -2,7 +2,25 @@
 
 This example shows how to use `gulp-bundle-assets` in a very basic express app using hogan (hjs) as its view engine.
 
-## Step 1: Build
+To view the app locally
+
+```bash
+$ npm install
+```
+
+```bash
+$ gulp bundle
+```
+
+```bash
+$ npm start
+```
+
+visit [http://localhost:3000/](http://localhost:3000/)
+
+## How the app gets bundles on the page
+
+### Step 1: Build
 
 First, we can pipe the result of `gulp bundle` to a custom destination like so:
 
@@ -23,13 +41,13 @@ which gives us a `bundle.result.json` file that looks like this:
 ```json
 {
   "main": {
-    "styles": "<link rel='stylesheet' href='/main-bundle.css' />",
-    "scripts": "<script type='text/javascript' src='/main-bundle.js'></script>"
+    "css": "<link rel='stylesheet' href='/main-bundle.css' />",
+    "js": "<script type='text/javascript' src='/main-bundle.js'></script>"
   }
 }
 ```
 
-## Step 2: Consume
+### Step 2: Consume
 
 Next, we take the resulting `bundle.result.json` file, require it in our route and send it on to our view, e.g. 
 
@@ -47,7 +65,7 @@ module.exports = router;
 
 ```
 
-## Step 3: Write
+### Step 3: Write
 
 Finally, in our view we can write out the bundles however we see fit, e.g.
 
@@ -58,7 +76,7 @@ Finally, in our view we can write out the bundles however we see fit, e.g.
     <title>{{ title }}</title>
     
     <!-- put my main style bundle in the head -->
-    {{{ bundle.main.styles }}}
+    {{{ bundle.main.css }}}
     
   </head>
   <body>
@@ -66,7 +84,7 @@ Finally, in our view we can write out the bundles however we see fit, e.g.
     <p>Hello World</p>
     
     <!-- put my main script bundle at the end of the body -->
-    {{{ bundle.main.scripts }}}
+    {{{ bundle.main.js }}}
     
   </body>
 </html>

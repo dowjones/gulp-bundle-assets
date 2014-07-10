@@ -3,7 +3,9 @@ var CombineStream = require('combine-stream'),
   path = require('path'),
   through = require('through2'),
   File = require('vinyl'),
-  bundleToHtml = require('./lib/bundleToHtml'),
+  Bundle = require('./lib/Bundle'),
+  BundleType = require('./lib/BundleType'),
+  addBundleResults = require('./lib/bundleResults'),
   gulp = require('gulp'),
   concat = require('gulp-concat'),
   gusing = require('gulp-using'),
@@ -22,10 +24,10 @@ function using(key, type) {
 
 function applyResults(key, type) {
   return through.obj(function (file, enc, cb) {
-    file.bundle = {
+    file.bundle = new Bundle({
       name: key,
       type: type
-    };
+    });
     this.push(file);
     cb();
   });
@@ -39,26 +41,26 @@ function _bundle(config) {
 
       var bundle = config.bundle[key];
 
-      if (bundle.scripts) {
-        streams.push(gulp.src(bundle.scripts, {base: '.'})
+      if (bundle[BundleType.JS]) {
+        streams.push(gulp.src(bundle[BundleType.JS], {base: '.'})
           .pipe(using(key, 'js'))
           .pipe(sourcemaps.init())
           .pipe(concat(key + '-bundle.js'))
           .pipe(uglify()) // todo don't do this on already .min files
           .pipe(sourcemaps.write())
           .pipe(gulp.dest(config.dest))
-          .pipe(applyResults(key, 'scripts')));
+          .pipe(applyResults(key, BundleType.JS)));
       }
 
-      if (bundle.styles) {
-        streams.push(gulp.src(bundle.styles, {base: '.'})
+      if (bundle[BundleType.CSS]) {
+        streams.push(gulp.src(bundle[BundleType.CSS], {base: '.'})
           .pipe(using(key, 'css'))
           .pipe(sourcemaps.init())
           .pipe(concat(key + '-bundle.css'))
           //.pipe(minifyCSS()) // todo fix for source maps
           .pipe(sourcemaps.write())
           .pipe(gulp.dest(config.dest))
-          .pipe(applyResults(key, 'styles')));
+          .pipe(applyResults(key, BundleType.CSS)));
       }
 
       if (bundle.resources) {
@@ -76,7 +78,7 @@ function _bundle(config) {
 function startBundle(file, enc, cb) {
   var self = this,
     config,
-    bundleResults = {};
+    output = {};
 
   if (file.isNull()) {
     this.push(file);
@@ -97,12 +99,8 @@ function startBundle(file, enc, cb) {
   }
 
   _bundle(config)
-    .on('data', function (file) {
-      if (file.bundle) {
-        bundleResults[file.bundle.name] = bundleResults[file.bundle.name] || {};
-        bundleResults[file.bundle.name][file.bundle.type] =
-          bundleToHtml[file.bundle.type](file.path.replace(file.base, ''));
-      }
+    .on('data', function(file) {
+      addBundleResults(output, file);
     })
     .on('error', function (err) {
       self.emit('error', new gutil.PluginError('gulp-bundle-assets', err));
@@ -111,7 +109,7 @@ function startBundle(file, enc, cb) {
     .on('end', function () {
       var result = new File({
         path: "bundle.result.json",
-        contents: new Buffer(JSON.stringify(bundleResults, null, 2))
+        contents: new Buffer(JSON.stringify(output, null, 2))
       });
       self.push(result);
       cb();
