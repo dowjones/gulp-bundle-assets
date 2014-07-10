@@ -67,6 +67,7 @@ see `/examples` for more detail
 ### dest
 
 Type: `string`
+
 Default: `./public`
 
 Output destination of bundled assets, e.g.
@@ -83,6 +84,7 @@ gulp.task('bundle', function() {
 ### base
 
 Type: `string`
+
 Default: `.`
 
 Base directory when resolving src globs. Useful when running gulp tasks from a gulpfile outside the project's root.
