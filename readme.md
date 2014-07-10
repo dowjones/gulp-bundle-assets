@@ -4,7 +4,7 @@
 
 ## Install
 
-```shell
+```bash
 npm install gulp-bundle-assets --save-dev
 ```
 
@@ -44,7 +44,7 @@ module.exports = {
 
 Then, calling
 
-```shell
+```bash
 $ gulp bundle
 ```
 
