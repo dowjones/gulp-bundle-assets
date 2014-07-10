@@ -1,6 +1,5 @@
 var gulp   = require('gulp'),
   spawn = require('child_process').spawn,
-  path = require('path'),
   mocha = require('gulp-mocha'),
   jshint = require('gulp-jshint'),
   nicePackage = require('gulp-nice-package'),
@@ -11,7 +10,6 @@ require('gulp-help')(gulp);
 gulp.task('nice-package', 'Validates package.json', function() {
   return gulp.src('package.json')
     .pipe(nicePackage(null, {
-      warnings: false,
       recommendations: false
     }));
 });

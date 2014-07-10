@@ -1,16 +1,21 @@
 {
   "name": "gulp-bundle-assets",
   "version": "0.3.0",
-  "description": "",
+  "description": "Creates asset (js, css) bundles out of a config file",
   "main": "index.js",
   "scripts": {
     "test": "gulp ci"
   },
   "author": {
     "name": "Chris Montgomery",
-    "email": "chr.montgomery@gmail.com",
     "url": "http://www.chrismontgomery.info/"
   },
+  "contributors": [
+    {
+      "name": "Chris Montgomery",
+      "url": "http://www.chrismontgomery.info/"
+    }
+  ],
   "license": "MIT",
   "keywords": [
     "gulp",
@@ -21,6 +26,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/chmontgomery/gulp-bundle-assets"
+  },
+  "bugs": {
+    "url": "https://github.com/chmontgomery/gulp-bundle-assets/issues"
   },
   "dependencies": {
     "combine-stream": "0.0.4",
