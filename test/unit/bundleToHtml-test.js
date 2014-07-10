@@ -1,5 +1,5 @@
 'use strict';
-var libPath = './../lib',
+var libPath = './../../lib',
   bundleToHtml = require(libPath + '/bundleToHtml.js'),
   BundleType = require(libPath + '/BundleType'),
   assert = require('assert');

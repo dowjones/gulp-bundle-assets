@@ -18,6 +18,5 @@ module.exports = {
       ],
       css: './content/**/*.css'
     }
-  },
-  dest: './public'
+  }
 };

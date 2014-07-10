@@ -10,6 +10,5 @@ module.exports = {
       ],
       resources: './content/**/*.{png,svg}'
     }
-  },
-  dest: './public'
+  }
 };

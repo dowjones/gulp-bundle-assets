@@ -1,4 +1,6 @@
 var gulp   = require('gulp'),
+  spawn = require('child_process').spawn,
+  path = require('path'),
   mocha = require('gulp-mocha'),
   jshint = require('gulp-jshint'),
   nicePackage = require('gulp-nice-package'),
@@ -30,6 +32,14 @@ gulp.task('lint', 'Lint all js', function() {
 gulp.task('test', 'Tests', function() {
   return gulp.src('./test/**/*.js')
     .pipe(mocha({reporter: 'dot'}));
+});
+
+gulp.task('test-debug', 'Run unit tests in debug mode', function () {
+  spawn('node', [
+    '--debug-brk',
+    path.join(__dirname, 'node_modules/gulp/bin/gulp.js'),
+    'test'
+  ], { stdio: 'inherit' });
 });
 
 gulp.task('watch', 'Watch files and test on change', function() {

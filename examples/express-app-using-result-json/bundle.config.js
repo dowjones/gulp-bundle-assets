@@ -5,6 +5,5 @@ module.exports = {
       css: './content/**/*.css',
       resources: './content/images/**/*.*'
     }
-  },
-  dest: './public'
+  }
 };

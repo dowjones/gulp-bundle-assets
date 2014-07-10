@@ -1,6 +1,6 @@
 {
   "name": "gulp-bundle-assets",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "dependencies": {
     "combine-stream": {
       "version": "0.0.4",
@@ -32,7 +32,7 @@
     },
     "gulp": {
       "version": "3.8.5",
-      "from": "gulp@^3.8.5",
+      "from": "gulp@3.8.5",
       "dependencies": {
         "archy": {
           "version": "0.0.2",
@@ -438,7 +438,7 @@
             },
             "lodash.defaults": {
               "version": "2.4.1",
-              "from": "lodash.defaults@^2.4.1",
+              "from": "lodash.defaults@~2.4.1",
               "dependencies": {
                 "lodash.keys": {
                   "version": "2.4.1",
@@ -483,28 +483,34 @@
       }
     },
     "gulp-concat": {
-      "version": "2.1.7",
-      "from": "gulp-concat@git+https://github.com/floridoo/gulp-concat.git#sourcemap_pipe2",
+      "version": "2.3.3",
+      "from": "gulp-concat@^2.1.7",
       "dependencies": {
-        "through": {
-          "version": "2.3.4",
-          "from": "through@~2.3.4"
-        },
-        "source-map": {
-          "version": "0.1.35",
-          "from": "source-map@^0.1.32",
+        "concat-with-sourcemaps": {
+          "version": "0.1.2",
+          "from": "concat-with-sourcemaps@^0.1.1",
           "dependencies": {
-            "amdefine": {
-              "version": "0.1.0",
-              "from": "amdefine@>=0.0.4"
+            "source-map": {
+              "version": "0.1.36",
+              "from": "source-map@^0.1.34",
+              "dependencies": {
+                "amdefine": {
+                  "version": "0.1.0",
+                  "from": "amdefine@>=0.0.4"
+                }
+              }
             }
           }
+        },
+        "through": {
+          "version": "2.3.4",
+          "from": "through@^2.3.4"
         }
       }
     },
     "gulp-minify-css": {
       "version": "0.3.6",
-      "from": "gulp-minify-css@^0.3.6",
+      "from": "gulp-minify-css@0.3.6",
       "dependencies": {
         "clean-css": {
           "version": "2.2.6",
@@ -528,7 +534,7 @@
     },
     "gulp-sourcemaps": {
       "version": "0.4.5",
-      "from": "gulp-sourcemaps@^0.4.5",
+      "from": "gulp-sourcemaps@0.4.5",
       "dependencies": {
         "convert-source-map": {
           "version": "0.3.4",
@@ -538,7 +544,7 @@
     },
     "gulp-uglify": {
       "version": "0.2.1",
-      "from": "gulp-uglify@git+https://github.com/floridoo/gulp-uglify.git#sourcemap_pipe2",
+      "from": "gulp-uglify@^0.2.1",
       "dependencies": {
         "deepmerge": {
           "version": "0.2.7",
@@ -615,22 +621,6 @@
               "from": "uglify-to-browserify@~1.0.0"
             }
           }
-        },
-        "vinyl-sourcemaps-apply": {
-          "version": "0.1.1",
-          "from": "vinyl-sourcemaps-apply@^0.1.1",
-          "dependencies": {
-            "source-map": {
-              "version": "0.1.35",
-              "from": "source-map@^0.1.33",
-              "dependencies": {
-                "amdefine": {
-                  "version": "0.1.0",
-                  "from": "amdefine@>=0.0.4"
-                }
-              }
-            }
-          }
         }
       }
     },
@@ -660,7 +650,7 @@
     },
     "gulp-util": {
       "version": "2.2.19",
-      "from": "gulp-util@^2.2.19",
+      "from": "gulp-util@2.2.19",
       "dependencies": {
         "chalk": {
           "version": "0.4.0",
@@ -814,15 +804,15 @@
     },
     "map-stream": {
       "version": "0.1.0",
-      "from": "map-stream@^0.1.0"
+      "from": "map-stream@0.1.0"
     },
     "merge-stream": {
-      "version": "0.1.5",
-      "from": "merge-stream@^0.1.1"
+      "version": "0.1.1",
+      "from": "merge-stream@0.1.1"
     },
     "mkdirp": {
       "version": "0.5.0",
-      "from": "mkdirp@^0.5.0",
+      "from": "mkdirp@0.5.0",
       "dependencies": {
         "minimist": {
           "version": "0.0.8",
@@ -832,7 +822,7 @@
     },
     "through2": {
       "version": "0.5.1",
-      "from": "through2@^0.5.1",
+      "from": "through2@0.5.1",
       "dependencies": {
         "readable-stream": {
           "version": "1.0.27-1",
@@ -864,7 +854,7 @@
     },
     "vinyl": {
       "version": "0.2.3",
-      "from": "vinyl@^0.2.3",
+      "from": "vinyl@0.2.3",
       "dependencies": {
         "clone-stats": {
           "version": "0.0.1",

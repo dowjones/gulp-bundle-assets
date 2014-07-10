@@ -1,5 +1,5 @@
 'use strict';
-var libPath = './../lib',
+var libPath = './../../lib',
   addBundleResults = require(libPath + '/bundleResults'),
   Bundle = require(libPath + '/Bundle'),
   BundleType = require(libPath + '/BundleType'),

@@ -38,8 +38,7 @@ module.exports = {
     vendor: {
       js: './bower_components/angular/angular.js'
     }
-  },
-  dest: './public'
+  }
 };
 ```
 
@@ -62,6 +61,31 @@ Results in the following folder structure:
 ```
 
 see `/examples` for more detail
+
+## Options
+
+### dest
+
+Type: `string`
+Default: `./public`
+
+Output destination of bundled assets, e.g.
+
+```js
+gulp.task('bundle', function() {
+  return gulp.src('./bundle.config.js')
+    .pipe(bundler({
+      dest: './my/custom/output/path'
+    }));
+});
+```
+
+### base
+
+Type: `string`
+Default: `.`
+
+Base directory when resolving src globs. Useful when running gulp tasks from a gulpfile outside the project's root.
 
 ## Use your bundles
 

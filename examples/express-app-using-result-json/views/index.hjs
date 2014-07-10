@@ -2,12 +2,19 @@
 <html>
   <head>
     <title>{{ title }}</title>
-    {{{ bundle.main.styles }}}
+    {{{ bundle.main.css }}}
   </head>
   <body>
     <h1>{{ title }}</h1>
-    <p>You should see the gulp logo below -></p>
+    <p id="error-message">
+        ERROR!!
+        YOU SHOULD NOT SEE THIS MESSAGE.
+        Something either went wrong with the bundling or including of your bundle.
+        Check your console for any errors.
+    </p>
+    <p class="success-text">This text should be green!</p>
+    <p>You should also see the gulp logo below -></p>
     <img src="/content/images/gulp.png" />
-    {{{ bundle.main.scripts }}}
+    {{{ bundle.main.js }}}
   </body>
 </html>

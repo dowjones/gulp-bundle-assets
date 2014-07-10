@@ -33,6 +33,25 @@ function applyResults(key, type) {
   });
 }
 
+function pathifyStringSrc(src, base) {
+  if (base !== '.') {
+    return path.join(base, src);
+  }
+  return src;
+}
+
+function pathifySrcs(srcs, base) {
+  if (typeof srcs === 'string') {
+    return pathifyStringSrc.call(this, srcs, base);
+  } else if (Object.prototype.toString.call(srcs) === '[object Array]') {
+    for (var i = 0; i < srcs.length; i++) {
+      srcs[i] = pathifyStringSrc.call(this, srcs[i], base);
+    }
+    return srcs;
+  }
+  throw new Error('Invalid bundle glob detected. Expected string or Array but got ' + srcs);
+}
+
 function _bundle(config) {
   var streams = [];
 
@@ -42,7 +61,7 @@ function _bundle(config) {
       var bundle = config.bundle[key];
 
       if (bundle[BundleType.JS]) {
-        streams.push(gulp.src(bundle[BundleType.JS], {base: '.'})
+        streams.push(gulp.src(pathifySrcs.call(this, bundle[BundleType.JS], config.base), {base: config.base})
           .pipe(using(key, 'js'))
           .pipe(sourcemaps.init())
           .pipe(concat(key + '-bundle.js'))
@@ -53,7 +72,7 @@ function _bundle(config) {
       }
 
       if (bundle[BundleType.CSS]) {
-        streams.push(gulp.src(bundle[BundleType.CSS], {base: '.'})
+        streams.push(gulp.src(pathifySrcs.call(this, bundle[BundleType.CSS], config.base), {base: config.base})
           .pipe(using(key, 'css'))
           .pipe(sourcemaps.init())
           .pipe(concat(key + '-bundle.css'))
@@ -64,7 +83,7 @@ function _bundle(config) {
       }
 
       if (bundle.resources) {
-        streams.push(gulp.src(bundle.resources, {base: '.'})
+        streams.push(gulp.src(bundle.resources, {base: config.base})
           .pipe(using(key))
           .pipe(gulp.dest(config.dest)));
       }
@@ -75,47 +94,56 @@ function _bundle(config) {
   return new CombineStream(streams);
 }
 
-function startBundle(file, enc, cb) {
-  var self = this,
-    config,
-    output = {};
+module.exports = function (options) {
+  options = options || {};
 
-  if (file.isNull()) {
-    this.push(file);
-    return cb();
-  }
+  return through.obj(function (file, enc, cb) {
+    var self = this,
+      config,
+      output = {};
 
-  if (file.isStream()) {
-    this.emit('error', new gutil.PluginError('gulp-bundle-assets', 'Streaming not supported'));
-    return cb();
-  }
-
-  try {
-    config = require(file.path); // todo eval contents instead since we already have it in buffer
-  } catch (e) {
-    gutil.log(gutil.colors.red('Failed to parse config file'));
-    this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
-    return cb();
-  }
-
-  _bundle(config)
-    .on('data', function(file) {
-      addBundleResults(output, file);
-    })
-    .on('error', function (err) {
-      self.emit('error', new gutil.PluginError('gulp-bundle-assets', err));
+    if (file.isNull()) {
+      this.push(file);
       return cb();
-    })
-    .on('end', function () {
-      var result = new File({
-        path: "bundle.result.json",
-        contents: new Buffer(JSON.stringify(output, null, 2))
-      });
-      self.push(result);
-      cb();
-    });
-}
+    }
 
-module.exports = function () {
-  return through.obj(startBundle);
+    if (file.isStream()) {
+      this.emit('error', new gutil.PluginError('gulp-bundle-assets', 'Streaming not supported'));
+      return cb();
+    }
+
+    try {
+      config = require(file.path); // todo eval contents instead since we already have it in buffer
+    } catch (e) {
+      gutil.log(gutil.colors.red('Failed to parse config file'));
+      this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
+      return cb();
+    }
+
+    if (!config || !config.bundle) {
+      this.emit('error', new gutil.PluginError('gulp-bundle-assets',
+        'Valid bundle configuration file required in the form { bundle: {} }'));
+      return cb();
+    }
+
+    config.base = options.base || '.';
+    config.dest = options.dest || './public';
+
+    _bundle.call(self, config)
+      .on('data', function(file) {
+        addBundleResults(output, file);
+      })
+      .on('error', function (err) {
+        self.emit('error', new gutil.PluginError('gulp-bundle-assets', err));
+        return cb();
+      })
+      .on('end', function () {
+        var result = new File({
+          path: "bundle.result.json",
+          contents: new Buffer(JSON.stringify(output, null, 2))
+        });
+        self.push(result);
+        cb();
+      });
+  });
 };

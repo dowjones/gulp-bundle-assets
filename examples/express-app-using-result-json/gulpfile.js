@@ -1,7 +1,6 @@
 var gulp = require('gulp'),
   rimraf = require('gulp-rimraf'),
-  bundler = require('../../index'),
-  bundleConfig = require('./bundle.config.js');
+  bundler = require('../../index');
 
 gulp.task('bundle', function() {
   return gulp.src('./bundle.config.js')
@@ -10,6 +9,6 @@ gulp.task('bundle', function() {
 });
 
 gulp.task('clean', function() {
-  return gulp.src(bundleConfig.dest, { read: false })
+  return gulp.src('./public', { read: false })
     .pipe(rimraf());
 });

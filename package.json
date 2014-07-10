@@ -1,6 +1,6 @@
 {
   "name": "gulp-bundle-assets",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -25,10 +25,10 @@
   "dependencies": {
     "combine-stream": "0.0.4",
     "gulp": "3.8.5",
-    "gulp-concat": "git+https://github.com/floridoo/gulp-concat.git#sourcemap_pipe2",
+    "gulp-concat": "2.1.7",
     "gulp-minify-css": "0.3.6",
     "gulp-sourcemaps": "0.4.5",
-    "gulp-uglify": "git+https://github.com/floridoo/gulp-uglify.git#sourcemap_pipe2",
+    "gulp-uglify": "0.2.1",
     "gulp-using": "0.0.1",
     "gulp-util": "2.2.19",
     "map-stream": "0.1.0",
@@ -40,9 +40,10 @@
   "devDependencies": {
     "gulp-help": "0.1.8",
     "gulp-jshint": "1.7.0",
+    "gulp-mocha": "0.4.1",
     "gulp-nice-package": "0.0.1",
     "gulp-shrinkwrap": "0.0.2",
     "jshint-stylish": "0.3.0",
-    "gulp-mocha": "0.4.1"
+    "rimraf": "2.2.8"
   }
 }
