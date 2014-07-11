@@ -1,6 +1,6 @@
 {
   "name": "gulp-bundle-assets",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Creates asset (js, css) bundles out of a config file",
   "main": "index.js",
   "scripts": {
