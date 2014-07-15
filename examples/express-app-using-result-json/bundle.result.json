@@ -1,6 +1,6 @@
 {
   "main": {
-    "css": "<link rel='stylesheet' href='maincss' />",
-    "js": "<script type='text/javascript' src='mainjs'></script>"
+    "css": "<link rel='stylesheet' href='main.css' />",
+    "js": "<script type='text/javascript' src='main.js'></script>"
   }
 }
