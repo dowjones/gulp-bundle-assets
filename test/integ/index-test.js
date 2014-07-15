@@ -94,7 +94,7 @@ describe('integration tests', function () {
     var appPath = path.join(examplePath, 'express-app-using-result-json'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');
 
-    it('should read example bundle.config, create bundles and return results json', function (done) {
+    it('should read example bundle.config and create bundles', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file, enc, cb) {
         var lines;
@@ -114,6 +114,57 @@ describe('integration tests', function () {
           errorUnexpectedFileInStream(file);
         }
       });
+
+    });
+
+    it('should read example bundle.config, create bundles and create bundle.result.json', function (done) {
+
+      gulp.src(bundleConfigPath)
+        .pipe(bundler({
+          base: appPath
+        }))
+        .pipe(bundler.results(testDest))
+        .pipe(gulp.dest(testDest))
+        .pipe(through.obj(function(file, enc, cb) {
+
+          var lines;
+
+          if (file.relative === 'main.js') {
+            lines = file.contents.toString().split(/\r?\n/);
+            assert.equal(lines[0], '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");');
+            assertStringStartsWithSourceMapJs(lines[1]);
+          } else if (file.relative === 'main.css') {
+            lines = file.contents.toString().split(/\r?\n/);
+            assertStringStartsWithSourceMapCss(lines[lines.length-1]);
+            delete lines[lines.length-1];
+            assert.equal(lines.join('\n'), '.success-text {\n' +
+              '  color: green;\n' +
+              '}\n');
+          } else {
+            errorUnexpectedFileInStream(file);
+          }
+
+          this.push(file);
+          cb();
+        }))
+        .on('data', function() {
+          // noop
+        })
+        .on('end', function() {
+          fs.readFile(path.join(testDest, 'bundle.result.json'), function(err, data) {
+            if (err) throw err;
+
+            var resultsJson = JSON.parse(data);
+            assert.deepEqual(resultsJson, {
+              "main": {
+                "css": "<link rel='stylesheet' href='/main.css' />",
+                "js": "<script type='text/javascript' src='/main.js'></script>"
+              }
+            });
+
+            done();
+          });
+        });
 
     });
   });

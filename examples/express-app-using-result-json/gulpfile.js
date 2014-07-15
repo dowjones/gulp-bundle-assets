@@ -5,7 +5,7 @@ var gulp = require('gulp'),
 gulp.task('bundle', function() {
   return gulp.src('./bundle.config.js')
     .pipe(bundle())
-    //.pipe(bundle.results('./'))
+    .pipe(bundle.results('./'))
     .pipe(gulp.dest('./public'));
 });
 

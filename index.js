@@ -1,13 +1,10 @@
 var through = require('through2'),
   gutil = require('gulp-util'),
-  File = require('vinyl'),
   readableStream = require('readable-stream'),
   duplexer = require('duplexer2'),
   mergeStream = require('merge-stream'),
-
   streamBundles = require('./lib/stream-bundles'),
   results = require('./lib/results');
-  addBundleResults = require('./lib/add-bundle-results');
 
 var gulpBundleAssets = function (options) {
   options = options || {};
@@ -54,25 +51,6 @@ var gulpBundleAssets = function (options) {
   };
 
   return duplexer(writable, readable);
-
-
-    /*bundleAssets.call(self, config)
-      .on('data', function(file) {
-        addBundleResults(output, file);
-      })
-      .on('error', function (err) {
-        self.emit('error', new gutil.PluginError('gulp-bundle-assets', err));
-        return cb();
-      })
-      .on('end', function () {
-        var result = new File({
-          path: "bundle.result.json",
-          contents: new Buffer(JSON.stringify(output, null, 2))
-        });
-        self.push(result);
-        cb();
-      });*/
-
 };
 
 gulpBundleAssets.results = results;
