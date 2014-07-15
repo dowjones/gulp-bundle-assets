@@ -1,7 +1,7 @@
 'use strict';
 var libPath = './../../lib',
   bundleToHtml = require(libPath + '/bundle-to-html.js'),
-  BundleType = require(libPath + '/bundle-type'),
+  BundleType = require(libPath + '/model/bundle-type'),
   assert = require('assert');
 
 it('should get script bundle html string', function () {
