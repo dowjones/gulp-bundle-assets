@@ -3,9 +3,9 @@ var CombineStream = require('combine-stream'),
   path = require('path'),
   through = require('through2'),
   File = require('vinyl'),
-  Bundle = require('./lib/Bundle'),
-  BundleType = require('./lib/BundleType'),
-  addBundleResults = require('./lib/bundleResults'),
+  Bundle = require('./lib/bundle'),
+  BundleType = require('./lib/bundle-type'),
+  addBundleResults = require('./lib/bundle-results'),
   gulp = require('gulp'),
   concat = require('gulp-concat'),
   gusing = require('gulp-using'),
@@ -63,10 +63,10 @@ function _bundle(config) {
       if (bundle[BundleType.JS]) {
         streams.push(gulp.src(pathifySrcs.call(this, bundle[BundleType.JS], config.base), {base: config.base})
           .pipe(using(key, 'js'))
-          .pipe(sourcemaps.init())
-          .pipe(concat(key + '-bundle.js'))
-          .pipe(uglify()) // todo don't do this on already .min files
-          .pipe(sourcemaps.write())
+            .pipe(sourcemaps.init())
+            .pipe(concat(key + '-bundle.js'))
+            .pipe(uglify()) // todo don't do this on already .min files
+            .pipe(sourcemaps.write())
           .pipe(gulp.dest(config.dest))
           .pipe(applyResults(key, BundleType.JS)));
       }

@@ -1,8 +1,8 @@
 'use strict';
 var libPath = './../../lib',
-  addBundleResults = require(libPath + '/bundleResults'),
-  Bundle = require(libPath + '/Bundle'),
-  BundleType = require(libPath + '/BundleType'),
+  addBundleResults = require(libPath + '/bundle-results'),
+  Bundle = require(libPath + '/bundle'),
+  BundleType = require(libPath + '/bundle-type'),
   assert = require('assert'),
   File = require('vinyl');
 
