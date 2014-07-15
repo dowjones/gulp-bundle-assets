@@ -19,7 +19,8 @@ var gulp = require('gulp'),
 
 gulp.task('bundle', function() {
   return gulp.src('./bundle.config.js')
-    .pipe(bundle());
+    .pipe(bundle())
+    .pipe(gulp.dest('./public'));
 });
 ```
 
@@ -48,7 +49,7 @@ Then, calling
 $ gulp bundle
 ```
 
-Results in the following folder structure:
+Will result in the following folder structure:
 
 ```
 -- public
@@ -64,37 +65,34 @@ see `/examples` for more detail
 
 ## Options
 
-### dest
-
-Type: `string`
-
-Default: `./public`
-
-Output destination of bundled assets, e.g.
-
-```js
-gulp.task('bundle', function() {
-  return gulp.src('./bundle.config.js')
-    .pipe(bundler({
-      dest: './my/custom/output/path'
-    }));
-});
-```
-
 ### base
 
 Type: `string`
 
 Default: `.`
 
-Base directory when resolving src globs. Useful when running gulp tasks from a gulpfile outside the project's root.
+Base directory when resolving src globs. Useful when running gulp tasks from a `gulpfile` outside the project's root.
 
 ## Use your bundles
 
 You can programmatically render your bundles into your view via 
 [your favorite templating engine](https://www.google.com/webhp?ion=1&espv=2&ie=UTF-8#q=node%20js%20templating%20engine)
-and the resulting `bundle.result.json` file. 
-[See here for an example using hogan](examples/express-app-using-result-json/readme.md)
+and the resulting `bundle.result.json` file. To generate the `bundle.result.json`, add a call to `bundle.results`:
+
+```js
+// gulpfile.js
+var gulp = require('gulp'),
+  bundle = require('gulp-bundle-assets');
+  
+gulp.task('bundle', function() {
+  return gulp.src('./bundle.config.js')
+    .pipe(bundle())
+    .pipe(bundle.results('./')) // arg is dest of bundle.result.json
+    .pipe(gulp.dest('./public'));
+});
+```
+
+[See here for a full example using hogan](examples/express-app-using-result-json/readme.md)
 
 [npm-url]: https://npmjs.org/package/gulp-bundle-assets
 [npm-image]: http://img.shields.io/npm/v/gulp-bundle-assets.svg

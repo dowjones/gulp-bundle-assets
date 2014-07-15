@@ -32,7 +32,8 @@ var gulp = require('gulp'),
 gulp.task('bundle', function() {
   return gulp.src('./bundle.config.js')
     .pipe(bundle())
-    .pipe(gulp.dest('./')); // dest of bundle.result.json
+    .pipe(bundle.results('./')) // arg is dest of bundle.result.json
+    .pipe(gulp.dest('./public'));
 });
 ```
 
