@@ -1,6 +1,6 @@
 'use strict';
 var libPath = './../../lib',
-  addBundleResults = require(libPath + '/bundle-results'),
+  addBundleResults = require(libPath + '/add-bundle-results'),
   Bundle = require(libPath + '/model/bundle'),
   BundleType = require(libPath + '/model/bundle-type'),
   assert = require('assert'),

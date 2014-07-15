@@ -1,11 +1,12 @@
 var gulp = require('gulp'),
   rimraf = require('gulp-rimraf'),
-  bundler = require('../../index');
+  bundle = require('../../index');
 
 gulp.task('bundle', function() {
   return gulp.src('./bundle.config.js')
-    .pipe(bundler())
-    .pipe(gulp.dest('./')); // dest of bundle.result.json
+    .pipe(bundle())
+    //.pipe(bundle.results('./'))
+    .pipe(gulp.dest('./public'));
 });
 
 gulp.task('clean', function() {

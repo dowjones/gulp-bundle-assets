@@ -1,16 +1,26 @@
 var through = require('through2'),
   gutil = require('gulp-util'),
   File = require('vinyl'),
-  bundleAssets = require('./lib/bundle-assets'),
-  addBundleResults = require('./lib/bundle-results');
+  readableStream = require('readable-stream'),
+  duplexer = require('duplexer2'),
+  mergeStream = require('merge-stream'),
 
-module.exports = function (options) {
+  streamBundles = require('./lib/stream-bundles'),
+  results = require('./lib/results');
+  addBundleResults = require('./lib/add-bundle-results');
+
+var gulpBundleAssets = function (options) {
   options = options || {};
 
-  return through.obj(function (file, enc, cb) {
-    var self = this,
-      config,
-      output = {};
+  var writable = new readableStream.Writable({objectMode: true});
+  var readable = through.obj(function (file, enc, cb) { // noop
+    this.push(file);
+    cb();
+  });
+
+  writable._write = function _write(file, encoding, done) {
+
+    var config;
 
     if (file.isNull()) {
       this.push(file);
@@ -37,9 +47,16 @@ module.exports = function (options) {
     }
 
     config.base = options.base || '.';
-    config.dest = options.dest || './public';
 
-    bundleAssets.call(self, config)
+    mergeStream.apply(mergeStream, streamBundles(config))
+      .pipe(readable);
+    return done();
+  };
+
+  return duplexer(writable, readable);
+
+
+    /*bundleAssets.call(self, config)
       .on('data', function(file) {
         addBundleResults(output, file);
       })
@@ -54,6 +71,10 @@ module.exports = function (options) {
         });
         self.push(result);
         cb();
-      });
-  });
+      });*/
+
 };
+
+gulpBundleAssets.results = results;
+
+module.exports = gulpBundleAssets;
