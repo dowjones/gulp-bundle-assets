@@ -1,0 +1,5 @@
+/examples/
+/.travis.yml
+*.md
+/gulpfile.js
+/test/
