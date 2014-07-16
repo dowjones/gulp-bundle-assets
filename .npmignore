@@ -1,5 +1,9 @@
 /examples/
 /.travis.yml
-*.md
+readme.md
 /gulpfile.js
 /test/
+.idea
+.DS_Store
+*.log
+*.orig
