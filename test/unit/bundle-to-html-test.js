@@ -6,12 +6,12 @@ var libPath = './../../lib',
 
 describe('bundle-to-html', function() {
   it('should get script bundle html string', function () {
-    assert.equal(bundleToHtml[BundleType.JS]('/main-bundle.js'),
+    assert.equal(bundleToHtml[BundleType.SCRIPTS]('/main-bundle.js'),
       "<script type='text/javascript' src='/main-bundle.js'></script>");
   });
 
   it('should get style bundle html string', function () {
-    assert.equal(bundleToHtml[BundleType.CSS]('/main-bundle.css'),
+    assert.equal(bundleToHtml[BundleType.STYLES]('/main-bundle.css'),
       "<link rel='stylesheet' href='/main-bundle.css' />");
   });
 

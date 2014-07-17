@@ -14,7 +14,7 @@ describe('bundle-results', function () {
     });
     file.bundle = new Bundle({
       name: 'main',
-      type: BundleType.JS
+      type: BundleType.SCRIPTS
     });
     var expected = {
       main: {
@@ -36,7 +36,7 @@ describe('bundle-results', function () {
     });
     file.bundle = new Bundle({
       name: 'main',
-      type: BundleType.CSS
+      type: BundleType.STYLES
     });
     var expected = {
       main: {
@@ -60,7 +60,7 @@ describe('bundle-results', function () {
     });
     file.bundle = new Bundle({
       name: 'vendor',
-      type: BundleType.JS
+      type: BundleType.SCRIPTS
     });
     var expected = {
       main: {
