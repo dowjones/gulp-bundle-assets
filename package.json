@@ -1,7 +1,7 @@
 {
   "name": "gulp-bundle-assets",
-  "version": "1.0.3",
-  "description": "Creates asset (js, css) bundles out of a config file",
+  "version": "2.0.0",
+  "description": "Create asset (js, css) bundles out of a config file",
   "main": "index.js",
   "scripts": {
     "test": "gulp ci"

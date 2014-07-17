@@ -7,12 +7,12 @@ var libPath = './../../lib',
 describe('bundle-to-html', function() {
   it('should get script bundle html string', function () {
     assert.equal(bundleToHtml[BundleType.SCRIPTS]('/main-bundle.js'),
-      "<script type='text/javascript' src='/main-bundle.js'></script>");
+      "<script src='/main-bundle.js' type='text/javascript'></script>");
   });
 
   it('should get style bundle html string', function () {
     assert.equal(bundleToHtml[BundleType.STYLES]('/main-bundle.css'),
-      "<link rel='stylesheet' href='/main-bundle.css' />");
+      "<link href='/main-bundle.css' media='screen' rel='stylesheet' type='text/css'/>");
   });
 
   it('should throw error when format type not defined', function () {

@@ -42,8 +42,8 @@ which gives us a `bundle.result.json` file that looks like this:
 ```json
 {
   "main": {
-    "styles": "<link rel='stylesheet' href='main.css' />",
-    "scripts": "<script type='text/javascript' src='main.js'></script>"
+    "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "scripts": "<script src='main.js' type='text/javascript'></script>"
   }
 }
 ```

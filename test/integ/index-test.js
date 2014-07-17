@@ -195,8 +195,8 @@ describe('integration tests', function () {
               var resultsJson = JSON.parse(data);
               assert.deepEqual(resultsJson, {
                 "main": {
-                  "styles": "<link rel='stylesheet' href='main.css' />",
-                  "scripts": "<script type='text/javascript' src='main.js'></script>"
+                  "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>",
+                  "scripts": "<script src='main.js' type='text/javascript'></script>"
                 }
               });
 
