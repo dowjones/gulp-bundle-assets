@@ -18,7 +18,7 @@ describe('bundle-results', function () {
     });
     var expected = {
       main: {
-        js: "<script type='text/javascript' src='main-bundle.js'></script>"
+        scripts: "<script type='text/javascript' src='main-bundle.js'></script>"
       }
     };
     assert.deepEqual(addBundleResults({}, file), expected);
@@ -27,7 +27,7 @@ describe('bundle-results', function () {
   it('should return result obj new bundle type appended', function () {
     var currentBundleResults = {
       main: {
-        js: "<script type='text/javascript' src='main-bundle.js'></script>"
+        scripts: "<script type='text/javascript' src='main-bundle.js'></script>"
       }
     };
     var file = new File({
@@ -40,8 +40,8 @@ describe('bundle-results', function () {
     });
     var expected = {
       main: {
-        js: "<script type='text/javascript' src='main-bundle.js'></script>",
-        css: "<link rel='stylesheet' href='main-bundle.css' />"
+        scripts: "<script type='text/javascript' src='main-bundle.js'></script>",
+        styles: "<link rel='stylesheet' href='main-bundle.css' />"
       }
     };
     assert.deepEqual(addBundleResults(currentBundleResults, file), expected);
@@ -50,8 +50,8 @@ describe('bundle-results', function () {
   it('should return result obj new bundle appended', function () {
     var currentBundleResults = {
       main: {
-        js: "<script type='text/javascript' src='main-bundle.js'></script>",
-        css: "<link rel='stylesheet' href='main-bundle.css' />"
+        scripts: "<script type='text/javascript' src='main-bundle.js'></script>",
+        styles: "<link rel='stylesheet' href='main-bundle.css' />"
       }
     };
     var file = new File({
@@ -64,11 +64,11 @@ describe('bundle-results', function () {
     });
     var expected = {
       main: {
-        js: "<script type='text/javascript' src='main-bundle.js'></script>",
-        css: "<link rel='stylesheet' href='main-bundle.css' />"
+        scripts: "<script type='text/javascript' src='main-bundle.js'></script>",
+        styles: "<link rel='stylesheet' href='main-bundle.css' />"
       },
       vendor: {
-        js: "<script type='text/javascript' src='vendor-bundle.js'></script>"
+        scripts: "<script type='text/javascript' src='vendor-bundle.js'></script>"
       }
     };
     assert.deepEqual(addBundleResults(currentBundleResults, file), expected);
