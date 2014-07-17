@@ -1,7 +1,7 @@
 {
   "name": "gulp-bundle-assets",
-  "version": "1.0.3",
-  "description": "Creates asset (js, css) bundles out of a config file",
+  "version": "2.0.0",
+  "description": "Create asset (js, css) bundles from a config file leveraging the power of streams",
   "main": "index.js",
   "scripts": {
     "test": "gulp ci"
@@ -40,7 +40,7 @@
     "gulp-using": "0.0.1",
     "gulp-util": "2.2.20",
     "map-stream": "0.1.0",
-    "merge-stream": "^0.1.1",
+    "merge-stream": "^0.1.5",
     "mkdirp": "0.5.0",
     "readable-stream": "^1.0.27-1",
     "through2": "0.5.1",
@@ -53,6 +53,9 @@
     "gulp-nice-package": "0.0.1",
     "gulp-shrinkwrap": "0.0.2",
     "jshint-stylish": "0.3.0",
-    "rimraf": "2.2.8"
+    "proxyquire": "^1.0.1",
+    "rimraf": "2.2.8",
+    "should": "^4.0.4",
+    "sinon": "^1.10.3"
   }
 }

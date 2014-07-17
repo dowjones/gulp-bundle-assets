@@ -29,17 +29,17 @@ gulp.task('bundle', function() {
 module.exports = {
   bundle: {
     main: {
-      js: [
+      scripts: [
         './content/js/foo.js',
         './content/js/baz.js'
       ],
-      css: './content/**/*.css',
-      resources: './content/**/*.{png,svg}'
+      styles: './content/**/*.css'
     },
     vendor: {
-      js: './bower_components/angular/angular.js'
+      scripts: './bower_components/angular/angular.js'
     }
-  }
+  },
+  copy: './content/**/*.{png,svg}'
 };
 ```
 
@@ -61,7 +61,7 @@ Will result in the following folder structure:
    `vendor-bundle.js
 ```
 
-see `/examples` for more detail
+see [the examples folder](examples) for more detail
 
 ## Options
 

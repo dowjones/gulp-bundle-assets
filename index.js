@@ -21,12 +21,12 @@ var gulpBundleAssets = function (options) {
 
     if (file.isNull()) {
       this.push(file);
-      return cb();
+      return done();
     }
 
     if (file.isStream()) {
       this.emit('error', new gutil.PluginError('gulp-bundle-assets', 'Streaming not supported'));
-      return cb();
+      return done();
     }
 
     try {
@@ -34,13 +34,13 @@ var gulpBundleAssets = function (options) {
     } catch (e) {
       gutil.log(gutil.colors.red('Failed to parse config file'));
       this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
-      return cb();
+      return done();
     }
 
-    if (!config || !config.bundle) {
+    if (!config || !(config.bundle || config.copy)) {
       this.emit('error', new gutil.PluginError('gulp-bundle-assets',
-        'Valid bundle configuration file required in the form { bundle: {} }'));
-      return cb();
+        'Configuration file should be in the form "{ bundle: {}, copy: {} }"'));
+      return done();
     }
 
     config.base = options.base || '.';

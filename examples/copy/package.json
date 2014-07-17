@@ -1,15 +1,15 @@
 {
-  "name": "bower",
+  "name": "copy",
   "version": "0.0.0",
   "description": "",
-  "main": "",
+  "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "gulp": "^3.8.5",
+    "gulp": "^3.8.6",
     "gulp-rimraf": "^0.1.0"
   }
 }

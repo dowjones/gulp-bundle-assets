@@ -42,8 +42,8 @@ which gives us a `bundle.result.json` file that looks like this:
 ```json
 {
   "main": {
-    "css": "<link rel='stylesheet' href='/main-bundle.css' />",
-    "js": "<script type='text/javascript' src='/main-bundle.js'></script>"
+    "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "scripts": "<script src='main.js' type='text/javascript'></script>"
   }
 }
 ```
@@ -77,7 +77,7 @@ Finally, in our view we can write out the bundles however we see fit, e.g.
     <title>{{ title }}</title>
     
     <!-- put my main style bundle in the head -->
-    {{{ bundle.main.css }}}
+    {{{ bundle.main.styles }}}
     
   </head>
   <body>
@@ -85,7 +85,7 @@ Finally, in our view we can write out the bundles however we see fit, e.g.
     <p>Hello World</p>
     
     <!-- put my main script bundle at the end of the body -->
-    {{{ bundle.main.js }}}
+    {{{ bundle.main.scripts }}}
     
   </body>
 </html>

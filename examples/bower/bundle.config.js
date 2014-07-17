@@ -1,22 +1,22 @@
 module.exports = {
   bundle: {
     vendor: {
-      js: [
+      scripts: [
         './bower_components/jquery/dist/jquery.js',
         './bower_components/angular/angular.js'
       ],
-      css: [
+      styles: [
         './bower_components/bootstrap/dist/css/bootstrap.css',
         './bower_components/bootstrap/dist/css/bootstrap-theme.css'
-      ],
-      resources: './bower_components/bootstrap/dist/fonts/**/*.*'
+      ]
     },
     main: {
-      js: [
+      scripts: [
         './content/js/one.js',
         './content/js/two.js'
       ],
-      css: './content/**/*.css'
+      styles: './content/**/*.css'
     }
-  }
+  },
+  copy: './bower_components/bootstrap/dist/fonts/**/*.*'
 };

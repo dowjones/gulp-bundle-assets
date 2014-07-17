@@ -6,11 +6,18 @@ var path = require('path'),
   bundler = require('../../index'),
   gulp = require('gulp'),
   through = require('through2'),
-  rimraf = require('rimraf');
+  rimraf = require('rimraf'),
+  should = require('should');
 
 describe('integration tests', function () {
 
-  var testDest = path.join(__dirname, '.public');
+  var fileCount,
+    staticFileCount;
+
+  beforeEach(function () {
+    fileCount = 0;
+    staticFileCount = 0;
+  });
 
   describe('simple', function () {
     var appPath = path.join(examplePath, 'simple'),
@@ -18,26 +25,34 @@ describe('integration tests', function () {
 
     it('should read example bundle.config and create bundles', function (done) {
 
-      testBundleStream(bundleConfigPath, appPath, done, function (file, enc, cb) {
+      testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var lines;
 
         if (file.relative === 'main.js') {
           lines = file.contents.toString().split(/\r?\n/);
-          assert.equal(lines[0], 'function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();')
+          assert.equal(lines[0], 'function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();');
           assertStringStartsWithSourceMapJs(lines[1]);
         } else if (file.relative === 'main.css') {
           lines = file.contents.toString().split(/\r?\n/);
-          assertStringStartsWithSourceMapCss(lines[lines.length-1]);
-          delete lines[lines.length-1];
+          assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+          delete lines[lines.length - 1];
           assert.equal(lines.join('\n'), 'body {\n' +
             '  background-color:red;\n' +
             '}\n' +
             '.test {\n' +
             '  background-color: blue;\n' +
             '}\n');
+        } else if (file.relative === 'content/images/logo.png' ||
+          file.relative === 'content/fonts/awesome.svg') {
+          staticFileCount++;
         } else {
           errorUnexpectedFileInStream(file);
         }
+        fileCount++;
+
+      }, function () {
+        (fileCount).should.eql(4);
+        (staticFileCount).should.eql(2);
       });
 
     });
@@ -49,7 +64,7 @@ describe('integration tests', function () {
 
     it('should read example bundle.config and create bundles', function (done) {
 
-      testBundleStream(bundleConfigPath, appPath, done, function (file, enc, cb) {
+      testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var lines;
 
         if (file.relative === 'main.js') {
@@ -58,8 +73,8 @@ describe('integration tests', function () {
           assertStringStartsWithSourceMapJs(lines[1]);
         } else if (file.relative === 'main.css') {
           lines = file.contents.toString().split(/\r?\n/);
-          assertStringStartsWithSourceMapCss(lines[lines.length-1]);
-          delete lines[lines.length-1];
+          assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+          delete lines[lines.length - 1];
           assert.equal(lines.join('\n'),
               'body {\n' +
               '  background-color:red;\n' +
@@ -73,8 +88,8 @@ describe('integration tests', function () {
           assertStringStartsWithSourceMapJs(lines[1]);
         } else if (file.relative === 'vendor.css') {
           lines = file.contents.toString().split(/\r?\n/);
-          assertStringStartsWithSourceMapCss(lines[lines.length-1]);
-          delete lines[lines.length-1];
+          assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+          delete lines[lines.length - 1];
           assert.equal(lines.join('\n'),
               '.bootstrap {\n' +
               '  background-color: red;\n' +
@@ -82,9 +97,19 @@ describe('integration tests', function () {
               '.bootstrap-theme {\n' +
               '  background-color: red;\n' +
               '}\n');
+        } else if (file.relative === 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot' ||
+          file.relative === 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg' ||
+          file.relative === 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf' ||
+          file.relative === 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff') {
+          staticFileCount++;
         } else {
           errorUnexpectedFileInStream(file);
         }
+        fileCount++;
+
+      }, function () {
+        (fileCount).should.eql(8);
+        (staticFileCount).should.eql(4);
       });
 
     });
@@ -96,7 +121,7 @@ describe('integration tests', function () {
 
     it('should read example bundle.config and create bundles', function (done) {
 
-      testBundleStream(bundleConfigPath, appPath, done, function (file, enc, cb) {
+      testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var lines;
 
         if (file.relative === 'main.js') {
@@ -105,74 +130,123 @@ describe('integration tests', function () {
           assertStringStartsWithSourceMapJs(lines[1]);
         } else if (file.relative === 'main.css') {
           lines = file.contents.toString().split(/\r?\n/);
-          assertStringStartsWithSourceMapCss(lines[lines.length-1]);
-          delete lines[lines.length-1];
+          assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+          delete lines[lines.length - 1];
           assert.equal(lines.join('\n'), '.success-text {\n' +
             '  color: green;\n' +
             '}\n');
+        } else if (file.relative === 'content/images/gulp.png') {
+          staticFileCount++;
         } else {
           errorUnexpectedFileInStream(file);
         }
+        fileCount++;
+      }, function () {
+        (fileCount).should.eql(3);
+        (staticFileCount).should.eql(1);
       });
 
     });
 
-    it('should read example bundle.config, create bundles and create bundle.result.json', function (done) {
+    describe('result.json', function () {
 
-      gulp.src(bundleConfigPath)
-        .pipe(bundler({
-          base: appPath
-        }))
-        .pipe(bundler.results(testDest))
-        .pipe(gulp.dest(testDest))
-        .pipe(through.obj(function(file, enc, cb) {
+      var testDest = path.join(__dirname, '.public');
 
-          var lines;
+      it('should read example bundle.config, create bundles and create bundle.result.json', function (done) {
 
-          if (file.relative === 'main.js') {
-            lines = file.contents.toString().split(/\r?\n/);
-            assert.equal(lines[0], '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");');
-            assertStringStartsWithSourceMapJs(lines[1]);
-          } else if (file.relative === 'main.css') {
-            lines = file.contents.toString().split(/\r?\n/);
-            assertStringStartsWithSourceMapCss(lines[lines.length-1]);
-            delete lines[lines.length-1];
-            assert.equal(lines.join('\n'), '.success-text {\n' +
-              '  color: green;\n' +
-              '}\n');
-          } else {
-            errorUnexpectedFileInStream(file);
-          }
+        gulp.src(bundleConfigPath)
+          .pipe(bundler({
+            base: appPath
+          }))
+          .pipe(bundler.results(testDest))
+          .pipe(gulp.dest(testDest))
+          .pipe(through.obj(function (file, enc, cb) {
 
-          this.push(file);
-          cb();
-        }))
-        .on('data', function() {
-          // noop
-        })
-        .on('end', function() {
-          fs.readFile(path.join(testDest, 'bundle.result.json'), function(err, data) {
-            if (err) throw err;
+            var lines;
 
-            var resultsJson = JSON.parse(data);
-            assert.deepEqual(resultsJson, {
-              "main": {
-                "css": "<link rel='stylesheet' href='main.css' />",
-                "js": "<script type='text/javascript' src='main.js'></script>"
+            if (file.relative === 'main.js') {
+              lines = file.contents.toString().split(/\r?\n/);
+              assert.equal(lines[0], '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");');
+              assertStringStartsWithSourceMapJs(lines[1]);
+            } else if (file.relative === 'main.css') {
+              lines = file.contents.toString().split(/\r?\n/);
+              assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+              delete lines[lines.length - 1];
+              assert.equal(lines.join('\n'), '.success-text {\n' +
+                '  color: green;\n' +
+                '}\n');
+            } else if (file.relative === 'content/images/gulp.png') {
+              staticFileCount++;
+            } else {
+              errorUnexpectedFileInStream(file);
+            }
+            fileCount++;
+            this.push(file);
+            cb();
+          }))
+          .on('data', function () {
+          }) // noop
+          .on('end', function () {
+            fs.readFile(path.join(testDest, 'bundle.result.json'), function (err, data) {
+              if (err) {
+                throw err;
               }
-            });
 
-            done();
+              var resultsJson = JSON.parse(data);
+              assert.deepEqual(resultsJson, {
+                "main": {
+                  "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>",
+                  "scripts": "<script src='main.js' type='text/javascript'></script>"
+                }
+              });
+
+              (fileCount).should.eql(3);
+              (staticFileCount).should.eql(1);
+
+              done();
+            });
           });
+
+      });
+
+      afterEach(function (done) {
+        rimraf(testDest, function (err) {
+          if (err) {
+            done(err);
+          }
+          done();
         });
+      });
 
     });
+
   });
 
-  afterEach(function (done) {
-    rimraf(testDest, function (err) {
-      if (err) done(err);
-      done();
+  describe('copy', function () {
+    var appPath = path.join(examplePath, 'copy'),
+      bundleConfigPath = path.join(appPath, 'bundle.config.js');
+
+    it('should read example bundle.config and copy files', function (done) {
+
+      testBundleStream(bundleConfigPath, appPath, done, function (file) {
+
+        if (file.relative === 'include_path/content/car_icon.png' ||
+          file.relative === 'include_path/content/lifering_icon.png' ||
+          file.relative === 'content/empire_icon.png' ||
+          file.relative === 'content/rebel_icon.png' ||
+          file.relative === 'bomb_icon.png' ||
+          file.relative === 'content/extinguisher_icon.png') {
+          staticFileCount++;
+        } else {
+          errorUnexpectedFileInStream(file);
+        }
+        fileCount++;
+
+      }, function () {
+        (fileCount).should.eql(6);
+        (staticFileCount).should.eql(6);
+      });
+
     });
   });
 
@@ -192,22 +266,26 @@ describe('integration tests', function () {
     assert.ok(str.indexOf('/*# sourceMappingURL=data:application/json;base64') === 0);
   }
 
-  function testBundleStream(bundleConfigPath, appPath, done, testFunc) {
+  function testBundleStream(bundleConfigPath, appPath, done, testFunc, beforeEnd) {
     gulp.src(bundleConfigPath)
       .pipe(bundler({
         base: appPath
       }))
-      .pipe(gulp.dest(testDest))
-      .pipe(through.obj(function(file, enc, cb) {
-        testFunc(file, enc, cb);
+      .pipe(through.obj(function (file, enc, cb) {
+        testFunc(file);
         this.push(file);
         cb();
       }))
-      .on('data', function() {
-        // noop
+      .on('data', function () {
+      }) // noop
+      .on('error', function (err) {
+        done(err);
       })
-      .on('end', function() {
-        done()
+      .on('end', function () {
+        if (beforeEnd) {
+          beforeEnd();
+        }
+        done();
       });
   }
 
