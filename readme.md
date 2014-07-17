@@ -33,13 +33,13 @@ module.exports = {
         './content/js/foo.js',
         './content/js/baz.js'
       ],
-      css: './content/**/*.css',
-      resources: './content/**/*.{png,svg}'
+      css: './content/**/*.css'
     },
     vendor: {
       js: './bower_components/angular/angular.js'
     }
-  }
+  },
+  copy: './content/**/*.{png,svg}'
 };
 ```
 

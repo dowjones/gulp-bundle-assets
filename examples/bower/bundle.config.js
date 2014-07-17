@@ -8,8 +8,7 @@ module.exports = {
       css: [
         './bower_components/bootstrap/dist/css/bootstrap.css',
         './bower_components/bootstrap/dist/css/bootstrap-theme.css'
-      ],
-      resources: './bower_components/bootstrap/dist/fonts/**/*.*'
+      ]
     },
     main: {
       js: [
@@ -18,5 +17,6 @@ module.exports = {
       ],
       css: './content/**/*.css'
     }
-  }
+  },
+  copy: './bower_components/bootstrap/dist/fonts/**/*.*'
 };

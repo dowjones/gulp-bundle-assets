@@ -7,8 +7,8 @@ module.exports = {
       ],
       css: [
         './content/**/*.css'
-      ],
-      resources: './content/**/*.{png,svg}'
+      ]
     }
-  }
+  },
+  copy: './content/**/*.{png,svg}'
 };

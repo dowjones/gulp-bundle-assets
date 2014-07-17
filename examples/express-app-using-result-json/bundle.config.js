@@ -2,8 +2,8 @@ module.exports = {
   bundle: {
     main: {
       js: './content/**/*.js',
-      css: './content/**/*.css',
-      resources: './content/images/**/*.*'
+      css: './content/**/*.css'
     }
-  }
+  },
+  copy: './content/images/**/*.*'
 };
