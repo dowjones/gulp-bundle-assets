@@ -1,8 +1,8 @@
 module.exports = {
   copy: [
-    '',
+    './include_path/content/car_icon.png',
     {
-      src: ''
+      src: './include_path/content/lifering_icon.png'
     },
     {
       src: [

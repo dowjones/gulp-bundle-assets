@@ -24,23 +24,9 @@ describe('stream-bundles', function () {
         base: path.join(__dirname, '../fixtures')
       };
 
-      var streams = streamBundles(config);
-
-      (streams.length).should.eql(1);
-
-      mergeStream.apply(null, streams)
-        .pipe(through.obj(function (file, enc, cb) {
-          file.relative.should.eql('content/a.js');
-          fileCount++;
-          this.push(file);
-          cb();
-        }))
-        .on('data', function () {
-        }) // noop
-        .on('end', function () {
-          (fileCount).should.eql(1);
-          done();
-        });
+      verifyStreamBundlesOneFile(config, done, function (file) {
+        file.relative.should.eql('content/a.js');
+      });
 
     });
 
@@ -54,23 +40,9 @@ describe('stream-bundles', function () {
           base: path.join(__dirname, '../fixtures')
         };
 
-        var streams = streamBundles(config);
-
-        (streams.length).should.eql(1);
-
-        mergeStream.apply(null, streams)
-          .pipe(through.obj(function (file, enc, cb) {
-            file.relative.should.eql('content/a.js');
-            fileCount++;
-            this.push(file);
-            cb();
-          }))
-          .on('data', function () {
-          }) // noop
-          .on('end', function () {
-            (fileCount).should.eql(1);
-            done();
-          });
+        verifyStreamBundlesOneFile(config, done, function (file) {
+          file.relative.should.eql('content/a.js');
+        });
 
       });
 
@@ -84,23 +56,9 @@ describe('stream-bundles', function () {
           base: path.join(__dirname, '../fixtures')
         };
 
-        var streams = streamBundles(config);
-
-        (streams.length).should.eql(1);
-
-        mergeStream.apply(null, streams)
-          .pipe(through.obj(function (file, enc, cb) {
-            file.relative.should.eql('a.js');
-            fileCount++;
-            this.push(file);
-            cb();
-          }))
-          .on('data', function () {
-          }) // noop
-          .on('end', function () {
-            (fileCount).should.eql(1);
-            done();
-          });
+        verifyStreamBundlesOneFile(config, done, function (file) {
+          file.relative.should.eql('a.js');
+        });
 
       });
     });
@@ -111,26 +69,87 @@ describe('stream-bundles', function () {
         var config = {
           copy: [
             './content/a.js'
-          ]
+          ],
+          base: path.join(__dirname, '../fixtures')
         };
 
-        var streams = streamBundles(config);
+        verifyStreamBundlesOneFile(config, done, function (file) {
+          file.relative.should.eql('content/a.js');
+        });
 
-        (streams.length).should.eql(1);
+      });
 
-        mergeStream.apply(null, streams)
-          .pipe(through.obj(function (file, enc, cb) {
-            file.relative.should.eql('content/a.js');
-            fileCount++;
-            this.push(file);
-            cb();
-          }))
-          .on('data', function () {
-          }) // noop
-          .on('end', function () {
-            (fileCount).should.eql(1);
-            done();
-          });
+      it('should work with objects', function (done) {
+
+        var config = {
+          copy: [
+            {
+              src: './content/a.js'
+            }
+          ],
+          base: path.join(__dirname, '../fixtures')
+        };
+
+        verifyStreamBundlesOneFile(config, done, function (file) {
+          file.relative.should.eql('content/a.js');
+        });
+
+      });
+
+      it('should work with objects with base', function (done) {
+
+        var config = {
+          copy: [
+            {
+              src: './content/a.js',
+              base: './content'
+            }
+          ],
+          base: path.join(__dirname, '../fixtures')
+        };
+
+        verifyStreamBundlesOneFile(config, done, function (file) {
+          file.relative.should.eql('a.js');
+        });
+
+      });
+
+      it('should work with objects array src', function (done) {
+
+        var config = {
+          copy: [
+            {
+              src: [
+                './content/a.js'
+              ]
+            }
+          ],
+          base: path.join(__dirname, '../fixtures')
+        };
+
+        verifyStreamBundlesOneFile(config, done, function (file) {
+          file.relative.should.eql('content/a.js');
+        });
+
+      });
+
+      it('should work with objects with base and array src', function (done) {
+
+        var config = {
+          copy: [
+            {
+              src: [
+                './content/a.js'
+              ],
+              base: './content'
+            }
+          ],
+          base: path.join(__dirname, '../fixtures')
+        };
+
+        verifyStreamBundlesOneFile(config, done, function (file) {
+          file.relative.should.eql('a.js');
+        });
 
       });
 
@@ -140,7 +159,7 @@ describe('stream-bundles', function () {
 
       it('when copy is num', function () {
 
-        (function() {
+        (function () {
           streamBundles({
             copy: 1
           });
@@ -150,7 +169,7 @@ describe('stream-bundles', function () {
 
       it('when copy is bool', function () {
 
-        (function() {
+        (function () {
           streamBundles({
             copy: true
           });
@@ -160,6 +179,28 @@ describe('stream-bundles', function () {
 
     });
 
+    function verifyStreamBundlesOneFile(config, done, fn) {
+      var streams = streamBundles(config);
+
+      (streams.length).should.eql(1);
+
+      mergeStream.apply(null, streams)
+        .pipe(through.obj(function (file, enc, cb) {
+          if (fn) fn(file);
+          fileCount++;
+          this.push(file);
+          cb();
+        }))
+        .on('data', function () {
+        }) // noop
+        .on('end', function () {
+          (fileCount).should.eql(1);
+          done();
+        });
+
+    }
+
   });
 
 });
+
