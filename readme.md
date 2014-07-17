@@ -61,7 +61,7 @@ Will result in the following folder structure:
    `vendor-bundle.js
 ```
 
-see [/examples](examples) for more detail
+see [the examples folder](examples) for more detail
 
 ## Options
 
