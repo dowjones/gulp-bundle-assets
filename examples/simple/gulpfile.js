@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
   rimraf = require('gulp-rimraf'),
-  debug = require('gulp-debug'),
   bundle = require('../../');
 
 gulp.task('bundle', function () {
