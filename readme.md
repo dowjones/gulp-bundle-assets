@@ -56,9 +56,9 @@ Will result in the following folder structure:
    |-- content
    |   |-- fonts
    |   |-- images
-   `main-bundle.css
-   `main-bundle.js
-   `vendor-bundle.js
+   `main.css
+   `main.js
+   `vendor.js
 ```
 
 see [the examples folder](examples) for more detail
