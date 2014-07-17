@@ -177,6 +177,42 @@ describe('stream-bundles', function () {
 
       });
 
+      it('when copy is array and has invalid value: num', function () {
+
+        (function () {
+          streamBundles({
+            copy: [
+              1
+            ]
+          });
+        }).should.throw(gutil.PluginError);
+
+      });
+
+      it('when copy is array and has invalid value: num', function () {
+
+        (function () {
+          streamBundles({
+            copy: [
+              true
+            ]
+          });
+        }).should.throw(gutil.PluginError);
+
+      });
+
+      it('when copy is array and has invalid value: array', function () {
+
+        (function () {
+          streamBundles({
+            copy: [
+              ['./content/*.js']
+            ]
+          });
+        }).should.throw(gutil.PluginError);
+
+      });
+
     });
 
     function verifyStreamBundlesOneFile(config, done, fn) {

@@ -222,22 +222,29 @@ describe('integration tests', function () {
 
   });
 
-  describe.skip('copy', function () {
+  describe('copy', function () {
     var appPath = path.join(examplePath, 'copy'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');
 
     it('should read example bundle.config and copy files', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
-        var lines;
 
-        if (file.relative === 'content/main.js') {
-          lines = file.contents.toString().split(/\r?\n/);
-          assert.equal(lines[0], 'console.log("my")');
-          assertStringStartsWithSourceMapJs(lines[1]);
+        if (file.relative === 'include_path/content/car_icon.png' ||
+          file.relative === 'include_path/content/lifering_icon.png' ||
+          file.relative === 'content/empire_icon.png' ||
+          file.relative === 'content/rebel_icon.png' ||
+          file.relative === 'bomb_icon.png' ||
+          file.relative === 'content/extinguisher_icon.png') {
+          staticFileCount++;
         } else {
           errorUnexpectedFileInStream(file);
         }
+        fileCount++;
+
+      }, function () {
+        (fileCount).should.eql(6);
+        (staticFileCount).should.eql(6);
       });
 
     });
