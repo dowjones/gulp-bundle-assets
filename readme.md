@@ -1,6 +1,6 @@
 # [gulp](http://gulpjs.com/)-bundle-assets [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 
-> Creates asset (js, css) bundles out of a config file
+> Create asset (js, css) bundles from a config file leveraging the power of streams
 
 ## Install
 
