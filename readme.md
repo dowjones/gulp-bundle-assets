@@ -96,7 +96,7 @@ gulp.task('bundle', function() {
 
 ## TODO
 
-[Prioritized list of new features](https://gist.github.com/chmontgomery/9ec07f3ba0344660a43b#general)
+[Prioritized list of new features](https://gist.github.com/chmontgomery/9ec07f3ba0344660a43b#todo)
 
 ## License
 
