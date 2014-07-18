@@ -94,6 +94,14 @@ gulp.task('bundle', function() {
 
 [See here for a full example using hogan](examples/express-app-using-result-json/readme.md)
 
+## TODO
+
+[Prioritized list of new features](https://gist.github.com/chmontgomery/9ec07f3ba0344660a43b#general)
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT) © [Chris Montgomery](http://www.chrismontgomery.info/)
+
 [npm-url]: https://npmjs.org/package/gulp-bundle-assets
 [npm-image]: http://img.shields.io/npm/v/gulp-bundle-assets.svg
 [travis-image]: https://travis-ci.org/chmontgomery/gulp-bundle-assets.svg?branch=master
