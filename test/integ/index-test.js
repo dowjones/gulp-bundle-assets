@@ -223,6 +223,63 @@ describe('integration tests', function () {
 
   });
 
+  describe('result-json', function () {
+    var appPath = path.join(examplePath, 'result-json'),
+      bundleConfigPath = path.join(appPath, 'bundle.config.js'),
+      testDest = path.join(__dirname, '.public');
+
+    it('should read bundle.config and create result json', function (done) {
+
+      gulp.src(bundleConfigPath)
+        .pipe(bundler({
+          base: appPath
+        }))
+        .pipe(bundler.results(testDest))
+        .pipe(gulp.dest(testDest))
+        .on('data', function () {
+        }) // noop
+        .on('end', function () {
+          fs.readFile(path.join(testDest, 'bundle.result.json'), function (err, data) {
+            if (err) {
+              throw err;
+            }
+
+            var resultsJson = JSON.parse(data);
+            assert.deepEqual(resultsJson, {
+              "customJs": {
+                "scripts": "<script src='customJs.js' type='text/javascript'></script>"
+              },
+              "lessBundle": {
+                "styles": "<link href='lessBundle.css' media='screen' rel='stylesheet' type='text/css'/>"
+              },
+              "main": {
+                "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>",
+                "scripts": "<script src='main.js' type='text/javascript'></script>"
+              },
+              "vendor": {
+                "scripts": "<script src='vendor.js' type='text/javascript'></script>",
+                "styles": "<link href='vendor.css' media='screen' rel='stylesheet' type='text/css'/>"
+              }
+            });
+
+            done();
+          });
+        });
+
+    });
+
+    afterEach(function (done) {
+      rimraf(testDest, function (err) {
+        if (err) {
+          done(err);
+        }
+        done();
+      });
+    });
+
+  });
+
+
   describe('copy', function () {
     var appPath = path.join(examplePath, 'copy'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');

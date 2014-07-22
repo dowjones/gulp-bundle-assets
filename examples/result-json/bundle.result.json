@@ -1,0 +1,16 @@
+{
+  "customJs": {
+    "scripts": "<script src='customJs.js' type='text/javascript'></script>"
+  },
+  "lessBundle": {
+    "styles": "<link href='lessBundle.css' media='screen' rel='stylesheet' type='text/css'/>"
+  },
+  "main": {
+    "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "scripts": "<script src='main.js' type='text/javascript'></script>"
+  },
+  "vendor": {
+    "scripts": "<script src='vendor.js' type='text/javascript'></script>",
+    "styles": "<link href='vendor.css' media='screen' rel='stylesheet' type='text/css'/>"
+  }
+}
