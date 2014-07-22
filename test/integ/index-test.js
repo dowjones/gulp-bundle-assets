@@ -7,7 +7,8 @@ var path = require('path'),
   gulp = require('gulp'),
   through = require('through2'),
   rimraf = require('rimraf'),
-  should = require('should');
+  should = require('should'),
+  helpers = require('../helpers');
 
 describe('integration tests', function () {
 
@@ -31,10 +32,10 @@ describe('integration tests', function () {
         if (file.relative === 'main.js') {
           lines = file.contents.toString().split(/\r?\n/);
           assert.equal(lines[0], 'function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();');
-          assertStringStartsWithSourceMapJs(lines[1]);
+          helpers.assertStringStartsWithSourceMapJs(lines[1]);
         } else if (file.relative === 'main.css') {
           lines = file.contents.toString().split(/\r?\n/);
-          assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
           delete lines[lines.length - 1];
           assert.equal(lines.join('\n'), 'body {\n' +
             '  background-color:red;\n' +
@@ -46,7 +47,7 @@ describe('integration tests', function () {
           file.relative === 'content/fonts/awesome.svg') {
           staticFileCount++;
         } else {
-          errorUnexpectedFileInStream(file);
+          helpers.errorUnexpectedFileInStream(file);
         }
         fileCount++;
 
@@ -70,10 +71,10 @@ describe('integration tests', function () {
         if (file.relative === 'main.js') {
           lines = file.contents.toString().split(/\r?\n/);
           assert.equal(lines[0], 'console.log("one"),console.log("two");');
-          assertStringStartsWithSourceMapJs(lines[1]);
+          helpers.assertStringStartsWithSourceMapJs(lines[1]);
         } else if (file.relative === 'main.css') {
           lines = file.contents.toString().split(/\r?\n/);
-          assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
           delete lines[lines.length - 1];
           assert.equal(lines.join('\n'),
               'body {\n' +
@@ -85,10 +86,10 @@ describe('integration tests', function () {
         } else if (file.relative === 'vendor.js') {
           lines = file.contents.toString().split(/\r?\n/);
           assert.equal(lines[0], 'console.log("jquery"),console.log("angular");');
-          assertStringStartsWithSourceMapJs(lines[1]);
+          helpers.assertStringStartsWithSourceMapJs(lines[1]);
         } else if (file.relative === 'vendor.css') {
           lines = file.contents.toString().split(/\r?\n/);
-          assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
           delete lines[lines.length - 1];
           assert.equal(lines.join('\n'),
               '.bootstrap {\n' +
@@ -103,7 +104,7 @@ describe('integration tests', function () {
           file.relative === 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff') {
           staticFileCount++;
         } else {
-          errorUnexpectedFileInStream(file);
+          helpers.errorUnexpectedFileInStream(file);
         }
         fileCount++;
 
@@ -127,10 +128,10 @@ describe('integration tests', function () {
         if (file.relative === 'main.js') {
           lines = file.contents.toString().split(/\r?\n/);
           assert.equal(lines[0], '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");');
-          assertStringStartsWithSourceMapJs(lines[1]);
+          helpers.assertStringStartsWithSourceMapJs(lines[1]);
         } else if (file.relative === 'main.css') {
           lines = file.contents.toString().split(/\r?\n/);
-          assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
           delete lines[lines.length - 1];
           assert.equal(lines.join('\n'), '.success-text {\n' +
             '  color: green;\n' +
@@ -138,7 +139,7 @@ describe('integration tests', function () {
         } else if (file.relative === 'content/images/gulp.png') {
           staticFileCount++;
         } else {
-          errorUnexpectedFileInStream(file);
+          helpers.errorUnexpectedFileInStream(file);
         }
         fileCount++;
       }, function () {
@@ -167,10 +168,10 @@ describe('integration tests', function () {
             if (file.relative === 'main.js') {
               lines = file.contents.toString().split(/\r?\n/);
               assert.equal(lines[0], '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");');
-              assertStringStartsWithSourceMapJs(lines[1]);
+              helpers.assertStringStartsWithSourceMapJs(lines[1]);
             } else if (file.relative === 'main.css') {
               lines = file.contents.toString().split(/\r?\n/);
-              assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+              helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
               delete lines[lines.length - 1];
               assert.equal(lines.join('\n'), '.success-text {\n' +
                 '  color: green;\n' +
@@ -178,7 +179,7 @@ describe('integration tests', function () {
             } else if (file.relative === 'content/images/gulp.png') {
               staticFileCount++;
             } else {
-              errorUnexpectedFileInStream(file);
+              helpers.errorUnexpectedFileInStream(file);
             }
             fileCount++;
             this.push(file);
@@ -238,7 +239,7 @@ describe('integration tests', function () {
           file.relative === 'content/extinguisher_icon.png') {
           staticFileCount++;
         } else {
-          errorUnexpectedFileInStream(file);
+          helpers.errorUnexpectedFileInStream(file);
         }
         fileCount++;
 
@@ -253,18 +254,6 @@ describe('integration tests', function () {
   // -----------------------
   // helpers
   // -----------------------
-
-  function errorUnexpectedFileInStream(file) {
-    throw new Error('Unexpected file in stream ' + file.relative);
-  }
-
-  function assertStringStartsWithSourceMapJs(str) {
-    assert.ok(str.indexOf('//# sourceMappingURL=data:application/json;base64') === 0);
-  }
-
-  function assertStringStartsWithSourceMapCss(str) {
-    assert.ok(str.indexOf('/*# sourceMappingURL=data:application/json;base64') === 0);
-  }
 
   function testBundleStream(bundleConfigPath, appPath, done, testFunc, beforeEnd) {
     gulp.src(bundleConfigPath)
