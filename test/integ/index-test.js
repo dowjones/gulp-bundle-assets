@@ -315,14 +315,22 @@ describe('integration tests', function () {
           delete lines[lines.length - 1];
           assert.equal(lines.join('\n'),
               'if (true) {\n' +
-              '  console.log("jquery.min");\n' +
+              '  console.log("jquery");\n' +
               '} else {\n' +
               '  console.log("this line should NOT be in uglified output");\n' +
               '}\n' +
               'if (true) {\n' +
-              '  console.log("angular.min");\n' +
+              '  console.log("angular");\n' +
               '} else {\n' +
               '  console.log("this line should NOT be in uglified output");\n' +
+              '}\n');
+        } else if (file.relative === 'vendor.css') { // unminified
+          lines = file.contents.toString().split(/\r?\n/);
+          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+          delete lines[lines.length - 1];
+          assert.equal(lines.join('\n'),
+              '.bootstrap {\n' +
+              '  background-color: red;\n' +
               '}\n');
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -330,7 +338,7 @@ describe('integration tests', function () {
         fileCount++;
 
       }, function () {
-        (fileCount).should.eql(5);
+        (fileCount).should.eql(6);
       });
 
     });
