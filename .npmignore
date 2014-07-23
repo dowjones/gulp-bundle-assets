@@ -1,5 +1,5 @@
 /examples/
-/.travis.yml
+.travis.yml
 readme.md
 /gulpfile.js
 /test/
@@ -7,3 +7,5 @@ readme.md
 .DS_Store
 *.log
 *.orig
+/bin/bundleAllExamples.sh
+.jshintrc
