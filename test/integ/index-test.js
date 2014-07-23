@@ -24,7 +24,7 @@ describe('integration tests', function () {
     var appPath = path.join(examplePath, 'simple'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');
 
-    it('should read example bundle.config and create bundles', function (done) {
+    it('should read bundle.config and create bundles', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var lines;
@@ -37,12 +37,13 @@ describe('integration tests', function () {
           lines = file.contents.toString().split(/\r?\n/);
           helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
           delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'), 'body {\n' +
-            '  background-color:red;\n' +
-            '}\n' +
-            '.test {\n' +
-            '  background-color: blue;\n' +
-            '}\n');
+          assert.equal(lines.join('\n'),
+              'body {\n' +
+              '  background-color:red;\n' +
+              '}\n' +
+              '.test {\n' +
+              '  background-color: blue;\n' +
+              '}\n');
         } else if (file.relative === 'content/images/logo.png' ||
           file.relative === 'content/fonts/awesome.svg') {
           staticFileCount++;
@@ -63,7 +64,7 @@ describe('integration tests', function () {
     var appPath = path.join(examplePath, 'bower'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');
 
-    it('should read example bundle.config and create bundles', function (done) {
+    it('should read bundle.config and create bundles', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var lines;
@@ -121,7 +122,7 @@ describe('integration tests', function () {
     var appPath = path.join(examplePath, 'express-app-using-result-json'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');
 
-    it('should read example bundle.config and create bundles', function (done) {
+    it('should read bundle.config and create bundles', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var lines;
@@ -134,9 +135,10 @@ describe('integration tests', function () {
           lines = file.contents.toString().split(/\r?\n/);
           helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
           delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'), '.success-text {\n' +
-            '  color: green;\n' +
-            '}\n');
+          assert.equal(lines.join('\n'),
+              '.success-text {\n' +
+              '  color: green;\n' +
+              '}\n');
         } else if (file.relative === 'content/images/gulp.png') {
           staticFileCount++;
         } else {
@@ -154,7 +156,7 @@ describe('integration tests', function () {
 
       var testDest = path.join(__dirname, '.public');
 
-      it('should read example bundle.config, create bundles and create bundle.result.json', function (done) {
+      it('should read bundle.config, create bundles and create bundle.result.json', function (done) {
 
         gulp.src(bundleConfigPath)
           .pipe(bundler({
@@ -174,9 +176,10 @@ describe('integration tests', function () {
               lines = file.contents.toString().split(/\r?\n/);
               helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
               delete lines[lines.length - 1];
-              assert.equal(lines.join('\n'), '.success-text {\n' +
-                '  color: green;\n' +
-                '}\n');
+              assert.equal(lines.join('\n'),
+                  '.success-text {\n' +
+                  '  color: green;\n' +
+                  '}\n');
             } else if (file.relative === 'content/images/gulp.png') {
               staticFileCount++;
             } else {
@@ -212,12 +215,7 @@ describe('integration tests', function () {
       });
 
       afterEach(function (done) {
-        rimraf(testDest, function (err) {
-          if (err) {
-            done(err);
-          }
-          done();
-        });
+        remove(testDest, done);
       });
 
     });
@@ -270,14 +268,72 @@ describe('integration tests', function () {
     });
 
     afterEach(function (done) {
-      rimraf(testDest, function (err) {
-        if (err) {
-          done(err);
-        }
-        done();
-      });
+      remove(testDest, done);
     });
 
+  });
+
+  describe('per-environment', function () {
+    var appPath = path.join(examplePath, 'per-environment'),
+      bundleConfigPath = path.join(appPath, 'bundle.config.js');
+
+    it('should read bundle.config and create bundles with some uglified js, some not', function (done) {
+
+      testBundleStream(bundleConfigPath, appPath, done, function (file) {
+        var lines;
+
+        if (file.relative === 'main.css') {
+          lines = file.contents.toString().split(/\r?\n/);
+          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+        } else if (file.relative === 'one.js') { // unminified
+          lines = file.contents.toString().split(/\r?\n/);
+          helpers.assertStringStartsWithSourceMapJs(lines[lines.length - 1]);
+          delete lines[lines.length - 1];
+          assert.equal(lines.join('\n'),
+              'if (true) {\n' +
+              '  console.log("one");\n' +
+              '} else {\n' +
+              '  console.log("this line should NOT be in uglified output");\n' +
+              '}\n');
+        } else if (file.relative === 'threve.js') { // minified
+          lines = file.contents.toString().split(/\r?\n/);
+          assert.equal(lines[0], 'console.log("threve");');
+          helpers.assertStringStartsWithSourceMapJs(lines[1]);
+        } else if (file.relative === 'two.js') { // unminified
+          lines = file.contents.toString().split(/\r?\n/);
+          helpers.assertStringStartsWithSourceMapJs(lines[lines.length - 1]);
+          delete lines[lines.length - 1];
+          assert.equal(lines.join('\n'),
+              'if (true) {\n' +
+              '  console.log("two");\n' +
+              '} else {\n' +
+              '  console.log("this line should NOT be in uglified output");\n' +
+              '}\n');
+        } else if (file.relative === 'vendor.js') { // unminified
+          lines = file.contents.toString().split(/\r?\n/);
+          helpers.assertStringStartsWithSourceMapJs(lines[lines.length - 1]);
+          delete lines[lines.length - 1];
+          assert.equal(lines.join('\n'),
+              'if (true) {\n' +
+              '  console.log("jquery.min");\n' +
+              '} else {\n' +
+              '  console.log("this line should NOT be in uglified output");\n' +
+              '}\n' +
+              'if (true) {\n' +
+              '  console.log("angular.min");\n' +
+              '} else {\n' +
+              '  console.log("this line should NOT be in uglified output");\n' +
+              '}\n');
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+        fileCount++;
+
+      }, function () {
+        (fileCount).should.eql(5);
+      });
+
+    });
   });
 
 
@@ -285,7 +341,7 @@ describe('integration tests', function () {
     var appPath = path.join(examplePath, 'copy'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');
 
-    it('should read example bundle.config and copy files', function (done) {
+    it('should read bundle.config and copy files', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
 
@@ -334,6 +390,21 @@ describe('integration tests', function () {
         }
         done();
       });
+  }
+
+  function remove(path, done) {
+    fs.exists(path, function (exists) {
+      if (exists) {
+        rimraf(path, function (err) {
+          if (err) {
+            done(err);
+          }
+          done();
+        });
+      } else {
+        done();
+      }
+    });
   }
 
 });
