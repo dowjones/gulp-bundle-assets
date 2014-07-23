@@ -10,7 +10,7 @@ module.exports = {
         './bower_components/bootstrap/dist/css/bootstrap-theme.css'
       ],
       options: {
-        uglify: false // don't minify js since bower already ships with a minified version
+        uglify: false // don't minify js since bower already ships with one
       }
     },
     main: {
@@ -21,10 +21,9 @@ module.exports = {
       styles: './content/**/*.css'
     }
   },
-  copy: [
-    {
-      src: './bower_components/bootstrap/dist/fonts/**/*.*',
-      base: './bower_components/bootstrap/dist'
-    }
-  ]
+  copy: {
+    src: './bower_components/bootstrap/dist/fonts/**/*.*',
+    base: './bower_components/bootstrap/'
+  }
+
 };
