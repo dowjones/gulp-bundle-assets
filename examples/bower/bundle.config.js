@@ -2,13 +2,16 @@ module.exports = {
   bundle: {
     vendor: {
       scripts: [
-        './bower_components/jquery/dist/jquery.js',
-        './bower_components/angular/angular.js'
+        './bower_components/jquery/dist/jquery.min.js',
+        './bower_components/angular/angular.min.js'
       ],
       styles: [
         './bower_components/bootstrap/dist/css/bootstrap.css',
         './bower_components/bootstrap/dist/css/bootstrap-theme.css'
-      ]
+      ],
+      options: {
+        uglify: false // don't minify js since bower already ships with a minified version
+      }
     },
     main: {
       scripts: [
@@ -18,5 +21,10 @@ module.exports = {
       styles: './content/**/*.css'
     }
   },
-  copy: './bower_components/bootstrap/dist/fonts/**/*.*'
+  copy: [
+    {
+      src: './bower_components/bootstrap/dist/fonts/**/*.*',
+      base: './bower_components/bootstrap/dist'
+    }
+  ]
 };

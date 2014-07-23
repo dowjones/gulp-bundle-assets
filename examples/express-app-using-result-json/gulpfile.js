@@ -2,7 +2,7 @@ var gulp = require('gulp'),
   rimraf = require('gulp-rimraf'),
   bundle = require('../../index');
 
-gulp.task('bundle', function() {
+gulp.task('bundle', ['clean'], function() {
   return gulp.src('./bundle.config.js')
     .pipe(bundle())
     .pipe(bundle.results('./'))

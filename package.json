@@ -41,6 +41,7 @@
     "gulp-uglify": "0.3.1",
     "gulp-using": "0.0.1",
     "gulp-util": "2.2.20",
+    "lodash": "^2.4.1",
     "map-stream": "0.1.0",
     "merge-stream": "^0.1.5",
     "mkdirp": "0.5.0",

@@ -24,7 +24,7 @@ gulp.task('shrinkwrap', 'Cleans package.json deps and generates npm-shrinkwrap.j
 gulp.task('lint', 'Lint all js', function () {
   return gulp.src(['./*.js', './lib/**/*.js', './test/integ/**/*.js', './test/unit/**/*.js'])
     .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('jshint-stylish', { verbose: true }))
     .pipe(jshint.reporter('fail'));
 });
 

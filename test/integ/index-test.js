@@ -85,8 +85,9 @@ describe('integration tests', function () {
               '}\n');
         } else if (file.relative === 'vendor.js') {
           lines = file.contents.toString().split(/\r?\n/);
-          assert.equal(lines[0], 'console.log("jquery"),console.log("angular");');
-          helpers.assertStringStartsWithSourceMapJs(lines[1]);
+          helpers.assertStringStartsWithSourceMapJs(lines[lines.length - 1]);
+          delete lines[lines.length - 1];
+          assert.equal(lines.join('\n'), 'console.log("jquery.min");\nconsole.log("angular.min");\n');
         } else if (file.relative === 'vendor.css') {
           lines = file.contents.toString().split(/\r?\n/);
           helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
