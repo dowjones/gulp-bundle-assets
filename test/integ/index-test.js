@@ -99,10 +99,10 @@ describe('integration tests', function () {
               '.bootstrap-theme {\n' +
               '  background-color: red;\n' +
               '}\n');
-        } else if (file.relative === 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot' ||
-          file.relative === 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg' ||
-          file.relative === 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf' ||
-          file.relative === 'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff') {
+        } else if (file.relative === 'dist/fonts/glyphicons-halflings-regular.eot' ||
+          file.relative === 'dist/fonts/glyphicons-halflings-regular.svg' ||
+          file.relative === 'dist/fonts/glyphicons-halflings-regular.ttf' ||
+          file.relative === 'dist/fonts/glyphicons-halflings-regular.woff') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
