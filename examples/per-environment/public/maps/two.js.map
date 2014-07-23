@@ -1,0 +1,1 @@
+{"version":3,"sources":["content/js/two.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"two.js","sourcesContent":["if (true) {\n  console.log(\"two\");\n} else {\n  console.log(\"this line should NOT be in uglified output\");\n}"],"sourceRoot":"/source/"}
