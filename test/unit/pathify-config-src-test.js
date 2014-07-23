@@ -153,6 +153,22 @@ describe('pathify-config-src', function () {
         {src: './content/b.js', minSrc: './content/b.min.js'}
       ], null, {useMin: true}).should.eql(['./content/a.js', './content/b.min.js']);
     });
+
+    it('should use minSrc from array of objs if defined and NODE_ENV=production and useMin=production', function () {
+      process.env.NODE_ENV = 'production';
+      pathifySrc([
+        {src: './content/a.js'},
+        {src: './content/b.js', minSrc: './content/b.min.js'}
+      ], null, {useMin: 'production'}).should.eql(['./content/a.js', './content/b.min.js']);
+    });
+
+    it('should use minSrc from array of objs if defined and NODE_ENV=production and useMin=["production"]', function () {
+      process.env.NODE_ENV = 'production';
+      pathifySrc([
+        {src: './content/a.js'},
+        {src: './content/b.js', minSrc: './content/b.min.js'}
+      ], null, {useMin: ['production']}).should.eql(['./content/a.js', './content/b.min.js']);
+    });
   });
 
   describe('should error', function () {
