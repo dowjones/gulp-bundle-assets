@@ -3,10 +3,12 @@ module.exports = {
   errorUnexpectedFileInStream: function (file) {
     throw new Error('Unexpected file in stream ' + file.relative);
   },
-  assertStringStartsWithSourceMapJs: function (str) {
-    (str.indexOf('//# sourceMappingURL=data:application/json;base64') === 0).should.be.ok;
+  getCssSrcMapLine: function(fileName) {
+    /*# sourceMappingURL=maps/main.css.map */
+    return '/*# sourceMappingURL=maps/' + fileName + '.map */';
   },
-  assertStringStartsWithSourceMapCss: function (str) {
-    (str.indexOf('/*# sourceMappingURL=data:application/json;base64') === 0).should.be.ok;
+  getJsSrcMapLine: function(fileName) {
+    //# sourceMappingURL=maps/main.js.map
+    return '//# sourceMappingURL=maps/' + fileName + '.map';
   }
 };

@@ -1,7 +1,6 @@
 'use strict';
 var path = require('path'),
   examplePath = path.join(__dirname, '/../../examples'),
-  assert = require('assert'),
   fs = require('fs'),
   bundler = require('../../index'),
   gulp = require('gulp'),
@@ -27,25 +26,25 @@ describe('integration tests', function () {
     it('should read bundle.config and create bundles', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
-        var lines;
+        var fileContents = file.contents.toString();
 
         if (file.relative === 'main.js') {
-          lines = file.contents.toString().split(/\r?\n/);
-          assert.equal(lines[0], 'function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();');
-          helpers.assertStringStartsWithSourceMapJs(lines[1]);
+          fileContents.should.eql(
+            'function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();\n' +
+              helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
-          delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'),
+          fileContents.should.eql(
               'body {\n' +
               '  background-color:red;\n' +
               '}\n' +
               '.test {\n' +
               '  background-color: blue;\n' +
-              '}\n');
+              '}\n' +
+              helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'content/images/logo.png' ||
-          file.relative === 'content/fonts/awesome.svg') {
+          file.relative === 'content/fonts/awesome.svg' ||
+          file.relative === 'maps/main.js.map' ||
+          file.relative === 'maps/main.css.map') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -53,8 +52,8 @@ describe('integration tests', function () {
         fileCount++;
 
       }, function () {
-        (fileCount).should.eql(4);
-        (staticFileCount).should.eql(2);
+        (fileCount).should.eql(6);
+        (staticFileCount).should.eql(4);
       });
 
     });
@@ -67,43 +66,42 @@ describe('integration tests', function () {
     it('should read bundle.config and create bundles', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
-        var lines;
+        var fileContents = file.contents.toString();
 
         if (file.relative === 'main.js') {
-          lines = file.contents.toString().split(/\r?\n/);
-          assert.equal(lines[0], 'console.log("one"),console.log("two");');
-          helpers.assertStringStartsWithSourceMapJs(lines[1]);
+          fileContents.should.eql(
+              'console.log("one"),console.log("two");\n' +
+              helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
-          delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'),
+          fileContents.should.eql(
               'body {\n' +
               '  background-color:red;\n' +
               '}\n' +
               'body {\n' +
               '  font-weight: bold;\n' +
-              '}\n');
+              '}\n' +
+              helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'vendor.js') {
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapJs(lines[lines.length - 1]);
-          delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'), 'console.log("jquery.min");\nconsole.log("angular.min");\n');
+          fileContents.should.eql(
+              'console.log("jquery.min");\nconsole.log("angular.min");\n' +
+              helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'vendor.css') {
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
-          delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'),
+          fileContents.should.eql(
               '.bootstrap {\n' +
               '  background-color: red;\n' +
               '}\n' +
               '.bootstrap-theme {\n' +
               '  background-color: red;\n' +
-              '}\n');
+              '}\n' +
+              helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'dist/fonts/glyphicons-halflings-regular.eot' ||
           file.relative === 'dist/fonts/glyphicons-halflings-regular.svg' ||
           file.relative === 'dist/fonts/glyphicons-halflings-regular.ttf' ||
-          file.relative === 'dist/fonts/glyphicons-halflings-regular.woff') {
+          file.relative === 'dist/fonts/glyphicons-halflings-regular.woff' ||
+          file.relative === 'maps/vendor.js.map' ||
+          file.relative === 'maps/main.js.map' ||
+          file.relative === 'maps/main.css.map' ||
+          file.relative === 'maps/vendor.css.map') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -111,8 +109,8 @@ describe('integration tests', function () {
         fileCount++;
 
       }, function () {
-        (fileCount).should.eql(8);
-        (staticFileCount).should.eql(4);
+        (fileCount).should.eql(12);
+        (staticFileCount).should.eql(8);
       });
 
     });
@@ -125,29 +123,29 @@ describe('integration tests', function () {
     it('should read bundle.config and create bundles', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
-        var lines;
+        var fileContents = file.contents.toString();
 
         if (file.relative === 'main.js') {
-          lines = file.contents.toString().split(/\r?\n/);
-          assert.equal(lines[0], '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");');
-          helpers.assertStringStartsWithSourceMapJs(lines[1]);
+          fileContents.should.eql(
+              '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
+              helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
-          delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'),
+          fileContents.should.eql(
               '.success-text {\n' +
               '  color: green;\n' +
-              '}\n');
-        } else if (file.relative === 'content/images/gulp.png') {
+              '}\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'content/images/gulp.png' ||
+          file.relative === 'maps/main.css.map' ||
+          file.relative === 'maps/main.js.map') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
         }
         fileCount++;
       }, function () {
-        (fileCount).should.eql(3);
-        (staticFileCount).should.eql(1);
+        (fileCount).should.eql(5);
+        (staticFileCount).should.eql(3);
       });
 
     });
@@ -166,21 +164,21 @@ describe('integration tests', function () {
           .pipe(gulp.dest(testDest))
           .pipe(through.obj(function (file, enc, cb) {
 
-            var lines;
+            var fileContents = file.contents.toString();
 
             if (file.relative === 'main.js') {
-              lines = file.contents.toString().split(/\r?\n/);
-              assert.equal(lines[0], '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");');
-              helpers.assertStringStartsWithSourceMapJs(lines[1]);
+              fileContents.should.eql(
+                '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
+                  helpers.getJsSrcMapLine(file.relative));
             } else if (file.relative === 'main.css') {
-              lines = file.contents.toString().split(/\r?\n/);
-              helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
-              delete lines[lines.length - 1];
-              assert.equal(lines.join('\n'),
+              fileContents.should.eql(
                   '.success-text {\n' +
                   '  color: green;\n' +
-                  '}\n');
-            } else if (file.relative === 'content/images/gulp.png') {
+                  '}\n' +
+                  helpers.getCssSrcMapLine(file.relative));
+            } else if (file.relative === 'content/images/gulp.png' ||
+              file.relative === 'maps/main.css.map' ||
+              file.relative === 'maps/main.js.map') {
               staticFileCount++;
             } else {
               helpers.errorUnexpectedFileInStream(file);
@@ -197,16 +195,15 @@ describe('integration tests', function () {
                 throw err;
               }
 
-              var resultsJson = JSON.parse(data);
-              assert.deepEqual(resultsJson, {
+              JSON.parse(data).should.eql({
                 "main": {
                   "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>",
                   "scripts": "<script src='main.js' type='text/javascript'></script>"
                 }
               });
 
-              (fileCount).should.eql(3);
-              (staticFileCount).should.eql(1);
+              (fileCount).should.eql(5);
+              (staticFileCount).should.eql(3);
 
               done();
             });
@@ -243,8 +240,7 @@ describe('integration tests', function () {
               throw err;
             }
 
-            var resultsJson = JSON.parse(data);
-            assert.deepEqual(resultsJson, {
+            JSON.parse(data).should.eql({
               "customJs": {
                 "scripts": "<script src='customJs.js' type='text/javascript'></script>"
               },
@@ -280,40 +276,39 @@ describe('integration tests', function () {
     it('should read bundle.config and create bundles with some uglified js, some not', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
-        var lines;
+        var fileContents = file.contents.toString();
 
-        if (file.relative === 'main.css') {
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
+        if (file.relative === 'main.css') { // unminified
+          fileContents.should.eql(
+              'body {\n' +
+              '  background-color:red;\n' +
+              '}\n' +
+              'body {\n' +
+              '  font-weight: bold;\n' +
+              '}\n' +
+              helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'one.js') { // unminified
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapJs(lines[lines.length - 1]);
-          delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'),
+          fileContents.should.eql(
               'if (true) {\n' +
               '  console.log("one");\n' +
               '} else {\n' +
               '  console.log("this line should NOT be in uglified output");\n' +
-              '}\n');
+              '}\n' +
+              helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'threve.js') { // minified
-          lines = file.contents.toString().split(/\r?\n/);
-          assert.equal(lines[0], 'console.log("threve");');
-          helpers.assertStringStartsWithSourceMapJs(lines[1]);
+          fileContents.should.eql(
+              'console.log("threve");\n' +
+              helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'two.js') { // unminified
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapJs(lines[lines.length - 1]);
-          delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'),
+          fileContents.should.eql(
               'if (true) {\n' +
               '  console.log("two");\n' +
               '} else {\n' +
               '  console.log("this line should NOT be in uglified output");\n' +
-              '}\n');
+              '}\n' +
+              helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'vendor.js') { // unminified
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapJs(lines[lines.length - 1]);
-          delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'),
+          fileContents.should.eql(
               'if (true) {\n' +
               '  console.log("jquery");\n' +
               '} else {\n' +
@@ -323,22 +318,30 @@ describe('integration tests', function () {
               '  console.log("angular");\n' +
               '} else {\n' +
               '  console.log("this line should NOT be in uglified output");\n' +
-              '}\n');
+              '}\n' +
+              helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'vendor.css') { // unminified
-          lines = file.contents.toString().split(/\r?\n/);
-          helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
-          delete lines[lines.length - 1];
-          assert.equal(lines.join('\n'),
+          fileContents.should.eql(
               '.bootstrap {\n' +
               '  background-color: red;\n' +
-              '}\n');
+              '}\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/vendor.css.map' ||
+          file.relative === 'maps/vendor.js.map' ||
+          file.relative === 'maps/main.css.map' ||
+          file.relative === 'maps/main.js.map' ||
+          file.relative === 'maps/one.js.map' ||
+          file.relative === 'maps/two.js.map' ||
+          file.relative === 'maps/threve.js.map') {
+          staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
         }
         fileCount++;
 
       }, function () {
-        (fileCount).should.eql(6);
+        (fileCount).should.eql(12);
+        (staticFileCount).should.eql(6);
       });
 
     });

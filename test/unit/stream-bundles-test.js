@@ -16,7 +16,7 @@ describe('stream-bundles', function () {
     fileCount = 0;
   });
 
-  function verifyStreamBundlesOneFile(config, done, fn) {
+  function verifyFileStream(config, done, fn, expectedFileCount) {
     var streams = streamBundles(config);
 
     (streams.length).should.eql(1);
@@ -31,7 +31,7 @@ describe('stream-bundles', function () {
       .on('data', function () {
       }) // noop
       .on('end', function () {
-        (fileCount).should.eql(1);
+        (fileCount).should.eql(typeof expectedFileCount === 'undefined' ? 1 : expectedFileCount);
         done();
       });
 
@@ -46,7 +46,7 @@ describe('stream-bundles', function () {
         base: path.join(__dirname, '../fixtures')
       };
 
-      verifyStreamBundlesOneFile(config, done, function (file) {
+      verifyFileStream(config, done, function (file) {
         file.relative.should.eql('content/a.js');
       });
 
@@ -62,7 +62,7 @@ describe('stream-bundles', function () {
           base: path.join(__dirname, '../fixtures')
         };
 
-        verifyStreamBundlesOneFile(config, done, function (file) {
+        verifyFileStream(config, done, function (file) {
           file.relative.should.eql('content/a.js');
         });
 
@@ -78,7 +78,7 @@ describe('stream-bundles', function () {
           base: path.join(__dirname, '../fixtures')
         };
 
-        verifyStreamBundlesOneFile(config, done, function (file) {
+        verifyFileStream(config, done, function (file) {
           file.relative.should.eql('a.js');
         });
 
@@ -95,7 +95,7 @@ describe('stream-bundles', function () {
           base: path.join(__dirname, '../fixtures')
         };
 
-        verifyStreamBundlesOneFile(config, done, function (file) {
+        verifyFileStream(config, done, function (file) {
           file.relative.should.eql('content/a.js');
         });
 
@@ -112,7 +112,7 @@ describe('stream-bundles', function () {
           base: path.join(__dirname, '../fixtures')
         };
 
-        verifyStreamBundlesOneFile(config, done, function (file) {
+        verifyFileStream(config, done, function (file) {
           file.relative.should.eql('content/a.js');
         });
 
@@ -130,7 +130,7 @@ describe('stream-bundles', function () {
           base: path.join(__dirname, '../fixtures')
         };
 
-        verifyStreamBundlesOneFile(config, done, function (file) {
+        verifyFileStream(config, done, function (file) {
           file.relative.should.eql('a.js');
         });
 
@@ -149,7 +149,7 @@ describe('stream-bundles', function () {
           base: path.join(__dirname, '../fixtures')
         };
 
-        verifyStreamBundlesOneFile(config, done, function (file) {
+        verifyFileStream(config, done, function (file) {
           file.relative.should.eql('content/a.js');
         });
 
@@ -169,7 +169,7 @@ describe('stream-bundles', function () {
           base: path.join(__dirname, '../fixtures')
         };
 
-        verifyStreamBundlesOneFile(config, done, function (file) {
+        verifyFileStream(config, done, function (file) {
           file.relative.should.eql('a.js');
         });
 
@@ -239,9 +239,8 @@ describe('stream-bundles', function () {
 
   });
 
+  /* jshint -W035 */
   describe('styles', function () {
-
-    var lines;
 
     it('should support basic less compilation', function (done) {
 
@@ -254,15 +253,20 @@ describe('stream-bundles', function () {
         base: path.join(__dirname, '../fixtures')
       };
 
-      verifyStreamBundlesOneFile(config, done, function (file) {
-        file.relative.should.eql('main.css');
-        lines = file.contents.toString().split(/\r?\n/);
-        helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
-        delete lines[lines.length - 1];
-        (lines.join('\n')).should.eql('#header {\n' +
-          '  color: #5b83ad;\n' +
-          '}\n\n');
-      });
+      verifyFileStream(config, done, function (file) {
+        var fileContents = file.contents.toString();
+        if (file.relative === 'main.css') {
+          fileContents.should.eql(
+              '#header {\n' +
+              '  color: #5b83ad;\n' +
+              '}\n\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/main.css.map') {
+          // ok
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+      }, 2);
 
     });
 
@@ -280,15 +284,19 @@ describe('stream-bundles', function () {
         base: path.join(__dirname, '../fixtures')
       };
 
-      verifyStreamBundlesOneFile(config, done, function (file) {
-        file.relative.should.eql('main.css');
-        lines = file.contents.toString().split(/\r?\n/);
-        helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
-        delete lines[lines.length - 1];
-        (lines.join('\n')).should.eql(
-            'body {\n  background-color: red;\n}\n' +
-            '#header {\n  color: #5b83ad;\n}\n\n');
-      });
+      verifyFileStream(config, done, function (file) {
+        var fileContents = file.contents.toString();
+        if (file.relative === 'main.css') {
+          fileContents.should.eql(
+              'body {\n  background-color: red;\n}\n' +
+              '#header {\n  color: #5b83ad;\n}\n\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/main.css.map') {
+          // ok
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+      }, 2);
 
     });
 
@@ -303,17 +311,23 @@ describe('stream-bundles', function () {
         base: path.join(__dirname, '../fixtures')
       };
 
-      verifyStreamBundlesOneFile(config, done, function (file) {
-        file.relative.should.eql('main.css');
-        lines = file.contents.toString().split(/\r?\n/);
-        helpers.assertStringStartsWithSourceMapCss(lines[lines.length - 1]);
-        delete lines[lines.length - 1];
-        (lines.join('\n')).should.eql('.link {\n  color: #428bca;\n}\n\n');
-      });
+      verifyFileStream(config, done, function (file) {
+        var fileContents = file.contents.toString();
+        if (file.relative === 'main.css') {
+          fileContents.should.eql(
+              '.link {\n  color: #428bca;\n}\n\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/main.css.map') {
+          // ok
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+      }, 2);
 
     });
 
   });
+  /* jshint +W035 */
 
 });
 
