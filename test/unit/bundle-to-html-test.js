@@ -2,22 +2,22 @@
 var libPath = './../../lib',
   bundleToHtml = require(libPath + '/bundle-to-html.js'),
   BundleType = require(libPath + '/model/bundle-type'),
-  assert = require('assert');
+  should = require('should');
 
 describe('bundle-to-html', function() {
   it('should get script bundle html string', function () {
-    assert.equal(bundleToHtml[BundleType.SCRIPTS]('/main-bundle.js'),
+    bundleToHtml[BundleType.SCRIPTS]('/main-bundle.js').should.eql(
       "<script src='/main-bundle.js' type='text/javascript'></script>");
   });
 
   it('should get style bundle html string', function () {
-    assert.equal(bundleToHtml[BundleType.STYLES]('/main-bundle.css'),
+    bundleToHtml[BundleType.STYLES]('/main-bundle.css').should.eql(
       "<link href='/main-bundle.css' media='screen' rel='stylesheet' type='text/css'/>");
   });
 
   it('should throw error when format type not defined', function () {
-    assert.throws(function () {
+    (function () {
       bundleToHtml.resource('/fake-name.js');
-    });
+    }).should.throw();
   });
 });

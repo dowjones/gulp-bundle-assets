@@ -3,7 +3,7 @@ var libPath = './../../lib',
   addBundleResults = require(libPath + '/add-bundle-results'),
   Bundle = require(libPath + '/model/bundle'),
   BundleType = require(libPath + '/model/bundle-type'),
-  assert = require('assert'),
+  should = require('should'),
   File = require('vinyl');
 
 describe('bundle-results', function () {
@@ -21,7 +21,7 @@ describe('bundle-results', function () {
         scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
       }
     };
-    assert.deepEqual(addBundleResults({}, file), expected);
+    addBundleResults({}, file).should.eql(expected);
   });
 
   it('should return result obj new bundle type appended', function () {
@@ -44,7 +44,7 @@ describe('bundle-results', function () {
         styles: "<link href='main-bundle.css' media='screen' rel='stylesheet' type='text/css'/>"
       }
     };
-    assert.deepEqual(addBundleResults(currentBundleResults, file), expected);
+    addBundleResults(currentBundleResults, file).should.eql(expected);
   });
 
   it('should return result obj new bundle appended', function () {
@@ -71,6 +71,6 @@ describe('bundle-results', function () {
         scripts: "<script src='vendor-bundle.js' type='text/javascript'></script>"
       }
     };
-    assert.deepEqual(addBundleResults(currentBundleResults, file), expected);
+    addBundleResults(currentBundleResults, file).should.eql(expected);
   });
 });
