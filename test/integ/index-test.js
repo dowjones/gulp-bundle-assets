@@ -230,7 +230,10 @@ describe('integration tests', function () {
         .pipe(bundler({
           base: appPath
         }))
-        .pipe(bundler.results(testDest))
+        .pipe(bundler.results({
+          dest: testDest,
+          pathPrefix: '/public/'
+        }))
         .pipe(gulp.dest(testDest))
         .on('data', function () {
         }) // noop
@@ -242,18 +245,18 @@ describe('integration tests', function () {
 
             JSON.parse(data).should.eql({
               "customJs": {
-                "scripts": "<script src='customJs.js' type='text/javascript'></script>"
+                "scripts": "<script src='/public/customJs.js' type='text/javascript'></script>"
               },
               "lessBundle": {
-                "styles": "<link href='lessBundle.css' media='screen' rel='stylesheet' type='text/css'/>"
+                "styles": "<link href='/public/lessBundle.css' media='screen' rel='stylesheet' type='text/css'/>"
               },
               "main": {
-                "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>",
-                "scripts": "<script src='main.js' type='text/javascript'></script>"
+                "styles": "<link href='/public/main.css' media='screen' rel='stylesheet' type='text/css'/>",
+                "scripts": "<script src='/public/main.js' type='text/javascript'></script>"
               },
               "vendor": {
-                "scripts": "<script src='vendor.js' type='text/javascript'></script>",
-                "styles": "<link href='vendor.css' media='screen' rel='stylesheet' type='text/css'/>"
+                "scripts": "<script src='/public/vendor.js' type='text/javascript'></script>",
+                "styles": "<link href='/public/vendor.css' media='screen' rel='stylesheet' type='text/css'/>"
               }
             });
 
