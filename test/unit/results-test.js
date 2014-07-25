@@ -1,19 +1,38 @@
 'use strict';
 var libPath = './../../lib',
   path = require('path'),
-  results = require(libPath + '/results'),
   rimraf = require('rimraf'),
   fs = require('fs'),
   should = require('should'),
   Bundle = require(libPath + '/model/bundle'),
   BundleKeys = require(libPath + '/model/bundle-keys'),
-  File = require('vinyl');
+  File = require('vinyl'),
+  proxyquire = require('proxyquire');
 
 describe('results', function () {
 
   var resultPath = path.join(__dirname, '.public');
 
   it('should verify results are written to disk', function (done) {
+
+    var mkdirpStub = function (dest, cb) {
+      (dest).should.eql(resultPath);
+      cb();
+    };
+    var fsStub = {
+      writeFile: function (writePath, data, cb) {
+        (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
+        (JSON.parse(data)).should.eql({
+          "main": {
+            "scripts": "<script src='main.js' type='text/javascript'></script>",
+            "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>"
+          }
+        });
+        cb();
+      }
+    };
+    // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
+    var results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'fs': fsStub });
 
     var fakeFile = new File({
       base: '/app/public',
@@ -37,7 +56,6 @@ describe('results', function () {
 
     var stream = results(resultPath);
 
-    // wait for the file to come back out
     stream.on('data', function (file) {
       // make sure it came out the same way it went in
       file.isBuffer().should.be.ok;
@@ -45,21 +63,7 @@ describe('results', function () {
     });
 
     stream.on('end', function () {
-
-      var resultJsonPath = path.join(resultPath, 'bundle.result.json');
-
-      fs.readFile(resultJsonPath, 'utf8', function (err, data) {
-        if (err) throw done(err);
-
-        (JSON.parse(data)).should.eql({
-          "main": {
-            "scripts": "<script src='main.js' type='text/javascript'></script>",
-            "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>"
-          }
-        });
-        done();
-      });
-
+      done();
     });
 
     stream.write(fakeFile);
