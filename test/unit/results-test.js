@@ -11,14 +11,48 @@ var libPath = './../../lib',
 
 describe('results', function () {
 
-  var resultPath = path.join(__dirname, '.public');
+  var resultPath,
+    mkdirpStub,
+    gutilStub,
+    fakeFile,
+    fakeFile2,
+    results;
 
-  it('should verify results are written to disk', function (done) {
-
-    var mkdirpStub = function (dest, cb) {
+  beforeEach(function() {
+    resultPath = path.join(__dirname, '.public');
+    mkdirpStub = function (dest, cb) {
       (dest).should.eql(resultPath);
       cb();
     };
+    gutilStub = {
+      log: function () {
+        //noop for less noisy output
+      }
+    };
+
+    fakeFile = new File({
+      base: '/app/public',
+      path: '/app/public/main.js',
+      contents: new Buffer('main_bundle_content')
+    });
+    fakeFile.bundle = new Bundle({
+      name: 'main',
+      type: BundleKeys.SCRIPTS
+    });
+
+    fakeFile2 = new File({
+      base: '/app/public',
+      path: '/app/public/main.css',
+      contents: new Buffer('vendor_bundle_content')
+    });
+    fakeFile2.bundle = new Bundle({
+      name: 'main',
+      type: BundleKeys.STYLES
+    });
+  });
+
+  it('should write results when given string filePath', function (done) {
+
     var fsStub = {
       writeFile: function (writePath, data, cb) {
         (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
@@ -31,30 +65,48 @@ describe('results', function () {
         cb();
       }
     };
+
     // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
-    var results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'fs': fsStub });
-
-    var fakeFile = new File({
-      base: '/app/public',
-      path: '/app/public/main.js',
-      contents: new Buffer('main_bundle_content')
-    });
-    fakeFile.bundle = new Bundle({
-      name: 'main',
-      type: BundleKeys.SCRIPTS
-    });
-
-    var fakeFile2 = new File({
-      base: '/app/public',
-      path: '/app/public/main.css',
-      contents: new Buffer('vendor_bundle_content')
-    });
-    fakeFile2.bundle = new Bundle({
-      name: 'main',
-      type: BundleKeys.STYLES
-    });
+    results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'fs': fsStub, 'gulp-util': gutilStub });
 
     var stream = results(resultPath);
+
+    stream.on('data', function (file) {
+      // make sure it came out the same way it went in
+      file.isBuffer().should.be.ok;
+      file.bundle.should.be.ok;
+    });
+
+    stream.on('end', function () {
+      done();
+    });
+
+    stream.write(fakeFile);
+    stream.write(fakeFile2);
+    stream.end();
+  });
+
+  it('should write results when given options obj', function (done) {
+
+    var fsStub = {
+      writeFile: function (writePath, data, cb) {
+        (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
+        (JSON.parse(data)).should.eql({
+          "main": {
+            "scripts": "<script src='/public/main.js' type='text/javascript'></script>",
+            "styles": "<link href='/public/main.css' media='screen' rel='stylesheet' type='text/css'/>"
+          }
+        });
+        cb();
+      }
+    };
+
+    results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'fs': fsStub, 'gulp-util': gutilStub });
+
+    var stream = results({
+      dest: resultPath,
+      pathPrefix: '/public/'
+    });
 
     stream.on('data', function (file) {
       // make sure it came out the same way it went in
