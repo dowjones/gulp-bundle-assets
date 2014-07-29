@@ -7,7 +7,10 @@ module.exports = {
       ],
       styles: [
         './content/**/*.css'
-      ]
+      ],
+      options: {
+        rev: false
+      }
     }
   },
   copy: './content/**/*.{png,svg}'
