@@ -247,7 +247,10 @@ describe('stream-bundles', function () {
       var config = {
         bundle: {
           main: {
-            styles: 'content/a.less'
+            styles: 'content/a.less',
+            options: {
+              rev: false
+            }
           }
         },
         base: path.join(__dirname, '../fixtures')
@@ -278,7 +281,10 @@ describe('stream-bundles', function () {
             styles: [
               'content/a.css',
               'content/a.less'
-            ]
+            ],
+            options: {
+              rev: false
+            }
           }
         },
         base: path.join(__dirname, '../fixtures')
@@ -305,7 +311,10 @@ describe('stream-bundles', function () {
       var config = {
         bundle: {
           main: {
-            styles: 'content/b.less'
+            styles: 'content/b.less',
+            options: {
+              rev: false
+            }
           }
         },
         base: path.join(__dirname, '../fixtures')

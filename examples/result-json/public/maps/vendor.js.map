@@ -1,1 +1,0 @@
-{"version":3,"file":"vendor.js","sources":["bower_components/jquery/dist/jquery.js","bower_components/angular/angular.js"],"names":[],"mappings":"AAAA,QAAA,IAAA,UCAA,QAAA,IAAA","sourcesContent":["console.log('jquery');","console.log('angular');"],"sourceRoot":"/source/"}

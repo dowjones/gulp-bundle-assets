@@ -12,7 +12,8 @@ var path = require('path'),
 describe('integration tests', function () {
 
   var fileCount,
-    staticFileCount;
+    staticFileCount,
+    testDest = path.join(__dirname, '../fixtures/.public');
 
   beforeEach(function () {
     fileCount = 0;
@@ -125,19 +126,19 @@ describe('integration tests', function () {
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var fileContents = file.contents.toString();
 
-        if (file.relative === 'main.js') {
+        if (file.relative === 'main-5f17cd21.js') {
           fileContents.should.eql(
               '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'main.css') {
+        } else if (file.relative === 'main-8e6d79da.css') {
           fileContents.should.eql(
               '.success-text {\n' +
               '  color: green;\n' +
               '}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'content/images/gulp.png' ||
-          file.relative === 'maps/main.css.map' ||
-          file.relative === 'maps/main.js.map') {
+          file.relative === 'maps/main-8e6d79da.css.map' ||
+          file.relative === 'maps/main-5f17cd21.js.map') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -152,8 +153,6 @@ describe('integration tests', function () {
 
     describe('result.json', function () {
 
-      var testDest = path.join(__dirname, '.public');
-
       it('should read bundle.config, create bundles and create bundle.result.json', function (done) {
 
         gulp.src(bundleConfigPath)
@@ -166,19 +165,19 @@ describe('integration tests', function () {
 
             var fileContents = file.contents.toString();
 
-            if (file.relative === 'main.js') {
+            if (file.relative === 'main-5f17cd21.js') {
               fileContents.should.eql(
                 '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
                   helpers.getJsSrcMapLine(file.relative));
-            } else if (file.relative === 'main.css') {
+            } else if (file.relative === 'main-8e6d79da.css') {
               fileContents.should.eql(
                   '.success-text {\n' +
                   '  color: green;\n' +
                   '}\n' +
                   helpers.getCssSrcMapLine(file.relative));
             } else if (file.relative === 'content/images/gulp.png' ||
-              file.relative === 'maps/main.css.map' ||
-              file.relative === 'maps/main.js.map') {
+              file.relative === 'maps/main-8e6d79da.css.map' ||
+              file.relative === 'maps/main-5f17cd21.js.map') {
               staticFileCount++;
             } else {
               helpers.errorUnexpectedFileInStream(file);
@@ -197,8 +196,8 @@ describe('integration tests', function () {
 
               JSON.parse(data).should.eql({
                 "main": {
-                  "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>",
-                  "scripts": "<script src='main.js' type='text/javascript'></script>"
+                  "styles": "<link href='main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
+                  "scripts": "<script src='main-5f17cd21.js' type='text/javascript'></script>"
                 }
               });
 
@@ -221,8 +220,7 @@ describe('integration tests', function () {
 
   describe('result-json', function () {
     var appPath = path.join(examplePath, 'result-json'),
-      bundleConfigPath = path.join(appPath, 'bundle.config.js'),
-      testDest = path.join(__dirname, '.public');
+      bundleConfigPath = path.join(appPath, 'bundle.config.js');
 
     it('should read bundle.config and create result json', function (done) {
 
@@ -245,18 +243,18 @@ describe('integration tests', function () {
 
             JSON.parse(data).should.eql({
               "customJs": {
-                "scripts": "<script src='/public/customJs.js' type='text/javascript'></script>"
+                "scripts": "<script src='/public/customJs-33c43745.js' type='text/javascript'></script>"
               },
               "lessBundle": {
-                "styles": "<link href='/public/lessBundle.css' media='screen' rel='stylesheet' type='text/css'/>"
+                "styles": "<link href='/public/lessBundle-082e7061.css' media='screen' rel='stylesheet' type='text/css'/>"
               },
               "main": {
-                "styles": "<link href='/public/main.css' media='screen' rel='stylesheet' type='text/css'/>",
-                "scripts": "<script src='/public/main.js' type='text/javascript'></script>"
+                "styles": "<link href='/public/main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
+                "scripts": "<script src='/public/main-5f17cd21.js' type='text/javascript'></script>"
               },
               "vendor": {
-                "scripts": "<script src='/public/vendor.js' type='text/javascript'></script>",
-                "styles": "<link href='/public/vendor.css' media='screen' rel='stylesheet' type='text/css'/>"
+                "scripts": "<script src='/public/vendor-d66b96f5.js' type='text/javascript'></script>",
+                "styles": "<link href='/public/vendor-23d5c9c6.css' media='screen' rel='stylesheet' type='text/css'/>"
               }
             });
 
@@ -281,7 +279,7 @@ describe('integration tests', function () {
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var fileContents = file.contents.toString();
 
-        if (file.relative === 'main.css') { // unminified
+        if (file.relative === 'main-c9f76dae.css') { // unminified
           fileContents.should.eql(
               'body {\n' +
               '  background-color:red;\n' +
@@ -298,7 +296,7 @@ describe('integration tests', function () {
               '  console.log("this line should NOT be in uglified output");\n' +
               '}\n' +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'threve.js') { // minified
+        } else if (file.relative === 'threeve-40307fcc.js') { // minified
           fileContents.should.eql(
               'console.log("threve");\n' +
               helpers.getJsSrcMapLine(file.relative));
@@ -331,17 +329,16 @@ describe('integration tests', function () {
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'maps/vendor.css.map' ||
           file.relative === 'maps/vendor.js.map' ||
-          file.relative === 'maps/main.css.map' ||
+          file.relative === 'maps/main-c9f76dae.css.map' ||
           file.relative === 'maps/main.js.map' ||
           file.relative === 'maps/one.js.map' ||
           file.relative === 'maps/two.js.map' ||
-          file.relative === 'maps/threve.js.map') {
+          file.relative === 'maps/threeve-40307fcc.js.map') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
         }
         fileCount++;
-
       }, function () {
         (fileCount).should.eql(12);
         (staticFileCount).should.eql(6);

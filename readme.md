@@ -2,6 +2,15 @@
 
 > Create asset (js, css) bundles from a config file leveraging the power of streams
 
+Uses the following gulp modules under the covers when creating bundles:
+
+1. [gulp-concat](https://github.com/wearefractal/gulp-concat)
+2. [gulp-sourcemaps](https://github.com/floridoo/gulp-sourcemaps)
+3. [gulp-uglify](https://github.com/terinjokes/gulp-uglify)
+4. [gulp-less](https://github.com/plus3network/gulp-less)
+5. [gulp-rev](https://github.com/sindresorhus/gulp-rev)
+6. [gulp-using](https://github.com/jeromedecoster/gulp-using)
+
 ## Install
 
 ```bash
@@ -56,9 +65,9 @@ Will result in the following folder structure:
    |-- content
    |   |-- fonts
    |   |-- images
-   `main.css
-   `main.js
-   `vendor.js
+   `main-8e6d79da.css
+   `main-5f17cd21.js
+   `vendor-d66b96f5.js
 ```
 
 see [the examples folder](examples) for more detail
