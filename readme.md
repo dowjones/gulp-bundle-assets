@@ -17,7 +17,7 @@ Uses the following gulp modules under the covers when creating bundles:
 npm install gulp-bundle-assets --save-dev
 ```
 
-## Usage
+## Basic Usage
 
 Create the following files:
 
@@ -218,10 +218,6 @@ Which results in a `bundle.result.json` file similar to:
 ```
 
 [See here for a full example using hogan](examples/express-app-using-result-json/readme.md)
-
-## TODO
-
-[Prioritized list of new features](https://gist.github.com/chmontgomery/9ec07f3ba0344660a43b#todo)
 
 ## License
 
