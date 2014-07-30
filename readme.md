@@ -74,9 +74,10 @@ Will result in the following folder structure:
 
 See [the examples folder](examples) for many other config options.
 
-Given a `bundle.config.js`
+Given the files
 
 ```js
+// bundle.config.js
 var prodLikeEnvs = ['production', 'staging']; // when NODE_ENV=staging or NODE_ENV=production
 module.exports = {
   bundle: {
@@ -131,13 +132,28 @@ module.exports = {
 };
 ```
 
+```js
+// gulpfile.js
+var gulp = require('gulp'),
+  bundle = require('gulp-bundle-assets');
+
+gulp.task('bundle', function() {
+  return gulp.src('./bundle.config.js')
+    .pipe(bundle.results({
+          dest: './',
+          pathPrefix: '/public/'
+        }))
+    .pipe(gulp.dest('./public'));
+});
+```
+
 Running
 
 ```bash
 $ NODE_ENV=production gulp bundle
 ```
 
-Will result in
+Will bundle files to `/public` and generate a `bundle.result.json` file with the following contents
 
 ```json
 {
