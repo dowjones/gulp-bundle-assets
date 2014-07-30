@@ -5,7 +5,7 @@ var through = require('through2'),
   mergeStream = require('merge-stream'),
   streamBundles = require('./lib/stream-bundles'),
   results = require('./lib/results'),
-  Config = require('./lib/model/config');
+  ConfigModel = require('./lib/model/config');
 
 var gulpBundleAssets = function (options) {
   options = options || {};
@@ -18,7 +18,7 @@ var gulpBundleAssets = function (options) {
 
   writable._write = function _write(file, encoding, done) {
 
-    var configInst;
+    var config;
 
     if (file.isNull()) {
       this.push(file);
@@ -31,14 +31,14 @@ var gulpBundleAssets = function (options) {
     }
 
     try {
-      configInst = new Config(file.path, options);
+      config = new ConfigModel(file.path, options);
     } catch (e) {
       gutil.log(gutil.colors.red('Failed to parse config file'));
       this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
       return done();
     }
 
-    mergeStream.apply(mergeStream, streamBundles(configInst))
+    mergeStream.apply(mergeStream, streamBundles(config))
       .pipe(readable);
     return done();
   };
