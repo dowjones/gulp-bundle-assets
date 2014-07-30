@@ -4,7 +4,8 @@ var through = require('through2'),
   duplexer = require('duplexer2'),
   mergeStream = require('merge-stream'),
   streamBundles = require('./lib/stream-bundles'),
-  results = require('./lib/results');
+  results = require('./lib/results'),
+  Config = require('./lib/model/config');
 
 var gulpBundleAssets = function (options) {
   options = options || {};
@@ -17,7 +18,7 @@ var gulpBundleAssets = function (options) {
 
   writable._write = function _write(file, encoding, done) {
 
-    var config;
+    var configInst;
 
     if (file.isNull()) {
       this.push(file);
@@ -30,22 +31,14 @@ var gulpBundleAssets = function (options) {
     }
 
     try {
-      config = require(file.path); // todo eval contents instead since we already have it in buffer
+      configInst = new Config(file.path, options);
     } catch (e) {
       gutil.log(gutil.colors.red('Failed to parse config file'));
       this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
       return done();
     }
 
-    if (!config || !(config.bundle || config.copy)) {
-      this.emit('error', new gutil.PluginError('gulp-bundle-assets',
-        'Configuration file should be in the form "{ bundle: {}, copy: {} }"'));
-      return done();
-    }
-
-    config.base = options.base || '.';
-
-    mergeStream.apply(mergeStream, streamBundles(config))
+    mergeStream.apply(mergeStream, streamBundles(configInst))
       .pipe(readable);
     return done();
   };

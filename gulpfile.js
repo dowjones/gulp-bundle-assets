@@ -22,7 +22,12 @@ gulp.task('shrinkwrap', 'Cleans package.json deps and generates npm-shrinkwrap.j
 });
 
 gulp.task('lint', 'Lint all js', function () {
-  return gulp.src(['./*.js', './lib/**/*.js', './test/integ/**/*.js', './test/unit/**/*.js'])
+  return gulp.src([
+    './*.js',
+    './lib/**/*.js',
+    './test/integ/**/*.js',
+    './test/unit/**/*.js'
+  ])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish', { verbose: true }))
     .pipe(jshint.reporter('fail'));
@@ -45,7 +50,11 @@ gulp.task('test-debug', 'Run unit tests in debug mode', function () {
 });
 
 gulp.task('watch', 'Watch files and test on change', function () {
-  gulp.watch(['./lib/**/*.js', './test/**/*.js'], ['test']);
+  gulp.watch([
+    './index.js',
+    './lib/**/*.js',
+    './test/**/*.js'
+  ], ['test']);
 });
 
 gulp.task('ci', 'Runs all ci validation checks', ['lint', 'test', 'nice-package']);
