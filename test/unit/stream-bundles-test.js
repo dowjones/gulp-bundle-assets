@@ -360,5 +360,47 @@ describe('stream-bundles', function () {
   });
   /* jshint +W035 */
 
+  describe('NODE_ENV', function () {
+
+    it('should use min src when NODE_ENV=production', function (done) {
+
+      process.env.NODE_ENV = 'production';
+
+      var config = {
+        bundle: {
+          main: {
+            scripts: { src: 'content/a.js', minSrc: 'content/a.min.js' },
+            options: {
+              useMin: 'production',
+              rev: false
+            }
+          }
+        },
+        options: {
+          base: path.join(__dirname, '../fixtures')
+        }
+      };
+
+      verifyFileStream(config, done, function (file) {
+        var fileContents = file.contents.toString();
+        if (file.relative === 'main.js') {
+          fileContents.should.eql(
+              'console.log(\"a.min\");\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/main.js.map') {
+          // ok
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+      }, 2);
+
+    });
+
+    afterEach(function() {
+      process.env.NODE_ENV = null;
+    });
+
+  });
+
 });
 
