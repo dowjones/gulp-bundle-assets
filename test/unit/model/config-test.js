@@ -13,7 +13,7 @@ describe('config', function () {
     });
     config.bundle.should.eql({});
     config.copy.should.eql({});
-    config.base.should.eql('.');
+    config.options.base.should.eql('.');
   });
 
   it('should create object with defaults given vinyl', function () {
@@ -26,7 +26,7 @@ describe('config', function () {
     var config = new ConfigModel(aFile);
     config.bundle.should.eql({});
     config.copy.should.eql({});
-    config.base.should.eql('.');
+    config.options.base.should.eql('.');
   });
 
   it('should create object given vinyl', function () {
@@ -48,7 +48,7 @@ describe('config', function () {
       }
     });
     config.copy.should.eql({ src: "./font/*.*" });
-    config.base.should.eql('.');
+    config.options.base.should.eql('.');
   });
 
   it('should create object given vinyl and options', function () {
@@ -64,7 +64,7 @@ describe('config', function () {
     var config = new ConfigModel(aFile, opts);
     config.bundle.should.eql({});
     config.copy.should.eql({});
-    config.base.should.eql('/test/');
+    config.options.base.should.eql('/test/');
   });
 
   describe('should get all environments', function() {

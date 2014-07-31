@@ -43,7 +43,9 @@ describe('stream-bundles', function () {
 
       var config = {
         copy: './content/a.js',
-        base: path.join(__dirname, '../fixtures')
+        options: {
+          base: path.join(__dirname, '../fixtures')
+        }
       };
 
       verifyFileStream(config, done, function (file) {
@@ -59,7 +61,9 @@ describe('stream-bundles', function () {
           copy: {
             src: './content/a.js'
           },
-          base: path.join(__dirname, '../fixtures')
+          options: {
+            base: path.join(__dirname, '../fixtures')
+          }
         };
 
         verifyFileStream(config, done, function (file) {
@@ -75,7 +79,9 @@ describe('stream-bundles', function () {
             src: './content/a.js',
             base: './content'
           },
-          base: path.join(__dirname, '../fixtures')
+          options: {
+            base: path.join(__dirname, '../fixtures')
+          }
         };
 
         verifyFileStream(config, done, function (file) {
@@ -92,7 +98,9 @@ describe('stream-bundles', function () {
           copy: [
             './content/a.js'
           ],
-          base: path.join(__dirname, '../fixtures')
+          options: {
+            base: path.join(__dirname, '../fixtures')
+          }
         };
 
         verifyFileStream(config, done, function (file) {
@@ -109,7 +117,9 @@ describe('stream-bundles', function () {
               src: './content/a.js'
             }
           ],
-          base: path.join(__dirname, '../fixtures')
+          options: {
+            base: path.join(__dirname, '../fixtures')
+          }
         };
 
         verifyFileStream(config, done, function (file) {
@@ -127,7 +137,9 @@ describe('stream-bundles', function () {
               base: './content'
             }
           ],
-          base: path.join(__dirname, '../fixtures')
+          options: {
+            base: path.join(__dirname, '../fixtures')
+          }
         };
 
         verifyFileStream(config, done, function (file) {
@@ -146,7 +158,9 @@ describe('stream-bundles', function () {
               ]
             }
           ],
-          base: path.join(__dirname, '../fixtures')
+          options: {
+            base: path.join(__dirname, '../fixtures')
+          }
         };
 
         verifyFileStream(config, done, function (file) {
@@ -166,7 +180,9 @@ describe('stream-bundles', function () {
               base: './content'
             }
           ],
-          base: path.join(__dirname, '../fixtures')
+          options: {
+            base: path.join(__dirname, '../fixtures')
+          }
         };
 
         verifyFileStream(config, done, function (file) {
@@ -253,7 +269,9 @@ describe('stream-bundles', function () {
             }
           }
         },
-        base: path.join(__dirname, '../fixtures')
+        options: {
+          base: path.join(__dirname, '../fixtures')
+        }
       };
 
       verifyFileStream(config, done, function (file) {
@@ -287,7 +305,9 @@ describe('stream-bundles', function () {
             }
           }
         },
-        base: path.join(__dirname, '../fixtures')
+        options: {
+          base: path.join(__dirname, '../fixtures')
+        }
       };
 
       verifyFileStream(config, done, function (file) {
@@ -317,7 +337,9 @@ describe('stream-bundles', function () {
             }
           }
         },
-        base: path.join(__dirname, '../fixtures')
+        options: {
+          base: path.join(__dirname, '../fixtures')
+        }
       };
 
       verifyFileStream(config, done, function (file) {
