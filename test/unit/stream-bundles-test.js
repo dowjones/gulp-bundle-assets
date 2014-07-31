@@ -4,6 +4,7 @@ var libPath = './../../lib',
   through = require('through2'),
   mergeStream = require('merge-stream'),
   streamBundles = require(libPath + '/stream-bundles.js'),
+  ConfigModel = require(libPath + '/model/config'),
   should = require('should'),
   gutil = require('gulp-util'),
   helpers = require('../helpers');
@@ -16,10 +17,10 @@ describe('stream-bundles', function () {
     fileCount = 0;
   });
 
-  function verifyFileStream(config, done, fn, expectedFileCount) {
+  function verifyFileStream(config, done, fn, expectedFileCount, expectedStreamCount) {
     var streams = streamBundles(config);
 
-    (streams.length).should.eql(1);
+    (streams.length).should.eql(typeof expectedStreamCount !== 'undefined' ? expectedStreamCount : 1);
 
     mergeStream.apply(null, streams)
       .pipe(through.obj(function (file, enc, cb) {
@@ -358,7 +359,6 @@ describe('stream-bundles', function () {
     });
 
   });
-  /* jshint +W035 */
 
   describe('NODE_ENV', function () {
 
@@ -366,7 +366,7 @@ describe('stream-bundles', function () {
 
       process.env.NODE_ENV = 'production';
 
-      var config = {
+      var config = new ConfigModel({
         bundle: {
           main: {
             scripts: { src: 'content/a.js', minSrc: 'content/a.min.js' },
@@ -375,11 +375,10 @@ describe('stream-bundles', function () {
               rev: false
             }
           }
-        },
-        options: {
-          base: path.join(__dirname, '../fixtures')
         }
-      };
+      }, {
+        base: path.join(__dirname, '../fixtures')
+      });
 
       verifyFileStream(config, done, function (file) {
         var fileContents = file.contents.toString();
@@ -392,7 +391,118 @@ describe('stream-bundles', function () {
         } else {
           helpers.errorUnexpectedFileInStream(file);
         }
-      }, 2);
+      }, 2, 1);
+
+    });
+
+    it('should create bundles for both environments', function (done) {
+
+      var config = new ConfigModel({
+        bundle: {
+          main: {
+            scripts: { src: 'content/a.js', minSrc: 'content/a.min.js' },
+            options: {
+              useMin: 'production',
+              rev: false
+            }
+          }
+        }
+      },{
+        base: path.join(__dirname, '../fixtures'),
+        bundleAllEnvironments: true
+      });
+
+      verifyFileStream(config, done, function (file) {
+        var fileContents = file.contents.toString();
+        if (file.relative === 'main.js') {
+          fileContents.should.eql(
+              'console.log(\"a\");\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'main.production.js') {
+          fileContents.should.eql(
+              'console.log(\"a.min\");\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/main.js.map' ||
+          file.relative === 'maps/main.production.js.map') {
+          // ok
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+      }, 4, 2);
+
+    });
+
+    it('should create bundles for multiple environments', function (done) {
+
+      var config = new ConfigModel({
+        bundle: {
+          main: {
+            scripts: { src: 'content/a.js', minSrc: 'content/a.min.js' },
+            options: {
+              useMin: ['production', 'staging'],
+              rev: false
+            }
+          },
+          other: {
+            scripts: 'content/a.js',
+            options: {
+              uglify: 'development',
+              rev: false
+            }
+          }
+        }
+      }, {
+        base: path.join(__dirname, '../fixtures'),
+        bundleAllEnvironments: true
+      });
+
+      verifyFileStream(config, done, function (file) {
+        var fileContents = file.contents.toString();
+        if (file.relative === 'main.js') {
+          fileContents.should.eql(
+              'console.log(\"a\");\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'main.production.js') {
+          fileContents.should.eql(
+              'console.log(\"a.min\");\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'main.staging.js') {
+          fileContents.should.eql(
+              'console.log(\"a.min\");\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'main.development.js') {
+          fileContents.should.eql(
+              'console.log(\"a\");\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'other.js') {
+          fileContents.should.eql(
+              'console.log(\"a\")\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'other.production.js') {
+          fileContents.should.eql(
+              'console.log(\"a\")\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'other.staging.js') {
+          fileContents.should.eql(
+              'console.log(\"a\")\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'other.development.js') {
+          fileContents.should.eql(
+              'console.log(\"a\")\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/main.js.map' ||
+          file.relative === 'maps/main.production.js.map' ||
+          file.relative === 'maps/main.staging.js.map' ||
+          file.relative === 'maps/main.development.js.map' ||
+          file.relative === 'maps/other.js.map' ||
+          file.relative === 'maps/other.production.js.map' ||
+          file.relative === 'maps/other.staging.js.map' ||
+          file.relative === 'maps/other.development.js.map') {
+          // ok
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+      }, 16, 8);
 
     });
 
@@ -401,6 +511,7 @@ describe('stream-bundles', function () {
     });
 
   });
+  /* jshint +W035 */
 
 });
 

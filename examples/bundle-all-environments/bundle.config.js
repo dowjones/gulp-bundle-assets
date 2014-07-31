@@ -22,11 +22,8 @@ module.exports = {
       styles: './content/**/*.css',
       options: {
         uglify: prodLikeEnvs,
-        rev: prodLikeEnvs
+        rev: prodLikeEnvs // todo not taking affect????
       }
     }
-  },
-  options: {
-    bundleAllEnvironments: true // boolean|string|array (e.g. true, false, 'production', ['production', 'staging'])
   }
 };

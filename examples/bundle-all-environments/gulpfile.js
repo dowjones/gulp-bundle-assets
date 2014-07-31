@@ -4,7 +4,9 @@ var gulp = require('gulp'),
 
 gulp.task('bundle', ['clean'], function () {
   return gulp.src('./bundle.config.js')
-    .pipe(bundle())
+    .pipe(bundle({
+      bundleAllEnvironments: true // boolean|string|array (e.g. true, false, 'production', ['production', 'staging'])
+    }))
     .pipe(bundle.results({
       dest: './',
       pathPrefix: '/public/'
