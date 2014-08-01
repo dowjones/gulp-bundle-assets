@@ -5,6 +5,7 @@ var libPath = './../../lib',
   mergeStream = require('merge-stream'),
   streamBundles = require(libPath + '/stream-bundles.js'),
   ConfigModel = require(libPath + '/model/config'),
+  BundleType = require(libPath + '/model/bundle-type'),
   should = require('should'),
   gutil = require('gulp-util'),
   helpers = require('../helpers');
@@ -462,34 +463,82 @@ describe('stream-bundles', function () {
           fileContents.should.eql(
               'console.log(\"a\");\n' +
               helpers.getJsSrcMapLine(file.relative));
+          file.bundle.should.eql({
+            name: 'main',
+            type: BundleType.SCRIPTS,
+            bundleAllEnvironments: true,
+            env: ''
+          });
         } else if (file.relative === 'main.production.js') {
           fileContents.should.eql(
               'console.log(\"a.min\");\n' +
               helpers.getJsSrcMapLine(file.relative));
+          file.bundle.should.eql({
+            name: 'main',
+            type: BundleType.SCRIPTS,
+            bundleAllEnvironments: true,
+            env: 'production'
+          });
         } else if (file.relative === 'main.staging.js') {
           fileContents.should.eql(
               'console.log(\"a.min\");\n' +
               helpers.getJsSrcMapLine(file.relative));
+          file.bundle.should.eql({
+            name: 'main',
+            type: BundleType.SCRIPTS,
+            bundleAllEnvironments: true,
+            env: 'staging'
+          });
         } else if (file.relative === 'main.development.js') {
           fileContents.should.eql(
               'console.log(\"a\");\n' +
               helpers.getJsSrcMapLine(file.relative));
+          file.bundle.should.eql({
+            name: 'main',
+            type: BundleType.SCRIPTS,
+            bundleAllEnvironments: true,
+            env: 'development'
+          });
         } else if (file.relative === 'other.js') {
           fileContents.should.eql(
               'console.log(\"a\")\n' +
               helpers.getJsSrcMapLine(file.relative));
+          file.bundle.should.eql({
+            name: 'other',
+            type: BundleType.SCRIPTS,
+            bundleAllEnvironments: true,
+            env: ''
+          });
         } else if (file.relative === 'other.production.js') {
           fileContents.should.eql(
               'console.log(\"a\")\n' +
               helpers.getJsSrcMapLine(file.relative));
+          file.bundle.should.eql({
+            name: 'other',
+            type: BundleType.SCRIPTS,
+            bundleAllEnvironments: true,
+            env: 'production'
+          });
         } else if (file.relative === 'other.staging.js') {
           fileContents.should.eql(
               'console.log(\"a\")\n' +
               helpers.getJsSrcMapLine(file.relative));
+          file.bundle.should.eql({
+            name: 'other',
+            type: BundleType.SCRIPTS,
+            bundleAllEnvironments: true,
+            env: 'staging'
+          });
         } else if (file.relative === 'other.development.js') {
           fileContents.should.eql(
               'console.log(\"a\")\n' +
               helpers.getJsSrcMapLine(file.relative));
+          file.bundle.should.eql({
+            name: 'other',
+            type: BundleType.SCRIPTS,
+            bundleAllEnvironments: true,
+            env: 'development'
+          });
         } else if (file.relative === 'maps/main.js.map' ||
           file.relative === 'maps/main.production.js.map' ||
           file.relative === 'maps/main.staging.js.map' ||
@@ -507,7 +556,7 @@ describe('stream-bundles', function () {
     });
 
     afterEach(function() {
-      process.env.NODE_ENV = null;
+      process.env.NODE_ENV = '';
     });
 
   });

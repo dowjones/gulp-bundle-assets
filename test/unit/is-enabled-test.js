@@ -42,7 +42,7 @@ describe('should-uglify', function() {
   });
 
   afterEach(function() {
-    process.env.NODE_ENV = null;
+    process.env.NODE_ENV = '';
   });
 
 });

@@ -1,4 +1,3 @@
-var should = require('should');
 module.exports = {
   errorUnexpectedFileInStream: function (file) {
     throw new Error('Unexpected file in stream ' + file.relative);

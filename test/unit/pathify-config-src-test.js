@@ -211,7 +211,7 @@ describe('pathify-config-src', function () {
 
 
   afterEach(function () {
-    process.env.NODE_ENV = null;
+    process.env.NODE_ENV = '';
   });
 
 });

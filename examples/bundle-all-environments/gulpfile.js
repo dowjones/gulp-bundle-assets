@@ -5,7 +5,7 @@ var gulp = require('gulp'),
 gulp.task('bundle', ['clean'], function () {
   return gulp.src('./bundle.config.js')
     .pipe(bundle({
-      bundleAllEnvironments: true // boolean|string|array (e.g. true, false, 'production', ['production', 'staging'])
+      bundleAllEnvironments: true // defaults to false
     }))
     .pipe(bundle.results({
       dest: './',
