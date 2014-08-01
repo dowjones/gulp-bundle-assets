@@ -59,7 +59,7 @@ describe('results', function () {
     it('should write results when given string filePath', function (done) {
 
       var fsStub = {
-        createWriteStream: function (writePath, data) {
+        writeFile: function (writePath, data, cb) {
           (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
           (JSON.parse(data)).should.eql({
             "main": {
@@ -67,6 +67,7 @@ describe('results', function () {
               "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>"
             }
           });
+          cb();
         }
       };
 
@@ -93,7 +94,7 @@ describe('results', function () {
     it('should write results when given options obj', function (done) {
 
       var fsStub = {
-        writeFile: function (writePath, data) {
+        writeFile: function (writePath, data, cb) {
           (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
           (JSON.parse(data)).should.eql({
             "main": {
@@ -101,6 +102,7 @@ describe('results', function () {
               "styles": "<link href='/public/main.css' media='screen' rel='stylesheet' type='text/css'/>"
             }
           });
+          cb();
         }
       };
 
@@ -157,7 +159,7 @@ describe('results', function () {
       });
 
       var fsStub = {
-        writeFile: function (writePath, data) {
+        writeFile: function (writePath, data, cb) {
           (writePath).should.eql(path.join(resultPath, 'bundle.result.production.json'));
           (JSON.parse(data)).should.eql({
             "main": {
@@ -165,6 +167,7 @@ describe('results', function () {
               "styles": "<link href='/public/main.production.css' media='screen' rel='stylesheet' type='text/css'/>"
             }
           });
+          cb();
         }
       };
 
@@ -268,7 +271,7 @@ describe('results', function () {
         resultFileCount = 0;
 
       var fsStub = {
-        writeFile: function (writePath, data) {
+        writeFile: function (writePath, data, cb) {
           resultFileCount++;
           if (path.join(resultPath, 'bundle.result.production.json') === writePath) {
             (JSON.parse(data)).should.eql({
@@ -293,6 +296,7 @@ describe('results', function () {
           } else {
             throw new Error('Unexpected result file in stream ' + writePath);
           }
+          cb();
         }
       };
 
