@@ -97,4 +97,55 @@ describe('add-to-results', function () {
     };
     addBundleResults(currentBundleResults, file).should.eql(expected);
   });
+
+  describe('should return result obj given environments', function() {
+
+    it('when one env defined', function() {
+      var file = new File({
+        base: '/app/public',
+        path: '/app/public/main-bundle.js'
+      });
+      file.bundle = new Bundle({
+        name: 'main',
+        type: BundleType.SCRIPTS,
+        env: 'production'
+      });
+      var expected = {
+        default: {
+          contents: {
+            main: {
+              scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
+            }
+          },
+          filename: 'bundle.result.json'
+        }
+      };
+      addBundleResults({}, file).should.eql(expected);
+    });
+
+    it('when multiple envs defined', function() {
+      var file = new File({
+        base: '/app/public',
+        path: '/app/public/main-bundle.js'
+      });
+      file.bundle = new Bundle({
+        name: 'main',
+        type: BundleType.SCRIPTS,
+        env: 'production',
+        bundleAllEnvironments: true
+      });
+      var expected = {
+        production: {
+          contents: {
+            main: {
+              scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
+            }
+          },
+          filename: 'bundle.result.production.json'
+        }
+      };
+      addBundleResults({}, file).should.eql(expected);
+    });
+
+  });
 });
