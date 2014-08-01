@@ -1,5 +1,5 @@
 'use strict';
-var libPath = './../../lib',
+var libPath = './../../../lib',
   path = require('path'),
   rimraf = require('rimraf'),
   fs = require('fs'),
