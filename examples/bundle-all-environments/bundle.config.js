@@ -22,7 +22,7 @@ module.exports = {
       styles: './content/**/*.css',
       options: {
         uglify: prodLikeEnvs,
-        rev: prodLikeEnvs // todo not taking affect????
+        rev: prodLikeEnvs
       }
     }
   }
