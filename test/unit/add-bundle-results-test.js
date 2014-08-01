@@ -1,12 +1,12 @@
 'use strict';
 var libPath = './../../lib',
-  addBundleResults = require(libPath + '/add-bundle-results'),
+  addBundleResults = require(libPath + '/results/add-to-results'),
   Bundle = require(libPath + '/model/bundle'),
   BundleType = require(libPath + '/model/bundle-type'),
   should = require('should'),
   File = require('vinyl');
 
-describe('add-bundle-results', function () {
+describe('add-to-results', function () {
   it('should return result obj with one new entry', function () {
     var file = new File({
       base: '/app/public',
