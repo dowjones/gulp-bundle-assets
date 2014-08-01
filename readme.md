@@ -183,6 +183,16 @@ Default: `.`
 
 Base directory when resolving src globs. Useful when running gulp tasks from a `gulpfile` outside the project's root.
 
+### bundleAllEnvironments
+
+Type: `boolean`
+
+Default: `false`
+
+When `true`, generates all bundles and bundle result jsons for all environments.
+This will parse your `bundle.config.js` looking for all environment definitions.
+See [this example](examples/bundle-all-environments) to see the flag in action.
+
 ## Integrating bundles into your app
 
 You can programmatically render your bundles into your view via 

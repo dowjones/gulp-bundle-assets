@@ -7,7 +7,7 @@ var fs = require('fs'),
   should = require('should'),
   sinon = require('sinon');
 
-describe('configuration-files', function () {
+describe('index', function () {
 
   var bundle,
     streamBunldesStub;
@@ -38,7 +38,9 @@ describe('configuration-files', function () {
                 js: 'some/file'
               }
             },
-            base: '.'
+            options: {
+              base: '.'
+            }
           });
           done();
         });
@@ -55,7 +57,9 @@ describe('configuration-files', function () {
         .on('end', function () {
           should(streamBunldesStub.getCall(0).args[0]).eql({
             copy: 'some/file',
-            base: '.'
+            options: {
+              base: '.'
+            }
           });
           done();
         });

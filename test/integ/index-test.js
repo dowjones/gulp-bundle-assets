@@ -189,9 +189,10 @@ describe('integration tests', function () {
           .on('data', function () {
           }) // noop
           .on('end', function () {
+            console.log('READ');
             fs.readFile(path.join(testDest, 'bundle.result.json'), function (err, data) {
               if (err) {
-                throw err;
+                return done(err);
               }
 
               JSON.parse(data).should.eql({
@@ -238,7 +239,7 @@ describe('integration tests', function () {
         .on('end', function () {
           fs.readFile(path.join(testDest, 'bundle.result.json'), function (err, data) {
             if (err) {
-              throw err;
+              return done(err);
             }
 
             JSON.parse(data).should.eql({
@@ -408,7 +409,7 @@ describe('integration tests', function () {
       if (exists) {
         rimraf(path, function (err) {
           if (err) {
-            done(err);
+            return done(err);
           }
           done();
         });
