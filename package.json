@@ -31,7 +31,9 @@
     "url": "https://github.com/chmontgomery/gulp-bundle-assets/issues"
   },
   "dependencies": {
+    "bluebird": "^2.2.2",
     "duplexer2": "0.0.2",
+    "graceful-fs": "^3.0.2",
     "gulp": "3.8.5",
     "gulp-concat": "2.3.3",
     "gulp-if": "1.2.4",
