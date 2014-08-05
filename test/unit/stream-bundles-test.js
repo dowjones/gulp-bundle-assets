@@ -361,6 +361,44 @@ describe('stream-bundles', function () {
 
   });
 
+  describe('scripts', function () {
+
+    it('should not uglify when minSrc defined', function (done) {
+
+      var config = {
+        bundle: {
+          main: {
+            scripts: {
+              src: 'content/a.js',
+              minSrc: 'content/a.min.js'
+            },
+            options: {
+              rev: false
+            }
+          }
+        },
+        options: {
+          base: path.join(__dirname, '../fixtures')
+        }
+      };
+
+      verifyFileStream(config, done, function (file) {
+        var fileContents = file.contents.toString();
+        if (file.relative === 'main.js') {
+          fileContents.should.eql(
+              'console.log("a")\n' + // should NOT add ; (which signifies uglifying) b/c minSrc is defined
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/main.js.map') {
+          // ok
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+      }, 2);
+
+    });
+
+  });
+
   describe('NODE_ENV', function () {
 
     it('should use min src when NODE_ENV=production', function (done) {

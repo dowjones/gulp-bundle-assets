@@ -31,7 +31,7 @@ describe('integration tests', function () {
 
         if (file.relative === 'main.js') {
           fileContents.should.eql(
-              'function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();\n' +
+              'function logFoo(){console.log(\"foo\")}logFoo();\nfunction logBaz(){console.log(\"baz\")}logBaz();\n' +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
           fileContents.should.eql(
@@ -71,7 +71,7 @@ describe('integration tests', function () {
 
         if (file.relative === 'main.js') {
           fileContents.should.eql(
-              'console.log("one"),console.log("two");\n' +
+              'console.log(\"one\");\nconsole.log(\"two\");\n' +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
           fileContents.should.eql(
@@ -126,9 +126,9 @@ describe('integration tests', function () {
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var fileContents = file.contents.toString();
 
-        if (file.relative === 'main-5f17cd21.js') {
+        if (file.relative === 'main-2742a3c0.js') {
           fileContents.should.eql(
-              '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
+              '!function(e){e.parentNode.removeChild(e)}(document.getElementById(\"error-message\"));\nconsole.log(\"foo\");\n' +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main-8e6d79da.css') {
           fileContents.should.eql(
@@ -138,7 +138,7 @@ describe('integration tests', function () {
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'content/images/gulp.png' ||
           file.relative === 'maps/main-8e6d79da.css.map' ||
-          file.relative === 'maps/main-5f17cd21.js.map') {
+          file.relative === 'maps/main-2742a3c0.js.map') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -165,9 +165,9 @@ describe('integration tests', function () {
 
             var fileContents = file.contents.toString();
 
-            if (file.relative === 'main-5f17cd21.js') {
+            if (file.relative === 'main-2742a3c0.js') {
               fileContents.should.eql(
-                  '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
+                  '!function(e){e.parentNode.removeChild(e)}(document.getElementById(\"error-message\"));\nconsole.log(\"foo\");\n' +
                   helpers.getJsSrcMapLine(file.relative));
             } else if (file.relative === 'main-8e6d79da.css') {
               fileContents.should.eql(
@@ -177,7 +177,7 @@ describe('integration tests', function () {
                   helpers.getCssSrcMapLine(file.relative));
             } else if (file.relative === 'content/images/gulp.png' ||
               file.relative === 'maps/main-8e6d79da.css.map' ||
-              file.relative === 'maps/main-5f17cd21.js.map') {
+              file.relative === 'maps/main-2742a3c0.js.map') {
               staticFileCount++;
             } else {
               helpers.errorUnexpectedFileInStream(file);
@@ -198,7 +198,7 @@ describe('integration tests', function () {
               JSON.parse(data).should.eql({
                 "main": {
                   "styles": "<link href='main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
-                  "scripts": "<script src='main-5f17cd21.js' type='text/javascript'></script>"
+                  "scripts": "<script src='main-2742a3c0.js' type='text/javascript'></script>"
                 }
               });
 
@@ -251,10 +251,10 @@ describe('integration tests', function () {
               },
               "main": {
                 "styles": "<link href='/public/main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
-                "scripts": "<script src='/public/main-5f17cd21.js' type='text/javascript'></script>"
+                "scripts": "<script src='/public/main-2742a3c0.js' type='text/javascript'></script>"
               },
               "vendor": {
-                "scripts": "<script src='/public/vendor-d66b96f5.js' type='text/javascript'></script>",
+                "scripts": "<script src='/public/vendor-6873f46e.js' type='text/javascript'></script>",
                 "styles": "<link href='/public/vendor-23d5c9c6.css' media='screen' rel='stylesheet' type='text/css'/>"
               }
             });
@@ -361,9 +361,8 @@ describe('integration tests', function () {
 
         if (file.relative === 'header-c2ca8387.js') { // unminified
           fileContents.should.eql(
-            /*'console.log(\"header-scripts\");\n' +
-            'console.log(\"line-two\");\n' +*/
-              'console.log(\"header-scripts\"),console.log(\"line-two\");\n' +
+              'console.log(\"header-scripts\");\n' +
+              'console.log(\"line-two\");\n' +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'header-bfff3428.css') { // minified
           fileContents.should.eql(
