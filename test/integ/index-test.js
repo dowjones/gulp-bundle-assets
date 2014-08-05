@@ -359,9 +359,11 @@ describe('integration tests', function () {
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var fileContents = file.contents.toString();
 
-        if (file.relative === 'header-769eb79a.js') { // unminified
+        if (file.relative === 'header-c2ca8387.js') { // unminified
           fileContents.should.eql(
-              'console.log(\"header-scripts\");\n' + // TODO no ;
+            /*'console.log(\"header-scripts\");\n' +
+            'console.log(\"line-two\");\n' +*/
+              'console.log(\"header-scripts\"),console.log(\"line-two\");\n' +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'header-bfff3428.css') { // minified
           fileContents.should.eql(
@@ -391,7 +393,7 @@ describe('integration tests', function () {
           fileContents.should.eql(
               'console.log(\"app\"),console.log(\"controllers\"),console.log(\"directives\"),console.log(\"filters\");\n' +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'maps/header-769eb79a.js.map' ||
+        } else if (file.relative === 'maps/header-c2ca8387.js.map' ||
           file.relative === 'maps/header-bfff3428.css.map' ||
           file.relative === 'maps/vendor-fc7efeba.js.map' ||
           file.relative === 'maps/article-dabe2fd8.js.map' ||
@@ -403,7 +405,7 @@ describe('integration tests', function () {
           file.relative === 'fonts/glyphicons-halflings-regular.ttf' ||
           file.relative === 'fonts/glyphicons-halflings-regular.woff' ||
           file.relative === 'images/empire_icon.png' ||
-          file.relative === 'images/rebel_icon.png' ) {
+          file.relative === 'images/rebel_icon.png') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -415,8 +417,12 @@ describe('integration tests', function () {
       });
 
     });
-  });
 
+    afterEach(function () {
+      process.env.NODE_ENV = '';
+    });
+
+  });
 
   describe('copy', function () {
     var appPath = path.join(examplePath, 'copy'),

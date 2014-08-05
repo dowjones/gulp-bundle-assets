@@ -521,7 +521,7 @@ describe('stream-bundles', function () {
           });
         } else if (file.relative === 'other.staging.js') {
           fileContents.should.eql(
-              'console.log(\"a\")\n' +
+              'console.log(\"a\")\n' + // no ; signifies bundle was properly NOT minified in staging mode
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'other',
@@ -531,7 +531,7 @@ describe('stream-bundles', function () {
           });
         } else if (file.relative === 'other.development.js') {
           fileContents.should.eql(
-              'console.log(\"a\");\n' + // ; signifies bundle wasn't minified in dev mode
+              'console.log(\"a\");\n' + // ; signifies bundle was properly minified in dev mode
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'other',
