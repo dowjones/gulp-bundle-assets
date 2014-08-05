@@ -31,7 +31,7 @@ describe('integration tests', function () {
 
         if (file.relative === 'main.js') {
           fileContents.should.eql(
-            'function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();\n' +
+              'function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();\n' +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
           fileContents.should.eql(
@@ -167,7 +167,7 @@ describe('integration tests', function () {
 
             if (file.relative === 'main-5f17cd21.js') {
               fileContents.should.eql(
-                '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
+                  '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
                   helpers.getJsSrcMapLine(file.relative));
             } else if (file.relative === 'main-8e6d79da.css') {
               fileContents.should.eql(
@@ -343,6 +343,75 @@ describe('integration tests', function () {
       }, function () {
         (fileCount).should.eql(12);
         (staticFileCount).should.eql(6);
+      });
+
+    });
+  });
+
+  describe('full', function () {
+    var appPath = path.join(examplePath, 'full'),
+      bundleConfigPath = path.join(appPath, 'bundle.config.js');
+
+    it('should read bundle.config and create bundles in prod mode', function (done) {
+
+      process.env.NODE_ENV = 'production';
+
+      testBundleStream(bundleConfigPath, appPath, done, function (file) {
+        var fileContents = file.contents.toString();
+
+        if (file.relative === 'header-769eb79a.js') { // unminified
+          fileContents.should.eql(
+              'console.log(\"header-scripts\");\n' + // TODO no ;
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'header-bfff3428.css') { // minified
+          fileContents.should.eql(
+              '.bootstrap.min {\n' +
+              '  background-color: blue;\n' +
+              '}\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'article-c2107e48.css') { // minified
+          fileContents.should.eql(
+              '.page {\n' +
+              '  background-color: red;\n' +
+              '}\n\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'vendor-fc7efeba.js') { // minified
+          fileContents.should.eql(
+              'console.log(\"angular.min\");\nconsole.log(\"spin\")\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'article-dabe2fd8.js') { // minified
+          fileContents.should.eql(
+              'console.log(\"page\"),console.log(\"scroll\");\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'main-41e43699.css') { // minified
+          fileContents.should.eql(
+              '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'main-e2344866.js') { // minified
+          fileContents.should.eql(
+              'console.log(\"app\"),console.log(\"controllers\"),console.log(\"directives\"),console.log(\"filters\");\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/header-769eb79a.js.map' ||
+          file.relative === 'maps/header-bfff3428.css.map' ||
+          file.relative === 'maps/vendor-fc7efeba.js.map' ||
+          file.relative === 'maps/article-dabe2fd8.js.map' ||
+          file.relative === 'maps/article-c2107e48.css.map' ||
+          file.relative === 'maps/main-e2344866.js.map' ||
+          file.relative === 'maps/main-41e43699.css.map' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.eot' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.svg' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.ttf' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.woff' ||
+          file.relative === 'images/empire_icon.png' ||
+          file.relative === 'images/rebel_icon.png' ) {
+          staticFileCount++;
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+        fileCount++;
+      }, function () {
+        (fileCount).should.eql(20);
+        (staticFileCount).should.eql(13);
       });
 
     });

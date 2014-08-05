@@ -1,16 +1,29 @@
 var prodLikeEnvs = ['production', 'staging']; // when NODE_ENV=staging or NODE_ENV=production
 module.exports = {
   bundle: {
-    vendor: {
+    header: {
       scripts: [
-        {src: './bower_components/jquery/jquery.js', minSrc: './bower_components/jquery/jquery.min.js'},
-        {src: './bower_components/angular/angular.js', minSrc: './bower_components/angular/angular.min.js'},
-        './bower_components/spin/spin.js'
+        './js/header-scripts.js',
+        {
+          src: './bower_components/jquery/jquery.js',
+          minSrc: './bower_components/jquery/jquery.min.js'
+        }
       ],
       styles: {
         src: './bower_components/bootstrap/dist/css/bootstrap.css',
         minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
       },
+      options: {
+        useMin: prodLikeEnvs, // {(boolean|string|Array)} pre-minified files
+        uglify: prodLikeEnvs, // {(boolean|string|Array)}
+        rev: prodLikeEnvs // {(boolean|string|Array)} file revisioning
+      }
+    },
+    vendor: {
+      scripts: [
+        {src: './bower_components/angular/angular.js', minSrc: './bower_components/angular/angular.min.js'},
+        './bower_components/spin/spin.js'
+      ],
       options: {
         useMin: prodLikeEnvs, // pre-minified files
         uglify: false, // never let bundler minify js since bower already ships with minified versions
