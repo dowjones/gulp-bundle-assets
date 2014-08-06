@@ -10,3 +10,4 @@ readme.md
 /bin/bundleAllExamples.sh
 .jshintrc
 /coverage/
+.coveralls.yml
