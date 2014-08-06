@@ -56,6 +56,8 @@
   },
   "devDependencies": {
     "gulp-help": "0.1.11",
+    "gulp-istanbul": "^0.2.1",
+    "gulp-istanbul-enforcer": "^1.0.3",
     "gulp-jshint": "1.7.0",
     "gulp-mocha": "0.4.1",
     "gulp-nice-package": "0.0.1",
