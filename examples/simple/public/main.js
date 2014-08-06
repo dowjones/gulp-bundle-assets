@@ -1,2 +1,3 @@
-function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();
+function logFoo(){console.log("foo")}logFoo();
+function logBaz(){console.log("baz")}logBaz();
 //# sourceMappingURL=maps/main.js.map

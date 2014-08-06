@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/article/page.js","lib/article/scroll.js"],"names":["console","log"],"mappings":"AAAAA,QAAQC,IAAI;ACAZD,QAAQC,IAAI","file":"article-bf5a872a.js","sourcesContent":["console.log(\"page\")","console.log(\"scroll\")"],"sourceRoot":"/source/"}

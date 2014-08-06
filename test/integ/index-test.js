@@ -31,7 +31,7 @@ describe('integration tests', function () {
 
         if (file.relative === 'main.js') {
           fileContents.should.eql(
-              'function logFoo(){console.log("foo")}function logBaz(){console.log("baz")}logFoo(),logBaz();\n' +
+              'function logFoo(){console.log(\"foo\")}logFoo();\nfunction logBaz(){console.log(\"baz\")}logBaz();\n' +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
           fileContents.should.eql(
@@ -71,7 +71,7 @@ describe('integration tests', function () {
 
         if (file.relative === 'main.js') {
           fileContents.should.eql(
-              'console.log("one"),console.log("two");\n' +
+              'console.log(\"one\");\nconsole.log(\"two\");\n' +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
           fileContents.should.eql(
@@ -126,9 +126,9 @@ describe('integration tests', function () {
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var fileContents = file.contents.toString();
 
-        if (file.relative === 'main-5f17cd21.js') {
+        if (file.relative === 'main-2742a3c0.js') {
           fileContents.should.eql(
-              '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
+              '!function(e){e.parentNode.removeChild(e)}(document.getElementById(\"error-message\"));\nconsole.log(\"foo\");\n' +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main-8e6d79da.css') {
           fileContents.should.eql(
@@ -138,7 +138,7 @@ describe('integration tests', function () {
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'content/images/gulp.png' ||
           file.relative === 'maps/main-8e6d79da.css.map' ||
-          file.relative === 'maps/main-5f17cd21.js.map') {
+          file.relative === 'maps/main-2742a3c0.js.map') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -165,9 +165,9 @@ describe('integration tests', function () {
 
             var fileContents = file.contents.toString();
 
-            if (file.relative === 'main-5f17cd21.js') {
+            if (file.relative === 'main-2742a3c0.js') {
               fileContents.should.eql(
-                  '!function(e){e.parentNode.removeChild(e)}(document.getElementById("error-message")),console.log("foo");\n' +
+                  '!function(e){e.parentNode.removeChild(e)}(document.getElementById(\"error-message\"));\nconsole.log(\"foo\");\n' +
                   helpers.getJsSrcMapLine(file.relative));
             } else if (file.relative === 'main-8e6d79da.css') {
               fileContents.should.eql(
@@ -177,7 +177,7 @@ describe('integration tests', function () {
                   helpers.getCssSrcMapLine(file.relative));
             } else if (file.relative === 'content/images/gulp.png' ||
               file.relative === 'maps/main-8e6d79da.css.map' ||
-              file.relative === 'maps/main-5f17cd21.js.map') {
+              file.relative === 'maps/main-2742a3c0.js.map') {
               staticFileCount++;
             } else {
               helpers.errorUnexpectedFileInStream(file);
@@ -198,7 +198,7 @@ describe('integration tests', function () {
               JSON.parse(data).should.eql({
                 "main": {
                   "styles": "<link href='main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
-                  "scripts": "<script src='main-5f17cd21.js' type='text/javascript'></script>"
+                  "scripts": "<script src='main-2742a3c0.js' type='text/javascript'></script>"
                 }
               });
 
@@ -251,10 +251,10 @@ describe('integration tests', function () {
               },
               "main": {
                 "styles": "<link href='/public/main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
-                "scripts": "<script src='/public/main-5f17cd21.js' type='text/javascript'></script>"
+                "scripts": "<script src='/public/main-2742a3c0.js' type='text/javascript'></script>"
               },
               "vendor": {
-                "scripts": "<script src='/public/vendor-d66b96f5.js' type='text/javascript'></script>",
+                "scripts": "<script src='/public/vendor-6873f46e.js' type='text/javascript'></script>",
                 "styles": "<link href='/public/vendor-23d5c9c6.css' media='screen' rel='stylesheet' type='text/css'/>"
               }
             });
@@ -328,13 +328,7 @@ describe('integration tests', function () {
               '  background-color: red;\n' +
               '}\n' +
               helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'maps/vendor.css.map' ||
-          file.relative === 'maps/vendor.js.map' ||
-          file.relative === 'maps/main-c9f76dae.css.map' ||
-          file.relative === 'maps/main.js.map' ||
-          file.relative === 'maps/one.js.map' ||
-          file.relative === 'maps/two.js.map' ||
-          file.relative === 'maps/threeve-40307fcc.js.map') {
+        } else if (helpers.stringEndsWith(file.relative, '.map')) {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -348,62 +342,66 @@ describe('integration tests', function () {
     });
   });
 
+
   describe('full', function () {
     var appPath = path.join(examplePath, 'full'),
-      bundleConfigPath = path.join(appPath, 'bundle.config.js');
+      bundleConfigPath = path.join(appPath, 'bundle.config.js'),
+      HEADER_SCRIPT_CONTENT_NOT_UGLIFIED = 'console.log(\"header-scripts\")\nconsole.log(\"line-two\")\n',
+      HEADER_SCRIPT_CONTENT_UGLIFIED = 'console.log(\"header-scripts\"),console.log(\"line-two\");\n',
+      JQUERY_CONTENT_NOT_UGLIFIED = 'console.log(\"jquery\")\n',
+      JQUERY_CONTENT_MIN_NOT_UGLIFIED = 'console.log(\"jquery.min\")\n',
+      VENDOR_CONTENT_NOT_UGLIFIED = 'console.log(\"angular\")\nconsole.log(\"spin\")\n',
+      VENDOR_CONTENT_MIN_NOT_UGLIFIED = 'console.log(\"angular.min\")\nconsole.log(\"spin\")\n',
+      ARTICLE_CONTENT_NOT_UGLIFIED = 'console.log(\"page\")\nconsole.log(\"scroll\")\n',
+      ARTICLE_CONTENT_UGLIFIED = 'console.log(\"page\");\nconsole.log(\"scroll\");\n',
+      MAIN_CONTENT_NOT_UGLIFIED = 'console.log(\"app\")\nconsole.log(\"controllers\")\nconsole.log(\"directives\")\nconsole.log(\"filters\")\n',
+      MAIN_CONTENT_UGLIFIED = 'console.log(\"app\");\nconsole.log(\"controllers\");\nconsole.log(\"directives\");\nconsole.log(\"filters\");\n';
 
-    it('should read bundle.config and create bundles in prod mode', function (done) {
-
-      process.env.NODE_ENV = 'production';
+    it('should read bundle.config and create bundles', function (done) {
 
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var fileContents = file.contents.toString();
 
-        if (file.relative === 'header-769eb79a.js') { // unminified
+        if (file.relative === 'header.js') {
           fileContents.should.eql(
-              'console.log(\"header-scripts\");\n' + // TODO no ;
+              HEADER_SCRIPT_CONTENT_NOT_UGLIFIED +
+              JQUERY_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'header-bfff3428.css') { // minified
+        } else if (file.relative === 'header.css') {
           fileContents.should.eql(
-              '.bootstrap.min {\n' +
-              '  background-color: blue;\n' +
+              '.bootstrap {\n' +
+              '  background-color: red;\n' +
               '}\n' +
               helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'article-c2107e48.css') { // minified
+        } else if (file.relative === 'article.css') {
           fileContents.should.eql(
               '.page {\n' +
               '  background-color: red;\n' +
               '}\n\n' +
               helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'vendor-fc7efeba.js') { // minified
+        } else if (file.relative === 'vendor.js') {
           fileContents.should.eql(
-              'console.log(\"angular.min\");\nconsole.log(\"spin\")\n' +
+              VENDOR_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'article-dabe2fd8.js') { // minified
+        } else if (file.relative === 'article.js') {
           fileContents.should.eql(
-              'console.log(\"page\"),console.log(\"scroll\");\n' +
+              ARTICLE_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'main-41e43699.css') { // minified
+        } else if (file.relative === 'main.css') {
           fileContents.should.eql(
               '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n' +
               helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'main-e2344866.js') { // minified
+        } else if (file.relative === 'main.js') {
           fileContents.should.eql(
-              'console.log(\"app\"),console.log(\"controllers\"),console.log(\"directives\"),console.log(\"filters\");\n' +
+              MAIN_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'maps/header-769eb79a.js.map' ||
-          file.relative === 'maps/header-bfff3428.css.map' ||
-          file.relative === 'maps/vendor-fc7efeba.js.map' ||
-          file.relative === 'maps/article-dabe2fd8.js.map' ||
-          file.relative === 'maps/article-c2107e48.css.map' ||
-          file.relative === 'maps/main-e2344866.js.map' ||
-          file.relative === 'maps/main-41e43699.css.map' ||
+        } else if (helpers.stringEndsWith(file.relative, '.map') ||
           file.relative === 'fonts/glyphicons-halflings-regular.eot' ||
           file.relative === 'fonts/glyphicons-halflings-regular.svg' ||
           file.relative === 'fonts/glyphicons-halflings-regular.ttf' ||
           file.relative === 'fonts/glyphicons-halflings-regular.woff' ||
           file.relative === 'images/empire_icon.png' ||
-          file.relative === 'images/rebel_icon.png' ) {
+          file.relative === 'images/rebel_icon.png') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -415,8 +413,71 @@ describe('integration tests', function () {
       });
 
     });
-  });
 
+    it('should read bundle.config and create bundles in prod mode', function (done) {
+
+      process.env.NODE_ENV = 'production';
+
+      testBundleStream(bundleConfigPath, appPath, done, function (file) {
+        var fileContents = file.contents.toString();
+
+        if (file.relative === 'header-c380f873.js') {
+          fileContents.should.eql(
+              HEADER_SCRIPT_CONTENT_UGLIFIED +
+              JQUERY_CONTENT_MIN_NOT_UGLIFIED +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'header-bfff3428.css') {
+          fileContents.should.eql(
+              '.bootstrap.min {\n' +
+              '  background-color: blue;\n' +
+              '}\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'article-c2107e48.css') {
+          fileContents.should.eql(
+              '.page {\n' +
+              '  background-color: red;\n' +
+              '}\n\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'vendor-b9c14db4.js') {
+          fileContents.should.eql(
+              VENDOR_CONTENT_MIN_NOT_UGLIFIED +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'article-bf5a872a.js') {
+          fileContents.should.eql(
+              ARTICLE_CONTENT_UGLIFIED +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'main-41e43699.css') {
+          fileContents.should.eql(
+              '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'main-a2f0720d.js') {
+          fileContents.should.eql(
+              MAIN_CONTENT_UGLIFIED +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (helpers.stringEndsWith(file.relative, '.map') ||
+          file.relative === 'fonts/glyphicons-halflings-regular.eot' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.svg' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.ttf' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.woff' ||
+          file.relative === 'images/empire_icon.png' ||
+          file.relative === 'images/rebel_icon.png') {
+          staticFileCount++;
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+        fileCount++;
+      }, function () {
+        (fileCount).should.eql(20);
+        (staticFileCount).should.eql(13);
+      });
+
+    });
+
+    afterEach(function () {
+      process.env.NODE_ENV = '';
+    });
+
+  });
 
   describe('copy', function () {
     var appPath = path.join(examplePath, 'copy'),

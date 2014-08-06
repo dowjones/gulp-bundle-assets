@@ -78,43 +78,53 @@ describe('pathify-config-src', function () {
     });
 
     it('should use minSrc when NODE_ENV=production', function () {
-      process.env.NODE_ENV = 'production';
       pathifySrc({
-        src: './content/a.js',
-        minSrc: './content/a.min.js'
-      }, null, {useMin: 'production'}).should.eql('./content/a.min.js');
+          src: './content/a.js',
+          minSrc: './content/a.min.js'
+        },
+        null,
+        {useMin: 'production'},
+        'production').should.eql('./content/a.min.js');
     });
 
     it('should use src when NODE_ENV=NULL and useMin is "production"', function () {
-      process.env.NODE_ENV = 'dev';
       pathifySrc({
-        src: './content/a.js',
-        minSrc: './content/a.min.js'
-      }, null, {useMin: 'production'}).should.eql('./content/a.js');
+          src: './content/a.js',
+          minSrc: './content/a.min.js'
+        },
+        null,
+        {useMin: 'production'},
+        'dev').should.eql('./content/a.js');
     });
 
     it('should use minSrc when NODE_ENV=production and useMin is ["production", "staging"]', function () {
-      process.env.NODE_ENV = 'production';
       pathifySrc({
-        src: './content/a.js',
-        minSrc: './content/a.min.js'
-      }, null, {useMin: ['production', 'staging']}).should.eql('./content/a.min.js');
+          src: './content/a.js',
+          minSrc: './content/a.min.js'
+        },
+        null,
+        {useMin: ['production', 'staging']},
+        'production').should.eql('./content/a.min.js');
     });
 
     it('should use src when NODE_ENV=dev and useMin is ["production", "staging"]', function () {
-      process.env.NODE_ENV = 'dev';
       pathifySrc({
-        src: './content/a.js',
-        minSrc: './content/a.min.js'
-      }, null, {useMin: ['production', 'staging']}).should.eql('./content/a.js');
+          src: './content/a.js',
+          minSrc: './content/a.min.js'
+        },
+        null,
+        {useMin: ['production', 'staging']},
+        'dev').should.eql('./content/a.js');
     });
 
     it('should use src when NODE_ENV=dev and useMin is "production"', function () {
-      process.env.NODE_ENV = 'dev';
       pathifySrc({
-        src: './content/a.js',
-        minSrc: './content/a.min.js'
-      }, null, {useMin: 'production'}).should.eql('./content/a.js');
+          src: './content/a.js',
+          minSrc: './content/a.min.js'
+        },
+        null,
+        {useMin: 'production'},
+        'dev').should.eql('./content/a.js');
     });
 
     it('should use srcs from array of objs', function () {
@@ -126,48 +136,61 @@ describe('pathify-config-src', function () {
 
     it('should use minSrcs from array of objs', function () {
       pathifySrc([
-        {src: './content/a.js', minSrc: './content/a.min.js'},
-        {src: './content/b.js', minSrc: './content/b.min.js'}
-      ], null, {useMin: true}).should.eql(['./content/a.min.js', './content/b.min.js']);
+          {src: './content/a.js', minSrc: './content/a.min.js'},
+          {src: './content/b.js', minSrc: './content/b.min.js'}
+        ],
+        null,
+        {useMin: true}).should.eql(['./content/a.min.js', './content/b.min.js']);
     });
 
     it('should use minSrcs from array of objs when NODE_ENV=production and useMin=production', function () {
-      process.env.NODE_ENV = 'production';
       pathifySrc([
-        {src: './content/a.js', minSrc: './content/a.min.js'},
-        {src: './content/b.js', minSrc: './content/b.min.js'}
-      ], null, {useMin: 'production'}).should.eql(['./content/a.min.js', './content/b.min.js']);
+          {src: './content/a.js', minSrc: './content/a.min.js'},
+          {src: './content/b.js', minSrc: './content/b.min.js'}
+        ],
+        null,
+        {useMin: 'production'},
+        'production').should.eql(['./content/a.min.js', './content/b.min.js']);
     });
 
     it('should use srcs from array of objs when NODE_ENV=dev and useMin=production', function () {
-      process.env.NODE_ENV = 'dev';
       pathifySrc([
-        {src: './content/a.js', minSrc: './content/a.min.js'},
-        {src: './content/b.js', minSrc: './content/b.min.js'}
-      ], null, {useMin: 'production'}).should.eql(['./content/a.js', './content/b.js']);
+          {src: './content/a.js', minSrc: './content/a.min.js'},
+          {src: './content/b.js', minSrc: './content/b.min.js'}
+        ],
+        null,
+        {useMin: 'production'},
+        'dev').should.eql(['./content/a.js', './content/b.js']);
     });
 
     it('should use minSrc from array of objs if defined', function () {
       pathifySrc([
-        {src: './content/a.js'},
-        {src: './content/b.js', minSrc: './content/b.min.js'}
-      ], null, {useMin: true}).should.eql(['./content/a.js', './content/b.min.js']);
+          {src: './content/a.js'},
+          {src: './content/b.js', minSrc: './content/b.min.js'}
+        ],
+        null,
+        {useMin: true},
+        '').should.eql(['./content/a.js', './content/b.min.js']);
     });
 
     it('should use minSrc from array of objs if defined and NODE_ENV=production and useMin=production', function () {
-      process.env.NODE_ENV = 'production';
       pathifySrc([
-        {src: './content/a.js'},
-        {src: './content/b.js', minSrc: './content/b.min.js'}
-      ], null, {useMin: 'production'}).should.eql(['./content/a.js', './content/b.min.js']);
+          {src: './content/a.js'},
+          {src: './content/b.js', minSrc: './content/b.min.js'}
+        ],
+        null,
+        {useMin: 'production'},
+        'production').should.eql(['./content/a.js', './content/b.min.js']);
     });
 
     it('should use minSrc from array of objs if defined and NODE_ENV=production and useMin=["production"]', function () {
-      process.env.NODE_ENV = 'production';
       pathifySrc([
-        {src: './content/a.js'},
-        {src: './content/b.js', minSrc: './content/b.min.js'}
-      ], null, {useMin: ['production']}).should.eql(['./content/a.js', './content/b.min.js']);
+          {src: './content/a.js'},
+          {src: './content/b.js', minSrc: './content/b.min.js'}
+        ],
+        null,
+        {useMin: ['production']},
+        'production').should.eql(['./content/a.js', './content/b.min.js']);
     });
   });
 
