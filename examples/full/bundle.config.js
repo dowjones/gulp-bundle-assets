@@ -5,8 +5,8 @@ module.exports = {
       scripts: [
         './js/header-scripts.js',
         {
-          src: './bower_components/jquery/jquery.js',
-          minSrc: './bower_components/jquery/jquery.min.js'
+          src: './bower_components/jquery/dist/jquery.js',
+          minSrc: './bower_components/jquery/dist/jquery.min.js'
         }
       ],
       styles: {

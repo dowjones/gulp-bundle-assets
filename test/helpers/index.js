@@ -9,5 +9,8 @@ module.exports = {
   getJsSrcMapLine: function(fileName) {
     //# sourceMappingURL=maps/main.js.map
     return '//# sourceMappingURL=maps/' + fileName + '.map';
+  },
+  stringEndsWith: function(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
   }
 };

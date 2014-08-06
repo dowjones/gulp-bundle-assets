@@ -30,25 +30,23 @@ describe('config', function () {
   });
 
   it('should create object given vinyl', function () {
+    var config = {
+      bundle: {
+        vendor: { scripts: "./lib/*.js", styles: "./**/*.css" }
+      }, copy: {
+        src: "./font/*.*"
+      }
+    };
     var aFile = new File({
       cwd: "/",
       base: "/test/",
       path: "/test/config.js",
-      contents: new Buffer('module.exports = { bundle: {' +
-        'vendor: { scripts: "./lib/*.js", styles: "./**/*.css" }' +
-        '}, copy: {' +
-        'src: "./font/*.*"' +
-        '} };')
+      contents: new Buffer('module.exports = ' + JSON.stringify(config))
     });
-    var config = new ConfigModel(aFile);
-    config.bundle.should.eql({
-      vendor: {
-        scripts: "./lib/*.js",
-        styles: "./**/*.css"
-      }
-    });
-    config.copy.should.eql({ src: "./font/*.*" });
-    config.options.base.should.eql('.');
+    var configModel = new ConfigModel(aFile);
+    configModel.bundle.should.eql(config.bundle);
+    configModel.copy.should.eql(config.copy);
+    configModel.options.base.should.eql('.');
   });
 
   it('should create object given vinyl and options', function () {
@@ -67,7 +65,89 @@ describe('config', function () {
     config.options.base.should.eql('/test/');
   });
 
-  describe('should get all environments', function() {
+  describe('should get all minSrcs', function () {
+
+    it('when given complex config', function () {
+      var config = {
+        bundle: {
+          header: {
+            scripts: [
+              './js/header-scripts.js',
+              {
+                src: './bower_components/bootstrap/dist/css/bootstrap.css',
+                minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
+              }
+            ],
+            styles: {
+              src: './bower_components/bootstrap/dist/css/bootstrap.css',
+              minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
+            }
+          },
+          vendor: {
+            scripts: [
+              {src: './bower_components/angular/angular.js', minSrc: './bower_components/angular/angular.min.js'},
+              {src: './bower_components/boostrap/boostrap.js'},
+              './bower_components/spin/spin.js'
+            ]
+          },
+          main: {
+            styles: [
+              {
+                src: './bower_components/bootstrap/dist/css/bootstrap.css',
+                minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
+              }
+            ]
+          }
+        }
+      };
+      var aFile = new File({
+        cwd: "/",
+        base: "/test/",
+        path: "/test/config.js",
+        contents: new Buffer('module.exports = ' + JSON.stringify(config))
+      });
+      var opts = {
+        base: '/test/'
+      };
+      var configModel = new ConfigModel(aFile, opts);
+      configModel.bundle.should.eql(config.bundle);
+      configModel.getAllMinSrcs().should.eql({
+        header: {
+          scripts: [
+            {
+              src: './bower_components/bootstrap/dist/css/bootstrap.css',
+              minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
+            }
+          ],
+          styles: [
+            {
+              src: './bower_components/bootstrap/dist/css/bootstrap.css',
+              minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
+            }
+          ]
+        },
+        vendor: {
+          scripts: [
+            {
+              src: './bower_components/angular/angular.js',
+              minSrc: './bower_components/angular/angular.min.js'
+            }
+          ]
+        },
+        main: {
+          styles: [
+            {
+              src: './bower_components/bootstrap/dist/css/bootstrap.css',
+              minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
+            }
+          ]
+        }
+      });
+    });
+
+  });
+
+  describe('should get all environments', function () {
 
     it('when given complex config', function () {
 

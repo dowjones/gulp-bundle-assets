@@ -1,1 +1,1 @@
-console.log("jquery");
+console.log("jquery")

@@ -12,7 +12,11 @@ var libPath = './../../lib',
 
 describe('stream-bundles', function () {
 
-  var fileCount;
+  var fileCount,
+  // trailing ; signifies minification happened
+    JS_CONTENT_NOT_UGLIFIED = 'console.log(\"a\")\n',
+    MIN_JS_CONTENT_NOT_UGLIFIED = 'console.log(\"a.min\")\n',
+    JS_CONTENT_UGLIFIED = 'console.log(\"a\");\n';
 
   beforeEach(function () {
     fileCount = 0;
@@ -365,12 +369,13 @@ describe('stream-bundles', function () {
 
     it('should not uglify when minSrc defined', function (done) {
 
-      var config = {
+      var config = new ConfigModel({
         bundle: {
           main: {
+            // since minSrc was defined, no main bundles will uglify
             scripts: {
-              src: 'content/a.js',
-              minSrc: 'content/a.min.js'
+              src: './content/a.js',
+              minSrc: './content/a.min.js'
             },
             options: {
               rev: false
@@ -380,13 +385,13 @@ describe('stream-bundles', function () {
         options: {
           base: path.join(__dirname, '../fixtures')
         }
-      };
+      });
 
       verifyFileStream(config, done, function (file) {
         var fileContents = file.contents.toString();
         if (file.relative === 'main.js') {
           fileContents.should.eql(
-              'console.log("a")\n' + // should NOT add ; (which signifies uglifying) b/c minSrc is defined
+              JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'maps/main.js.map') {
           // ok
@@ -408,6 +413,7 @@ describe('stream-bundles', function () {
       var config = new ConfigModel({
         bundle: {
           main: {
+            // since minSrc was defined, no main bundles will uglify
             scripts: { src: 'content/a.js', minSrc: 'content/a.min.js' },
             options: {
               useMin: 'production',
@@ -423,7 +429,7 @@ describe('stream-bundles', function () {
         var fileContents = file.contents.toString();
         if (file.relative === 'main.js') {
           fileContents.should.eql(
-              'console.log(\"a.min\");\n' +
+              MIN_JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'maps/main.js.map') {
           // ok
@@ -439,6 +445,7 @@ describe('stream-bundles', function () {
       var config = new ConfigModel({
         bundle: {
           main: {
+            // since minSrc was defined, no main bundles will uglify
             scripts: { src: 'content/a.js', minSrc: 'content/a.min.js' },
             options: {
               useMin: 'production',
@@ -446,7 +453,7 @@ describe('stream-bundles', function () {
             }
           }
         }
-      },{
+      }, {
         base: path.join(__dirname, '../fixtures'),
         bundleAllEnvironments: true
       });
@@ -455,11 +462,11 @@ describe('stream-bundles', function () {
         var fileContents = file.contents.toString();
         if (file.relative === 'main.js') {
           fileContents.should.eql(
-              'console.log(\"a\");\n' +
+              JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.production.js') {
           fileContents.should.eql(
-              'console.log(\"a.min\");\n' +
+              MIN_JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'maps/main.js.map' ||
           file.relative === 'maps/main.production.js.map') {
@@ -476,6 +483,7 @@ describe('stream-bundles', function () {
       var config = new ConfigModel({
         bundle: {
           main: {
+            // since minSrc was defined, no main bundles will uglify
             scripts: { src: 'content/a.js', minSrc: 'content/a.min.js' },
             options: {
               useMin: ['production', 'staging'],
@@ -499,7 +507,7 @@ describe('stream-bundles', function () {
         var fileContents = file.contents.toString();
         if (file.relative === 'main.js') {
           fileContents.should.eql(
-              'console.log(\"a\");\n' +
+              JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'main',
@@ -509,7 +517,7 @@ describe('stream-bundles', function () {
           });
         } else if (file.relative === 'main.production.js') {
           fileContents.should.eql(
-              'console.log(\"a.min\");\n' +
+              MIN_JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'main',
@@ -519,7 +527,7 @@ describe('stream-bundles', function () {
           });
         } else if (file.relative === 'main.staging.js') {
           fileContents.should.eql(
-              'console.log(\"a.min\");\n' +
+              MIN_JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'main',
@@ -529,7 +537,7 @@ describe('stream-bundles', function () {
           });
         } else if (file.relative === 'main.development.js') {
           fileContents.should.eql(
-              'console.log(\"a\");\n' +
+              JS_CONTENT_NOT_UGLIFIED + // no ; signifies NOT minified
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'main',
@@ -539,7 +547,7 @@ describe('stream-bundles', function () {
           });
         } else if (file.relative === 'other.js') {
           fileContents.should.eql(
-              'console.log(\"a\")\n' +
+              JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'other',
@@ -549,7 +557,7 @@ describe('stream-bundles', function () {
           });
         } else if (file.relative === 'other.production.js') {
           fileContents.should.eql(
-              'console.log(\"a\")\n' +
+              JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'other',
@@ -559,7 +567,7 @@ describe('stream-bundles', function () {
           });
         } else if (file.relative === 'other.staging.js') {
           fileContents.should.eql(
-              'console.log(\"a\")\n' + // no ; signifies bundle was properly NOT minified in staging mode
+              JS_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'other',
@@ -569,7 +577,7 @@ describe('stream-bundles', function () {
           });
         } else if (file.relative === 'other.development.js') {
           fileContents.should.eql(
-              'console.log(\"a\");\n' + // ; signifies bundle was properly minified in dev mode
+              JS_CONTENT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
           file.bundle.should.eql({
             name: 'other',
@@ -593,7 +601,7 @@ describe('stream-bundles', function () {
 
     });
 
-    afterEach(function() {
+    afterEach(function () {
       process.env.NODE_ENV = '';
     });
 

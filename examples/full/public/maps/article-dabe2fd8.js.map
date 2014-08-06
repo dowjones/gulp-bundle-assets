@@ -1,1 +1,0 @@
-{"version":3,"file":"article-dabe2fd8.js","sources":["lib/article/page.js","lib/article/scroll.js"],"names":[],"mappings":"AAAA,QAAA,IAAA,QCAA,QAAA,IAAA","sourcesContent":["console.log(\"page\");","console.log(\"scroll\");"],"sourceRoot":"/source/"}
