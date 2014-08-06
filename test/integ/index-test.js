@@ -342,9 +342,77 @@ describe('integration tests', function () {
     });
   });
 
+
   describe('full', function () {
     var appPath = path.join(examplePath, 'full'),
-      bundleConfigPath = path.join(appPath, 'bundle.config.js');
+      bundleConfigPath = path.join(appPath, 'bundle.config.js'),
+      HEADER_SCRIPT_CONTENT_NOT_UGLIFIED = 'console.log(\"header-scripts\")\nconsole.log(\"line-two\")\n',
+      HEADER_SCRIPT_CONTENT_UGLIFIED = 'console.log(\"header-scripts\"),console.log(\"line-two\");\n',
+      JQUERY_CONTENT_NOT_UGLIFIED = 'console.log(\"jquery\")\n',
+      JQUERY_CONTENT_MIN_NOT_UGLIFIED = 'console.log(\"jquery.min\")\n',
+      VENDOR_CONTENT_NOT_UGLIFIED = 'console.log(\"angular\")\nconsole.log(\"spin\")\n',
+      VENDOR_CONTENT_MIN_NOT_UGLIFIED = 'console.log(\"angular.min\")\nconsole.log(\"spin\")\n',
+      ARTICLE_CONTENT_NOT_UGLIFIED = 'console.log(\"page\")\nconsole.log(\"scroll\")\n',
+      ARTICLE_CONTENT_UGLIFIED = 'console.log(\"page\");\nconsole.log(\"scroll\");\n',
+      MAIN_CONTENT_NOT_UGLIFIED = 'console.log(\"app\")\nconsole.log(\"controllers\")\nconsole.log(\"directives\")\nconsole.log(\"filters\")\n',
+      MAIN_CONTENT_UGLIFIED = 'console.log(\"app\");\nconsole.log(\"controllers\");\nconsole.log(\"directives\");\nconsole.log(\"filters\");\n';
+
+    it('should read bundle.config and create bundles', function (done) {
+
+      testBundleStream(bundleConfigPath, appPath, done, function (file) {
+        var fileContents = file.contents.toString();
+
+        if (file.relative === 'header.js') {
+          fileContents.should.eql(
+              HEADER_SCRIPT_CONTENT_NOT_UGLIFIED +
+              JQUERY_CONTENT_NOT_UGLIFIED +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'header.css') {
+          fileContents.should.eql(
+              '.bootstrap {\n' +
+              '  background-color: red;\n' +
+              '}\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'article.css') {
+          fileContents.should.eql(
+              '.page {\n' +
+              '  background-color: red;\n' +
+              '}\n\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'vendor.js') {
+          fileContents.should.eql(
+              VENDOR_CONTENT_NOT_UGLIFIED +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'article.js') {
+          fileContents.should.eql(
+              ARTICLE_CONTENT_NOT_UGLIFIED +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'main.css') {
+          fileContents.should.eql(
+              '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'main.js') {
+          fileContents.should.eql(
+              MAIN_CONTENT_NOT_UGLIFIED +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (helpers.stringEndsWith(file.relative, '.map') ||
+          file.relative === 'fonts/glyphicons-halflings-regular.eot' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.svg' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.ttf' ||
+          file.relative === 'fonts/glyphicons-halflings-regular.woff' ||
+          file.relative === 'images/empire_icon.png' ||
+          file.relative === 'images/rebel_icon.png') {
+          staticFileCount++;
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+        fileCount++;
+      }, function () {
+        (fileCount).should.eql(20);
+        (staticFileCount).should.eql(13);
+      });
+
+    });
 
     it('should read bundle.config and create bundles in prod mode', function (done) {
 
@@ -353,38 +421,38 @@ describe('integration tests', function () {
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var fileContents = file.contents.toString();
 
-        if (file.relative === 'header-c380f873.js') { // minified
+        if (file.relative === 'header-c380f873.js') {
           fileContents.should.eql(
-              'console.log(\"header-scripts\"),console.log(\"line-two\");\n' + // minified header-scripts
-              'console.log(\"jquery.min\")\n' + // and unminified jquery.min.js
+              HEADER_SCRIPT_CONTENT_UGLIFIED +
+              JQUERY_CONTENT_MIN_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'header-bfff3428.css') { // minified
+        } else if (file.relative === 'header-bfff3428.css') {
           fileContents.should.eql(
               '.bootstrap.min {\n' +
               '  background-color: blue;\n' +
               '}\n' +
               helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'article-c2107e48.css') { // minified
+        } else if (file.relative === 'article-c2107e48.css') {
           fileContents.should.eql(
               '.page {\n' +
               '  background-color: red;\n' +
               '}\n\n' +
               helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'vendor-fc7efeba.js') { // minified
+        } else if (file.relative === 'vendor-b9c14db4.js') {
           fileContents.should.eql(
-              'console.log(\"angular.min\");\nconsole.log(\"spin\")\n' +
+              VENDOR_CONTENT_MIN_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'article-bf5a872a.js') { // minified
+        } else if (file.relative === 'article-bf5a872a.js') {
           fileContents.should.eql(
-              'console.log(\"page\");\nconsole.log(\"scroll\");\n' +
+              ARTICLE_CONTENT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'main-41e43699.css') { // minified
+        } else if (file.relative === 'main-41e43699.css') {
           fileContents.should.eql(
               '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n' +
               helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'main-a2f0720d.js') { // minified
+        } else if (file.relative === 'main-a2f0720d.js') {
           fileContents.should.eql(
-              'console.log(\"app\");\nconsole.log(\"controllers\");\nconsole.log(\"directives\");\nconsole.log(\"filters\");\n' +
+              MAIN_CONTENT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
         } else if (helpers.stringEndsWith(file.relative, '.map') ||
           file.relative === 'fonts/glyphicons-halflings-regular.eot' ||
