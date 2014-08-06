@@ -39,7 +39,7 @@ gulp.task('lint', 'Lint all js', function () {
 
 gulp.task('test', 'Tests', function () {
   return gulp.src(TEST_FILES)
-    .pipe(mocha({reporter: 'dot'}));
+    .pipe(mocha());
 });
 
 gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
