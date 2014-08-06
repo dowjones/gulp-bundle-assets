@@ -1,4 +1,4 @@
-# [gulp](http://gulpjs.com/)-bundle-assets [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
+# [gulp](http://gulpjs.com/)-bundle-assets [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coverage-image]][coverage-url]
 
 > Create asset (js, css) bundles from a config file leveraging the power of streams
 
@@ -237,3 +237,5 @@ Which results in a `bundle.result.json` file similar to:
 [npm-image]: http://img.shields.io/npm/v/gulp-bundle-assets.svg
 [travis-image]: https://travis-ci.org/chmontgomery/gulp-bundle-assets.svg?branch=master
 [travis-url]: https://travis-ci.org/chmontgomery/gulp-bundle-assets
+[coverage-image]: https://img.shields.io/coveralls/chmontgomery/gulp-bundle-assets.svg
+[coverage-url]: https://coveralls.io/r/chmontgomery/gulp-bundle-assets
