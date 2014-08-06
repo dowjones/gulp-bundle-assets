@@ -9,3 +9,4 @@ readme.md
 *.orig
 /bin/bundleAllExamples.sh
 .jshintrc
+/coverage/
