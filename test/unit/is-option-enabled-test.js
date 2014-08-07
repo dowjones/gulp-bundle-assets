@@ -1,6 +1,6 @@
 'use strict';
 var libPath = './../../lib',
-  isEnabled = require(libPath + '/is-enabled'),
+  isEnabled = require(libPath + '/is-option-enabled'),
   should = require('should');
 
 describe('is-enabled', function() {

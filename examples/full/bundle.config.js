@@ -9,13 +9,17 @@ module.exports = {
           minSrc: './bower_components/jquery/dist/jquery.min.js'
         }
       ],
-      styles: {
-        src: './bower_components/bootstrap/dist/css/bootstrap.css',
-        minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
-      },
+      styles: [
+        './styles/header.css',
+        {
+          src: './bower_components/bootstrap/dist/css/bootstrap.css',
+          minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
+        }
+      ],
       options: {
         useMin: prodLikeEnvs, // {(boolean|string|Array)} pre-minified files
         uglify: prodLikeEnvs, // {(boolean|string|Array)}
+        minCSS: prodLikeEnvs, // {(boolean|string|Array)}
         rev: prodLikeEnvs // {(boolean|string|Array)} file revisioning
       }
     },
@@ -24,9 +28,16 @@ module.exports = {
         {src: './bower_components/angular/angular.js', minSrc: './bower_components/angular/angular.min.js'},
         './bower_components/spin/spin.js'
       ],
+      styles: {
+        src: './bower_components/angular/angular-csp.css',
+        minSrc: './bower_components/angular/angular-csp.min.css'
+      },
       options: {
         useMin: prodLikeEnvs, // pre-minified files
-        uglify: false, // never let bundler minify js since bower already ships with minified versions
+        // The presence of a minSrc is automatically detected by the bundler and
+        // no uglification/minification will ever be run on those files
+        uglify: false,
+        minCSS: false,
         rev: prodLikeEnvs // file revisioning
       }
     },
@@ -35,6 +46,7 @@ module.exports = {
       styles: './lib/article/**/*.less', // if you supply .less files they will be compiled to .css for you
       options: {
         uglify: prodLikeEnvs,
+        minCSS: prodLikeEnvs,
         rev: prodLikeEnvs
       }
     },
@@ -46,11 +58,12 @@ module.exports = {
         './js/filters.js'
       ],
       styles: [
-        './styles/**/*.css',
+        './styles/legacy.css',
         './styles/**/*.less' // mix of file types
       ],
       options: {
         uglify: prodLikeEnvs,
+        minCSS: prodLikeEnvs,
         rev: prodLikeEnvs
       }
     }

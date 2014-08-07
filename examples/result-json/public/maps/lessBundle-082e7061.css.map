@@ -1,1 +1,0 @@
-{"version":3,"sources":["content/styles/a.less"],"names":[],"mappings":"AACA;EACE,cAAA","file":"lessBundle-082e7061.css","sourcesContent":["@nice-blue: #5B83AD;\n#header {\n  color: @nice-blue;\n}"],"sourceRoot":"/source/"}

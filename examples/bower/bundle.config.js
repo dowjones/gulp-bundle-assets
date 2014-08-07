@@ -6,11 +6,12 @@ module.exports = {
         './bower_components/angular/angular.min.js'
       ],
       styles: [
-        './bower_components/bootstrap/dist/css/bootstrap.css',
-        './bower_components/bootstrap/dist/css/bootstrap-theme.css'
+        './bower_components/bootstrap/dist/css/bootstrap.min.css',
+        './bower_components/bootstrap/dist/css/bootstrap-theme.min.css'
       ],
       options: {
         uglify: false, // don't minify js since bower already ships with one
+        minCss: false, // don't minify css since bower already ships with one
         rev: false
       }
     },

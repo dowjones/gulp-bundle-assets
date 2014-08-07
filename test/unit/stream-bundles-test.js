@@ -16,7 +16,9 @@ describe('stream-bundles', function () {
   // trailing ; signifies minification happened
     JS_CONTENT_NOT_UGLIFIED = 'console.log(\"a\")\n',
     MIN_JS_CONTENT_NOT_UGLIFIED = 'console.log(\"a.min\")\n',
-    JS_CONTENT_UGLIFIED = 'console.log(\"a\");\n';
+    JS_CONTENT_UGLIFIED = 'console.log(\"a\");\n',
+    CSS_CONTENT_NOT_MINIFIED = 'body {\n  background-color: red;\n}\n',
+    MIN_CSS_CONTENT_NOT_MINIFIED = '.a-pre-minified-file {\n  font-weight: bold;\n}\n';
 
   beforeEach(function () {
     fileCount = 0;
@@ -284,9 +286,7 @@ describe('stream-bundles', function () {
         var fileContents = file.contents.toString();
         if (file.relative === 'main.css') {
           fileContents.should.eql(
-              '#header {\n' +
-              '  color: #5b83ad;\n' +
-              '}\n\n' +
+              '#header{color:#5b83ad}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'maps/main.css.map') {
           // ok
@@ -320,8 +320,7 @@ describe('stream-bundles', function () {
         var fileContents = file.contents.toString();
         if (file.relative === 'main.css') {
           fileContents.should.eql(
-              'body {\n  background-color: red;\n}\n' +
-              '#header {\n  color: #5b83ad;\n}\n\n' +
+              'body{background-color:red}\n#header{color:#5b83ad}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'maps/main.css.map') {
           // ok
@@ -352,7 +351,78 @@ describe('stream-bundles', function () {
         var fileContents = file.contents.toString();
         if (file.relative === 'main.css') {
           fileContents.should.eql(
-              '.link {\n  color: #428bca;\n}\n\n' +
+              '.link{color:#428bca}\n' +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/main.css.map') {
+          // ok
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+      }, 2);
+
+    });
+
+    it('should not minify when minSrc defined', function (done) {
+
+      var config = new ConfigModel({
+        bundle: {
+          main: {
+            // since minSrc was defined this file will NOT be minified
+            styles: {
+              src: './content/a.css',
+              minSrc: './content/a.min.css'
+            },
+            options: {
+              rev: false
+            }
+          }
+        },
+        options: {
+          base: path.join(__dirname, '../fixtures')
+        }
+      });
+
+      verifyFileStream(config, done, function (file) {
+        var fileContents = file.contents.toString();
+        if (file.relative === 'main.css') {
+          fileContents.should.eql(
+              CSS_CONTENT_NOT_MINIFIED +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'maps/main.css.map') {
+          // ok
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+      }, 2);
+
+    });
+
+    it('should get minSrc and not minify', function (done) {
+
+      var config = new ConfigModel({
+        bundle: {
+          main: {
+            // since minSrc was defined this file will NOT be minified
+            styles: {
+              src: './content/a.css',
+              minSrc: './content/a.min.css'
+            },
+            options: {
+              rev: false,
+              useMin: true
+            }
+          }
+        },
+        options: {
+          base: path.join(__dirname, '../fixtures')
+        }
+      });
+
+      verifyFileStream(config, done, function (file) {
+        var fileContents = file.contents.toString();
+        if (file.relative === 'main.css') {
+          fileContents.should.eql(
+              MIN_CSS_CONTENT_NOT_MINIFIED +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'maps/main.css.map') {
           // ok
@@ -372,7 +442,7 @@ describe('stream-bundles', function () {
       var config = new ConfigModel({
         bundle: {
           main: {
-            // since minSrc was defined, no main bundles will uglify
+            // since minSrc was defined this file will NOT be uglified
             scripts: {
               src: './content/a.js',
               minSrc: './content/a.min.js'
