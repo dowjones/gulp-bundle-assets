@@ -56,7 +56,7 @@ gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
           var options = {
             thresholds : {
               statements : 96,
-              branches : 94,
+              branches : 95,
               lines : 97,
               functions : 100
             },

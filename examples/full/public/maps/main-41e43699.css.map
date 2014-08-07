@@ -1,1 +1,0 @@
-{"version":3,"sources":["styles/legacy.css","styles/main.less"],"names":[],"mappings":"AAAA;AACA;AACA;ACFA;EACE,sBAAA","file":"main-41e43699.css","sourcesContent":[".legacy {\n  background-color: green;\n}","body {\n  background-color: blue;\n}"],"sourceRoot":"/source/"}

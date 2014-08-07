@@ -35,12 +35,7 @@ describe('integration tests', function () {
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
           fileContents.should.eql(
-              'body {\n' +
-              '  background-color:red;\n' +
-              '}\n' +
-              '.test {\n' +
-              '  background-color: blue;\n' +
-              '}\n' +
+              'body{background-color:red}\n.test{background-color:#00f}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'content/images/logo.png' ||
           file.relative === 'content/fonts/awesome.svg' ||
@@ -75,12 +70,7 @@ describe('integration tests', function () {
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
           fileContents.should.eql(
-              'body {\n' +
-              '  background-color:red;\n' +
-              '}\n' +
-              'body {\n' +
-              '  font-weight: bold;\n' +
-              '}\n' +
+              'body{background-color:red}\nbody{font-weight:700}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'vendor.js') {
           fileContents.should.eql(
@@ -88,21 +78,13 @@ describe('integration tests', function () {
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'vendor.css') {
           fileContents.should.eql(
-              '.bootstrap {\n' +
-              '  background-color: red;\n' +
-              '}\n' +
-              '.bootstrap-theme {\n' +
-              '  background-color: red;\n' +
-              '}\n' +
+              '.bootstrap{background-color:red}\n.bootstrap-theme{background-color:red}\n' +
               helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'dist/fonts/glyphicons-halflings-regular.eot' ||
+        } else if (helpers.stringEndsWith(file.relative, '.map') ||
+          file.relative === 'dist/fonts/glyphicons-halflings-regular.eot' ||
           file.relative === 'dist/fonts/glyphicons-halflings-regular.svg' ||
           file.relative === 'dist/fonts/glyphicons-halflings-regular.ttf' ||
-          file.relative === 'dist/fonts/glyphicons-halflings-regular.woff' ||
-          file.relative === 'maps/vendor.js.map' ||
-          file.relative === 'maps/main.js.map' ||
-          file.relative === 'maps/main.css.map' ||
-          file.relative === 'maps/vendor.css.map') {
+          file.relative === 'dist/fonts/glyphicons-halflings-regular.woff') {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -130,15 +112,12 @@ describe('integration tests', function () {
           fileContents.should.eql(
               '!function(e){e.parentNode.removeChild(e)}(document.getElementById(\"error-message\"));\nconsole.log(\"foo\");\n' +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'main-8e6d79da.css') {
+        } else if (file.relative === 'main-0cd4ab1a.css') {
           fileContents.should.eql(
-              '.success-text {\n' +
-              '  color: green;\n' +
-              '}\n' +
+              '.success-text{color:green}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'content/images/gulp.png' ||
-          file.relative === 'maps/main-8e6d79da.css.map' ||
-          file.relative === 'maps/main-2742a3c0.js.map') {
+          helpers.stringEndsWith(file.relative, '.map')) {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
@@ -169,15 +148,12 @@ describe('integration tests', function () {
               fileContents.should.eql(
                   '!function(e){e.parentNode.removeChild(e)}(document.getElementById(\"error-message\"));\nconsole.log(\"foo\");\n' +
                   helpers.getJsSrcMapLine(file.relative));
-            } else if (file.relative === 'main-8e6d79da.css') {
+            } else if (file.relative === 'main-0cd4ab1a.css') {
               fileContents.should.eql(
-                  '.success-text {\n' +
-                  '  color: green;\n' +
-                  '}\n' +
+                  '.success-text{color:green}\n' +
                   helpers.getCssSrcMapLine(file.relative));
             } else if (file.relative === 'content/images/gulp.png' ||
-              file.relative === 'maps/main-8e6d79da.css.map' ||
-              file.relative === 'maps/main-2742a3c0.js.map') {
+              helpers.stringEndsWith(file.relative, '.map')) {
               staticFileCount++;
             } else {
               helpers.errorUnexpectedFileInStream(file);
@@ -189,7 +165,6 @@ describe('integration tests', function () {
           .on('data', function () {
           }) // noop
           .on('end', function () {
-            console.log('READ');
             fs.readFile(path.join(testDest, 'bundle.result.json'), function (err, data) {
               if (err) {
                 return done(err);
@@ -197,7 +172,7 @@ describe('integration tests', function () {
 
               JSON.parse(data).should.eql({
                 "main": {
-                  "styles": "<link href='main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
+                  "styles": "<link href='main-0cd4ab1a.css' media='screen' rel='stylesheet' type='text/css'/>",
                   "scripts": "<script src='main-2742a3c0.js' type='text/javascript'></script>"
                 }
               });
@@ -247,15 +222,15 @@ describe('integration tests', function () {
                 "scripts": "<script src='/public/customJs-33c43745.js' type='text/javascript'></script>"
               },
               "lessBundle": {
-                "styles": "<link href='/public/lessBundle-082e7061.css' media='screen' rel='stylesheet' type='text/css'/>"
+                "styles": "<link href='/public/lessBundle-bedd7167.css' media='screen' rel='stylesheet' type='text/css'/>"
               },
               "main": {
-                "styles": "<link href='/public/main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
+                "styles": "<link href='/public/main-0cd4ab1a.css' media='screen' rel='stylesheet' type='text/css'/>",
                 "scripts": "<script src='/public/main-2742a3c0.js' type='text/javascript'></script>"
               },
               "vendor": {
                 "scripts": "<script src='/public/vendor-6873f46e.js' type='text/javascript'></script>",
-                "styles": "<link href='/public/vendor-23d5c9c6.css' media='screen' rel='stylesheet' type='text/css'/>"
+                "styles": "<link href='/public/vendor-7c38ff67.css' media='screen' rel='stylesheet' type='text/css'/>"
               }
             });
 
@@ -280,14 +255,9 @@ describe('integration tests', function () {
       testBundleStream(bundleConfigPath, appPath, done, function (file) {
         var fileContents = file.contents.toString();
 
-        if (file.relative === 'main-c9f76dae.css') { // unminified
+        if (file.relative === 'main-b7f16021.css') { // minified
           fileContents.should.eql(
-              'body {\n' +
-              '  background-color:red;\n' +
-              '}\n' +
-              'body {\n' +
-              '  font-weight: bold;\n' +
-              '}\n' +
+              'body{background-color:red}\nbody{font-weight:700}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'one.js') { // unminified
           fileContents.should.eql(
@@ -348,14 +318,22 @@ describe('integration tests', function () {
       bundleConfigPath = path.join(appPath, 'bundle.config.js'),
       HEADER_SCRIPT_CONTENT_NOT_UGLIFIED = 'console.log(\"header-scripts\")\nconsole.log(\"line-two\")\n',
       HEADER_SCRIPT_CONTENT_UGLIFIED = 'console.log(\"header-scripts\"),console.log(\"line-two\");\n',
+      HEADER_CSS_CONTENT_MINIFIED = '.header{color:#000}\n.bootstrap.min {\n  background-color: blue;\n}\n',
+      HEADER_CSS_CONTENT_NOT_MINIFIED = '.header {\n  color: black;\n}\n.bootstrap {\n  background-color: red;\n}\n',
       JQUERY_CONTENT_NOT_UGLIFIED = 'console.log(\"jquery\")\n',
       JQUERY_CONTENT_MIN_NOT_UGLIFIED = 'console.log(\"jquery.min\")\n',
       VENDOR_CONTENT_NOT_UGLIFIED = 'console.log(\"angular\")\nconsole.log(\"spin\")\n',
       VENDOR_CONTENT_MIN_NOT_UGLIFIED = 'console.log(\"angular.min\")\nconsole.log(\"spin\")\n',
+      VENDOR_CSS_CONTENT_MIN_MINIFIED = '.angular-csp-min {\n  font-weight: bold;\n}\n',
+      VENDOR_CSS_CONTENT_NOT_MINIFIED = '.angular-csp {\n  font-weight: bold;\n}\n',
       ARTICLE_CONTENT_NOT_UGLIFIED = 'console.log(\"page\")\nconsole.log(\"scroll\")\n',
       ARTICLE_CONTENT_UGLIFIED = 'console.log(\"page\");\nconsole.log(\"scroll\");\n',
+      ARTICLE_CSS_CONTENT_MINIFIED = '.page{background-color:red}\n',
+      ARTICLE_CSS_CONTENT_NOT_MINIFIED = '.page {\n  background-color: red;\n}\n\n',
       MAIN_CONTENT_NOT_UGLIFIED = 'console.log(\"app\")\nconsole.log(\"controllers\")\nconsole.log(\"directives\")\nconsole.log(\"filters\")\n',
-      MAIN_CONTENT_UGLIFIED = 'console.log(\"app\");\nconsole.log(\"controllers\");\nconsole.log(\"directives\");\nconsole.log(\"filters\");\n';
+      MAIN_CONTENT_UGLIFIED = 'console.log(\"app\");\nconsole.log(\"controllers\");\nconsole.log(\"directives\");\nconsole.log(\"filters\");\n',
+      MAIN_CSS_CONTENT_MINIFIED = '.legacy{background-color:green}\nbody{background-color:#00f}\n',
+      MAIN_CSS_CONTENT_NOT_MINIFIED = '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n';
 
     it('should read bundle.config and create bundles', function (done) {
 
@@ -369,27 +347,27 @@ describe('integration tests', function () {
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'header.css') {
           fileContents.should.eql(
-              '.bootstrap {\n' +
-              '  background-color: red;\n' +
-              '}\n' +
+              HEADER_CSS_CONTENT_NOT_MINIFIED +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'article.css') {
           fileContents.should.eql(
-              '.page {\n' +
-              '  background-color: red;\n' +
-              '}\n\n' +
+              ARTICLE_CSS_CONTENT_NOT_MINIFIED +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'vendor.js') {
           fileContents.should.eql(
               VENDOR_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'vendor.css') {
+          fileContents.should.eql(
+              VENDOR_CSS_CONTENT_NOT_MINIFIED +
+              helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'article.js') {
           fileContents.should.eql(
               ARTICLE_CONTENT_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'main.css') {
           fileContents.should.eql(
-              '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n' +
+              MAIN_CSS_CONTENT_NOT_MINIFIED +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'main.js') {
           fileContents.should.eql(
@@ -408,8 +386,8 @@ describe('integration tests', function () {
         }
         fileCount++;
       }, function () {
-        (fileCount).should.eql(20);
-        (staticFileCount).should.eql(13);
+        (fileCount).should.eql(22);
+        (staticFileCount).should.eql(14);
       });
 
     });
@@ -426,29 +404,29 @@ describe('integration tests', function () {
               HEADER_SCRIPT_CONTENT_UGLIFIED +
               JQUERY_CONTENT_MIN_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'header-bfff3428.css') {
+        } else if (file.relative === 'header-450a885f.css') {
           fileContents.should.eql(
-              '.bootstrap.min {\n' +
-              '  background-color: blue;\n' +
-              '}\n' +
-              helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'article-c2107e48.css') {
-          fileContents.should.eql(
-              '.page {\n' +
-              '  background-color: red;\n' +
-              '}\n\n' +
+              HEADER_CSS_CONTENT_MINIFIED +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'vendor-b9c14db4.js') {
           fileContents.should.eql(
               VENDOR_CONTENT_MIN_NOT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'vendor-752c24d0.css') {
+          fileContents.should.eql(
+              VENDOR_CSS_CONTENT_MIN_MINIFIED +
+              helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'article-bf5a872a.js') {
           fileContents.should.eql(
               ARTICLE_CONTENT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'main-41e43699.css') {
+        } else if (file.relative === 'article-eb84c68e.css') {
           fileContents.should.eql(
-              '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n' +
+              ARTICLE_CSS_CONTENT_MINIFIED +
+              helpers.getCssSrcMapLine(file.relative));
+        } else if (file.relative === 'main-56c9e7f7.css') {
+          fileContents.should.eql(
+              MAIN_CSS_CONTENT_MINIFIED +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'main-a2f0720d.js') {
           fileContents.should.eql(
@@ -467,8 +445,8 @@ describe('integration tests', function () {
         }
         fileCount++;
       }, function () {
-        (fileCount).should.eql(20);
-        (staticFileCount).should.eql(13);
+        (fileCount).should.eql(22);
+        (staticFileCount).should.eql(14);
       });
 
     });
