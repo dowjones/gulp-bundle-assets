@@ -1,7 +1,3 @@
-.bootstrap {
-  background-color: red;
-}
-.bootstrap-theme {
-  background-color: red;
-}
+.bootstrap.min{background-color:#00f}
+.bootstrap-theme.min{background-color:#00f}
 /*# sourceMappingURL=maps/vendor.css.map */

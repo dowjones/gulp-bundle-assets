@@ -78,7 +78,7 @@ describe('integration tests', function () {
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'vendor.css') {
           fileContents.should.eql(
-              '.bootstrap{background-color:red}\n.bootstrap-theme{background-color:red}\n' +
+              '.bootstrap.min{background-color:#00f}\n.bootstrap-theme.min{background-color:#00f}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (helpers.stringEndsWith(file.relative, '.map') ||
           file.relative === 'dist/fonts/glyphicons-halflings-regular.eot' ||
