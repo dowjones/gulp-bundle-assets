@@ -81,19 +81,43 @@ Given the files
 var prodLikeEnvs = ['production', 'staging']; // when NODE_ENV=staging or NODE_ENV=production
 module.exports = {
   bundle: {
+    header: {
+      scripts: [
+        './js/header-scripts.js',
+        {
+          src: './bower_components/jquery/dist/jquery.js',
+          minSrc: './bower_components/jquery/dist/jquery.min.js'
+        }
+      ],
+      styles: [
+        './styles/header.css',
+        {
+          src: './bower_components/bootstrap/dist/css/bootstrap.css',
+          minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
+        }
+      ],
+      options: {
+        useMin: prodLikeEnvs, // {(boolean|string|Array)} pre-minified files from bower
+        uglify: prodLikeEnvs, // {(boolean|string|Array)} js minification
+        minCSS: prodLikeEnvs, // {(boolean|string|Array)} css minification
+        rev: prodLikeEnvs // {(boolean|string|Array)} file revisioning
+      }
+    },
     vendor: {
       scripts: [
-        {src: './bower_components/jquery/jquery.js', minSrc: './bower_components/jquery/jquery.min.js'},
         {src: './bower_components/angular/angular.js', minSrc: './bower_components/angular/angular.min.js'},
         './bower_components/spin/spin.js'
       ],
       styles: {
-        src: './bower_components/bootstrap/dist/css/bootstrap.css',
-        minSrc: './bower_components/bootstrap/dist/css/bootstrap.min.css'
+        src: './bower_components/angular/angular-csp.css',
+        minSrc: './bower_components/angular/angular-csp.min.css'
       },
       options: {
         useMin: prodLikeEnvs, // pre-minified files
-        uglify: false, // never let bundler minify js since bower already ships with minified versions
+        // The presence of a minSrc attribute is automatically detected by the bundler and
+        // no uglification/minification will ever be run on those files
+        uglify: false,
+        minCSS: false,
         rev: prodLikeEnvs // file revisioning
       }
     },
@@ -102,6 +126,7 @@ module.exports = {
       styles: './lib/article/**/*.less', // if you supply .less files they will be compiled to .css for you
       options: {
         uglify: prodLikeEnvs,
+        minCSS: prodLikeEnvs,
         rev: prodLikeEnvs
       }
     },
@@ -113,11 +138,12 @@ module.exports = {
         './js/filters.js'
       ],
       styles: [
-        './styles/**/*.css',
+        './styles/legacy.css',
         './styles/**/*.less' // mix of file types
       ],
       options: {
         uglify: prodLikeEnvs,
+        minCSS: prodLikeEnvs,
         rev: prodLikeEnvs
       }
     }
@@ -158,17 +184,21 @@ Will bundle files to `/public` and generate a `bundle.result.json` file with the
 
 ```json
 {
-  "article": {
-    "styles": "<link href='/public/article-c2107e48.css' media='screen' rel='stylesheet' type='text/css'/>",
-    "scripts": "<script src='/public/article-d41d8cd9.js' type='text/javascript'></script>"
-  },
   "vendor": {
-    "styles": "<link href='/public/vendor-bfff3428.css' media='screen' rel='stylesheet' type='text/css'/>",
-    "scripts": "<script src='/public/vendor-fc7efeba.js' type='text/javascript'></script>"
+    "styles": "<link href='/public/vendor.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "scripts": "<script src='/public/vendor.js' type='text/javascript'></script>"
+  },
+  "article": {
+    "styles": "<link href='/public/article.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "scripts": "<script src='/public/article.js' type='text/javascript'></script>"
+  },
+  "header": {
+    "scripts": "<script src='/public/header.js' type='text/javascript'></script>",
+    "styles": "<link href='/public/header.css' media='screen' rel='stylesheet' type='text/css'/>"
   },
   "main": {
-    "styles": "<link href='/public/main-41e43699.css' media='screen' rel='stylesheet' type='text/css'/>",
-    "scripts": "<script src='/public/main-d41d8cd9.js' type='text/javascript'></script>"
+    "styles": "<link href='/public/main.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "scripts": "<script src='/public/main.js' type='text/javascript'></script>"
   }
 }
 ```

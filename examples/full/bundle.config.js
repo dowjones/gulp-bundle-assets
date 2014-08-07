@@ -17,9 +17,9 @@ module.exports = {
         }
       ],
       options: {
-        useMin: prodLikeEnvs, // {(boolean|string|Array)} pre-minified files
-        uglify: prodLikeEnvs, // {(boolean|string|Array)}
-        minCSS: prodLikeEnvs, // {(boolean|string|Array)}
+        useMin: prodLikeEnvs, // {(boolean|string|Array)} pre-minified files from bower
+        uglify: prodLikeEnvs, // {(boolean|string|Array)} js minification
+        minCSS: prodLikeEnvs, // {(boolean|string|Array)} css minification
         rev: prodLikeEnvs // {(boolean|string|Array)} file revisioning
       }
     },
@@ -34,7 +34,7 @@ module.exports = {
       },
       options: {
         useMin: prodLikeEnvs, // pre-minified files
-        // The presence of a minSrc is automatically detected by the bundler and
+        // The presence of a minSrc attribute is automatically detected by the bundler and
         // no uglification/minification will ever be run on those files
         uglify: false,
         minCSS: false,

@@ -1,1 +1,0 @@
-{"version":3,"sources":["styles/header.css","bower_components/bootstrap/dist/css/bootstrap.css"],"names":[],"mappings":"AAAA;AACA;AACA;ACFA;AACA;AACA","file":"header.css","sourcesContent":[".header {\n  color: black;\n}",".bootstrap {\n  background-color: red;\n}"],"sourceRoot":"/source/"}

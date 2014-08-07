@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 gulp.task('bundle', ['clean'], function () {
 
-  //process.env.NODE_ENV = 'production'; // hardcode to always run in production mode
+  process.env.NODE_ENV = 'production'; // hardcode to always run in production mode
 
   return gulp.src('./bundle.config.js')
     .pipe(bundle())

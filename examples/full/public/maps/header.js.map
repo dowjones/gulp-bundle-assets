@@ -1,1 +1,0 @@
-{"version":3,"sources":["js/header-scripts.js","bower_components/jquery/dist/jquery.js"],"names":[],"mappings":"AAAA;AACA;ACDA","file":"header.js","sourcesContent":["console.log(\"header-scripts\")\nconsole.log(\"line-two\")","console.log(\"jquery\")"],"sourceRoot":"/source/"}

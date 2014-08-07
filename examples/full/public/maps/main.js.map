@@ -1,1 +1,0 @@
-{"version":3,"sources":["js/app.js","js/controllers.js","js/directives.js","js/filters.js"],"names":[],"mappings":"AAAA;ACAA;ACAA;ACAA","file":"main.js","sourcesContent":["console.log(\"app\")","console.log(\"controllers\")","console.log(\"directives\")","console.log(\"filters\")"],"sourceRoot":"/source/"}
