@@ -1,4 +1,3 @@
-var prodLikeEnvs = ['production', 'staging']; // when NODE_ENV=staging or NODE_ENV=production
 module.exports = {
   bundle: {
     header: {
@@ -17,10 +16,10 @@ module.exports = {
         }
       ],
       options: {
-        useMin: prodLikeEnvs, // {(boolean|string|Array)} pre-minified files from bower
-        uglify: prodLikeEnvs, // {(boolean|string|Array)} js minification
-        minCSS: prodLikeEnvs, // {(boolean|string|Array)} css minification
-        rev: prodLikeEnvs // {(boolean|string|Array)} file revisioning
+        useMin: 'min', // {(boolean|string|Array)} pre-minified files from bower
+        uglify: 'min', // {(boolean|string|Array)} js minification
+        minCSS: 'min', // {(boolean|string|Array)} css minification
+        rev: true // {(boolean|string|Array)} file revisioning
       }
     },
     vendor: {
@@ -33,21 +32,21 @@ module.exports = {
         minSrc: './bower_components/angular/angular-csp.min.css'
       },
       options: {
-        useMin: prodLikeEnvs, // pre-minified files
+        useMin: 'min',
         // The presence of a minSrc attribute is automatically detected by the bundler and
         // no uglification/minification will ever be run on those files
         uglify: false,
         minCSS: false,
-        rev: prodLikeEnvs // file revisioning
+        rev: true
       }
     },
     article: {
       scripts: './lib/article/**/*.js',
       styles: './lib/article/**/*.less', // if you supply .less files they will be compiled to .css for you
       options: {
-        uglify: prodLikeEnvs,
-        minCSS: prodLikeEnvs,
-        rev: prodLikeEnvs
+        uglify: 'min',
+        minCSS: 'min',
+        rev: 'min'
       }
     },
     main: {
@@ -62,9 +61,9 @@ module.exports = {
         './styles/**/*.less' // mix of file types
       ],
       options: {
-        uglify: prodLikeEnvs,
-        minCSS: prodLikeEnvs,
-        rev: prodLikeEnvs
+        uglify: 'min',
+        minCSS: 'min',
+        rev: 'min'
       }
     }
   },
