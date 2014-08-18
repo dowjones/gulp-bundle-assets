@@ -13,6 +13,7 @@
     "gulp-coffee": "^2.1.1",
     "gulp-if": "^1.2.4",
     "gulp-rimraf": "^0.1.0",
-    "gulp-sass": "^0.7.3"
+    "gulp-sass": "^0.7.3",
+    "lazypipe": "^0.2.2"
   }
 }

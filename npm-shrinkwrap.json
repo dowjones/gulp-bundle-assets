@@ -1215,10 +1215,6 @@
           "from": "clone-stats@0.0.1"
         }
       }
-    },
-    "vinyl-require": {
-      "version": "0.0.3",
-      "from": "vinyl-require@0.0.3"
     }
   }
 }

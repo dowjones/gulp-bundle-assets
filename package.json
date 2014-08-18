@@ -51,8 +51,7 @@
     "mkdirp": "0.5.0",
     "readable-stream": "1.0.27-1",
     "through2": "0.5.1",
-    "vinyl": "0.2.3",
-    "vinyl-require": "0.0.3"
+    "vinyl": "0.2.3"
   },
   "devDependencies": {
     "coveralls": "2.11.1",
