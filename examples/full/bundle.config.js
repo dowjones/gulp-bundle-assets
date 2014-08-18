@@ -1,3 +1,28 @@
+var coffee = require('gulp-coffee');
+var lazypipe = require('lazypipe');
+var sass = require('gulp-sass');
+var gif = require('gulp-if');
+
+function isCoffeeFile(file) {
+  return file.relative.indexOf('coffee', file.relative.length - 'coffee'.length) !== -1;
+}
+
+function isSassFile(file) {
+  return file.relative.indexOf('sass', file.relative.length - 'sass'.length) !== -1;
+}
+
+var scriptTransforms = lazypipe()
+  .pipe(function() {
+    // when using lazy pipe you need to call gulp-if from within an anonymous func
+    // https://github.com/robrich/gulp-if#works-great-inside-lazypipe
+    return gif(isCoffeeFile, coffee());
+  });
+
+var styleTransforms = lazypipe()
+  .pipe(function() {
+    return gif(isSassFile, sass());
+  });
+
 var prodLikeEnvs = ['production', 'staging']; // when NODE_ENV=staging or NODE_ENV=production
 module.exports = {
   bundle: {
@@ -42,12 +67,22 @@ module.exports = {
       }
     },
     article: {
-      scripts: './lib/article/**/*.js',
-      styles: './lib/article/**/*.less', // if you supply .less files they will be compiled to .css for you
+      scripts: [
+        './lib/article/**/*.js',
+        './lib/article/**/*.coffee'
+      ],
+      styles: [
+        //'./lib/article/**/*.sass',
+        './lib/article/**/*.less'
+      ],
       options: {
         uglify: prodLikeEnvs,
         minCSS: prodLikeEnvs,
-        rev: prodLikeEnvs
+        rev: prodLikeEnvs,
+        transforms: {
+          scripts: scriptTransforms,
+          styles: styleTransforms
+        }
       }
     },
     main: {
