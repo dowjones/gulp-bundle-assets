@@ -1,6 +1,6 @@
 {
   "name": "gulp-bundle-assets",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "dependencies": {
     "bluebird": {
       "version": "2.2.2",
