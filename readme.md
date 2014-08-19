@@ -135,8 +135,11 @@ Which results in a `bundle.result.json` file similar to:
 ## Other Features
 
 1. [different bundles for different environments](examples/per-environment)
+    * e.g. `NODE_ENV=production gulp bundle` could produce a set of bundles with minified src while just `gulp bundle` would have unminified src  
 2. [custom gulp transforms](examples/custom-transforms/readme.md)
+    * e.g. use `gulp-less`, `gulp-sass`, `gulp-coffee`, etc to further transform your files
 3. [consume pre-minified src files](examples/full)
+    * e.g. use jquery.min.js in production and jquery.js in dev
 
 ## License
 
