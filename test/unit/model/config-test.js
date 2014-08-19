@@ -7,29 +7,16 @@ var libPath = './../../../lib',
 describe('config', function () {
 
   it('should create object with defaults', function () {
-    var config = new ConfigModel({
+    var configModel = new ConfigModel({
       bundle: {},
       copy: {}
     });
-    config.bundle.should.eql({});
-    config.copy.should.eql({});
-    config.options.base.should.eql('.');
+    configModel.bundle.should.eql({});
+    configModel.copy.should.eql({});
+    configModel.options.base.should.eql('.');
   });
 
-  it('should create object with defaults given vinyl', function () {
-    var aFile = new File({
-      cwd: "/",
-      base: "/test/",
-      path: "/test/config.js",
-      contents: new Buffer('module.exports = { bundle: {}, copy: {} };')
-    });
-    var config = new ConfigModel(aFile);
-    config.bundle.should.eql({});
-    config.copy.should.eql({});
-    config.options.base.should.eql('.');
-  });
-
-  it('should create object given vinyl', function () {
+  it('should create object given basic config', function () {
     var config = {
       bundle: {
         vendor: { scripts: "./lib/*.js", styles: "./**/*.css" }
@@ -37,32 +24,21 @@ describe('config', function () {
         src: "./font/*.*"
       }
     };
-    var aFile = new File({
-      cwd: "/",
-      base: "/test/",
-      path: "/test/config.js",
-      contents: new Buffer('module.exports = ' + JSON.stringify(config))
-    });
-    var configModel = new ConfigModel(aFile);
+    var configModel = new ConfigModel(config);
     configModel.bundle.should.eql(config.bundle);
     configModel.copy.should.eql(config.copy);
     configModel.options.base.should.eql('.');
   });
 
-  it('should create object given vinyl and options', function () {
-    var aFile = new File({
-      cwd: "/",
-      base: "/test/",
-      path: "/test/config.js",
-      contents: new Buffer('module.exports = { bundle: {}, copy: {} };')
-    });
+  it('should create object given basic config and options', function () {
+
     var opts = {
       base: '/test/'
     };
-    var config = new ConfigModel(aFile, opts);
-    config.bundle.should.eql({});
-    config.copy.should.eql({});
-    config.options.base.should.eql('/test/');
+    var configModel = new ConfigModel({ bundle: {}, copy: {} }, opts);
+    configModel.bundle.should.eql({});
+    configModel.copy.should.eql({});
+    configModel.options.base.should.eql('/test/');
   });
 
   describe('should get all minSrcs', function () {
@@ -100,16 +76,10 @@ describe('config', function () {
           }
         }
       };
-      var aFile = new File({
-        cwd: "/",
-        base: "/test/",
-        path: "/test/config.js",
-        contents: new Buffer('module.exports = ' + JSON.stringify(config))
-      });
       var opts = {
         base: '/test/'
       };
-      var configModel = new ConfigModel(aFile, opts);
+      var configModel = new ConfigModel(config, opts);
       configModel.bundle.should.eql(config.bundle);
       configModel.getAllMinSrcs().should.eql({
         header: {
