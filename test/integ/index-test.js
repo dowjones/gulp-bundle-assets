@@ -221,9 +221,6 @@ describe('integration tests', function () {
               "customJs": {
                 "scripts": "<script src='/public/customJs-33c43745.js' type='text/javascript'></script>"
               },
-              "lessBundle": {
-                "styles": "<link href='/public/lessBundle-bedd7167.css' media='screen' rel='stylesheet' type='text/css'/>"
-              },
               "main": {
                 "styles": "<link href='/public/main-0cd4ab1a.css' media='screen' rel='stylesheet' type='text/css'/>",
                 "scripts": "<script src='/public/main-2742a3c0.js' type='text/javascript'></script>"
