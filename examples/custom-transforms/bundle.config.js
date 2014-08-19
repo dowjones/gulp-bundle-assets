@@ -1,14 +1,23 @@
 var coffee = require('gulp-coffee');
 var lazypipe = require('lazypipe');
 var sass = require('gulp-sass');
+var less = require('gulp-less');
 var gif = require('gulp-if');
 
-function isCoffeeFile(file) {
-  return file.relative.indexOf('coffee', file.relative.length - 'coffee'.length) !== -1;
+function stringEndsWith(str, suffix) {
+  return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-function isSassFile(file) {
-  return file.relative.indexOf('scss', file.relative.length - 'scss'.length) !== -1;
+function isCoffeeFile(file) {
+  return stringEndsWith(file.relative, 'coffee');
+}
+
+function isScssFile(file) {
+  return stringEndsWith(file.relative, 'scss');
+}
+
+function isLessFile(file) {
+  return stringEndsWith(file.relative, 'less');
 }
 
 var scriptTransforms = lazypipe()
@@ -20,7 +29,10 @@ var scriptTransforms = lazypipe()
 
 var styleTransforms = lazypipe()
   .pipe(function() {
-    return gif(isSassFile, sass());
+    return gif(isScssFile, sass());
+  })
+  .pipe(function() {
+    return gif(isLessFile, less());
   });
 
 module.exports = {
@@ -31,7 +43,7 @@ module.exports = {
         './content/**/*.js'
       ],
       styles: [
-        './lib/article/**/*.scss',
+        './content/**/*.scss',
         './content/**/*.less'
       ],
       options: {

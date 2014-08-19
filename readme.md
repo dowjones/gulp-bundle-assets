@@ -74,7 +74,7 @@ Will result in the following folder structure:
 ## Advanced Usage
 
 See [the examples folder](examples) for many other config options. The [full example](examples/full) shows most 
-all availble options.
+all available options.
 
 ## Options
 
@@ -131,6 +131,12 @@ Which results in a `bundle.result.json` file similar to:
 ```
 
 [See here for a full example using hogan](examples/express-app-using-result-json/readme.md)
+
+## Other Features
+
+1. [different bundles for different environments](examples/per-environment)
+2. [custom gulp transforms](examples/custom-transforms/readme.md)
+3. [consume pre-minified src files](examples/full)
 
 ## License
 
