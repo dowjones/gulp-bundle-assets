@@ -19,9 +19,6 @@ module.exports = {
     },
     customJs: {
       scripts: './content/js/custom.js'
-    },
-    lessBundle: {
-      styles: './content/styles/*.less'
     }
   }
 };

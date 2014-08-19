@@ -1,5 +1,5 @@
 {
-  "name": "full",
+  "name": "custom-transforms",
   "version": "0.0.0",
   "description": "",
   "main": "bundle.config.js",
@@ -9,9 +9,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "gulp": "^3.8.6",
+    "gulp": "^3.8.7",
     "gulp-coffee": "^2.1.1",
     "gulp-if": "^1.2.4",
+    "gulp-less": "^1.3.5",
     "gulp-rimraf": "^0.1.0",
     "gulp-sass": "^0.7.3",
     "lazypipe": "^0.2.2"

@@ -221,9 +221,6 @@ describe('integration tests', function () {
               "customJs": {
                 "scripts": "<script src='/public/customJs-33c43745.js' type='text/javascript'></script>"
               },
-              "lessBundle": {
-                "styles": "<link href='/public/lessBundle-bedd7167.css' media='screen' rel='stylesheet' type='text/css'/>"
-              },
               "main": {
                 "styles": "<link href='/public/main-0cd4ab1a.css' media='screen' rel='stylesheet' type='text/css'/>",
                 "scripts": "<script src='/public/main-2742a3c0.js' type='text/javascript'></script>"
@@ -312,7 +309,6 @@ describe('integration tests', function () {
     });
   });
 
-
   describe('full', function () {
     var appPath = path.join(examplePath, 'full'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js'),
@@ -326,71 +322,14 @@ describe('integration tests', function () {
       VENDOR_CONTENT_MIN_NOT_UGLIFIED = 'console.log(\"angular.min\")\nconsole.log(\"spin\")\n',
       VENDOR_CSS_CONTENT_MIN_MINIFIED = '.angular-csp-min {\n  font-weight: bold;\n}\n',
       VENDOR_CSS_CONTENT_NOT_MINIFIED = '.angular-csp {\n  font-weight: bold;\n}\n',
-      ARTICLE_CONTENT_NOT_UGLIFIED = 'console.log(\"page\")\nconsole.log(\"scroll\")\n',
-      ARTICLE_CONTENT_UGLIFIED = 'console.log(\"page\");\nconsole.log(\"scroll\");\n',
-      ARTICLE_CSS_CONTENT_MINIFIED = '.page{background-color:red}\n',
-      ARTICLE_CSS_CONTENT_NOT_MINIFIED = '.page {\n  background-color: red;\n}\n\n',
+      ARTICLE_CONTENT_NOT_UGLIFIED = 'console.log(\"page\")\nconsole.log(\"scroll\")\n(function() {\n  var number, square;\n\n  number = 42;\n\n  square = function(x) {\n    return x * x;\n  };\n\n}).call(this);\n\n',
+      ARTICLE_CONTENT_UGLIFIED = 'console.log(\"page\");\nconsole.log(\"scroll\");\n(function(){var n,t;n=42,t=function(n){return n*n}}).call(this);\n',
+      ARTICLE_CSS_CONTENT_MINIFIED = '.other-sass{background-color:#8b0000}\n.page{background-color:red}\n',
+      ARTICLE_CSS_CONTENT_NOT_MINIFIED = '.other-sass {\n  background-color: darkred; }\n\n.page {\n  background-color: red;\n}\n\n',
       MAIN_CONTENT_NOT_UGLIFIED = 'console.log(\"app\")\nconsole.log(\"controllers\")\nconsole.log(\"directives\")\nconsole.log(\"filters\")\n',
       MAIN_CONTENT_UGLIFIED = 'console.log(\"app\");\nconsole.log(\"controllers\");\nconsole.log(\"directives\");\nconsole.log(\"filters\");\n',
       MAIN_CSS_CONTENT_MINIFIED = '.legacy{background-color:green}\nbody{background-color:#00f}\n',
       MAIN_CSS_CONTENT_NOT_MINIFIED = '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n';
-
-    it('should read bundle.config and create bundles', function (done) {
-
-      testBundleStream(bundleConfigPath, appPath, done, function (file) {
-        var fileContents = file.contents.toString();
-
-        if (file.relative === 'header.js') {
-          fileContents.should.eql(
-              HEADER_SCRIPT_CONTENT_NOT_UGLIFIED +
-              JQUERY_CONTENT_NOT_UGLIFIED +
-              helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'header.css') {
-          fileContents.should.eql(
-              HEADER_CSS_CONTENT_NOT_MINIFIED +
-              helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'article.css') {
-          fileContents.should.eql(
-              ARTICLE_CSS_CONTENT_NOT_MINIFIED +
-              helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'vendor.js') {
-          fileContents.should.eql(
-              VENDOR_CONTENT_NOT_UGLIFIED +
-              helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'vendor.css') {
-          fileContents.should.eql(
-              VENDOR_CSS_CONTENT_NOT_MINIFIED +
-              helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'article.js') {
-          fileContents.should.eql(
-              ARTICLE_CONTENT_NOT_UGLIFIED +
-              helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'main.css') {
-          fileContents.should.eql(
-              MAIN_CSS_CONTENT_NOT_MINIFIED +
-              helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'main.js') {
-          fileContents.should.eql(
-              MAIN_CONTENT_NOT_UGLIFIED +
-              helpers.getJsSrcMapLine(file.relative));
-        } else if (helpers.stringEndsWith(file.relative, '.map') ||
-          file.relative === 'fonts/glyphicons-halflings-regular.eot' ||
-          file.relative === 'fonts/glyphicons-halflings-regular.svg' ||
-          file.relative === 'fonts/glyphicons-halflings-regular.ttf' ||
-          file.relative === 'fonts/glyphicons-halflings-regular.woff' ||
-          file.relative === 'images/empire_icon.png' ||
-          file.relative === 'images/rebel_icon.png') {
-          staticFileCount++;
-        } else {
-          helpers.errorUnexpectedFileInStream(file);
-        }
-        fileCount++;
-      }, function () {
-        (fileCount).should.eql(22);
-        (staticFileCount).should.eql(14);
-      });
-
-    });
 
     it('should read bundle.config and create bundles in prod mode', function (done) {
 
@@ -416,11 +355,11 @@ describe('integration tests', function () {
           fileContents.should.eql(
               VENDOR_CSS_CONTENT_MIN_MINIFIED +
               helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'article-bf5a872a.js') {
+        } else if (file.relative === 'article-1abef37b.js') {
           fileContents.should.eql(
               ARTICLE_CONTENT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
-        } else if (file.relative === 'article-eb84c68e.css') {
+        } else if (file.relative === 'article-e4e60ef0.css') {
           fileContents.should.eql(
               ARTICLE_CSS_CONTENT_MINIFIED +
               helpers.getCssSrcMapLine(file.relative));

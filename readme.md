@@ -74,7 +74,7 @@ Will result in the following folder structure:
 ## Advanced Usage
 
 See [the examples folder](examples) for many other config options. The [full example](examples/full) shows most 
-all availble options.
+all available options.
 
 ## Options
 
@@ -131,6 +131,15 @@ Which results in a `bundle.result.json` file similar to:
 ```
 
 [See here for a full example using hogan](examples/express-app-using-result-json/readme.md)
+
+## Other Features
+
+1. [different bundles for different environments](examples/per-environment)
+    * e.g. `NODE_ENV=production gulp bundle` could produce a set of bundles with minified src while just `gulp bundle` would have unminified src  
+2. [custom gulp transforms](examples/custom-transforms/readme.md)
+    * e.g. use `gulp-less`, `gulp-sass`, `gulp-coffee`, etc to further transform your files
+3. [consume pre-minified src files](examples/full)
+    * e.g. use jquery.min.js in production and jquery.js in dev
 
 ## License
 

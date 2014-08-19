@@ -8,7 +8,9 @@ var libPath = './../../lib',
   BundleType = require(libPath + '/model/bundle-type'),
   should = require('should'),
   gutil = require('gulp-util'),
-  helpers = require('../helpers');
+  helpers = require('../helpers'),
+  less = require('gulp-less'),
+  lazypipe = require('lazypipe');
 
 describe('stream-bundles', function () {
 
@@ -266,14 +268,20 @@ describe('stream-bundles', function () {
   /* jshint -W035 */
   describe('styles', function () {
 
-    it('should support basic less compilation', function (done) {
+    var lessTransform = lazypipe()
+      .pipe(less);
+
+    it('should support basic less compilation via custom transform', function (done) {
 
       var config = {
         bundle: {
           main: {
             styles: 'content/a.less',
             options: {
-              rev: false
+              rev: false,
+              transforms: {
+                styles: lessTransform
+              }
             }
           }
         },
@@ -307,7 +315,10 @@ describe('stream-bundles', function () {
               'content/a.less'
             ],
             options: {
-              rev: false
+              rev: false,
+              transforms: {
+                styles: lessTransform
+              }
             }
           }
         },
@@ -331,14 +342,17 @@ describe('stream-bundles', function () {
 
     });
 
-    it('should compile less with @import', function (done) {
+    it('should compile less with @import using style transform', function (done) {
 
       var config = {
         bundle: {
           main: {
             styles: 'content/b.less',
             options: {
-              rev: false
+              rev: false,
+              transforms: {
+                styles: lessTransform
+              }
             }
           }
         },
