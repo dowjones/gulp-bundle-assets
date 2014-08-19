@@ -1,7 +1,7 @@
 # custom-transforms
 
-This example shows how to use `gulp-bundle-assets` in conjunction with many custom gulp plugins.
-These transforms are run at the beginning of the bundle phase, before the files are minified and combined.
+This example shows how to use `gulp-bundle-assets` in conjunction with many other gulp plugins.
+These custom transforms are run at the beginning of the bundle phase, before the files are minified and combined.
 
 NOTE: any plugin you wish to use should support [sourcemaps](https://github.com/floridoo/gulp-sourcemaps),
 otherwise it will break the resulting sourcemaps generation. 
@@ -9,7 +9,7 @@ See [here on how to add this support to a gulp plugin](https://github.com/florid
 
 ## How to define custom transforms
 
-Define your custom transforms as part of a `[lazypipe](https://github.com/OverZealous/lazypipe)` stream.
+Define your custom transforms as part of a [`lazypipe`](https://github.com/OverZealous/lazypipe) stream.
 If you define them within a normal pipe they won't work.
 
 ```js
@@ -51,7 +51,7 @@ var styleTransforms = lazypipe()
 
 ## How to use custom transforms
 
-Each bundle supports a `options.transforms` object which accepts custom transforms for scripts and styles.
+Each bundle supports an `options.transforms` object which accepts transforms for scripts and styles.
 
 ```js
 // bundle.config.js
