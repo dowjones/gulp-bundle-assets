@@ -8,7 +8,7 @@ function isCoffeeFile(file) {
 }
 
 function isSassFile(file) {
-  return file.relative.indexOf('sass', file.relative.length - 'sass'.length) !== -1;
+  return file.relative.indexOf('scss', file.relative.length - 'scss'.length) !== -1;
 }
 
 var scriptTransforms = lazypipe()
@@ -31,7 +31,7 @@ module.exports = {
         './content/**/*.js'
       ],
       styles: [
-        './lib/article/**/*.sass',
+        './lib/article/**/*.scss',
         './content/**/*.less'
       ],
       options: {

@@ -1,5 +1,5 @@
 {
-  "name": "transforms",
+  "name": "custom-transforms",
   "version": "0.0.0",
   "description": "",
   "main": "bundle.config.js",
