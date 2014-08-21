@@ -10,7 +10,8 @@ var fs = require('fs'),
 describe('index', function () {
 
   var bundle,
-    streamBunldesStub;
+    streamBunldesStub,
+    cwdPath = path.join(__dirname, '../..');
 
   beforeEach(function () {
     streamBunldesStub = sinon.spy(function (config) {
@@ -38,6 +39,12 @@ describe('index', function () {
                 js: 'some/file'
               }
             },
+            file: {
+              "base": path.join(cwdPath, "/test/fixtures/configs/"),
+              "cwd": cwdPath,
+              "path": path.join(cwdPath, "/test/fixtures/configs/valid-bundle-field.js"),
+              "relative": "valid-bundle-field.js"
+            },
             options: {
               base: '.'
             }
@@ -57,6 +64,12 @@ describe('index', function () {
         .on('end', function () {
           should(streamBunldesStub.getCall(0).args[0]).eql({
             copy: 'some/file',
+            file: {
+              "base": path.join(cwdPath, "/test/fixtures/configs/"),
+              "cwd": cwdPath,
+              "path": path.join(cwdPath, "/test/fixtures/configs/valid-copy-field.js"),
+              "relative": "valid-copy-field.js"
+            },
             options: {
               base: '.'
             }

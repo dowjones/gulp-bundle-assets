@@ -8,9 +8,7 @@ Uses the following gulp modules under the covers when creating bundles:
 2. [gulp-sourcemaps](https://github.com/floridoo/gulp-sourcemaps)
 3. [gulp-uglify](https://github.com/terinjokes/gulp-uglify)
 4. [gulp-minify-css](https://github.com/jonathanepollack/gulp-minify-css)
-5. [gulp-less](https://github.com/plus3network/gulp-less)
 6. [gulp-rev](https://github.com/sindresorhus/gulp-rev)
-7. [gulp-using](https://github.com/jeromedecoster/gulp-using)
 
 ## Install
 

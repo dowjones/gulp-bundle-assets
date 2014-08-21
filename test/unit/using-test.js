@@ -1,68 +1,109 @@
 var libPath = './../../lib',
   should = require('should'),
   BundleType = require(libPath + '/model/bundle-type'),
-  proxyquire = require('proxyquire');
+  File = require('vinyl'),
+  proxyquire = require('proxyquire'),
+  ANSI_GREEN = "\u001B[32m",
+  ANSI_MAGENTA = "\u001B[35m",
+  ANSI_DEFAULT = "\u001B[39m";
 
-describe('using', function() {
+describe('using', function () {
 
-  it('should log when bundle', function (done) {
-    var gusingStub = function(opts) {
-      opts.should.eql({
-        prefix: 'Bundle "main.' + BundleType.SCRIPTS + '" using'
-      });
-      done();
-    };
-    var using = proxyquire(libPath + '/using', { 'gulp-using': gusingStub });
+  var fakeFile;
 
-    using('main', BundleType.SCRIPTS);
+  beforeEach(function () {
+    fakeFile = new File({
+      cwd: '/',
+      base: '/test',
+      path: '/test/file.js',
+      contents: new Buffer('yo')
+    });
   });
 
-  it('should log when copy', function (done) {
-    var gusingStub = function(opts) {
-      opts.should.eql({
-        prefix: 'Copy file'
-      });
-      done();
-    };
-    var using = proxyquire(libPath + '/using', { 'gulp-using': gusingStub });
+  function getUsing(gutilStub) {
+    return proxyquire(libPath + '/using', { 'gulp-util': gutilStub });
+  }
 
-    using('a.copy.file');
+  function run(usingStream, done) {
+    usingStream.write(fakeFile);
+    usingStream.once('data', function (file) {
+      should(file.isBuffer()).be.ok;
+      done();
+    });
+  }
+
+  describe('bundle', function() {
+
+    it('should log basic', function (done) {
+      var gutilStub = {
+        log: function(prefix, suffix) {
+          prefix.should.eql("Bundle '" + ANSI_GREEN + "main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
+          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
+        }
+      };
+      var usingStream = getUsing(gutilStub).bundle('main', BundleType.SCRIPTS);
+      run(usingStream, done);
+    });
+
+    it('should log when env', function (done) {
+      var gutilStub = {
+        log: function(prefix, suffix) {
+          prefix.should.eql("Bundle '" + ANSI_GREEN + "main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
+          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
+        }
+      };
+      var usingStream = getUsing(gutilStub).bundle('main', BundleType.SCRIPTS, 'production');
+      run(usingStream, done);
+    });
+
+    it('should log when env and bundleAllEnvironments', function (done) {
+      var gutilStub = {
+        log: function(prefix, suffix) {
+          prefix.should.eql("Bundle '" + ANSI_GREEN + "production.main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
+          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
+        }
+      };
+      var usingStream = getUsing(gutilStub).bundle('main', BundleType.SCRIPTS, 'production', true);
+      run(usingStream, done);
+    });
+
+    it('should log as default when env and bundleAllEnvironments', function (done) {
+      var gutilStub = {
+        log: function(prefix, suffix) {
+          prefix.should.eql("Bundle '" + ANSI_GREEN + "default.main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
+          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
+        }
+      };
+      var usingStream = getUsing(gutilStub).bundle('main', BundleType.SCRIPTS, '', true);
+      run(usingStream, done);
+    });
+
   });
 
-  it('should log when bundle and env', function (done) {
-    var gusingStub = function(opts) {
-      opts.should.eql({
-        prefix: 'Bundle "main.' + BundleType.SCRIPTS + '" using'
-      });
-      done();
-    };
-    var using = proxyquire(libPath + '/using', { 'gulp-using': gusingStub });
+  describe('copy', function() {
 
-    using('main', BundleType.SCRIPTS, 'production');
-  });
+    it('should log basic', function (done) {
+      var gutilStub = {
+        log: function(prefix, suffix) {
+          prefix.should.eql("Copy file");
+          suffix.should.eql(ANSI_MAGENTA + "test/file.js" + ANSI_DEFAULT);
+        }
+      };
+      var usingStream = getUsing(gutilStub).copy('.');
+      run(usingStream, done);
+    });
 
-  it('should log when bundle, env and bundleAllEnvironments', function (done) {
-    var gusingStub = function(opts) {
-      opts.should.eql({
-        prefix: 'Bundle "production.main.' + BundleType.SCRIPTS + '" using'
-      });
-      done();
-    };
-    var using = proxyquire(libPath + '/using', { 'gulp-using': gusingStub });
+    it('should log given base', function (done) {
+      var gutilStub = {
+        log: function(prefix, suffix) {
+          prefix.should.eql("Copy file");
+          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
+        }
+      };
+      var usingStream = getUsing(gutilStub).copy('/test');
+      run(usingStream, done);
+    });
 
-    using('main', BundleType.SCRIPTS, 'production', true);
-  });
-
-  it('should log when bundle, env and bundleAllEnvironments', function (done) {
-    var gusingStub = function(opts) {
-      opts.should.eql({
-        prefix: 'Bundle "default.main.' + BundleType.SCRIPTS + '" using'
-      });
-      done();
-    };
-    var using = proxyquire(libPath + '/using', { 'gulp-using': gusingStub });
-
-    using('main', BundleType.SCRIPTS, '', true);
   });
 
 });

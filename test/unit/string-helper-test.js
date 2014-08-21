@@ -10,6 +10,10 @@ describe('string-helper', function () {
       stringHelper.endsWith('hello world', 'rld').should.be.ok;
     });
 
+    it('should find when exact', function () {
+      stringHelper.endsWith('/', '/').should.be.ok;
+    });
+
     it('should not find', function () {
       stringHelper.endsWith('hello world', 'hello').should.not.be.ok;
     });
