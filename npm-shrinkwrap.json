@@ -48,7 +48,7 @@
         },
         "chalk": {
           "version": "0.4.0",
-          "from": "chalk@0.4.0",
+          "from": "chalk@~0.4.0",
           "dependencies": {
             "has-color": {
               "version": "0.1.7",
@@ -82,7 +82,7 @@
               "dependencies": {
                 "glob": {
                   "version": "3.2.11",
-                  "from": "glob@3.2.11",
+                  "from": "glob@3.x",
                   "dependencies": {
                     "inherits": {
                       "version": "2.0.1",
@@ -108,7 +108,7 @@
             },
             "resolve": {
               "version": "0.7.4",
-              "from": "resolve@0.7.4"
+              "from": "resolve@0.7.x"
             },
             "extend": {
               "version": "1.2.1",
@@ -130,7 +130,7 @@
               "dependencies": {
                 "once": {
                   "version": "1.3.0",
-                  "from": "once@1.3.0"
+                  "from": "once@1.x"
                 }
               }
             },
@@ -178,11 +178,11 @@
                       "dependencies": {
                         "lru-cache": {
                           "version": "2.5.0",
-                          "from": "lru-cache@2"
+                          "from": "lru-cache@2.5.0"
                         },
                         "sigmund": {
                           "version": "1.0.0",
-                          "from": "sigmund@~1.0.0"
+                          "from": "sigmund@1.0.0"
                         }
                       }
                     },
@@ -504,7 +504,7 @@
         },
         "through": {
           "version": "2.3.4",
-          "from": "through@2.3.4"
+          "from": "through@~2.3.4"
         }
       }
     },
@@ -522,11 +522,11 @@
               "dependencies": {
                 "lru-cache": {
                   "version": "2.5.0",
-                  "from": "lru-cache@2.5.0"
+                  "from": "lru-cache@2"
                 },
                 "sigmund": {
                   "version": "1.0.0",
-                  "from": "sigmund@1.0.0"
+                  "from": "sigmund@~1.0.0"
                 }
               }
             }
@@ -578,11 +578,11 @@
           "dependencies": {
             "chalk": {
               "version": "0.5.1",
-              "from": "chalk@0.5.1",
+              "from": "chalk@^0.5.0",
               "dependencies": {
                 "ansi-styles": {
                   "version": "1.1.0",
-                  "from": "ansi-styles@1.1.0"
+                  "from": "ansi-styles@^1.1.0"
                 },
                 "escape-string-regexp": {
                   "version": "1.0.1",
@@ -600,7 +600,7 @@
                 },
                 "strip-ansi": {
                   "version": "0.3.0",
-                  "from": "strip-ansi@0.3.0",
+                  "from": "strip-ansi@^0.3.0",
                   "dependencies": {
                     "ansi-regex": {
                       "version": "0.2.1",
@@ -628,7 +628,7 @@
               "dependencies": {
                 "lodash.defaults": {
                   "version": "2.4.1",
-                  "from": "lodash.defaults@2.4.1",
+                  "from": "lodash.defaults@~2.4.1",
                   "dependencies": {
                     "lodash._objecttypes": {
                       "version": "2.4.1",
@@ -668,15 +668,15 @@
                 },
                 "lodash.keys": {
                   "version": "2.4.1",
-                  "from": "lodash.keys@2.4.1",
+                  "from": "lodash.keys@~2.4.1",
                   "dependencies": {
                     "lodash._isnative": {
                       "version": "2.4.1",
-                      "from": "lodash._isnative@2.4.1"
+                      "from": "lodash._isnative@~2.4.1"
                     },
                     "lodash.isobject": {
                       "version": "2.4.1",
-                      "from": "lodash.isobject@2.4.1",
+                      "from": "lodash.isobject@~2.4.1",
                       "dependencies": {
                         "lodash._objecttypes": {
                           "version": "2.4.1",
@@ -686,7 +686,7 @@
                     },
                     "lodash._shimkeys": {
                       "version": "2.4.1",
-                      "from": "lodash._shimkeys@2.4.1",
+                      "from": "lodash._shimkeys@~2.4.1",
                       "dependencies": {
                         "lodash._objecttypes": {
                           "version": "2.4.1",
@@ -708,7 +708,7 @@
             },
             "minimist": {
               "version": "0.2.0",
-              "from": "minimist@0.2.0"
+              "from": "minimist@^0.2.0"
             },
             "multipipe": {
               "version": "0.1.1",
@@ -794,11 +794,11 @@
       "dependencies": {
         "chalk": {
           "version": "0.5.1",
-          "from": "chalk@0.5.1",
+          "from": "chalk@^0.5.0",
           "dependencies": {
             "ansi-styles": {
               "version": "1.1.0",
-              "from": "ansi-styles@1.1.0"
+              "from": "ansi-styles@^1.1.0"
             },
             "escape-string-regexp": {
               "version": "1.0.1",
@@ -816,7 +816,7 @@
             },
             "strip-ansi": {
               "version": "0.3.0",
-              "from": "strip-ansi@0.3.0",
+              "from": "strip-ansi@^0.3.0",
               "dependencies": {
                 "ansi-regex": {
                   "version": "0.2.1",
@@ -844,7 +844,7 @@
           "dependencies": {
             "lodash.defaults": {
               "version": "2.4.1",
-              "from": "lodash.defaults@2.4.1",
+              "from": "lodash.defaults@~2.4.1",
               "dependencies": {
                 "lodash._objecttypes": {
                   "version": "2.4.1",
@@ -884,15 +884,15 @@
             },
             "lodash.keys": {
               "version": "2.4.1",
-              "from": "lodash.keys@2.4.1",
+              "from": "lodash.keys@~2.4.1",
               "dependencies": {
                 "lodash._isnative": {
                   "version": "2.4.1",
-                  "from": "lodash._isnative@2.4.1"
+                  "from": "lodash._isnative@~2.4.1"
                 },
                 "lodash.isobject": {
                   "version": "2.4.1",
-                  "from": "lodash.isobject@2.4.1",
+                  "from": "lodash.isobject@~2.4.1",
                   "dependencies": {
                     "lodash._objecttypes": {
                       "version": "2.4.1",
@@ -902,7 +902,7 @@
                 },
                 "lodash._shimkeys": {
                   "version": "2.4.1",
-                  "from": "lodash._shimkeys@2.4.1",
+                  "from": "lodash._shimkeys@~2.4.1",
                   "dependencies": {
                     "lodash._objecttypes": {
                       "version": "2.4.1",
@@ -924,7 +924,7 @@
         },
         "minimist": {
           "version": "0.2.0",
-          "from": "minimist@0.2.0"
+          "from": "minimist@^0.2.0"
         },
         "multipipe": {
           "version": "0.1.1",
