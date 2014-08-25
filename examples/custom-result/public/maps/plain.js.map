@@ -1,0 +1,1 @@
+{"version":3,"sources":["scripts/plain.js"],"names":["console","log"],"mappings":"AAAAA,QAAQC,IAAI","file":"plain.js","sourcesContent":["console.log(\"plain\")"],"sourceRoot":"/source/"}

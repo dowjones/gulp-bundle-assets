@@ -1,0 +1,18 @@
+{
+  "base": {
+    "scripts": "<script src='/public/base.js' type='text/jsx'></script>",
+    "styles": "<link href='/public/base.css' media='screen' rel='stylesheet' type='text/css'/>"
+  },
+  "plain": {
+    "scripts": "/public/plain.js",
+    "styles": "/public/plain.css"
+  },
+  "default": {
+    "styles": "<link href='/public/default.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "scripts": "<script src='/public/default.js' type='text/javascript'></script>"
+  },
+  "custom": {
+    "scripts": "<script async src='/public/custom.js' type='application/javascript'></script>",
+    "styles": "<link href='/public/custom.css' type='text/html'/>"
+  }
+}

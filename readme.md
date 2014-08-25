@@ -138,6 +138,8 @@ Which results in a `bundle.result.json` file similar to:
     * e.g. use `gulp-less`, `gulp-sass`, `gulp-coffee`, etc to further transform your files
 3. [consume pre-minified src files](examples/full)
     * e.g. use jquery.min.js in production and jquery.js in dev
+4. [custom result types](examples/react-tutorial)
+    * e.g. create a bundle.result.json for html, jsx or any custom results you can think of
 
 ## License
 
