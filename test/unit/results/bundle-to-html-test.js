@@ -1,6 +1,6 @@
 'use strict';
-var libPath = './../../lib',
-  bundleToHtml = require(libPath + '/bundle-to-html.js'),
+var libPath = './../../../lib',
+  bundleToHtml = require(libPath + '/results/bundle-to-html.js'),
   BundleType = require(libPath + '/model/bundle-type'),
   should = require('should');
 
