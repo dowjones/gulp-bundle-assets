@@ -596,6 +596,9 @@ describe('stream-bundles', function () {
           file.bundle.should.eql({
             name: 'main',
             type: BundleType.SCRIPTS,
+            result: {
+              type: 'html'
+            },
             bundleAllEnvironments: true,
             env: ''
           });
@@ -606,6 +609,9 @@ describe('stream-bundles', function () {
           file.bundle.should.eql({
             name: 'main',
             type: BundleType.SCRIPTS,
+            result: {
+              type: 'html'
+            },
             bundleAllEnvironments: true,
             env: 'production'
           });
@@ -616,6 +622,9 @@ describe('stream-bundles', function () {
           file.bundle.should.eql({
             name: 'main',
             type: BundleType.SCRIPTS,
+            result: {
+              type: 'html'
+            },
             bundleAllEnvironments: true,
             env: 'staging'
           });
@@ -626,6 +635,9 @@ describe('stream-bundles', function () {
           file.bundle.should.eql({
             name: 'main',
             type: BundleType.SCRIPTS,
+            result: {
+              type: 'html'
+            },
             bundleAllEnvironments: true,
             env: 'development'
           });
@@ -636,6 +648,9 @@ describe('stream-bundles', function () {
           file.bundle.should.eql({
             name: 'other',
             type: BundleType.SCRIPTS,
+            result: {
+              type: 'html'
+            },
             bundleAllEnvironments: true,
             env: ''
           });
@@ -646,6 +661,9 @@ describe('stream-bundles', function () {
           file.bundle.should.eql({
             name: 'other',
             type: BundleType.SCRIPTS,
+            result: {
+              type: 'html'
+            },
             bundleAllEnvironments: true,
             env: 'production'
           });
@@ -656,6 +674,9 @@ describe('stream-bundles', function () {
           file.bundle.should.eql({
             name: 'other',
             type: BundleType.SCRIPTS,
+            result: {
+              type: 'html'
+            },
             bundleAllEnvironments: true,
             env: 'staging'
           });
@@ -666,6 +687,9 @@ describe('stream-bundles', function () {
           file.bundle.should.eql({
             name: 'other',
             type: BundleType.SCRIPTS,
+            result: {
+              type: 'html'
+            },
             bundleAllEnvironments: true,
             env: 'development'
           });

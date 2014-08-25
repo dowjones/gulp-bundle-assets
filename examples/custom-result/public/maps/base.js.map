@@ -1,0 +1,1 @@
+{"version":3,"sources":["scripts/base.js"],"names":[],"mappings":"AAAA","file":"base.js","sourcesContent":["var app = <Nav color=\"blue\" />;"],"sourceRoot":"/source/"}

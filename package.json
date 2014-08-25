@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "bluebird": "2.2.2",
-    "chalk": "0.5.1",
     "duplexer2": "0.0.2",
     "graceful-fs": "3.0.2",
     "gulp": "3.8.5",
