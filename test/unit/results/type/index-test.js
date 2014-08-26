@@ -141,6 +141,28 @@ describe('result type', function () {
 
   });
 
+  it('should result when object but none specified for type', function () {
+
+    var fakeFile = new File({
+      cwd: "/",
+      base: "/test/",
+      path: "/test/file.css",
+      contents: new Buffer("")
+    });
+    fakeFile.bundle = {
+      type: BundleType.STYLES,
+      result: {
+        type: {
+          scripts: 'jsx'
+        }
+      }
+    };
+
+    var resultLine = resultTypeFunc(fakeFile);
+    resultLine.should.eql("<link href='file.css' media='screen' rel='stylesheet' type='text/css'/>");
+
+  });
+
   it('should throw error when junk resulter given', function () {
 
     var fakeFile = new File({
