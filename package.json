@@ -36,7 +36,7 @@
     "duplexer2": "0.0.2",
     "graceful-fs": "3.0.2",
     "gulp": "3.8.5",
-    "gulp-concat": "2.3.3",
+    "gulp-concat": "git://github.com/chmontgomery/gulp-concat.git#master",
     "gulp-if": "1.2.4",
     "gulp-minify-css": "0.3.7",
     "gulp-rev": "1.0.0",

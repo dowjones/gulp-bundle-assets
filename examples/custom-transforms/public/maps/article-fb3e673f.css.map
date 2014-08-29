@@ -1,1 +1,0 @@
-{"version":3,"sources":["content/styles/other.css","content/styles/page.less"],"names":[],"mappings":"AAAA;ACAA;EACE,qBAAA","file":"article-fb3e673f.css","sourcesContent":[".other-sass {\n  background-color: darkred;\n}",".page-less {\n  background-color: red;\n}"],"sourceRoot":"/source/"}
