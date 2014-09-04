@@ -281,7 +281,7 @@
               }
             },
             "vinyl": {
-              "version": "0.4.2",
+              "version": "0.4.3",
               "from": "vinyl@^0.4.0",
               "dependencies": {
                 "clone-stats": {
@@ -371,7 +371,7 @@
       "from": "gulp-minify-css@0.3.7",
       "dependencies": {
         "clean-css": {
-          "version": "2.2.14",
+          "version": "2.2.15",
           "from": "clean-css@~2.2.8",
           "dependencies": {
             "commander": {
@@ -416,7 +416,7 @@
                   "dependencies": {
                     "ansi-regex": {
                       "version": "0.2.1",
-                      "from": "ansi-regex@^0.2.0"
+                      "from": "ansi-regex@^0.2.1"
                     }
                   }
                 },
@@ -426,7 +426,7 @@
                   "dependencies": {
                     "ansi-regex": {
                       "version": "0.2.1",
-                      "from": "ansi-regex@^0.2.0"
+                      "from": "ansi-regex@^0.2.1"
                     }
                   }
                 },
@@ -547,7 +547,7 @@
               }
             },
             "vinyl": {
-              "version": "0.4.2",
+              "version": "0.4.3",
               "from": "vinyl@^0.4.0",
               "dependencies": {
                 "clone-stats": {
@@ -652,7 +652,7 @@
               "dependencies": {
                 "ansi-regex": {
                   "version": "0.2.1",
-                  "from": "ansi-regex@^0.2.0"
+                  "from": "ansi-regex@^0.2.1"
                 }
               }
             },
@@ -662,7 +662,7 @@
               "dependencies": {
                 "ansi-regex": {
                   "version": "0.2.1",
-                  "from": "ansi-regex@^0.2.0"
+                  "from": "ansi-regex@^0.2.1"
                 }
               }
             },
