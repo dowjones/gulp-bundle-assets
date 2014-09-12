@@ -55,7 +55,7 @@ describe('result type', function () {
 
     var resultLine = resultTypeFunc(fakeFile, '/public/');
 
-    resultLine.should.eql("<link href='/public/file.css' media='screen' rel='stylesheet' type='text/css'/>");
+    resultLine.should.eql("<link href='/public/file.css' media='all' rel='stylesheet' type='text/css'/>");
 
   });
 
@@ -159,7 +159,7 @@ describe('result type', function () {
     };
 
     var resultLine = resultTypeFunc(fakeFile);
-    resultLine.should.eql("<link href='file.css' media='screen' rel='stylesheet' type='text/css'/>");
+    resultLine.should.eql("<link href='file.css' media='all' rel='stylesheet' type='text/css'/>");
 
   });
 

@@ -52,7 +52,7 @@ describe('add-to-results', function () {
         contents: {
           main: {
             scripts: "<script src='main-bundle.js' type='text/javascript'></script>",
-            styles: "<link href='main-bundle.css' media='screen' rel='stylesheet' type='text/css'/>"
+            styles: "<link href='main-bundle.css' media='all' rel='stylesheet' type='text/css'/>"
           }
         },
         filename: 'bundle.result.json'
@@ -67,7 +67,7 @@ describe('add-to-results', function () {
         "contents": {
           main: {
             scripts: "<script src='main-bundle.js' type='text/javascript'></script>",
-            styles: "<link href='main-bundle.css' media='screen' rel='stylesheet' type='text/css'/>"
+            styles: "<link href='main-bundle.css' media='all' rel='stylesheet' type='text/css'/>"
           }
         },
         filename: 'bundle.result.json'
@@ -86,7 +86,7 @@ describe('add-to-results', function () {
         contents: {
           main: {
             scripts: "<script src='main-bundle.js' type='text/javascript'></script>",
-            styles: "<link href='main-bundle.css' media='screen' rel='stylesheet' type='text/css'/>"
+            styles: "<link href='main-bundle.css' media='all' rel='stylesheet' type='text/css'/>"
           },
           vendor: {
             scripts: "<script src='vendor-bundle.js' type='text/javascript'></script>"
