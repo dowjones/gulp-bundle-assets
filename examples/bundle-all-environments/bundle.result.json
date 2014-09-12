@@ -1,10 +1,10 @@
 {
   "vendor": {
-    "styles": "<link href='/public/vendor.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "styles": "<link href='/public/vendor.css' media='all' rel='stylesheet' type='text/css'/>",
     "scripts": "<script src='/public/vendor.js' type='text/javascript'></script>"
   },
   "main": {
-    "styles": "<link href='/public/main.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "styles": "<link href='/public/main.css' media='all' rel='stylesheet' type='text/css'/>",
     "scripts": "<script src='/public/main.js' type='text/javascript'></script>"
   }
 }
