@@ -63,7 +63,7 @@ describe('results', function () {
           (JSON.parse(data)).should.eql({
             "main": {
               "scripts": "<script src='main.js' type='text/javascript'></script>",
-              "styles": "<link href='main.css' media='screen' rel='stylesheet' type='text/css'/>"
+              "styles": "<link href='main.css' media='all' rel='stylesheet' type='text/css'/>"
             }
           });
           cb();
@@ -98,7 +98,7 @@ describe('results', function () {
           (JSON.parse(data)).should.eql({
             "main": {
               "scripts": "<script src='/public/main.js' type='text/javascript'></script>",
-              "styles": "<link href='/public/main.css' media='screen' rel='stylesheet' type='text/css'/>"
+              "styles": "<link href='/public/main.css' media='all' rel='stylesheet' type='text/css'/>"
             }
           });
           cb();
@@ -163,7 +163,7 @@ describe('results', function () {
           (JSON.parse(data)).should.eql({
             "main": {
               "scripts": "<script src='/public/main.production.js' type='text/javascript'></script>",
-              "styles": "<link href='/public/main.production.css' media='screen' rel='stylesheet' type='text/css'/>"
+              "styles": "<link href='/public/main.production.css' media='all' rel='stylesheet' type='text/css'/>"
             }
           });
           cb();
@@ -276,7 +276,7 @@ describe('results', function () {
             (JSON.parse(data)).should.eql({
               "main": {
                 "scripts": "<script src='/public/main.production.js' type='text/javascript'></script>",
-                "styles": "<link href='/public/main.production.css' media='screen' rel='stylesheet' type='text/css'/>"
+                "styles": "<link href='/public/main.production.css' media='all' rel='stylesheet' type='text/css'/>"
               },
               "vendor": {
                 "scripts": "<script src='/public/vendor.production.js' type='text/javascript'></script>"
@@ -286,7 +286,7 @@ describe('results', function () {
             (JSON.parse(data)).should.eql({
               "main": {
                 "scripts": "<script src='/public/main.js' type='text/javascript'></script>",
-                "styles": "<link href='/public/main.css' media='screen' rel='stylesheet' type='text/css'/>"
+                "styles": "<link href='/public/main.css' media='all' rel='stylesheet' type='text/css'/>"
               },
               "vendor": {
                 "scripts": "<script src='/public/vendor.js' type='text/javascript'></script>"
