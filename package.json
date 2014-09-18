@@ -42,9 +42,11 @@
     "gulp": "3.8.5",
     "gulp-concat": "2.4.0",
     "gulp-if": "1.2.4",
+    "gulp-less": "1.3.5",
     "gulp-minify-css": "0.3.7",
     "gulp-rev": "1.0.0",
     "gulp-sourcemaps": "0.4.5",
+    "gulp-streamify": "0.0.5",
     "gulp-uglify": "0.3.1",
     "gulp-util": "2.2.20",
     "lodash": "2.4.1",
@@ -56,13 +58,13 @@
     "vinyl": "0.2.3"
   },
   "devDependencies": {
+    "browserify": "^5.11.2",
     "coveralls": "2.11.1",
     "gulp-coffee": "2.1.1",
     "gulp-help": "0.1.11",
     "gulp-istanbul": "0.2.1",
     "gulp-istanbul-enforcer": "1.0.3",
     "gulp-jshint": "1.7.0",
-    "gulp-less": "1.3.5",
     "gulp-mocha": "0.4.1",
     "gulp-nice-package": "0.0.1",
     "gulp-sass": "0.7.3",
@@ -70,9 +72,11 @@
     "jshint-stylish": "0.3.0",
     "lazypipe": "0.2.2",
     "mocha-lcov-reporter": "0.0.1",
+    "multiline": "^1.0.0",
     "proxyquire": "1.0.1",
     "rimraf": "2.2.8",
     "should": "4.0.4",
-    "sinon": "1.10.3"
+    "sinon": "1.10.3",
+    "vinyl-source-stream": "^1.0.0"
   }
 }

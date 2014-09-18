@@ -140,6 +140,8 @@ Which results in a `bundle.result.json` file similar to:
     * e.g. use jquery.min.js in production and jquery.js in dev
 4. [custom result types](examples/custom-result)
     * e.g. create a bundle.result.json for html, jsx or any custom results you can think of
+5. [works alongside 3rd party transformers](examples/browserify)
+    * e.g. create a bundle using [browserify](www.browserify.org)
 
 ## License
 

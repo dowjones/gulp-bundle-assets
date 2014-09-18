@@ -1,0 +1,17 @@
+{
+  "name": "simple",
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^5.11.2",
+    "gulp": "^3.8.5",
+    "gulp-rimraf": "^0.1.0",
+    "vinyl-source-stream": "^1.0.0"
+  }
+}
