@@ -6,7 +6,8 @@ var through = require('through2'),
   streamBundles = require('./lib/stream-bundles'),
   results = require('./lib/results'),
   transformHelper = require('./lib/transform_helper'),
-  ConfigModel = require('./lib/model/config');
+  ConfigModel = require('./lib/model/config'),
+  watch = require('./lib/watch');
 
 var gulpBundleAssets = function (options) {
   options = options || {};
@@ -47,7 +48,8 @@ var gulpBundleAssets = function (options) {
   return duplexer(writable, readable);
 };
 
-gulpBundleAssets.results = results;
+gulpBundleAssets.results = results.all;
 gulpBundleAssets.transformHelper = transformHelper;
+gulpBundleAssets.watch = watch;
 
 module.exports = gulpBundleAssets;

@@ -49,11 +49,12 @@
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "0.3.1",
     "gulp-util": "2.2.20",
-    "lodash": "2.4.1",
     "lazypipe": "0.2.2",
+    "lodash": "2.4.1",
     "map-stream": "0.1.0",
     "merge-stream": "0.1.5",
     "mkdirp": "0.5.0",
+    "pretty-hrtime": "^0.2.1",
     "readable-stream": "1.0.27-1",
     "through2": "0.5.1",
     "vinyl": "0.2.3"

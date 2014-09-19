@@ -132,15 +132,18 @@ Which results in a `bundle.result.json` file similar to:
 
 ## Other Features
 
-1. [different bundles for different environments](examples/per-environment)
+1. [watch src files and only build specific bundles](examples/full/gulpfile.js)
+    * Greatly speeds up development
+    * e.g. split out vendor and custom js files into different bundles so the custom bundle continues to build quickly on src change
+2. [different bundles for different environments](examples/per-environment)
     * e.g. `NODE_ENV=production gulp bundle` could produce a set of bundles with minified src while just `gulp bundle` would have unminified src  
-2. [custom gulp transforms](examples/custom-transforms/readme.md)
+3. [custom gulp transforms](examples/custom-transforms/readme.md)
     * e.g. use `gulp-less`, `gulp-sass`, `gulp-coffee`, etc to further transform your files
-3. [consume pre-minified src files](examples/full)
+4. [consume pre-minified src files](examples/full)
     * e.g. use jquery.min.js in production and jquery.js in dev
-4. [custom result types](examples/custom-result)
+5. [custom result types](examples/custom-result)
     * e.g. create a bundle.result.json for html, jsx or any custom results you can think of
-5. [works alongside 3rd party transformers](examples/browserify)
+6. [works alongside 3rd party transformers](examples/browserify)
     * e.g. create a bundle using [browserify](www.browserify.org)
 
 ## License

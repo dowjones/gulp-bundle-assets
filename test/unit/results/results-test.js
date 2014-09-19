@@ -6,6 +6,7 @@ var libPath = './../../../lib',
   Bundle = require(libPath + '/model/bundle'),
   BundleKeys = require(libPath + '/model/bundle-keys'),
   File = require('vinyl'),
+  sinon = require('sinon'),
   proxyquire = require('proxyquire');
 
 describe('results', function () {
@@ -71,7 +72,7 @@ describe('results', function () {
       };
 
       // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub });
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
 
       var stream = results(resultPath);
 
@@ -105,7 +106,7 @@ describe('results', function () {
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub });
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
 
       var stream = results({
         dest: resultPath,
@@ -170,7 +171,7 @@ describe('results', function () {
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub });
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
 
       var stream = results({
         dest: resultPath,
@@ -299,7 +300,7 @@ describe('results', function () {
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub });
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
 
       var stream = results({
         dest: resultPath,
@@ -325,6 +326,99 @@ describe('results', function () {
       stream.write(jsFileProd);
       stream.write(cssFileProd);
       stream.write(jsFileProd2);
+      stream.end();
+    });
+
+  });
+
+  describe('incremental', function() {
+
+    var jsFile,
+      cssFile;
+
+    beforeEach(function() {
+      jsFile = new File({
+        base: '/app/public',
+        path: '/app/public/main.js',
+        contents: new Buffer('main_bundle_content')
+      });
+      jsFile.bundle = new Bundle({
+        name: 'main',
+        type: BundleKeys.SCRIPTS
+      });
+
+      cssFile = new File({
+        base: '/app/public',
+        path: '/app/public/main.css',
+        contents: new Buffer('vendor_bundle_content')
+      });
+      cssFile.bundle = new Bundle({
+        name: 'main',
+        type: BundleKeys.STYLES
+      });
+    });
+
+    it('should write results when given string filePath', function (done) {
+
+      var fileCount = 0;
+
+      var fsStub = {
+        writeFile: function (writePath, data, cb) {
+          (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
+          if (fileCount === 0) {
+            (JSON.parse(data)).should.eql({
+              "main": {
+                "scripts": "<script src='main.js' type='text/javascript'></script>"
+              }
+            });
+          } else {
+            (JSON.parse(data)).should.eql({
+              "main": {
+                "scripts": "<script src='main.js' type='text/javascript'></script>",
+                "styles": "<link href='main.css' media='all' rel='stylesheet' type='text/css'/>"
+              }
+            });
+          }
+          fileCount++;
+          cb();
+        },
+        readFile: function (readPath, enc, cb) {
+          (readPath).should.eql(path.join(resultPath, 'bundle.result.json'));
+          cb(null, JSON.stringify({
+            "main": {
+              "scripts": "<script src='main.js' type='text/javascript'></script>"
+            }
+          }));
+        },
+        exists: function(existsPath, cb) {
+          (existsPath).should.eql(path.join(resultPath, 'bundle.result.json'));
+          cb(fileCount !== 0);
+        }
+      };
+      sinon.spy(fsStub, 'writeFile');
+      sinon.spy(fsStub, 'readFile');
+      sinon.spy(fsStub, 'exists');
+
+      // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).incremental;
+
+      var stream = results(resultPath);
+
+      stream.on('data', function (file) {
+        // make sure it came out the same way it went in
+        file.isBuffer().should.be.ok;
+        file.bundle.should.be.ok;
+      });
+
+      stream.on('end', function () {
+        fsStub.writeFile.calledTwice.should.be.ok;
+        fsStub.readFile.calledOnce.should.be.ok;
+        fsStub.exists.calledTwice.should.be.ok;
+        done();
+      });
+
+      stream.write(jsFile);
+      stream.write(cssFile);
       stream.end();
     });
 
