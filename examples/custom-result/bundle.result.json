@@ -1,18 +1,18 @@
 {
-  "default": {
-    "scripts": "<script src='/public/default.js' type='text/javascript'></script>",
-    "styles": "<link href='/public/default.css' media='all' rel='stylesheet' type='text/css'/>"
-  },
   "base": {
     "scripts": "<script src='/public/base.js' type='text/jsx'></script>",
     "styles": "<link href='/public/base.css' media='all' rel='stylesheet' type='text/css'/>"
+  },
+  "default": {
+    "styles": "<link href='/public/default.css' media='all' rel='stylesheet' type='text/css'/>",
+    "scripts": "<script src='/public/default.js' type='text/javascript'></script>"
   },
   "plain": {
     "styles": "/public/plain.css",
     "scripts": "/public/plain.js"
   },
   "custom": {
-    "scripts": "<script async src='/public/custom.js' type='application/javascript'></script>",
-    "styles": "<link href='/public/custom.css' type='text/html'/>"
+    "styles": "<link href='/public/custom.css' type='text/html'/>",
+    "scripts": "<script async src='/public/custom.js' type='application/javascript'></script>"
   }
 }
