@@ -269,9 +269,7 @@ describe('stream-bundles', function () {
   /* jshint -W035 */
   describe('styles', function () {
 
-    // todo fix. started fail as part of https://github.com/floridoo/vinyl-sourcemaps-apply/commit/1bee9f597cb9d89469f8b8f428ff30c4b7c832fd
-    // seems to work in real scenario
-   /* it('should support basic less compilation via custom transform', function (done) {
+    it('should support basic less compilation via custom transform', function (done) {
 
       var config = {
         bundle: {
@@ -374,7 +372,7 @@ describe('stream-bundles', function () {
         }
       }, 2);
 
-    });*/
+    });
 
     it('should not minify when minSrc defined', function (done) {
 
