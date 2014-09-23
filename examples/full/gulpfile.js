@@ -22,7 +22,6 @@ gulp.task('watch', function () {
     livereloadServer.changed(file.path);
   });
   gbundle.watch({
-    //bundleAllEnvironments: true,
     configPath: path.join(__dirname, 'bundle.config.js'),
     results: {
       dest: __dirname,

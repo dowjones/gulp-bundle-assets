@@ -1,26 +1,38 @@
 var coffee = require('gulp-coffee');
 var lazypipe = require('lazypipe');
 var sass = require('gulp-sass');
+var less = require('gulp-less');
 var gif = require('gulp-if');
+var path = require('path');
+var transformHelper = require('../../index.js').transformHelper;
+
+function stringEndsWith(str, suffix) {
+  return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
 
 function isCoffeeFile(file) {
-  return file.relative.indexOf('coffee', file.relative.length - 'coffee'.length) !== -1;
+  return stringEndsWith(file.relative, 'coffee');
 }
 
 function isSassFile(file) {
-  return file.relative.indexOf('scss', file.relative.length - 'scss'.length) !== -1;
+  return stringEndsWith(file.relative, 'scss');
+}
+
+function isLessFile(file) {
+  return stringEndsWith(file.relative, 'less');
 }
 
 var scriptTransforms = lazypipe()
   .pipe(function() {
-    // when using lazy pipe you need to call gulp-if from within an anonymous func
-    // https://github.com/robrich/gulp-if#works-great-inside-lazypipe
     return gif(isCoffeeFile, coffee());
   });
 
 var styleTransforms = lazypipe()
   .pipe(function() {
     return gif(isSassFile, sass());
+  })
+  .pipe(function() {
+    return gif(isLessFile, less());
   });
 
 var prodLikeEnvs = ['production', 'staging']; // when NODE_ENV=staging or NODE_ENV=production
@@ -50,7 +62,10 @@ module.exports = {
     },
     vendor: {
       scripts: [
-        {src: './bower_components/angular/angular.js', minSrc: './bower_components/angular/angular.min.js'},
+        {
+          src: './bower_components/angular/angular.js',
+          minSrc: './bower_components/angular/angular.min.js'
+        },
         './bower_components/spin/spin.js'
       ],
       styles: {
@@ -63,10 +78,14 @@ module.exports = {
         // no uglification/minification will ever be run on those files
         uglify: false,
         minCSS: false,
-        rev: prodLikeEnvs // file revisioning
+        rev: prodLikeEnvs, // file revisioning
+        watch: {
+          scripts: false, // do not watch for changes since these almost never change
+          styles: false
+        }
       }
     },
-    article: {
+    article: { // mix of file types
       scripts: [
         './lib/article/**/*.js',
         './lib/article/**/*.coffee'
@@ -81,12 +100,12 @@ module.exports = {
         rev: prodLikeEnvs,
         transforms: {
           scripts: scriptTransforms,
-          styles: styleTransforms
+          styles: styleTransforms // stream that will tranform both scss and less
         }
       }
     },
     main: {
-      scripts: [
+      scripts: [ // bundled in order from top to bottom
         './js/app.js',
         './js/controllers.js',
         './js/directives.js',
@@ -94,12 +113,22 @@ module.exports = {
       ],
       styles: [
         './styles/legacy.css',
-        './styles/**/*.less' // mix of file types
+        './styles/main.less' // entry less file which imports others
       ],
       options: {
         uglify: prodLikeEnvs,
         minCSS: prodLikeEnvs,
-        rev: prodLikeEnvs
+        rev: prodLikeEnvs,
+        transforms: {
+          styles: transformHelper.less()
+        },
+        watch: {
+          styles: [
+            './styles/legacy.css',
+            './styles/**/*.less' // watch ALL less files for changes, but only
+                                 // bundle from the main.less file
+          ]
+        }
       }
     }
   },
