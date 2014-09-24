@@ -71,7 +71,7 @@ Will result in the following folder structure:
 
 ## Advanced Usage
 
-See [the examples folder](examples) for many other config options. The [full example](examples/full) shows most 
+See [the examples folder](examples) for many other config options. The [full example](examples/full) shows most
 all available options.
 
 ## Options
@@ -96,7 +96,7 @@ See [this example](examples/bundle-all-environments) to see the flag in action.
 
 ## Integrating bundles into your app
 
-You can programmatically render your bundles into your view via 
+You can programmatically render your bundles into your view via
 [your favorite templating engine](https://www.google.com/webhp?ion=1&espv=2&ie=UTF-8#q=node%20js%20templating%20engine)
 and the resulting `bundle.result.json` file. To generate the `bundle.result.json`, add a call to `bundle.results`:
 
@@ -104,7 +104,7 @@ and the resulting `bundle.result.json` file. To generate the `bundle.result.json
 // gulpfile.js
 var gulp = require('gulp'),
   bundle = require('gulp-bundle-assets');
-  
+
 gulp.task('bundle', function() {
   return gulp.src('./bundle.config.js')
     .pipe(bundle())
@@ -145,6 +145,32 @@ Which results in a `bundle.result.json` file similar to:
     * e.g. create a bundle.result.json for html, jsx or any custom results you can think of
 6. [works alongside 3rd party transformers](examples/browserify)
     * e.g. create a bundle using [browserify](www.browserify.org)
+
+## Why?
+
+There are a number of ways to bundle static assets for use in your webapp.
+Take for example: [lumbar](http://walmartlabs.github.io/lumbar/),
+[webpack](http://webpack.github.io/), [browserify](http://browserify.org/),
+[cartero](https://github.com/rotundasoftware/cartero),
+[assetify](https://github.com/bevacqua/node-assetify),
+[assets-packager](https://github.com/jakubpawlowicz/assets-packager), or
+simply a mashup of custom [grunt](http://gruntjs.com/) or
+[gulp](http://gulpjs.com/) plugins. All of these approaches are good in their
+own way but none of them did everything we needed:
+
+* handle all file types: js, css, less, sass, coffeescript, images, fonts, etc...
+* handle a variety of js managers: amd, requirejs, etc...
+* support common transforms: compression, minification, revisioning
+* support custom transforms, e.g. [browserify](http://browserify.org/)
+* logic must be common across webapps. That is, no copy/pasting of tasks. This
+disqualified straight gulp or grunt.
+* work with existing community plugins, namely [gulp](http://gulpjs.com/) tasks
+* way to easily get static files into the browser
+* fast!
+
+`gulp-bundle-assets` accomplishes all these goals and more. A main guiding
+principle behind this project is to provide all necessary bundling functionality
+while still being as flexible and customizable as possible.
 
 ## License
 
