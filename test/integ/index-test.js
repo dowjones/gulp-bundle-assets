@@ -243,6 +243,56 @@ describe('integration tests', function () {
 
   });
 
+  describe('bundle-all-environments', function () {
+    var appPath = path.join(examplePath, 'bundle-all-environments'),
+      bundleConfigPath = path.join(appPath, 'bundle.config.js');
+
+    it('should read bundle.config and create bundles', function (done) {
+
+      testBundleStream(bundleConfigPath, appPath, done, function (file) {
+        var fileContents = file.contents.toString();
+
+        /* jshint -W035 */
+        if (file.relative === 'main.js') {
+          fileContents.should.eql(
+              "(function(x){x.parentNode.removeChild(x);})(document.getElementById('error-message'));\nconsole.log('foo')\n" +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'main.css' ||
+          file.relative === 'main.production-0cd4ab1a.css' ||
+          file.relative === 'main.production-2742a3c0.js' ||
+          file.relative === 'main.staging-0cd4ab1a.css' ||
+          file.relative === 'main.staging-2742a3c0.js' ||
+          file.relative === 'vendor.css' ||
+          file.relative === 'vendor.production-bfff3428.css' ||
+          file.relative === 'vendor.production-fc7efeba.js' ||
+          file.relative === 'vendor.staging-bfff3428.css' ||
+          file.relative === 'vendor.staging-fc7efeba.js') {
+          //ok
+        } else if (file.relative === 'vendor.js') {
+          fileContents.should.eql(
+              'console.log("angular");\nconsole.log("spin")\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'vendor.production-fc7efeba.js') {
+          fileContents.should.eql(
+              'console.log("angular.min");\nconsole.log("spin")\n' +
+              helpers.getJsSrcMapLine(file.relative));
+        } else if (helpers.stringEndsWith(file.relative, '.map')) {
+          staticFileCount++;
+        } else {
+          helpers.errorUnexpectedFileInStream(file);
+        }
+        /* jshint +W035 */
+        fileCount++;
+
+      }, function () {
+        (fileCount).should.eql(24);
+        (staticFileCount).should.eql(12);
+      }, true);
+
+    });
+  });
+
+
   describe('per-environment', function () {
     var appPath = path.join(examplePath, 'per-environment'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');
@@ -428,9 +478,10 @@ describe('integration tests', function () {
   // helpers
   // -----------------------
 
-  function testBundleStream(bundleConfigPath, appPath, done, testFunc, beforeEnd) {
+  function testBundleStream(bundleConfigPath, appPath, done, testFunc, beforeEnd, bundleAllEnvironments) {
     gulp.src(bundleConfigPath)
       .pipe(bundler({
+        bundleAllEnvironments: bundleAllEnvironments,
         base: appPath
       }))
       .pipe(through.obj(function (file, enc, cb) {
