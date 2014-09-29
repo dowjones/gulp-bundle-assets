@@ -1,5 +1,7 @@
 var through = require('through2'),
   gutil = require('gulp-util'),
+  cache = require('./lib/service/cache'),
+  logger = require('./lib/service/logger'),
   readableStream = require('readable-stream'),
   duplexer = require('duplexer2'),
   mergeStream = require('merge-stream'),
@@ -35,10 +37,12 @@ var gulpBundleAssets = function (options) {
     try {
       config = new ConfigModel(file, options);
     } catch (e) {
-      gutil.log(gutil.colors.red('Failed to parse config file'));
+      logger.log(gutil.colors.red('Failed to parse config file'));
       this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
       return done();
     }
+
+    cache.set('config', config);
 
     mergeStream.apply(mergeStream, streamBundles(config))
       .pipe(readable);

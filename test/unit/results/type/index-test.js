@@ -8,13 +8,13 @@ var libPath = './../../../../lib',
 describe('result type', function () {
 
   var resultTypeFunc,
-    gutilMock;
+    loggerStub;
 
   beforeEach(function() {
-    gutilMock = {
+    loggerStub = {
       log: sinon.spy()
     };
-    resultTypeFunc = proxyquire(libPath + '/results/type', { 'gulp-util': gutilMock });
+    resultTypeFunc = proxyquire(libPath + '/results/type', { '../../service/logger': loggerStub });
   });
 
   it('should result with default scripts line', function () {
@@ -35,6 +35,8 @@ describe('result type', function () {
     var resultLine = resultTypeFunc(fakeFile, '/public/');
 
     resultLine.should.eql("<script src='/public/file.js' type='text/javascript'></script>");
+
+    loggerStub.log.called.should.not.be.ok;
 
   });
 
@@ -57,6 +59,8 @@ describe('result type', function () {
 
     resultLine.should.eql("<link href='/public/file.css' media='all' rel='stylesheet' type='text/css'/>");
 
+    loggerStub.log.called.should.not.be.ok;
+
   });
 
   it('should return jsx script', function () {
@@ -77,6 +81,8 @@ describe('result type', function () {
     var resultLine = resultTypeFunc(fakeFile, '/public/');
 
     resultLine.should.eql("<script src='/public/file.js' type='text/jsx'></script>");
+
+    loggerStub.log.called.should.not.be.ok;
 
   });
 
@@ -99,7 +105,7 @@ describe('result type', function () {
 
     resultLine.should.eql("<script src='/public/file.js' type='text/javascript'></script>");
 
-    gutilMock.log.called.should.be.ok;
+    loggerStub.log.calledOnce.should.be.ok;
 
   });
 
@@ -139,6 +145,8 @@ describe('result type', function () {
     var resultLine2 = resultTypeFunc(fakeFile2);
     resultLine2.should.eql("file.css");
 
+    loggerStub.log.called.should.not.be.ok;
+
   });
 
   it('should result when object but none specified for type', function () {
@@ -161,6 +169,8 @@ describe('result type', function () {
     var resultLine = resultTypeFunc(fakeFile);
     resultLine.should.eql("<link href='file.css' media='all' rel='stylesheet' type='text/css'/>");
 
+    loggerStub.log.called.should.not.be.ok;
+
   });
 
   it('should throw error when junk resulter given', function () {
@@ -181,6 +191,8 @@ describe('result type', function () {
     (function() {
       resultTypeFunc(fakeFile);
     }).should.throw(/^Failed to load result function/);
+
+    loggerStub.log.called.should.not.be.ok;
 
   });
 

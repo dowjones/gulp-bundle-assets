@@ -4,10 +4,14 @@ var gulp = require('gulp'),
   path = require('path'),
   gbundle = require('../../index');
 
+process.env.NODE_ENV = 'production'; // hardcode to always run in production mode
+
 gulp.task('bundle', ['clean'], function () {
-  process.env.NODE_ENV = 'production'; // hardcode to always run in production mode
   return gulp.src('./bundle.config.js')
-    .pipe(gbundle())
+    .pipe(gbundle({
+      //bundleAllEnvironments: true,
+      //quietMode: true
+    }))
     .pipe(gbundle.results({
       dest: './',
       pathPrefix: '/public/'
@@ -22,6 +26,8 @@ gulp.task('watch', function () {
     livereloadServer.changed(file.path);
   });
   gbundle.watch({
+    //bundleAllEnvironments: true,
+    //quietMode: true,
     configPath: path.join(__dirname, 'bundle.config.js'),
     results: {
       dest: __dirname,

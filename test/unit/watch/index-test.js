@@ -13,7 +13,8 @@ describe('watch index', function () {
     var watch = proxyquire(libPath + '/watch/index', { '../stream-bundles-watch': streamBundlesWatch });
 
     watch({
-      configPath: path.join(__dirname, '../../fixtures/configs/valid-bundle-field.js')
+      configPath: path.join(__dirname, '../../fixtures/configs/valid-bundle-field.js'),
+      dest: 'this/has/a/value'
     });
 
     streamBundlesWatch.calledOnce.should.be.ok;
@@ -34,7 +35,21 @@ describe('watch index', function () {
 
     (function () {
       watch();
-    }).should.throw();
+    }).should.throw(/^configPath option is required when watching/);
+
+  });
+
+  it('should throw err when dest not defined', function () {
+
+    var streamBundlesWatch = sinon.spy();
+
+    var watch = proxyquire(libPath + '/watch/index', { '../stream-bundles-watch': streamBundlesWatch });
+
+    (function () {
+      watch({
+        configPath: 'this/has/a/value'
+      });
+    }).should.throw(/^dest option is required when watching/);
 
   });
 
@@ -46,9 +61,10 @@ describe('watch index', function () {
 
     (function () {
       watch({
-        configPath: 'this/path/does/not/exist'
+        configPath: 'this/path/does/not/exist',
+        dest: 'this/has/a/value'
       });
-    }).should.throw();
+    }).should.throw(/^Failed to parse config file/);
 
   });
 

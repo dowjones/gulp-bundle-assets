@@ -94,6 +94,14 @@ When `true`, generates all bundles and bundle result jsons for all environments.
 This will parse your `bundle.config.js` looking for all environment definitions.
 See [this example](examples/bundle-all-environments) to see the flag in action.
 
+### quietMode
+
+Type: `boolean`
+
+Default: `false`
+
+Flag to disable all console logging.
+
 ## Integrating bundles into your app
 
 You can programmatically render your bundles into your view via

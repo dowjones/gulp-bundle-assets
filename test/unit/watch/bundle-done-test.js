@@ -9,16 +9,16 @@ describe('bundle-done', function () {
 
     var prettyTimeStub = sinon.stub().returns('');
 
-    var gutilStub = sinon.stub();
-    gutilStub.log = sinon.spy();
+    var loggerStub = sinon.stub();
+    loggerStub.log = sinon.spy();
 
-    var bundleDone = proxyquire(libPath + '/watch/bundle-done', { 'pretty-hrtime': prettyTimeStub, 'gulp-util': gutilStub });
+    var bundleDone = proxyquire(libPath + '/watch/bundle-done', { 'pretty-hrtime': prettyTimeStub, '../service/logger': loggerStub });
 
     bundleDone('main.scripts', [ 1800216, 25 ]);
 
     prettyTimeStub.calledOnce.should.be.ok;
-    gutilStub.log.calledOnce.should.be.ok;
-    gutilStub.log.calledWith('Finished bundling').should.be.ok;
+    loggerStub.log.calledOnce.should.be.ok;
+    loggerStub.log.calledWith('Finished bundling').should.be.ok;
 
   });
 
