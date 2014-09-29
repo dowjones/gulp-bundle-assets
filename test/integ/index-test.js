@@ -427,15 +427,16 @@ describe('integration tests', function () {
           file.relative === 'fonts/glyphicons-halflings-regular.ttf' ||
           file.relative === 'fonts/glyphicons-halflings-regular.woff' ||
           file.relative === 'images/empire_icon.png' ||
-          file.relative === 'images/rebel_icon.png') {
+          file.relative === 'images/rebel_icon.png' ||
+          file.relative === 'partials/a-partial-file.html' ) {
           staticFileCount++;
         } else {
           helpers.errorUnexpectedFileInStream(file);
         }
         fileCount++;
       }, function () {
-        (fileCount).should.eql(22);
-        (staticFileCount).should.eql(14);
+        (fileCount).should.eql(23);
+        (staticFileCount).should.eql(15);
       });
 
     });

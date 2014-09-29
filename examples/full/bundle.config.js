@@ -135,7 +135,11 @@ module.exports = {
   copy: [
     {
       src: './bower_components/bootstrap/dist/fonts/**/*.*',
-      base: './bower_components/bootstrap/dist/'
+      base: './bower_components/bootstrap/dist/',
+      watch: false
+    },
+    {
+      src: './partials/**/*.*'
     },
     './images/**/*.*'
   ]
