@@ -186,7 +186,7 @@ while still being as flexible and customizable as possible.
 
 [npm-url]: https://npmjs.org/package/gulp-bundle-assets
 [npm-image]: http://img.shields.io/npm/v/gulp-bundle-assets.svg
-[travis-image]: https://travis-ci.org/chmontgomery/gulp-bundle-assets.svg?branch=master
-[travis-url]: https://travis-ci.org/chmontgomery/gulp-bundle-assets
+[travis-image]: https://travis-ci.org/areusjs/gulp-bundle-assets.svg?branch=master
+[travis-url]: https://travis-ci.org/areusjs/gulp-bundle-assets
 [coverage-image]: https://img.shields.io/coveralls/chmontgomery/gulp-bundle-assets.svg
 [coverage-url]: https://coveralls.io/r/chmontgomery/gulp-bundle-assets
