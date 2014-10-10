@@ -152,7 +152,7 @@ Which results in a `bundle.result.json` file similar to:
 5. [custom result types](examples/custom-result)
     * e.g. create a bundle.result.json for html, jsx or any custom results you can think of
 6. [works alongside 3rd party transformers](examples/browserify)
-    * e.g. create a bundle using [browserify](www.browserify.org), [6to5](https://github.com/sebmck/6to5), etc.
+    * e.g. create a bundle using [browserify](http://browserify.org/), [6to5](https://github.com/sebmck/6to5), etc.
 
 ## Why?
 
