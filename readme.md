@@ -2,13 +2,15 @@
 
 > Create static asset bundles from a config file: a common interface to combining, minifying and revisioning. Stack agnostic. Production ready.
 
-Uses the following gulp modules under the covers when creating bundles:
+By default uses the following gulp modules under the covers when creating bundles:
 
 1. [gulp-concat](https://github.com/wearefractal/gulp-concat)
 2. [gulp-sourcemaps](https://github.com/floridoo/gulp-sourcemaps)
 3. [gulp-uglify](https://github.com/terinjokes/gulp-uglify)
 4. [gulp-minify-css](https://github.com/jonathanepollack/gulp-minify-css)
 6. [gulp-rev](https://github.com/sindresorhus/gulp-rev)
+
+This project's stream architecture also allows you to plugin [any gulp transform you wish](examples/custom-transforms).
 
 ## Install
 
