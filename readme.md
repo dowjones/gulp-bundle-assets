@@ -1,6 +1,6 @@
 # [gulp](http://gulpjs.com/)-bundle-assets [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coverage-image]][coverage-url]
 
-> Create static asset bundles from a config file: a common interface around combining, minifying and revisioning. Node.js friendly. Production ready.
+> Create static asset bundles from a config file: a common interface to combining, minifying and revisioning. Stack agnostic. Production ready.
 
 Uses the following gulp modules under the covers when creating bundles:
 
