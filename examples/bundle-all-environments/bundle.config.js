@@ -14,7 +14,7 @@ module.exports = {
       options: {
         useMin: prodLikeEnvs,
         uglify: false,
-        minCss: false,
+        minCSS: false,
         rev: prodLikeEnvs
       }
     },
@@ -23,7 +23,7 @@ module.exports = {
       styles: './content/**/*.css',
       options: {
         uglify: prodLikeEnvs,
-        minCss: prodLikeEnvs,
+        minCSS: prodLikeEnvs,
         rev: prodLikeEnvs
       }
     }

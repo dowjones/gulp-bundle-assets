@@ -11,7 +11,7 @@ module.exports = {
       ],
       options: {
         uglify: false, // don't minify js since bower already ships with one
-        minCss: false, // don't minify css since bower already ships with one
+        minCSS: false, // don't minify css since bower already ships with one
         rev: false
       }
     },
