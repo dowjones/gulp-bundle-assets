@@ -159,8 +159,11 @@ Which results in a `bundle.result.json` file similar to:
 ## Why?
 
 There are a number of ways to bundle static assets for use in your webapp.
-Take for example: [lumbar](http://walmartlabs.github.io/lumbar/),
-[webpack](http://webpack.github.io/), [browserify](http://browserify.org/),
+Take for example:
+[lumbar](http://walmartlabs.github.io/lumbar/),
+[brunch](https://github.com/brunch/brunch),
+[webpack](http://webpack.github.io/),
+[browserify](http://browserify.org/),
 [cartero](https://github.com/rotundasoftware/cartero),
 [assetify](https://github.com/bevacqua/node-assetify),
 [assets-packager](https://github.com/jakubpawlowicz/assets-packager), or
@@ -175,7 +178,7 @@ own way but none of them did everything we needed:
 * logic must be common across webapps. That is, no copy/pasting of tasks. This
 disqualified straight gulp or grunt.
 * work with existing community plugins, namely [gulp](http://gulpjs.com/) tasks
-* way to easily get static files into the browser
+* work with src from multiple locations, e.g. bower_components, node_modules, etc
 * fast!
 
 `gulp-bundle-assets` accomplishes all these goals and more. A main guiding
