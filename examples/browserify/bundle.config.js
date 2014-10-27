@@ -8,7 +8,7 @@ var mainStream = function (file, done) {
     // "entries" can either be hard coded or written this way to use the file path.
     // Currently this doesn't support multiple entry points. To do that, you must
     // implement the full lazypipe chain yourself and use merge-stream to
-    // collect all files first before passing it to this.
+    // collect all files first before passing it to browserify.
     entries: [file.path],
     debug: isDebug
   })
@@ -23,12 +23,15 @@ var mainStream = function (file, done) {
 module.exports = {
   bundle: {
     main: {
-      scripts: './lib/main.js',
+      scripts: './lib/entry.js', // per browserify, will collect all required dependencies
       options: {
         uglify: ['production'], // uglify the resulting browserify bundle in prod
         rev: ['production'], // rev the resulting browserify bundle in prod
         transforms: {
           scripts: transformHelper.browserify(mainStream)
+        },
+        watch: {
+          scripts: './lib/**/*.js' // watch all scripts for change but only build from main.js
         }
       }
     }
