@@ -1,4 +1,4 @@
-var gulp = require('gulp'),
+var gulp = require('gulp-help')(require('gulp')),
   spawn = require('child_process').spawn,
   mocha = require('gulp-mocha'),
   jshint = require('gulp-jshint'),
@@ -11,8 +11,6 @@ var gulp = require('gulp'),
     './test/unit/**/*.js',
     './test/integ/**/*.js'
   ];
-
-require('gulp-help')(gulp);
 
 gulp.task('nice-package', 'Validates package.json', function () {
   return gulp.src('package.json')
@@ -33,7 +31,7 @@ gulp.task('lint', 'Lint all js', function () {
     './lib/**/*.js'
   ].concat(TEST_FILES))
     .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish', { verbose: true }))
+    .pipe(jshint.reporter('jshint-stylish', {verbose: true}))
     .pipe(jshint.reporter('fail'));
 });
 
@@ -52,22 +50,23 @@ gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
       gulp.src(TEST_FILES)
         .pipe(mocha())
         .pipe(istanbul.writeReports())
-        .on('end', function() {
+        .on('end', function () {
           var options = {
-            thresholds : {
-              statements : 95,
-              branches : 92,
-              functions : 94,
-              lines : 95
+            thresholds: {
+              statements: 95,
+              branches: 92,
+              functions: 94,
+              lines: 95
             },
-            coverageDirectory : 'coverage',
-            rootDirectory : ''
+            coverageDirectory: 'coverage',
+            rootDirectory: ''
           };
-          return gulp.src('.')
+          gulp.src('.')
             .pipe(coverageEnforcer(options))
             .on('end', cb);
         });
-    });
+    })
+    .resume(); // fix for bug: https://github.com/SBoudrias/gulp-istanbul/issues/43
 });
 
 gulp.task('test-debug', 'Run unit tests in debug mode', function () {
@@ -75,7 +74,7 @@ gulp.task('test-debug', 'Run unit tests in debug mode', function () {
     '--debug-brk',
     path.join(__dirname, 'node_modules/gulp/bin/gulp.js'),
     'test'
-  ], { stdio: 'inherit' });
+  ], {stdio: 'inherit'});
 });
 
 gulp.task('watch', 'Watch files and test on change', function () {
