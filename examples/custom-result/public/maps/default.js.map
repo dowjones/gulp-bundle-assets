@@ -1,1 +1,1 @@
-{"version":3,"sources":["scripts/default.js"],"names":["console","log"],"mappings":"AAAAA,QAAQC,IAAI","file":"default.js","sourcesContent":["console.log(\"default\")"],"sourceRoot":"/source/"}
+{"version":3,"sources":["?"],"names":["console","log"],"mappings":"AAAAA,QAAQC,IAAI","file":"default.js","sourceRoot":"/source/","sourcesContent":[]}

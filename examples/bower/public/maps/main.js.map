@@ -1,1 +1,1 @@
-{"version":3,"sources":["content/js/one.js","content/js/two.js"],"names":["console","log"],"mappings":"AAAAA,QAAQC,IAAI;ACAZD,QAAQC,IAAI","file":"main.js","sourcesContent":["console.log('one');","console.log('two');"],"sourceRoot":"/source/"}
+{"version":3,"sources":["?"],"names":["console","log"],"mappings":"AAAAA,QAAQC,IAAI;AAAZD,QAAQC,IAAI","file":"main.js","sourceRoot":"/source/","sourcesContent":[]}
