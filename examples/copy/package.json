@@ -9,7 +9,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "gulp": "^3.8.6",
-    "gulp-rimraf": "^0.1.0"
+    "gulp": "^3.8.10",
+    "gulp-rimraf": "^0.1.1"
   }
 }
