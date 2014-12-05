@@ -102,12 +102,12 @@ Which results in a `bundle.result.json` file similar to:
 ```json
 {
   "main": {
-    "styles": "<link href='/public/main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
-    "scripts": "<script src='/public/main-5f17cd21.js' type='text/javascript'></script>"
+    "styles": "<link href='main-8e6d79da.css' media='screen' rel='stylesheet' type='text/css'/>",
+    "scripts": "<script src='main-5f17cd21.js' type='text/javascript'></script>"
   },
   "vendor": {
-    "scripts": "<script src='/public/vendor-d66b96f5.js' type='text/javascript'></script>",
-    "styles": "<link href='/public/vendor-23d5c9c6.css' media='screen' rel='stylesheet' type='text/css'/>"
+    "scripts": "<script src='vendor-d66b96f5.js' type='text/javascript'></script>",
+    "styles": "<link href='vendor-23d5c9c6.css' media='screen' rel='stylesheet' type='text/css'/>"
   }
 }
 ```
