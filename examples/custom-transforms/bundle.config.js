@@ -3,6 +3,7 @@ var lazypipe = require('lazypipe');
 var sass = require('gulp-sass');
 var less = require('gulp-less');
 var gif = require('gulp-if');
+var gutil = require('gulp-util');
 
 function stringEndsWith(str, suffix) {
   return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -24,12 +25,18 @@ var scriptTransforms = lazypipe()
   .pipe(function() {
     // when using lazy pipe you need to call gulp-if from within an anonymous func
     // https://github.com/robrich/gulp-if#works-great-inside-lazypipe
-    return gif(isCoffeeFile, coffee());
+    return gif(isCoffeeFile, coffee())
+      .on('error', function (err) {
+        // make sure browserify errors don't break the pipe during watch
+        // see https://github.com/gulpjs/gulp/issues/259
+        gutil.log(err.toString());
+        this.emit('end');
+      });
   });
 
 var styleTransforms = lazypipe()
   .pipe(function() {
-    return gif(isScssFile, sass());
+    return gif(isScssFile, sass()); // todo how to get error handling working here???
   })
   .pipe(function() {
     return gif(isLessFile, less());

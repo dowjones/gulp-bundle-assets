@@ -7,6 +7,9 @@ NOTE: any plugin you wish to use should support [sourcemaps](https://github.com/
 otherwise it will break the resulting sourcemaps generation. 
 See [here on how to add this support to a gulp plugin](https://github.com/floridoo/gulp-sourcemaps#plugin-developers-only-how-to-add-source-map-support-to-plugins).
 
+NOTE 2: you should think about how you want the bundler to behave when an error occurs in your custom transform.
+For example, say you are running browserify  
+
 ## How to define custom transforms
 
 Define your custom transforms as part of a [`lazypipe`](https://github.com/OverZealous/lazypipe) stream.

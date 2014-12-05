@@ -12,6 +12,7 @@
     "browserify": "^6.3.3",
     "gulp": "^3.8.10",
     "gulp-rimraf": "^0.1.1",
+    "gulp-util": "^3.0.1",
     "vinyl-source-stream": "^1.0.0"
   }
 }
