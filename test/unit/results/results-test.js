@@ -514,8 +514,6 @@ describe('results', function () {
       });
 
       stream.on('data', function (file) {
-        console.log('-------------uma cacetada de ----------');
-        console.log(file);
         // make sure it came out the same way it went in
         file.isBuffer().should.be.ok;
         file.bundle.should.be.ok;
