@@ -130,6 +130,75 @@ describe('results', function () {
 
   });
 
+  describe('custom', function() {
+
+    var jsFile,
+      cssFile;
+
+    beforeEach(function() {
+      jsFile = new File({
+        base: '/app/public',
+        path: '/app/public/main.js',
+        contents: new Buffer('main_bundle_content')
+      });
+      jsFile.bundle = new Bundle({
+        name: 'main',
+        type: BundleKeys.SCRIPTS
+      });
+
+      cssFile = new File({
+        base: '/app/public',
+        path: '/app/public/main.css',
+        contents: new Buffer('vendor_bundle_content')
+      });
+      cssFile.bundle = new Bundle({
+        name: 'main',
+        type: BundleKeys.STYLES
+      });
+    });
+
+    it('should write results to correct file when file name option given', function (done) {
+
+      var customFileName = 'manifest';
+
+      var fsStub = {
+        writeFile: function (writePath, data, cb) {
+          (writePath).should.eql(path.join(resultPath, customFileName + '.json'));
+          (JSON.parse(data)).should.eql({
+            "main": {
+              "scripts": "<script src='/public/main.js' type='text/javascript'></script>",
+              "styles": "<link href='/public/main.css' media='all' rel='stylesheet' type='text/css'/>"
+            }
+          });
+          cb();
+        }
+      };
+
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
+
+      var stream = results({
+        fileName: customFileName,
+        dest: resultPath,
+        pathPrefix: '/public/'
+      });
+
+      stream.on('data', function (file) {
+        // make sure it came out the same way it went in
+        file.isBuffer().should.be.ok;
+        file.bundle.should.be.ok;
+      });
+
+      stream.on('end', function () {
+        done();
+      });
+
+      stream.write(jsFile);
+      stream.write(cssFile);
+      stream.end();
+    });
+
+  });
+
   describe('bundleAllEnvironments', function() {
 
     it('should write results for one env', function (done) {

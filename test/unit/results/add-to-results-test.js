@@ -147,5 +147,73 @@ describe('add-to-results', function () {
       addBundleResults({}, file).should.eql(expected);
     });
 
+    it('when result file name and env defined', function() {
+      var file = new File({
+        base: '/app/public',
+        path: '/app/public/main-bundle.js'
+      });
+      file.bundle = new Bundle({
+        name: 'main',
+        type: BundleType.SCRIPTS,
+        env: 'production',
+        bundleAllEnvironments: true
+      });
+      var expected = {
+        production: {
+          contents: {
+            main: {
+              scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
+            }
+          },
+          filename: 'manifest.production.json'
+        }
+      };
+      addBundleResults({}, file, null, 'manifest').should.eql(expected);
+    });
+
+    it('when result file name defined', function() {
+      var file = new File({
+        base: '/app/public',
+        path: '/app/public/main-bundle.js'
+      });
+      file.bundle = new Bundle({
+        name: 'main',
+        type: BundleType.SCRIPTS
+      });
+      var expected = {
+        default: {
+          contents: {
+            main: {
+              scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
+            }
+          },
+          filename: 'manifest.json'
+        }
+      };
+      addBundleResults({}, file, null, 'manifest').should.eql(expected);
+    });
+
+    it('when result file name not defined', function() {
+      var file = new File({
+        base: '/app/public',
+        path: '/app/public/main-bundle.js'
+      });
+      file.bundle = new Bundle({
+        name: 'main',
+        type: BundleType.SCRIPTS
+      });
+      var expected = {
+        default: {
+          contents: {
+            main: {
+              scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
+            }
+          },
+          filename: 'bundle.result.json'
+        }
+      };
+      addBundleResults({}, file, null, null).should.eql(expected);
+    });
+
   });
 });
