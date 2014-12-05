@@ -14,7 +14,8 @@ gulp.task('bundle', ['clean'], function () {
     }))
     .pipe(gbundle.results({
       dest: './',
-      pathPrefix: '/public/'
+      pathPrefix: '/public/',
+      fileName: 'manifest'
     }))
     .pipe(gulp.dest('./public'));
 });
@@ -31,7 +32,8 @@ gulp.task('watch', function () {
     configPath: path.join(__dirname, 'bundle.config.js'),
     results: {
       dest: __dirname,
-      pathPrefix: '/public/'
+      pathPrefix: '/public/',
+      fileName: 'manifest'
     },
     dest: path.join(__dirname, 'public')
   });
