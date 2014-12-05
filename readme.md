@@ -76,33 +76,7 @@ Will result in the following folder structure:
 See [the examples folder](examples) for many other config options. The [full example](examples/full) shows most
 all available options.
 
-## Options
-
-### base
-
-Type: `string`
-
-Default: `.`
-
-Base directory when resolving src globs. Useful when running gulp tasks from a `gulpfile` outside the project's root.
-
-### bundleAllEnvironments
-
-Type: `boolean`
-
-Default: `false`
-
-When `true`, generates all bundles and bundle result jsons for all environments.
-This will parse your `bundle.config.js` looking for all environment definitions.
-See [this example](examples/bundle-all-environments) to see the flag in action.
-
-### quietMode
-
-Type: `boolean`
-
-Default: `false`
-
-Flag to disable all console logging.
+Also check out our [api docs](docs/API.md).
 
 ## Integrating bundles into your app
 
@@ -138,7 +112,7 @@ Which results in a `bundle.result.json` file similar to:
 }
 ```
 
-[See here for a full example using hogan](examples/express-app-using-result-json/readme.md)
+[See here for a full example using hogan](examples/express-app-using-result-json)
 
 ## Other Features
 
