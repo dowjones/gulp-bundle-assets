@@ -138,6 +138,7 @@ Take for example:
 [brunch](https://github.com/brunch/brunch),
 [webpack](http://webpack.github.io/),
 [browserify](http://browserify.org/),
+[optimizer](https://github.com/raptorjs/optimizer),
 [cartero](https://github.com/rotundasoftware/cartero),
 [assetify](https://github.com/bevacqua/node-assetify),
 [assets-packager](https://github.com/jakubpawlowicz/assets-packager), or
