@@ -405,6 +405,44 @@ describe('results', function () {
     var jsFile,
       cssFile;
 
+    var FsStub = function() {
+      var fileCount = 0;
+
+      this.writeFile = function (writePath, data, cb) {
+        (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
+        if (fileCount === 0) {
+          (JSON.parse(data)).should.eql({
+            "main": {
+              "scripts": "<script src='main.js' type='text/javascript'></script>"
+            }
+          });
+        } else {
+          (JSON.parse(data)).should.eql({
+            "main": {
+              "scripts": "<script src='main.js' type='text/javascript'></script>",
+              "styles": "<link href='main.css' media='all' rel='stylesheet' type='text/css'/>"
+            }
+          });
+        }
+        fileCount++;
+        cb();
+      };
+
+      this.readFile = function (readPath, enc, cb) {
+        (readPath).should.eql(path.join(resultPath, 'bundle.result.json'));
+        cb(null, JSON.stringify({
+          "main": {
+            "scripts": "<script src='main.js' type='text/javascript'></script>"
+          }
+        }));
+      };
+
+      this.exists = function(existsPath, cb) {
+        (existsPath).should.eql(path.join(resultPath, 'bundle.result.json'));
+        cb(fileCount !== 0);
+      };
+    };
+
     beforeEach(function() {
       jsFile = new File({
         base: '/app/public',
@@ -425,45 +463,13 @@ describe('results', function () {
         name: 'main',
         type: BundleKeys.STYLES
       });
+
     });
 
     it('should write results when given string filePath', function (done) {
 
-      var fileCount = 0;
+      var fsStub = new FsStub();
 
-      var fsStub = {
-        writeFile: function (writePath, data, cb) {
-          (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
-          if (fileCount === 0) {
-            (JSON.parse(data)).should.eql({
-              "main": {
-                "scripts": "<script src='main.js' type='text/javascript'></script>"
-              }
-            });
-          } else {
-            (JSON.parse(data)).should.eql({
-              "main": {
-                "scripts": "<script src='main.js' type='text/javascript'></script>",
-                "styles": "<link href='main.css' media='all' rel='stylesheet' type='text/css'/>"
-              }
-            });
-          }
-          fileCount++;
-          cb();
-        },
-        readFile: function (readPath, enc, cb) {
-          (readPath).should.eql(path.join(resultPath, 'bundle.result.json'));
-          cb(null, JSON.stringify({
-            "main": {
-              "scripts": "<script src='main.js' type='text/javascript'></script>"
-            }
-          }));
-        },
-        exists: function(existsPath, cb) {
-          (existsPath).should.eql(path.join(resultPath, 'bundle.result.json'));
-          cb(fileCount !== 0);
-        }
-      };
       sinon.spy(fsStub, 'writeFile');
       sinon.spy(fsStub, 'readFile');
       sinon.spy(fsStub, 'exists');
