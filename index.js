@@ -37,7 +37,8 @@ var gulpBundleAssets = function (options) {
     try {
       config = new ConfigModel(file, options);
     } catch (e) {
-      logger.log(gutil.colors.red('Failed to parse config file'));
+      logger.log(gutil.colors.red('Failed to parse config file:'), gutil.colors.red(file.path));
+      logger.log(e);
       this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
       return done();
     }
