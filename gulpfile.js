@@ -46,17 +46,18 @@ gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
     './lib/**/*.js'
   ])
     .pipe(istanbul())
+    .pipe(istanbul.hookRequire())
     .on('finish', function () {
       gulp.src(TEST_FILES)
         .pipe(mocha())
         .pipe(istanbul.writeReports())
-        .on('end', function () {
+        .on('end', function() {
           var options = {
             thresholds: {
               statements: 95,
-              branches: 92,
+              branches: 93,
               functions: 94,
-              lines: 95
+              lines: 96
             },
             coverageDirectory: 'coverage',
             rootDirectory: ''
@@ -65,8 +66,7 @@ gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
             .pipe(coverageEnforcer(options))
             .on('end', cb);
         });
-    })
-    .resume(); // fix for bug: https://github.com/SBoudrias/gulp-istanbul/issues/43
+    });
 });
 
 gulp.task('test-debug', 'Run unit tests in debug mode', function () {
