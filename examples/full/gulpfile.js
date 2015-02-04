@@ -21,11 +21,8 @@ gulp.task('bundle', ['clean'], function () {
 });
 
 gulp.task('watch', function () {
-  var livereloadServer = livereload();
   livereload.listen();
-  gulp.watch(['./public/*.*']).on('change', function (file) {
-    livereloadServer.changed(file.path);
-  });
+  gulp.watch(['./public/*.*']).on('change', livereload);
   gbundle.watch({
     //bundleAllEnvironments: true,
     //quietMode: true,
