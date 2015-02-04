@@ -1,1 +1,1 @@
-{"version":3,"sources":["?"],"names":["console","log"],"mappings":"AAAAA,QAAQC,IAAI","file":"custom.js","sourceRoot":"/source/","sourcesContent":[]}
+{"version":3,"sources":["scripts/custom.js"],"names":["console","log"],"mappings":"AAAAA,QAAQC,IAAI","file":"custom.js","sourcesContent":["console.log(\"custom\")"],"sourceRoot":"/source/"}
