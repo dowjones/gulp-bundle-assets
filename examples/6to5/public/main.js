@@ -1,20 +1,20 @@
 "use strict";
 
-var _classProps = function (child, staticProps, instanceProps) {
-  if (staticProps) Object.defineProperties(child, staticProps);
-  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-};
+var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 var Test = (function () {
-  var Test = function Test() {
-    this.state = "test";
-  };
+  function Test() {
+    _classCallCheck(this, Test);
 
-  _classProps(Test, null, {
+    this.state = "test";
+  }
+
+  _prototypeProperties(Test, null, {
     printName: {
-      writable: true,
-      value: function (name) {
-        if (name === undefined) name = "Colin";
+      value: function printName() {
+        var name = arguments[0] === undefined ? "Colin" : arguments[0];
         var nameBlock = "John";
 
         if (true) {
@@ -27,7 +27,9 @@ var Test = (function () {
 
         console.log(name); // Max
         console.log(nameBlock); // John
-      }
+      },
+      writable: true,
+      configurable: true
     }
   });
 

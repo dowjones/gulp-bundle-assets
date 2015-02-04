@@ -12,7 +12,7 @@
     "styles": "/public/plain.css"
   },
   "custom": {
-    "styles": "<link href='/public/custom.css' type='text/html'/>",
-    "scripts": "<script async src='/public/custom.js' type='application/javascript'></script>"
+    "scripts": "<script async src='/public/custom.js' type='application/javascript'></script>",
+    "styles": "<link href='/public/custom.css' type='text/html'/>"
   }
 }
