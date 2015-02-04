@@ -1,4 +1,3 @@
-var coffee = require('gulp-coffee');
 var lazypipe = require('lazypipe');
 var sass = require('gulp-sass');
 var less = require('gulp-less');
@@ -10,10 +9,6 @@ function stringEndsWith(str, suffix) {
   return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-function isCoffeeFile(file) {
-  return stringEndsWith(file.relative, 'coffee');
-}
-
 function isSassFile(file) {
   return stringEndsWith(file.relative, 'scss');
 }
@@ -21,11 +16,6 @@ function isSassFile(file) {
 function isLessFile(file) {
   return stringEndsWith(file.relative, 'less');
 }
-
-var scriptTransforms = lazypipe()
-  .pipe(function() {
-    return gif(isCoffeeFile, coffee());
-  });
 
 var styleTransforms = lazypipe()
   .pipe(function() {
@@ -99,7 +89,7 @@ module.exports = {
         minCSS: prodLikeEnvs,
         rev: prodLikeEnvs,
         transforms: {
-          scripts: scriptTransforms,
+          scripts: transformHelper.coffee(),
           styles: styleTransforms // stream that will tranform both scss and less
         }
       }
