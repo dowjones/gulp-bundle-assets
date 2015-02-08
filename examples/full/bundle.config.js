@@ -120,6 +120,20 @@ module.exports = {
           ]
         }
       }
+    },
+    'jquery-stand-alone': {
+      scripts: [
+        {
+          src: './bower_components/jquery/dist/jquery.js',
+          minSrc: './bower_components/jquery/dist/jquery.min.js'
+        }
+      ],
+      options: {
+        useMin: prodLikeEnvs,
+        uglify: false,
+        rev: prodLikeEnvs,
+        maps: false // {(boolean)} disable sourcemaps
+      }
     }
   },
   copy: [
