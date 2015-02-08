@@ -367,7 +367,8 @@ describe('integration tests', function () {
       HEADER_CSS_CONTENT_MINIFIED = '.header{color:#000}\n.bootstrap.min {\n  background-color: blue;\n}\n',
       HEADER_CSS_CONTENT_NOT_MINIFIED = '.header {\n  color: black;\n}\n.bootstrap {\n  background-color: red;\n}\n',
       JQUERY_CONTENT_NOT_UGLIFIED = 'console.log(\"jquery\")\n',
-      JQUERY_CONTENT_MIN_NOT_UGLIFIED = 'console.log(\"jquery.min\")\n',
+      JQUERY_CONTENT_MIN_NOT_UGLIFIED_NO_MAPS = 'console.log(\"jquery.min\")',
+      JQUERY_CONTENT_MIN_NOT_UGLIFIED = JQUERY_CONTENT_MIN_NOT_UGLIFIED_NO_MAPS + '\n',
       VENDOR_CONTENT_NOT_UGLIFIED = 'console.log(\"angular\")\nconsole.log(\"spin\")\n',
       VENDOR_CONTENT_MIN_NOT_UGLIFIED = 'console.log(\"angular.min\")\nconsole.log(\"spin\")\n',
       VENDOR_CSS_CONTENT_MIN_MINIFIED = '.angular-csp-min {\n  font-weight: bold;\n}\n',
@@ -421,6 +422,8 @@ describe('integration tests', function () {
           fileContents.should.eql(
               MAIN_CONTENT_UGLIFIED +
               helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'jquery-stand-alone-29f6b035.js') {
+          fileContents.should.eql(JQUERY_CONTENT_MIN_NOT_UGLIFIED_NO_MAPS); // no sourcemaps
         } else if (helpers.stringEndsWith(file.relative, '.map') ||
           file.relative === 'fonts/glyphicons-halflings-regular.eot' ||
           file.relative === 'fonts/glyphicons-halflings-regular.svg' ||
@@ -435,7 +438,7 @@ describe('integration tests', function () {
         }
         fileCount++;
       }, function () {
-        (fileCount).should.eql(23);
+        (fileCount).should.eql(24);
         (staticFileCount).should.eql(15);
       });
 
