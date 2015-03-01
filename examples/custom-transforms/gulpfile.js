@@ -1,9 +1,9 @@
 var gulp = require('gulp'),
   rimraf = require('gulp-rimraf'),
+  path = require('path'),
   bundle = require('../../index');
 
 gulp.task('bundle', ['clean'], function () {
-
   return gulp.src('./bundle.config.js')
     .pipe(bundle())
     .pipe(bundle.results({
@@ -14,6 +14,13 @@ gulp.task('bundle', ['clean'], function () {
 });
 
 gulp.task('clean', function () {
-  return gulp.src('./public', { read: false })
+  return gulp.src('./public', {read: false})
     .pipe(rimraf());
+});
+
+gulp.task('watch', function () {
+  bundle.watch({
+    configPath: path.join(__dirname, 'bundle.config.js'),
+    dest: path.join(__dirname, 'public')
+  });
 });

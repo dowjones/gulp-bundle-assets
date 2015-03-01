@@ -7,6 +7,10 @@ NOTE: any plugin you wish to use should support [sourcemaps](https://github.com/
 otherwise it will break the resulting sourcemaps generation. 
 See [here on how to add this support to a gulp plugin](https://github.com/floridoo/gulp-sourcemaps#plugin-developers-only-how-to-add-source-map-support-to-plugins).
 
+NOTE 2: By default, the bundler will detect whether you're doing a typical build or running in watch mode. If it's the
+ later, the bundler will simply log the error and not stop the stream. That said, browserify works slightly differently
+ and you'll need to handle those errors manually. [See the browserify example for how to do this](../browserify).
+
 ## How to define custom transforms
 
 Define your custom transforms as part of a [`lazypipe`](https://github.com/OverZealous/lazypipe) stream.

@@ -44,9 +44,11 @@ module.exports = {
       ],
       styles: [
         './content/**/*.scss',
-        './content/**/*.less'
+        './content/**/*.less',
+        './content/**/*.css'
       ],
       options: {
+        minCSS: true,
         transforms: {
           scripts: scriptTransforms,
           styles: styleTransforms
