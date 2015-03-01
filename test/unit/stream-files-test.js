@@ -15,7 +15,9 @@ describe('stream-files', function () {
     describe('styles', function () {
 
       it('should call error handler when custom transform fails', function (done) {
-        streamFiles.handleTransformError = function (bundleName, bundleKey, err) {
+        streamFiles.handleTransformError = function (thisStream, isWatch, bundleName, bundleKey, err) {
+          should.not.exist(isWatch);
+          should.exist(thisStream);
           bundleName.should.eql('main');
           bundleKey.should.eql('styles');
           //should(err).typeof('object');
@@ -43,7 +45,9 @@ describe('stream-files', function () {
     describe('scripts', function () {
 
       it('should call error handler when custom transform fails', function (done) {
-        streamFiles.handleTransformError = function (bundleName, bundleKey, err) {
+        streamFiles.handleTransformError = function (thisStream, isWatch, bundleName, bundleKey, err) {
+          should.not.exist(isWatch);
+          should.exist(thisStream);
           bundleName.should.eql('main');
           bundleKey.should.eql('scripts');
           //should(err).typeof('object');
@@ -70,23 +74,74 @@ describe('stream-files', function () {
 
   });
 
-
   describe('handleTransformError', function () {
 
-    var mockLogger = {
-      log: function () {
-      }
-    };
-    var spy = sinon.spy(mockLogger, 'log');
-    var streamFiles = proxyquire(libPath + '/stream-files', {
-      './service/logger': mockLogger
+    it('should log errors during watch', function () {
+      var mockLogger = {
+        log: function () {
+        }
+      };
+      var mockPipe = {
+        emit: function () {
+        }
+      };
+      var logSpy = sinon.spy(mockLogger, 'log');
+      var pipeSpy = sinon.spy(mockPipe, 'emit');
+      var streamFiles = proxyquire(libPath + '/stream-files', {
+        './service/logger': mockLogger
+      });
+      var errObj = new Error('my err');
+      streamFiles.handleTransformError(mockPipe, true, 'my_bundle_name', 'my_bundle_key', errObj);
+      logSpy.calledTwice.should.be.ok;
+      pipeSpy.calledOnce.should.be.ok;
+      pipeSpy.withArgs('end').calledOnce.should.be.ok;
     });
 
-    it('should log errors', function () {
+    it('should process.exit when errors during bundle', function () {
+      var mockProcessExit = sinon.spy(),
+        origExit = process.exit;
+      process.exit = mockProcessExit;
+
+      var mockLogger = {
+        log: function () {
+        }
+      };
+      var logSpy = sinon.spy(mockLogger, 'log');
+      var streamFiles = proxyquire(libPath + '/stream-files', {
+        './service/logger': mockLogger
+      });
       var errObj = new Error('my err');
-      streamFiles.handleTransformError('my_bundle_name', 'my_bundle_key', errObj);
-      spy.calledTwice.should.be.ok;
-      spy.withArgs(errObj).calledOnce.should.be.ok;
+      streamFiles.handleTransformError(null, undefined, 'my_bundle_name', 'my_bundle_key', errObj);
+      logSpy.calledTwice.should.be.ok;
+      mockProcessExit.calledOnce.should.be.ok;
+
+      process.exit = origExit;
+    });
+
+  });
+
+  describe('attachStreamOptions', function () {
+
+    var streamFiles = require(libPath + '/stream-files');
+
+    it('should attach specific options to file obj', function () {
+
+      var fakeFile = {};
+      streamFiles.attachStreamOptions(fakeFile, {
+        env: 'production',
+        type: 'scripts',
+        bundleName: 'my_bundle_name',
+        isWatch: true,
+        isBundleAll: false
+      });
+
+      fakeFile.bundleOptions.should.be.ok;
+      fakeFile.bundleOptions.env.should.eql('production');
+      fakeFile.bundleOptions.type.should.eql('scripts');
+      fakeFile.bundleOptions.bundleName.should.eql('my_bundle_name');
+      fakeFile.bundleOptions.isWatch.should.be.ok;
+      fakeFile.bundleOptions.isBundleAll.should.not.be.ok;
+
     });
 
   });

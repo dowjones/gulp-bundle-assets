@@ -1,7 +1,8 @@
 var transformHelper = require('../../index.js').transformHelper,
   browserify = require('browserify'),
   sourceStream = require('vinyl-source-stream'),
-  isDebug = (process.env.NODE_ENV !== 'production');
+  isDebug = (process.env.NODE_ENV !== 'production'),
+  gutil = require('gulp-util');
 
 var mainStream = function (file, done) {
   browserify({
@@ -16,6 +17,15 @@ var mainStream = function (file, done) {
     //.transform(reactify)
     //.require(vendorLibs)
     .bundle()
+    .on('error', function (err) {
+      // make sure browserify errors don't break the pipe during watch
+      if (file.bundleOptions.isWatch) {
+        gutil.log(gutil.colors.red(err.toString()));
+        this.emit('end');
+      } else {
+        throw err;
+      }
+    })
     .pipe(sourceStream('app.js')) // convert to gulp stream
     .pipe(done); // make sure to pipe to the "done" stream
 };
