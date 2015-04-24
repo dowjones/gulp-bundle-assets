@@ -127,6 +127,43 @@ describe('results', function () {
       stream.write(cssFile);
       stream.end();
     });
+    
+    it('should write results path in a posix way', function (done) {
+
+      var fsStub = {
+        writeFile: function (writePath, data, cb) {
+          (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
+          (JSON.parse(data)).should.eql({
+            "main": {
+              "scripts": "<script src='/public/main.js' type='text/javascript'></script>",
+              "styles": "<link href='/public/main.css' media='all' rel='stylesheet' type='text/css'/>"
+            }
+          });
+          cb();
+        }
+      };
+
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
+
+      var stream = results({
+        dest: resultPath,
+        pathPrefix: '\\public\\'
+      });
+
+      stream.on('data', function (file) {
+        // make sure it came out the same way it went in
+        file.isBuffer().should.be.ok;
+        file.bundle.should.be.ok;
+      });
+
+      stream.on('end', function () {
+        done();
+      });
+
+      stream.write(jsFile);
+      stream.write(cssFile);
+      stream.end();
+    });
 
   });
 
