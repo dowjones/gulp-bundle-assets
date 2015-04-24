@@ -36,6 +36,9 @@ Flag to disable all console logging.
 
 ## bundle.results([options])
 
+Note: beyond this api, bundle results can be further modified with config options like
+[custom result types](../examples/custom-result)
+
 ### options
 
 Type: `Object` or `String`
