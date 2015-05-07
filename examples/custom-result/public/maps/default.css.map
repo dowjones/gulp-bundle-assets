@@ -1,1 +1,1 @@
-{"version":3,"sources":["styles/default.css"],"names":[],"mappings":"AAAA,SACE","file":"default.css","sourcesContent":[".default {\n  background-color: blue;\n}"],"sourceRoot":"/source/"}
+{"version":3,"sources":["styles/default.css"],"names":[],"mappings":"AAAA,SACE,iBAAkB","file":"default.css","sourcesContent":[".default {\n  background-color: blue;\n}"],"sourceRoot":"/source/"}

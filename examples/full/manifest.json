@@ -11,11 +11,11 @@
     "styles": "<link href='/public/header-450a885f.css' media='all' rel='stylesheet' type='text/css'/>"
   },
   "article": {
-    "styles": "<link href='/public/article-e4e60ef0.css' media='all' rel='stylesheet' type='text/css'/>",
+    "styles": "<link href='/public/article-eb84c68e.css' media='all' rel='stylesheet' type='text/css'/>",
     "scripts": "<script src='/public/article-1abef37b.js' type='text/javascript'></script>"
   },
   "main": {
-    "styles": "<link href='/public/main-56c9e7f7.css' media='all' rel='stylesheet' type='text/css'/>",
-    "scripts": "<script src='/public/main-a2f0720d.js' type='text/javascript'></script>"
+    "scripts": "<script src='/public/main-a2f0720d.js' type='text/javascript'></script>",
+    "styles": "<link href='/public/main-56c9e7f7.css' media='all' rel='stylesheet' type='text/css'/>"
   }
 }

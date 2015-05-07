@@ -1,1 +1,1 @@
-{"version":3,"sources":["styles/plain.css"],"names":[],"mappings":"AAAA,OACE","file":"plain.css","sourcesContent":[".plain {\n  background-color: blue;\n}"],"sourceRoot":"/source/"}
+{"version":3,"sources":["styles/plain.css"],"names":[],"mappings":"AAAA,OACE,iBAAkB","file":"plain.css","sourcesContent":[".plain {\n  background-color: blue;\n}"],"sourceRoot":"/source/"}

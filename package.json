@@ -85,7 +85,7 @@
     "vinyl": "0.4.6"
   },
   "devDependencies": {
-    "browserify": "^9.0.3",
+    "browserify": "10.1.2",
     "coveralls": "2.11.2",
     "gulp-help": "1.3.4",
     "gulp-istanbul": "0.6.0",
@@ -93,7 +93,7 @@
     "gulp-jshint": "1.9.2",
     "gulp-mocha": "2.0.0",
     "gulp-nice-package": "0.0.2",
-    "gulp-sass": "1.3.3",
+    "gulp-sass": "2.0.0",
     "gulp-shrinkwrap": "2.0.1",
     "jshint-stylish": "1.0.1",
     "mocha-lcov-reporter": "0.0.2",
