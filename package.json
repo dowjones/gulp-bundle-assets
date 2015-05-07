@@ -68,7 +68,7 @@
     "gulp-concat": "2.5.2",
     "gulp-if": "1.2.5",
     "gulp-less": "3.0.1",
-    "gulp-minify-css": "1.0.0",
+    "gulp-minify-css": "1.1.1",
     "gulp-rev": "3.0.1",
     "gulp-sourcemaps": "1.5.0",
     "gulp-streamify": "0.0.5",
