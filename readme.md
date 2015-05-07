@@ -162,6 +162,7 @@ while still being as flexible and customizable as possible.
 
 ## Changelog
 
+* 2015/05/07 - v2.20.0 - add pluginOptions config option [#50](https://github.com/areusjs/gulp-bundle-assets/issues/50)
 * 2015/05/07 - v2.19.2 - update to `gulp-minify-css` 1.1.1 ([@ZaleskiR](https://github.com/ZaleskiR))
 * 2015/04/24 - v2.19.1 - fix `result.json` url separator on windows [#52](https://github.com/areusjs/gulp-bundle-assets/pull/52) ([@gregorymaertens](https://github.com/gregorymaertens))
 * 2015/03/01 - v2.19.0 - fix error handling for `bundle.watch` [#47](https://github.com/areusjs/gulp-bundle-assets/pull/47)
