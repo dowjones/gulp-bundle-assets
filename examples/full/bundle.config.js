@@ -13,7 +13,7 @@ function isLessFile(file) {
 }
 
 var styleTransforms = lazypipe()
-  .pipe(function() {
+  .pipe(function () {
     return gif(isLessFile, less());
   });
 
@@ -82,6 +82,11 @@ module.exports = {
         transforms: {
           scripts: transformHelper.coffee(),
           styles: styleTransforms // stream that will transform less
+        },
+        pluginOptions: { // pass additional options to underlying gulp plugins. By default the options object is empty
+          'gulp-minify-css': {processImport: false},
+          'gulp-uglify': {mangle: false},
+          'gulp-concat': {stat: {mode: 0666}}
         }
       }
     },
