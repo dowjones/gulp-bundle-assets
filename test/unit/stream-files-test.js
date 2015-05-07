@@ -34,6 +34,11 @@ describe('stream-files', function () {
             result: null,
             transforms: {
               styles: transformHelper.less()
+            },
+            pluginOptions: {
+              'gulp-minify-css': {},
+              'gulp-uglify': {},
+              'gulp-concat': {}
             }
           }
         };
@@ -64,6 +69,11 @@ describe('stream-files', function () {
             result: null,
             transforms: {
               scripts: transformHelper.coffee()
+            },
+            pluginOptions: {
+              'gulp-minify-css': {},
+              'gulp-uglify': {},
+              'gulp-concat': {}
             }
           }
         };
