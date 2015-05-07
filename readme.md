@@ -163,27 +163,25 @@ while still being as flexible and customizable as possible.
 ## Changelog
 
 * 2015/05/07 - v2.19.2 - update to `gulp-minify-css` 1.1.1 ([@ZaleskiR](https://github.com/ZaleskiR))
-* 2015/04/24 - v2.19.1 - fix `result.json` url separator on windows https://github.com/areusjs/gulp-bundle-assets/pull/52 ([@gregorymaertens](https://github.com/gregorymaertens))
-* 2015/03/01 - v2.19.0 - fix error handling for `bundle.watch` https://github.com/areusjs/gulp-bundle-assets/pull/47
-* 2015/02/08 - v2.18.0 - add flag to disabled sourcemaps https://github.com/areusjs/gulp-bundle-assets/pull/45 ([@21brains-zh](https://github.com/21brains-zh))
+* 2015/04/24 - v2.19.1 - fix `result.json` url separator on windows [#52](https://github.com/areusjs/gulp-bundle-assets/pull/52) ([@gregorymaertens](https://github.com/gregorymaertens))
+* 2015/03/01 - v2.19.0 - fix error handling for `bundle.watch` [#47](https://github.com/areusjs/gulp-bundle-assets/pull/47)
+* 2015/02/08 - v2.18.0 - add flag to disabled sourcemaps [#45](https://github.com/areusjs/gulp-bundle-assets/pull/45) ([@21brains-zh](https://github.com/21brains-zh))
 * 2015/02/04 - v2.17.5 - update examples
-* 2015/02/04 - v2.17.4 - add logging for errors from custom transforms https://github.com/areusjs/gulp-bundle-assets/issues/41
+* 2015/02/04 - v2.17.4 - add logging for errors from custom transforms [#41](https://github.com/areusjs/gulp-bundle-assets/issues/41)
 * 2015/02/03 - v2.17.3 - update examples
 * 2015/02/03 - v2.17.2 - add logging of bundle config parse errors
 * 2014/12/05 - v2.17.1 - fix custom result file name during `bundle.watch` ([@roberto](https://github.com/roberto))
-* 2014/12/05 - v2.17.0 - add custom result file name https://github.com/areusjs/gulp-bundle-assets/issues/36 ([@roberto](https://github.com/roberto))
+* 2014/12/05 - v2.17.0 - add custom result file name [#36](https://github.com/areusjs/gulp-bundle-assets/issues/36) ([@roberto](https://github.com/roberto))
 * 2014/12/04 - v2.16.1 - fix tests
 * 2014/12/01 - v2.16.0 - update deps, including: `gulp-rev` 2.0.1, `gulp-sourcemaps` 1.2.8, `gulp-uglify` 1.0.1
-* 2014/10/21 - v2.15.2 - add support for both minCSS and minCss https://github.com/areusjs/gulp-bundle-assets/issues/34
+* 2014/10/21 - v2.15.2 - add support for both minCSS and minCss [#34](https://github.com/areusjs/gulp-bundle-assets/issues/34)
 * 2014/10/10 - v2.15.1 - add example using 6to5 (aka [babel](https://babeljs.io/))
-* 2014/09/29 - v2.15.0 - add `bundle.watch` for copy files https://github.com/areusjs/gulp-bundle-assets/issues/33
-* 2014/09/29 - v2.14.0 - add flag to disable logging https://github.com/areusjs/gulp-bundle-assets/issues/16
-* 2014/09/25 - v2.13.1 - fix when bundleAllEnvironments: true, srcMin is always true https://github.com/areusjs/gulp-bundle-assets/issues/32
-* 2014/09/23 - v2.13.0 - add to allow different watch vs bundle targets https://github.com/areusjs/gulp-bundle-assets/issues/30
+* 2014/09/29 - v2.15.0 - add `bundle.watch` for copy files [#33](https://github.com/areusjs/gulp-bundle-assets/issues/33)
+* 2014/09/29 - v2.14.0 - add flag to disable logging [#16](https://github.com/areusjs/gulp-bundle-assets/issues/16)
+* 2014/09/25 - v2.13.1 - fix when bundleAllEnvironments: true, srcMin is always true [#32](https://github.com/areusjs/gulp-bundle-assets/issues/32)
+* 2014/09/23 - v2.13.0 - add to allow different watch vs bundle targets [#30](https://github.com/areusjs/gulp-bundle-assets/issues/30)
 * 2014/09/23 - v2.12.1 - fix to only publish results during watch when opts defined
-* 2014/09/23 - v2.12.0 - add `bundle.watch` for bundles https://github.com/areusjs/gulp-bundle-assets/issues/26
-
-...
+* 2014/09/23 - v2.12.0 - add `bundle.watch` for bundles [#26](https://github.com/areusjs/gulp-bundle-assets/issues/26)
 
 ## License
 
