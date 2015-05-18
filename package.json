@@ -54,10 +54,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/areusjs/gulp-bundle-assets"
+    "url": "https://github.com/dowjones/gulp-bundle-assets"
   },
   "bugs": {
-    "url": "https://github.com/areusjs/gulp-bundle-assets/issues"
+    "url": "https://github.com/dowjones/gulp-bundle-assets/issues"
   },
   "dependencies": {
     "bluebird": "2.9.14",
