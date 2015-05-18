@@ -186,7 +186,7 @@ while still being as flexible and customizable as possible.
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT)
+[MIT](LICENSE)
 
 [npm-url]: https://npmjs.org/package/gulp-bundle-assets
 [npm-image]: http://img.shields.io/npm/v/gulp-bundle-assets.svg
