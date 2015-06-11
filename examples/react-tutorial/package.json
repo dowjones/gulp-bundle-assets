@@ -4,12 +4,12 @@
   "description": "Code from the React tutorial.",
   "main": "server.js",
   "dependencies": {
-    "body-parser": "^1.11.0",
-    "ejs": "^2.2.4",
-    "express": "^4.11.2"
+    "body-parser": "^1.12.4",
+    "ejs": "^2.3.1",
+    "express": "^4.12.4"
   },
   "devDependencies": {
-    "gulp": "^3.8.10",
+    "gulp": "^3.9.0",
     "gulp-rimraf": "^0.1.1"
   },
   "scripts": {
