@@ -1,5 +1,5 @@
 var lazypipe = require('lazypipe');
-var to5 = require('gulp-6to5');
+var babel = require('gulp-babel');
 
 module.exports = {
   bundle: {
@@ -9,7 +9,7 @@ module.exports = {
         uglify: ['production'], // uglify the resulting bundle in prod
         rev: ['production'], // rev the resulting bundle in prod
         transforms: {
-          scripts: lazypipe().pipe(to5)
+          scripts: lazypipe().pipe(babel)
         }
       }
     }

@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-  rimraf = require('gulp-rimraf'),
+  del = require('del'),
   path = require('path'),
   bundle = require('../../');
 
@@ -9,9 +9,10 @@ gulp.task('bundle', ['clean'], function () {
     .pipe(gulp.dest('./public'));
 });
 
-gulp.task('clean', function () {
-  return gulp.src('./public', { read: false })
-    .pipe(rimraf());
+gulp.task('clean', function (cb) {
+  del([
+    './public'
+  ], cb);
 });
 
 // rebuild bundle on change of a source file
