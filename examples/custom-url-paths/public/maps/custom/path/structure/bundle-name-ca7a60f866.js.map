@@ -1,0 +1,1 @@
+{"version":3,"sources":["content/file-one.js","content/file-two.js"],"names":["console","log"],"mappings":"AAAAA,QAAQC,IAAI;ACAZD,QAAQC,IAAI","file":"custom/path/structure/bundle-name-ca7a60f866.js","sourcesContent":["console.log('file-one');","console.log('file-two');"],"sourceRoot":"/source/"}
