@@ -9,6 +9,7 @@ By default uses the following gulp modules under the covers when creating bundle
 3. [gulp-uglify](https://github.com/terinjokes/gulp-uglify)
 4. [gulp-minify-css](https://github.com/jonathanepollack/gulp-minify-css)
 6. [gulp-rev](https://github.com/sindresorhus/gulp-rev)
+7. [gulp-order](https://github.com/sirlantis/gulp-order)
 
 This project's stream architecture also allows you to plugin [any gulp transform you wish](examples/custom-transforms).
 
@@ -129,6 +130,7 @@ Which results in a `bundle.result.json` file similar to:
     * e.g. create a bundle.result.json for html, jsx or any custom results you can think of
 6. [works alongside 3rd party transformers](examples/browserify)
     * e.g. create a bundle using [browserify](http://browserify.org/), [6to5](https://github.com/sebmck/6to5), etc.
+7. [guarantee bundle content order](examples/guarantee-content-order)
 
 ## Why?
 

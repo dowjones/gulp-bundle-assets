@@ -130,6 +130,53 @@ module.exports = {
         rev: prodLikeEnvs,
         maps: false // {(boolean)} disable sourcemaps
       }
+    },
+    'ordered-bundle': {
+      scripts: [
+        {
+          src: './ordered_bundle/bower_components/jquery.js',
+          minSrc: './ordered_bundle/bower_components/jquery.min.js'
+        },
+        './ordered_bundle/vendor/*.js',
+        './ordered_bundle/content/*.coffee',
+        './ordered_bundle/content/*.js'
+      ],
+      styles: [
+        {
+          src: './ordered_bundle/bower_components/bootstrap.css',
+          minSrc: './ordered_bundle/bower_components/bootstrap.min.css'
+        },
+        './ordered_bundle/vendor/*.css',
+        './ordered_bundle/content/*.less',
+        './ordered_bundle/content/*.css'
+      ],
+      options: {
+        useMin: prodLikeEnvs,
+        order: {
+          scripts: [
+            '**/always-first.js',  // from /content
+            '**/jquery*.js',       // depending on env, this could be streaming min or non-min file so use trailing *
+            '**/lodash.js',        // from /vendor
+            '**/file1.js',         // compiled from file1.coffee
+            '**/file2.js',         // compiled from file2.coffee
+            '!**/always-last.js',  // everything else except always-last.js
+            '**/always-last.js'    // from /content
+          ],
+          styles: [
+            '**/always-first.css',  // from /content
+            '**/bootstrap*.css',    // depending on env, this could be streaming min or non-min file so use trailing *
+            '**/vendor.css',        // from /vendor
+            '**/file1.css',         // compiled from file1.less
+            '**/file2.css',         // compiled from file2.less
+            '!**/always-last.css',  // everything else except always-last.css
+            '**/always-last.css'    // from /content
+          ]
+        },
+        transforms: {
+          scripts: transformHelper.coffee(),
+          styles: transformHelper.less()
+        }
+      }
     }
   },
   copy: [

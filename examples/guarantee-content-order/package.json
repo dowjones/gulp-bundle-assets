@@ -1,0 +1,15 @@
+{
+  "name": "guarantee-content-order",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bundle.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "del": "^1.2.0",
+    "gulp": "^3.9.0"
+  }
+}

@@ -380,7 +380,9 @@ describe('integration tests', function () {
       MAIN_CONTENT_NOT_UGLIFIED = 'console.log(\"app\")\nconsole.log(\"controllers\")\nconsole.log(\"directives\")\nconsole.log(\"filters\")\n',
       MAIN_CONTENT_UGLIFIED = 'console.log(\"app\");\nconsole.log(\"controllers\");\nconsole.log(\"directives\");\nconsole.log(\"filters\");\n',
       MAIN_CSS_CONTENT_MINIFIED = '.legacy{background-color:green}\nbody{background-color:#00f}\n',
-      MAIN_CSS_CONTENT_NOT_MINIFIED = '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n';
+      MAIN_CSS_CONTENT_NOT_MINIFIED = '.legacy {\n  background-color: green;\n}\nbody {\n  background-color: blue;\n}\n\n',
+      ORDERED_BUNDLE_CONTENT = 'console.log("first");\nconsole.log("jquery.min");\nconsole.log("lodash");\n(function(){var f;f="file1.coffee"}).call(this);\n(function(){var f;f="file2.coffee"}).call(this);\nconsole.log("something in the middle");\nconsole.log("last");\n',
+      ORDERED_BUNDLE_CSS_CONTENT = '.always-first{background-color:red}\n.bootstrap-min {background-color: coral;}\n.vendor{background-color:wheat}\n.file1-less{background-color:purple}\n.file2-less{background-color:#ff0}\n.something-in-the-middle{background-color:#00f}\n.always-last{background-color:green}\n';
 
     it('should read bundle.config and create bundles in prod mode', function (done) {
 
@@ -424,6 +426,14 @@ describe('integration tests', function () {
               helpers.getJsSrcMapLine(file.relative));
         } else if (file.relative === 'jquery-stand-alone-29f6b03537.js') {
           fileContents.should.eql(JQUERY_CONTENT_MIN_NOT_UGLIFIED_NO_MAPS); // no sourcemaps
+        } else if (file.relative === 'ordered-bundle-cbd3c3edb4.js') {
+          fileContents.should.eql(
+            ORDERED_BUNDLE_CONTENT +
+            helpers.getJsSrcMapLine(file.relative));
+        } else if (file.relative === 'ordered-bundle-d8d01cbb86.css') {
+          fileContents.should.eql(
+            ORDERED_BUNDLE_CSS_CONTENT +
+            helpers.getCssSrcMapLine(file.relative));
         } else if (helpers.stringEndsWith(file.relative, '.map') ||
           file.relative === 'fonts/glyphicons-halflings-regular.eot' ||
           file.relative === 'fonts/glyphicons-halflings-regular.svg' ||
@@ -438,8 +448,8 @@ describe('integration tests', function () {
         }
         fileCount++;
       }, function () {
-        (fileCount).should.eql(24);
-        (staticFileCount).should.eql(15);
+        (fileCount).should.eql(28);
+        (staticFileCount).should.eql(17);
       });
 
     });

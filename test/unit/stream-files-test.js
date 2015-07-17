@@ -39,7 +39,8 @@ describe('stream-files', function () {
               'gulp-minify-css': {},
               'gulp-uglify': {},
               'gulp-concat': {}
-            }
+            },
+            order: {}
           }
         };
         streamFiles.styles(opts);
@@ -74,7 +75,8 @@ describe('stream-files', function () {
               'gulp-minify-css': {},
               'gulp-uglify': {},
               'gulp-concat': {}
-            }
+            },
+            order: {}
           }
         };
         streamFiles.scripts(opts);
