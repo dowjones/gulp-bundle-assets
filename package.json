@@ -94,7 +94,7 @@
     "gulp-jshint": "1.11.0",
     "gulp-mocha": "2.1.1",
     "gulp-nice-package": "1.0.0",
-    "gulp-sass": "2.0.1",
+    "gulp-sass": "2.0.4",
     "gulp-shrinkwrap": "2.0.1",
     "jshint-stylish": "2.0.0",
     "mocha-lcov-reporter": "0.0.2",
