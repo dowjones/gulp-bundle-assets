@@ -131,6 +131,8 @@ Which results in a `bundle.result.json` file similar to:
 6. [works alongside 3rd party transformers](examples/browserify)
     * e.g. create a bundle using [browserify](http://browserify.org/), [6to5](https://github.com/sebmck/6to5), etc.
 7. [guarantee bundle content order](examples/guarantee-content-order)
+8. [modify built-in behavior with custom gulp plugin options](examples/full/bundle.config.js#L86)
+9. [and much more!](examples/full/bundle.config.js)
 
 ## Why?
 
