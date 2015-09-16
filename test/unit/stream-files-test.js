@@ -38,7 +38,8 @@ describe('stream-files', function () {
             pluginOptions: {
               'gulp-minify-css': {},
               'gulp-uglify': {},
-              'gulp-concat': {}
+              'gulp-concat': {},
+              'gulp-sourcemaps': {'scripts': {}, 'styles': {}}
             },
             order: {}
           }
@@ -74,7 +75,8 @@ describe('stream-files', function () {
             pluginOptions: {
               'gulp-minify-css': {},
               'gulp-uglify': {},
-              'gulp-concat': {}
+              'gulp-concat': {},
+              'gulp-sourcemaps': {'scripts': {}, 'styles': {}}
             },
             order: {}
           }
