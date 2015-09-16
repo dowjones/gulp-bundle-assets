@@ -166,6 +166,7 @@ while still being as flexible and customizable as possible.
 
 ## Changelog
 
+* 2015/09/16 - v2.23.0 - add plugin option to modify built-in sourcemaps [#64](https://github.com/dowjones/gulp-bundle-assets/issues/64)
 * 2015/07/17 - v2.22.0 - add config option for consistent file content ordering [#25](https://github.com/dowjones/gulp-bundle-assets/issues/25)
 * 2015/06/11 - v2.21.0 - update all deps, including: `gulp-rev` 4.0.0, `gulp-less` 3.0.3, `gulp-sourcemaps` 1.5.2
 * 2015/05/07 - v2.20.0 - add pluginOptions config option [#50](https://github.com/dowjones/gulp-bundle-assets/issues/50)
