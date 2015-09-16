@@ -86,7 +86,20 @@ module.exports = {
         pluginOptions: { // pass additional options to underlying gulp plugins. By default the options object is empty
           'gulp-minify-css': {processImport: false},
           'gulp-uglify': {mangle: false},
-          'gulp-concat': {stat: {mode: 0666}}
+          'gulp-concat': {stat: {mode: 0666}},
+          'gulp-sourcemaps': {
+            init: {debug: true},
+            write: {addComment: false},
+            destPath: 'maps/article', // overrides default 'maps'
+            scripts: {
+              init: {loadMaps: false},
+              write: {addComment: true} // overrides {addComment: false}
+            },
+            styles: {
+              init: {loadMaps: true},
+              destPath: 'maps/article/css' // overrides above 'maps/article'
+            }
+          }
         }
       }
     },

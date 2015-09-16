@@ -375,7 +375,7 @@ describe('integration tests', function () {
       VENDOR_CSS_CONTENT_NOT_MINIFIED = '.angular-csp {\n  font-weight: bold;\n}\n',
       ARTICLE_CONTENT_NOT_UGLIFIED = 'console.log(\"page\")\nconsole.log(\"scroll\")\n(function() {\n  var number, square;\n\n  number = 42;\n\n  square = function(x) {\n    return x * x;\n  };\n\n}).call(this);\n\n',
       ARTICLE_CONTENT_UGLIFIED = 'console.log(\"page\");\nconsole.log(\"scroll\");\n(function(){var number,square;number=42,square=function(x){return x*x}}).call(this);\n',
-      ARTICLE_CSS_CONTENT_MINIFIED = '.page{background-color:red}\n',
+      ARTICLE_CSS_CONTENT_MINIFIED = '.page{background-color:red}',
       ARTICLE_CSS_CONTENT_NOT_MINIFIED = '.other-sass {\n  background-color: darkred; }\n\n.page {\n  background-color: red;\n}\n\n',
       MAIN_CONTENT_NOT_UGLIFIED = 'console.log(\"app\")\nconsole.log(\"controllers\")\nconsole.log(\"directives\")\nconsole.log(\"filters\")\n',
       MAIN_CONTENT_UGLIFIED = 'console.log(\"app\");\nconsole.log(\"controllers\");\nconsole.log(\"directives\");\nconsole.log(\"filters\");\n',
@@ -411,11 +411,12 @@ describe('integration tests', function () {
         } else if (file.relative === 'article-19f4f97809.js') {
           fileContents.should.eql(
               ARTICLE_CONTENT_UGLIFIED +
-              helpers.getJsSrcMapLine(file.relative));
+              '//# sourceMappingURL=maps/article/article-19f4f97809.js.map' // due to options this map path is custom
+              /*helpers.getJsSrcMapLine(file.relative)*/);
         } else if (file.relative === 'article-eb84c68ed8.css') {
           fileContents.should.eql(
-              ARTICLE_CSS_CONTENT_MINIFIED +
-              helpers.getCssSrcMapLine(file.relative));
+              ARTICLE_CSS_CONTENT_MINIFIED/* +
+              helpers.getCssSrcMapLine(file.relative)*/); // due to options this file has no map comment
         } else if (file.relative === 'main-56c9e7f7a2.css') {
           fileContents.should.eql(
               MAIN_CSS_CONTENT_MINIFIED +
