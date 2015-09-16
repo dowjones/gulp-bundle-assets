@@ -88,9 +88,9 @@ module.exports = {
           'gulp-uglify': {mangle: false},
           'gulp-concat': {stat: {mode: 0666}},
           'gulp-sourcemaps': {
-            init: {debug: true},
-            write: {addComment: false},
-            destPath: 'maps/article', // overrides default 'maps'
+            init: {debug: true}, // default is {loadMaps: true}
+            write: {addComment: false}, // default is {}
+            destPath: 'maps/article', // default is 'maps'
             scripts: {
               init: {loadMaps: false},
               write: {addComment: true} // overrides {addComment: false}
