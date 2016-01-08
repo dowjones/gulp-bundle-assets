@@ -7,7 +7,7 @@ By default uses the following gulp modules under the covers when creating bundle
 1. [gulp-concat](https://github.com/wearefractal/gulp-concat)
 2. [gulp-sourcemaps](https://github.com/floridoo/gulp-sourcemaps)
 3. [gulp-uglify](https://github.com/terinjokes/gulp-uglify)
-4. [gulp-minify-css](https://github.com/jonathanepollack/gulp-minify-css)
+4. [gulp-cssnano](https://github.com/jonathanepollack/gulp-cssnano)
 6. [gulp-rev](https://github.com/sindresorhus/gulp-rev)
 7. [gulp-order](https://github.com/sirlantis/gulp-order)
 
@@ -170,7 +170,7 @@ while still being as flexible and customizable as possible.
 * 2015/07/17 - v2.22.0 - add config option for consistent file content ordering [#25](https://github.com/dowjones/gulp-bundle-assets/issues/25)
 * 2015/06/11 - v2.21.0 - update all deps, including: `gulp-rev` 4.0.0, `gulp-less` 3.0.3, `gulp-sourcemaps` 1.5.2
 * 2015/05/07 - v2.20.0 - add pluginOptions config option [#50](https://github.com/dowjones/gulp-bundle-assets/issues/50)
-* 2015/05/07 - v2.19.2 - update to `gulp-minify-css` 1.1.1 ([@ZaleskiR](https://github.com/ZaleskiR))
+* 2015/05/07 - v2.19.2 - update to `gulp-cssnano` 1.1.1 ([@ZaleskiR](https://github.com/ZaleskiR))
 * 2015/04/24 - v2.19.1 - fix `result.json` url separator on windows [#52](https://github.com/dowjones/gulp-bundle-assets/pull/52) ([@gregorymaertens](https://github.com/gregorymaertens))
 * 2015/03/01 - v2.19.0 - fix error handling for `bundle.watch` [#47](https://github.com/dowjones/gulp-bundle-assets/pull/47)
 * 2015/02/08 - v2.18.0 - add flag to disabled sourcemaps [#45](https://github.com/dowjones/gulp-bundle-assets/pull/45) ([@21brains-zh](https://github.com/21brains-zh))

@@ -36,7 +36,7 @@ describe('stream-files', function () {
               styles: transformHelper.less()
             },
             pluginOptions: {
-              'gulp-minify-css': {},
+              'gulp-cssnano': {},
               'gulp-uglify': {},
               'gulp-concat': {},
               'gulp-sourcemaps': {'scripts': {}, 'styles': {}}
@@ -73,7 +73,7 @@ describe('stream-files', function () {
               scripts: transformHelper.coffee()
             },
             pluginOptions: {
-              'gulp-minify-css': {},
+              'gulp-cssnano': {},
               'gulp-uglify': {},
               'gulp-concat': {},
               'gulp-sourcemaps': {'scripts': {}, 'styles': {}}
