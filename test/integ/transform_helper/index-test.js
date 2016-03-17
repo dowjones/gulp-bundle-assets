@@ -67,7 +67,8 @@ describe('transform_helper', function () {
 
   });
 
-  // gulp-less currently having issues: https://github.com/plus3network/gulp-less/issues/207
+  // TODO put back once issue is fixed in gulp-less https://github.com/plus3network/gulp-less/issues/207
+  
   //it('should lessify file', function (done) {
   //  gulp.src(path.join(__dirname, '../../fixtures/content/a.less'))
   //    .pipe(transformHelper.less()())
