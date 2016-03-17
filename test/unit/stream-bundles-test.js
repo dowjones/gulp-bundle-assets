@@ -292,7 +292,7 @@ describe('stream-bundles', function () {
         var fileContents = file.contents.toString();
         if (file.relative === 'main.css') {
           fileContents.should.eql(
-              '#header{color:#5b83ad}\n' +
+              '#header{color:#5B83AD}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'maps/main.css.map') {
           // ok
@@ -329,7 +329,7 @@ describe('stream-bundles', function () {
         var fileContents = file.contents.toString();
         if (file.relative === 'main.css') {
           fileContents.should.eql(
-              'body{background-color:red}\n#header{color:#5b83ad}\n' +
+              'body{background-color:red}\n#header{color:#5B83AD}\n' +
               helpers.getCssSrcMapLine(file.relative));
         } else if (file.relative === 'maps/main.css.map') {
           // ok
