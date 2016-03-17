@@ -9,10 +9,10 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "browserify": "^10.2.4",
+    "browserify": "^13.0.0",
     "gulp": "^3.9.0",
     "gulp-util": "^3.0.5",
-    "gulp-rimraf": "^0.1.1",
+    "gulp-rimraf": "^0.2.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }

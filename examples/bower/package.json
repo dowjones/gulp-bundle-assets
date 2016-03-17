@@ -10,6 +10,6 @@
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-rimraf": "^0.1.1"
+    "gulp-rimraf": "^0.2.0"
   }
 }

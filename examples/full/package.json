@@ -10,10 +10,10 @@
   "license": "ISC",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-if": "^1.2.5",
+    "gulp-if": "^2.0.0",
     "gulp-less": "^3.0.3",
     "gulp-livereload": "^3.8.0",
-    "gulp-rimraf": "^0.1.1",
-    "lazypipe": "^0.2.3"
+    "gulp-rimraf": "^0.2.0",
+    "lazypipe": "^1.0.1"
   }
 }

@@ -9,7 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "del": "^1.2.0",
+    "del": "^2.2.0",
     "gulp": "^3.9.0"
   }
 }
