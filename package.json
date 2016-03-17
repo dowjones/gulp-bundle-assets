@@ -77,7 +77,7 @@
     "gulp-rev": "4.0.0",
     "gulp-sourcemaps": "1.5.2",
     "gulp-streamify": "0.0.5",
-    "gulp-uglify": "1.2.0",
+    "gulp-uglify": "1.5.3",
     "gulp-util": "3.0.5",
     "lazypipe": "0.2.3",
     "lodash": "3.9.3",
