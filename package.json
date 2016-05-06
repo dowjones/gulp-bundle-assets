@@ -104,6 +104,7 @@
     "mocha-lcov-reporter": "0.0.2",
     "multiline": "1.0.2",
     "proxyquire": "1.5.0",
+    "rimraf": "^2.5.2",
     "should": "6.0.3",
     "sinon": "1.15.3",
     "vinyl-source-stream": "1.1.0"
