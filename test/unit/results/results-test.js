@@ -1,6 +1,5 @@
 var libPath = './../../../lib',
   path = require('path'),
-  rimraf = require('rimraf'),
   fs = require('fs'),
   should = require('should'),
   Bundle = require(libPath + '/model/bundle'),
