@@ -9,10 +9,10 @@ gulp.task('bundle', ['clean'], function () {
     .pipe(gulp.dest('./public'));
 });
 
-gulp.task('clean', function (cb) {
-  del([
+gulp.task('clean', function () {
+  return del([
     './public'
-  ], cb);
+  ]);
 });
 
 // rebuild bundle on change of a source file
