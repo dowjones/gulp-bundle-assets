@@ -64,7 +64,7 @@
     "url": "https://github.com/dowjones/gulp-bundle-assets/issues"
   },
   "dependencies": {
-    "bluebird": "2.9.27",
+    "bluebird": "3.3.5",
     "duplexer2": "0.0.2",
     "graceful-fs": "4.1.4",
     "gulp": "3.9.1",
