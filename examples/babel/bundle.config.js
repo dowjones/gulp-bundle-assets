@@ -9,7 +9,10 @@ module.exports = {
         uglify: ['production'], // uglify the resulting bundle in prod
         rev: ['production'], // rev the resulting bundle in prod
         transforms: {
-          scripts: lazypipe().pipe(babel)
+          scripts: lazypipe().pipe(babel, {
+              presets: ['es2015']
+            }
+          )
         }
       }
     }

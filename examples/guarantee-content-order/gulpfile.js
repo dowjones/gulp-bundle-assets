@@ -8,10 +8,10 @@ gulp.task('bundle', ['clean'], function () {
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('clean', function (cb) {
-  del([
+gulp.task('clean', function () {
+  return del([
     './dist'
-  ], cb);
+  ]);
 });
 
 gulp.task('default', ['bundle']);
