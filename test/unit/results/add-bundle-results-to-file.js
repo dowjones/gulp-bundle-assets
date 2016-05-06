@@ -9,6 +9,7 @@ describe('add-bundle-results-to-file', function () {
   it('should append bundle info to file', function (done) {
 
     var fakeFile = new File({
+      path: '/fake/file/path',
       contents: new Buffer('')
     });
 
@@ -34,6 +35,7 @@ describe('add-bundle-results-to-file', function () {
   it('should append bundle info to file with custom result type', function (done) {
 
     var fakeFile = new File({
+      path: '/fake/file/path',
       contents: new Buffer('')
     });
 
