@@ -166,6 +166,7 @@ while still being as flexible and customizable as possible.
 
 ## Changelog
 
+* 2016/05/06 - v2.26.0 - update many deps including: `gulp-less` 3.1.0, `gulp-coffee` 2.3.2 and `gulp-if` 2.0.1
 * 2016/05/06 - v2.25.0 - update to use `gulp-clean-css` 2.0.7 instead of deprecated `gulp-minify-css` module
 * 2016/03/17 - v2.24.0 - update to `gulp-less` 3.0.5 and `gulp-uglify` 1.5.3
 * 2015/09/16 - v2.23.0 - add plugin option to modify built-in sourcemaps [#65](https://github.com/dowjones/gulp-bundle-assets/issues/65) ([@narthollis](https://github.com/narthollis))
