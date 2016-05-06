@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-  rimraf = require('gulp-rimraf'),
+  del = require('del'),
   bundle = require('../../');
 
 gulp.task('bundle', ['clean'], function () {
@@ -9,6 +9,7 @@ gulp.task('bundle', ['clean'], function () {
 });
 
 gulp.task('clean', function () {
-  return gulp.src('./public', { read: false })
-    .pipe(rimraf());
+  return del([
+    './public'
+  ]);
 });
