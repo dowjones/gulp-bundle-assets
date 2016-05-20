@@ -217,6 +217,11 @@ describe('integration tests', function () {
               return done(err);
             }
 
+            if (!(data instanceof String || typeof data === 'string')) { // TODO: This won't be needed once Node 0.10, 0.12 are no longer supported
+              data = String(data);
+            }
+            data.indexOf('main').should.be.lessThan(data.indexOf('vendor'));
+            data.indexOf('vendor').should.be.lessThan(data.indexOf('customJs'));
             JSON.parse(data).should.eql({
               "customJs": {
                 "scripts": "<script src='/public/customJs-33c43745c3.js' type='text/javascript'></script>"

@@ -309,7 +309,10 @@ describe('results', function () {
         name: 'main',
         type: BundleKeys.SCRIPTS,
         env: '',
-        bundleAllEnvironments: true
+        bundleAllEnvironments: true,
+        result: {
+          bundleOrder: ['vendor', 'main']
+        }
       });
 
       var cssFile = new File({
@@ -379,6 +382,7 @@ describe('results', function () {
         writeFile: function (writePath, data, cb) {
           resultFileCount++;
           if (path.join(resultPath, 'bundle.result.production.json') === writePath) {
+            data.indexOf('vendor').should.be.lessThan(data.indexOf('main'));
             (JSON.parse(data)).should.eql({
               "main": {
                 "scripts": "<script src='/public/main.production.js' type='text/javascript'></script>",
@@ -389,6 +393,7 @@ describe('results', function () {
               }
             });
           } else if (path.join(resultPath, 'bundle.result.json') === writePath) {
+            data.indexOf('vendor').should.be.lessThan(data.indexOf('main'));
             (JSON.parse(data)).should.eql({
               "main": {
                 "scripts": "<script src='/public/main.js' type='text/javascript'></script>",
@@ -453,10 +458,13 @@ describe('results', function () {
             }
           });
         } else {
+          data.indexOf('other').should.be.lessThan(data.indexOf('main'));
           (JSON.parse(data)).should.eql({
-            "main": {
-              "scripts": "<script src='main.js' type='text/javascript'></script>",
+            "other": {
               "styles": "<link href='main.css' media='all' rel='stylesheet' type='text/css'/>"
+            },
+            "main": {
+              "scripts": "<script src='main.js' type='text/javascript'></script>"
             }
           });
         }
@@ -487,7 +495,8 @@ describe('results', function () {
       });
       jsFile.bundle = new Bundle({
         name: 'main',
-        type: BundleKeys.SCRIPTS
+        type: BundleKeys.SCRIPTS,
+        result: { bundleOrder: ['other', 'main'] }
       });
 
       cssFile = new File({
@@ -496,8 +505,9 @@ describe('results', function () {
         contents: new Buffer('vendor_bundle_content')
       });
       cssFile.bundle = new Bundle({
-        name: 'main',
-        type: BundleKeys.STYLES
+        name: 'other',
+        type: BundleKeys.STYLES,
+        result: { bundleOrder: ['other', 'main'] }
       });
 
     });
