@@ -19,7 +19,7 @@
     "scripts": "<script src='/public/jquery-stand-alone-29f6b03537.js' type='text/javascript'></script>"
   },
   "ordered-bundle": {
-    "styles": "<link href='/public/ordered-bundle-d8d01cbb86.css' media='all' rel='stylesheet' type='text/css'/>",
-    "scripts": "<script src='/public/ordered-bundle-cbd3c3edb4.js' type='text/javascript'></script>"
+    "scripts": "<script src='/public/ordered-bundle-cbd3c3edb4.js' type='text/javascript'></script>",
+    "styles": "<link href='/public/ordered-bundle-d8d01cbb86.css' media='all' rel='stylesheet' type='text/css'/>"
   }
 }
