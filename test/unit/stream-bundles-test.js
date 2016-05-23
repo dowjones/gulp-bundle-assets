@@ -595,7 +595,8 @@ describe('stream-bundles', function () {
             name: 'main',
             type: BundleType.SCRIPTS,
             result: {
-              type: 'html'
+              type: 'html',
+              bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
             env: ''
@@ -608,7 +609,8 @@ describe('stream-bundles', function () {
             name: 'main',
             type: BundleType.SCRIPTS,
             result: {
-              type: 'html'
+              type: 'html',
+              bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
             env: 'production'
@@ -621,7 +623,8 @@ describe('stream-bundles', function () {
             name: 'main',
             type: BundleType.SCRIPTS,
             result: {
-              type: 'html'
+              type: 'html',
+              bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
             env: 'staging'
@@ -634,7 +637,8 @@ describe('stream-bundles', function () {
             name: 'main',
             type: BundleType.SCRIPTS,
             result: {
-              type: 'html'
+              type: 'html',
+              bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
             env: 'development'
@@ -647,7 +651,8 @@ describe('stream-bundles', function () {
             name: 'other',
             type: BundleType.SCRIPTS,
             result: {
-              type: 'html'
+              type: 'html',
+              bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
             env: ''
@@ -660,7 +665,8 @@ describe('stream-bundles', function () {
             name: 'other',
             type: BundleType.SCRIPTS,
             result: {
-              type: 'html'
+              type: 'html',
+              bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
             env: 'production'
@@ -673,7 +679,8 @@ describe('stream-bundles', function () {
             name: 'other',
             type: BundleType.SCRIPTS,
             result: {
-              type: 'html'
+              type: 'html',
+              bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
             env: 'staging'
@@ -686,7 +693,8 @@ describe('stream-bundles', function () {
             name: 'other',
             type: BundleType.SCRIPTS,
             result: {
-              type: 'html'
+              type: 'html',
+              bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
             env: 'development'

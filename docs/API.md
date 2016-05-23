@@ -39,6 +39,9 @@ Flag to disable all console logging.
 Note: beyond this api, bundle results can be further modified with config options like
 [custom result types](../examples/custom-result)
 
+The order of the bundles in the results file will be the same as the order in which they were
+specified in the config.
+
 ### options
 
 Type: `Object` or `String`

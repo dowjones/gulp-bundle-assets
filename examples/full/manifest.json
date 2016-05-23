@@ -1,14 +1,11 @@
 {
-  "jquery-stand-alone": {
-    "scripts": "<script src='/public/jquery-stand-alone-29f6b03537.js' type='text/javascript'></script>"
+  "header": {
+    "scripts": "<script src='/public/header-c380f8735f.js' type='text/javascript'></script>",
+    "styles": "<link href='/public/header-450a885fe9.css' media='all' rel='stylesheet' type='text/css'/>"
   },
   "vendor": {
     "styles": "<link href='/public/vendor-752c24d067.css' media='all' rel='stylesheet' type='text/css'/>",
     "scripts": "<script src='/public/vendor-b9c14db406.js' type='text/javascript'></script>"
-  },
-  "header": {
-    "styles": "<link href='/public/header-450a885fe9.css' media='all' rel='stylesheet' type='text/css'/>",
-    "scripts": "<script src='/public/header-c380f8735f.js' type='text/javascript'></script>"
   },
   "article": {
     "styles": "<link href='/public/article-eb84c68ed8.css' media='all' rel='stylesheet' type='text/css'/>",
@@ -17,6 +14,9 @@
   "main": {
     "scripts": "<script src='/public/main-a2f0720d62.js' type='text/javascript'></script>",
     "styles": "<link href='/public/main-56c9e7f7a2.css' media='all' rel='stylesheet' type='text/css'/>"
+  },
+  "jquery-stand-alone": {
+    "scripts": "<script src='/public/jquery-stand-alone-29f6b03537.js' type='text/javascript'></script>"
   },
   "ordered-bundle": {
     "styles": "<link href='/public/ordered-bundle-d8d01cbb86.css' media='all' rel='stylesheet' type='text/css'/>",

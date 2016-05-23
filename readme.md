@@ -113,6 +113,8 @@ Which results in a `bundle.result.json` file similar to:
 }
 ```
 
+The order of the bundles will be the same as the order in which they were specified in the config.
+
 [See here for a full example using hogan](examples/express-app-using-result-json)
 
 ## Other Features
