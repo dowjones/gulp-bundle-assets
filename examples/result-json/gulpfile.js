@@ -7,7 +7,9 @@ gulp.task('bundle', ['clean'], function () {
     .pipe(bundle())
     .pipe(bundle.results({
       dest: './',
-      pathPrefix: '/public/'
+      pathPrefix: '/public/',
+      outputUnprocessed: true,
+      unprocessedOutputPathPrefix: '/public/src/'
     }))
     .pipe(gulp.dest('./public'));
 });

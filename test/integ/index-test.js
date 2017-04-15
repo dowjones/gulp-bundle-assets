@@ -198,7 +198,7 @@ describe('integration tests', function () {
     var appPath = path.join(examplePath, 'result-json'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');
 
-    it('should read bundle.config and create result json', function (done) {
+    it('should read bundle.config and create result json plus source json', function (done) {
 
       gulp.src(bundleConfigPath)
         .pipe(bundler({
@@ -206,38 +206,66 @@ describe('integration tests', function () {
         }))
         .pipe(bundler.results({
           dest: testDest,
-          pathPrefix: '/public/'
+          pathPrefix: '/public/',
+          outputUnprocessed: true,
+          unprocessedOutputPathPrefix: '/public/src/'
         }))
         .pipe(gulp.dest(testDest))
         .on('data', function () {
         }) // noop
         .on('end', function () {
-          fs.readFile(path.join(testDest, 'bundle.result.json'), function (err, data) {
-            if (err) {
-              return done(err);
+          var resultOutput = fs.readFileSync(path.join(testDest, 'bundle.result.json'));
+          if (!(resultOutput instanceof String || typeof resultOutput === 'string')) {
+            // TODO: This won't be needed once Node 0.10, 0.12 are no longer supported
+            // See also second instance below
+            resultOutput = String(resultOutput);
+          }
+          resultOutput.indexOf('main').should.be.lessThan(resultOutput.indexOf('vendor'));
+          resultOutput.indexOf('vendor').should.be.lessThan(resultOutput.indexOf('customJs'));
+          JSON.parse(resultOutput).should.eql({
+            "customJs": {
+              "scripts": "<script src='/public/customJs-33c43745c3.js' type='text/javascript'></script>"
+            },
+            "main": {
+              "styles": "<link href='/public/main-0cd4ab1aa8.css' media='all' rel='stylesheet' type='text/css'/>",
+              "scripts": "<script src='/public/main-2742a3c06d.js' type='text/javascript'></script>"
+            },
+            "vendor": {
+              "scripts": "<script src='/public/vendor-6873f46ec1.js' type='text/javascript'></script>",
+              "styles": "<link href='/public/vendor-7c38ff6718.css' media='all' rel='stylesheet' type='text/css'/>"
             }
-
-            if (!(data instanceof String || typeof data === 'string')) { // TODO: This won't be needed once Node 0.10, 0.12 are no longer supported
-              data = String(data);
-            }
-            data.indexOf('main').should.be.lessThan(data.indexOf('vendor'));
-            data.indexOf('vendor').should.be.lessThan(data.indexOf('customJs'));
-            JSON.parse(data).should.eql({
-              "customJs": {
-                "scripts": "<script src='/public/customJs-33c43745c3.js' type='text/javascript'></script>"
-              },
-              "main": {
-                "styles": "<link href='/public/main-0cd4ab1aa8.css' media='all' rel='stylesheet' type='text/css'/>",
-                "scripts": "<script src='/public/main-2742a3c06d.js' type='text/javascript'></script>"
-              },
-              "vendor": {
-                "scripts": "<script src='/public/vendor-6873f46ec1.js' type='text/javascript'></script>",
-                "styles": "<link href='/public/vendor-7c38ff6718.css' media='all' rel='stylesheet' type='text/css'/>"
-              }
-            });
-
-            done();
           });
+
+          var unprocessedOutput = fs.readFileSync(path.join(testDest, 'bundle.source.json'));
+          if (!(unprocessedOutput instanceof String || typeof unprocessedOutput === 'string')) {
+            unprocessedOutput = String(unprocessedOutput);
+          }
+          unprocessedOutput.indexOf('main').should.be.lessThan(unprocessedOutput.indexOf('vendor'));
+          unprocessedOutput.indexOf('vendor').should.be.lessThan(unprocessedOutput.indexOf('customJs'));
+          unprocessedOutput.indexOf('baz.js').should.be.lessThan(unprocessedOutput.indexOf('foo.js'));
+          JSON.parse(unprocessedOutput).should.eql({
+            "customJs": {
+              "scripts": ["<script src='/public/src/content/js/custom.js' type='text/javascript'></script>"]
+            },
+            "main": {
+              "styles": ["<link href='/public/src/content/styles/main.css' media='all' rel='stylesheet' type='text/css'/>"],
+              "scripts": [
+                "<script src='/public/src/content/js/baz.js' type='text/javascript'></script>",
+                "<script src='/public/src/content/js/foo.js' type='text/javascript'></script>"
+              ]
+            },
+            "vendor": {
+              "scripts": [
+                "<script src='/public/src/bower_components/angular/angular.js' type='text/javascript'></script>",
+                "<script src='/public/src/bower_components/jquery/dist/jquery.js' type='text/javascript'></script>"
+              ],
+              "styles": [
+                "<link href='/public/src/bower_components/bootstrap/dist/css/bootstrap-theme.css' media='all' rel='stylesheet' type='text/css'/>",
+                "<link href='/public/src/bower_components/bootstrap/dist/css/bootstrap.css' media='all' rel='stylesheet' type='text/css'/>"
+              ]
+            }
+          });
+          done();
         });
 
     });
