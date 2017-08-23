@@ -137,7 +137,8 @@ Default: `false`
 
 When enabled, output a list of the unprocessed source files in a similar format to the normal result file.
 The main difference is that instead of paths, the JSON contains lists of paths making up a single bundle.
-The lists of paths are always sorted, so their order is deterministic.
+The lists of paths are sorted by default, so their order is deterministic. To override this
+behaviour see `options.sortUnprocessedOutput`.
 See `options.unprocessedOutputFileName` for the name of the resulting file.
 This option is used in the result-json example as follows:
 
@@ -198,3 +199,12 @@ Type `String`
 Default: `options.pathPrefix`
 
 Like `options.pathPrefix`, but applies to the unprocessed file result.
+
+### options.sortUnprocessedOutput
+
+Type `Boolean`
+
+Default: `true`
+
+When `true`, will sort unprocessed output in alphanumeric order, otherwise will be in source
+input as specified in the bundle config.
