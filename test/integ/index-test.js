@@ -194,7 +194,7 @@ describe('integration tests', function () {
 
   });
 
-  describe('result-json', function () {
+  describe('source-json', function () {
     var appPath = path.join(examplePath, 'result-json'),
       bundleConfigPath = path.join(appPath, 'bundle.config.js');
 
@@ -262,6 +262,58 @@ describe('integration tests', function () {
               "styles": [
                 "<link href='/public/src/bower_components/bootstrap/dist/css/bootstrap-theme.css' media='all' rel='stylesheet' type='text/css'/>",
                 "<link href='/public/src/bower_components/bootstrap/dist/css/bootstrap.css' media='all' rel='stylesheet' type='text/css'/>"
+              ]
+            }
+          });
+          done();
+        });
+
+    });
+
+    it('should not sort source json if options specified', function (done) {
+
+      gulp.src(bundleConfigPath)
+        .pipe(bundler({
+          base: appPath
+        }))
+        .pipe(bundler.results({
+          dest: testDest,
+          pathPrefix: '/public/',
+          outputUnprocessed: true,
+          unprocessedOutputPathPrefix: '/public/src/',
+          sortUnprocessedOutput: false
+        }))
+        .pipe(gulp.dest(testDest))
+        .on('data', function () {
+        }) // noop
+        .on('end', function () {
+          // We're only interested in the unprocessed output
+          var unprocessedOutput = fs.readFileSync(path.join(testDest, 'bundle.source.json'));
+          if (!(unprocessedOutput instanceof String || typeof unprocessedOutput === 'string')) {
+            unprocessedOutput = String(unprocessedOutput);
+          }
+          unprocessedOutput.indexOf('main').should.be.lessThan(unprocessedOutput.indexOf('vendor'));
+          unprocessedOutput.indexOf('vendor').should.be.lessThan(unprocessedOutput.indexOf('customJs'));
+          unprocessedOutput.indexOf('baz.js').should.be.lessThan(unprocessedOutput.indexOf('foo.js'));
+          JSON.parse(unprocessedOutput).should.eql({
+            "customJs": {
+              "scripts": ["<script src='/public/src/content/js/custom.js' type='text/javascript'></script>"]
+            },
+            "main": {
+              "styles": ["<link href='/public/src/content/styles/main.css' media='all' rel='stylesheet' type='text/css'/>"],
+              "scripts": [
+                "<script src='/public/src/content/js/baz.js' type='text/javascript'></script>",
+                "<script src='/public/src/content/js/foo.js' type='text/javascript'></script>"
+              ]
+            },
+            "vendor": {
+              "scripts": [
+                "<script src='/public/src/bower_components/jquery/dist/jquery.js' type='text/javascript'></script>",
+                "<script src='/public/src/bower_components/angular/angular.js' type='text/javascript'></script>"
+              ],
+              "styles": [
+                "<link href='/public/src/bower_components/bootstrap/dist/css/bootstrap.css' media='all' rel='stylesheet' type='text/css'/>",
+                "<link href='/public/src/bower_components/bootstrap/dist/css/bootstrap-theme.css' media='all' rel='stylesheet' type='text/css'/>"
               ]
             }
           });
