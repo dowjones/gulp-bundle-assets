@@ -599,7 +599,8 @@ describe('stream-bundles', function () {
               bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
-            env: ''
+            env: '',
+            srcFiles: ['content/a.js']
           });
         } else if (file.relative === 'main.production.js') {
           fileContents.should.eql(
@@ -613,7 +614,8 @@ describe('stream-bundles', function () {
               bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
-            env: 'production'
+            env: 'production',
+            srcFiles: ['content/a.min.js']
           });
         } else if (file.relative === 'main.staging.js') {
           fileContents.should.eql(
@@ -627,7 +629,8 @@ describe('stream-bundles', function () {
               bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
-            env: 'staging'
+            env: 'staging',
+            srcFiles: ['content/a.min.js']
           });
         } else if (file.relative === 'main.development.js') {
           fileContents.should.eql(
@@ -641,7 +644,8 @@ describe('stream-bundles', function () {
               bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
-            env: 'development'
+            env: 'development',
+            srcFiles: ['content/a.js']
           });
         } else if (file.relative === 'other.js') {
           fileContents.should.eql(
@@ -655,7 +659,8 @@ describe('stream-bundles', function () {
               bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
-            env: ''
+            env: '',
+            srcFiles: ['content/a.js']
           });
         } else if (file.relative === 'other.production.js') {
           fileContents.should.eql(
@@ -669,7 +674,8 @@ describe('stream-bundles', function () {
               bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
-            env: 'production'
+            env: 'production',
+            srcFiles: ['content/a.js']
           });
         } else if (file.relative === 'other.staging.js') {
           fileContents.should.eql(
@@ -683,7 +689,8 @@ describe('stream-bundles', function () {
               bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
-            env: 'staging'
+            env: 'staging',
+            srcFiles: ['content/a.js']
           });
         } else if (file.relative === 'other.development.js') {
           fileContents.should.eql(
@@ -697,7 +704,8 @@ describe('stream-bundles', function () {
               bundleOrder: ['main', 'other']
             },
             bundleAllEnvironments: true,
-            env: 'development'
+            env: 'development',
+            srcFiles: ['content/a.js']
           });
         } else if (file.relative === 'maps/main.js.map' ||
           file.relative === 'maps/main.production.js.map' ||

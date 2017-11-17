@@ -32,7 +32,7 @@ describe('result type', function () {
       }
     };
 
-    var resultLine = resultTypeFunc(fakeFile, '/public/');
+    var resultLine = resultTypeFunc(fakeFile, '/public/' + fakeFile.relative);
 
     resultLine.should.eql("<script src='/public/file.js' type='text/javascript'></script>");
 
@@ -55,7 +55,7 @@ describe('result type', function () {
       }
     };
 
-    var resultLine = resultTypeFunc(fakeFile, '/public/');
+    var resultLine = resultTypeFunc(fakeFile, '/public/' + fakeFile.relative);
 
     resultLine.should.eql("<link href='/public/file.css' media='all' rel='stylesheet' type='text/css'/>");
 
@@ -78,7 +78,7 @@ describe('result type', function () {
       }
     };
 
-    var resultLine = resultTypeFunc(fakeFile, '/public/');
+    var resultLine = resultTypeFunc(fakeFile, '/public/' + fakeFile.relative);
 
     resultLine.should.eql("<script src='/public/file.js' type='text/jsx'></script>");
 
@@ -101,7 +101,7 @@ describe('result type', function () {
       }
     };
 
-    var resultLine = resultTypeFunc(fakeFile, '/public/');
+    var resultLine = resultTypeFunc(fakeFile, '/public/' + fakeFile.relative);
 
     resultLine.should.eql("<script src='/public/file.js' type='text/javascript'></script>");
 
@@ -140,9 +140,9 @@ describe('result type', function () {
       result: resultOptions
     };
 
-    var resultLine = resultTypeFunc(fakeFile);
+    var resultLine = resultTypeFunc(fakeFile, fakeFile.relative);
     resultLine.should.eql("<script src='file.js' type='text/jsx'></script>");
-    var resultLine2 = resultTypeFunc(fakeFile2);
+    var resultLine2 = resultTypeFunc(fakeFile2, fakeFile2.relative);
     resultLine2.should.eql("file.css");
 
     loggerStub.log.called.should.not.be.ok;
@@ -166,7 +166,7 @@ describe('result type', function () {
       }
     };
 
-    var resultLine = resultTypeFunc(fakeFile);
+    var resultLine = resultTypeFunc(fakeFile, fakeFile.relative);
     resultLine.should.eql("<link href='file.css' media='all' rel='stylesheet' type='text/css'/>");
 
     loggerStub.log.called.should.not.be.ok;
@@ -189,7 +189,7 @@ describe('result type', function () {
     };
 
     (function() {
-      resultTypeFunc(fakeFile);
+      resultTypeFunc(fakeFile, fakeFile.relative);
     }).should.throw(/^Failed to load result function/);
 
     loggerStub.log.called.should.not.be.ok;

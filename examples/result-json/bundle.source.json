@@ -1,0 +1,26 @@
+{
+  "main": {
+    "scripts": [
+      "<script src='/public/src/content/js/baz.js' type='text/javascript'></script>",
+      "<script src='/public/src/content/js/foo.js' type='text/javascript'></script>"
+    ],
+    "styles": [
+      "<link href='/public/src/content/styles/main.css' media='all' rel='stylesheet' type='text/css'/>"
+    ]
+  },
+  "vendor": {
+    "scripts": [
+      "<script src='/public/src/bower_components/angular/angular.js' type='text/javascript'></script>",
+      "<script src='/public/src/bower_components/jquery/dist/jquery.js' type='text/javascript'></script>"
+    ],
+    "styles": [
+      "<link href='/public/src/bower_components/bootstrap/dist/css/bootstrap-theme.css' media='all' rel='stylesheet' type='text/css'/>",
+      "<link href='/public/src/bower_components/bootstrap/dist/css/bootstrap.css' media='all' rel='stylesheet' type='text/css'/>"
+    ]
+  },
+  "customJs": {
+    "scripts": [
+      "<script src='/public/src/content/js/custom.js' type='text/javascript'></script>"
+    ]
+  }
+}
