@@ -1,10 +1,14 @@
-# [gulp](http://gulpjs.com/)-uf-bundle-assets [![NPM version][npm-image]][npm-url]
+# gulp-uf-bundle-assets
 
-_This gulp plugin is a fork of [gulp-bundle-assets](https://github.com/dowjones/gulp-bundle-assets) with [gulp-concat-css](https://github.com/mariocasciaro/gulp-concat-css) used instead of the JavaScript suited [gulp-concat](https://github.com/contra/gulp-concat). While this substitution allows for properly url rebasing, it also may break the sourcemaps._
+This gulp plugin is a fork of [gulp-bundle-assets](https://github.com/dowjones/gulp-bundle-assets) with [gulp-concat-css](https://github.com/mariocasciaro/gulp-concat-css) used instead of the JavaScript suited [gulp-concat](https://github.com/contra/gulp-concat). While this substitution allows for properly url rebasing, it also may break the sourcemaps.
+
+Unit tests are a whole other story. Significant amounts of the out-of-box tests are heavily dependent on the output of used libraries, and as such break easily. They also don't consider platform specific path delimiters, and as such depend on a Unix-like OS.
 
 _Full credit for this plugin goes to its original creater, switching out similar plugins is a simple feat on my part._
 
 **Original documentation follows:**
+
+# [gulp](http://gulpjs.com/)-bundle-assets [![NPM version][npm-image]][npm-url]
 
 > Create static asset bundles from a config file: a common interface to combining, minifying, revisioning and more. Stack agnostic. Production ready.
 
