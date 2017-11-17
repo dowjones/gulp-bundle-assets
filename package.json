@@ -1,6 +1,6 @@
 {
   "name": "gulp-uf-bundle-assets",
-  "version": "2.27.2",
+  "version": "2.28.0",
   "description": "Fork of gulp-bundle-assets that uses gulp-concat-css for css to correctly rebase urls. Sourcemaps may not work as a result of this change. Full credit to original creater, swapping out gulp-concat for culp-concat-css is major feat.",
   "main": "index.js",
   "scripts": {
