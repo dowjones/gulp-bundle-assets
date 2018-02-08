@@ -76,8 +76,10 @@
     "url": "https://github.com/Silic0nS0ldier/gulp-uf-bundle-assets/issues"
   },
   "dependencies": {
+    "ansi-colors": "^1.0.1",
     "bluebird": "^3.3.5",
     "duplexer2": "^0.0.2",
+    "fancy-log": "^1.3.2",
     "graceful-fs": "^4.1.4",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.7",
@@ -97,6 +99,7 @@
     "map-stream": "^0.0.6",
     "merge-stream": "^0.1.7",
     "mkdirp": "^0.5.1",
+    "plugin-error": "^1.0.1",
     "pretty-hrtime": "^1.0.2",
     "readable-stream": "^2.0.0",
     "through2": "^2.0.1",

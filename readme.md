@@ -6,6 +6,14 @@ Unit tests are a whole other story. Significant amounts of the out-of-box tests 
 
 _Full credit for this plugin goes to its original creater, switching out similar plugins is a simple feat on my part._
 
+If node-sass causes an error during install, and your running Windows;
+
+```
+npm i -g --production windows-build-tools
+#Wait for lengthy post install...
+npm config set msvs_version 2015 --global
+```
+
 **Original documentation follows:**
 
 # [gulp](http://gulpjs.com/)-bundle-assets [![NPM version][npm-image]][npm-url]
