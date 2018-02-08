@@ -71,7 +71,7 @@ gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
 
 gulp.task('test-debug', 'Run unit tests in debug mode', function () {
   spawn('node', [
-    '--debug-brk',
+    '--inspect-brk',
     path.join(__dirname, 'node_modules/gulp/bin/gulp.js'),
     'test'
   ], {stdio: 'inherit'});
