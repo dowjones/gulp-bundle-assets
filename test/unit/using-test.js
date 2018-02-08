@@ -20,8 +20,8 @@ describe('using', function () {
     });
   });
 
-  function getUsing(gutilStub) {
-    return proxyquire(libPath + '/using', { 'gulp-util': gutilStub });
+  function getUsing(fancyLogStub) {
+    return proxyquire(libPath + '/using', { 'fancy-log': fancyLogStub });
   }
 
   function run(usingStream, done) {
@@ -35,46 +35,38 @@ describe('using', function () {
   describe('bundle', function() {
 
     it('should log basic', function (done) {
-      var gutilStub = {
-        log: function(prefix, suffix) {
-          prefix.should.eql("Bundle '" + ANSI_GREEN + "main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
-          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
-        }
+      var fancyLogStub = function(prefix, suffix) {
+        prefix.should.eql("Bundle '" + ANSI_GREEN + "main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
+        suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
       };
-      var usingStream = getUsing(gutilStub).bundle('main', BundleType.SCRIPTS);
+      var usingStream = getUsing(fancyLogStub).bundle('main', BundleType.SCRIPTS);
       run(usingStream, done);
     });
 
     it('should log when env', function (done) {
-      var gutilStub = {
-        log: function(prefix, suffix) {
-          prefix.should.eql("Bundle '" + ANSI_GREEN + "main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
-          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
-        }
+      var fancyLogStub = function(prefix, suffix) {
+        prefix.should.eql("Bundle '" + ANSI_GREEN + "main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
+        suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
       };
-      var usingStream = getUsing(gutilStub).bundle('main', BundleType.SCRIPTS, 'production');
+      var usingStream = getUsing(fancyLogStub).bundle('main', BundleType.SCRIPTS, 'production');
       run(usingStream, done);
     });
 
     it('should log when env and bundleAllEnvironments', function (done) {
-      var gutilStub = {
-        log: function(prefix, suffix) {
-          prefix.should.eql("Bundle '" + ANSI_GREEN + "production.main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
-          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
-        }
+      var fancyLogStub = function(prefix, suffix) {
+        prefix.should.eql("Bundle '" + ANSI_GREEN + "production.main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
+        suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
       };
-      var usingStream = getUsing(gutilStub).bundle('main', BundleType.SCRIPTS, 'production', true);
+      var usingStream = getUsing(fancyLogStub).bundle('main', BundleType.SCRIPTS, 'production', true);
       run(usingStream, done);
     });
 
     it('should log as default when env and bundleAllEnvironments', function (done) {
-      var gutilStub = {
-        log: function(prefix, suffix) {
-          prefix.should.eql("Bundle '" + ANSI_GREEN + "default.main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
-          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
-        }
+      var fancyLogStub = function(prefix, suffix) {
+        prefix.should.eql("Bundle '" + ANSI_GREEN + "default.main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
+        suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
       };
-      var usingStream = getUsing(gutilStub).bundle('main', BundleType.SCRIPTS, '', true);
+      var usingStream = getUsing(fancyLogStub).bundle('main', BundleType.SCRIPTS, '', true);
       run(usingStream, done);
     });
 
@@ -83,24 +75,20 @@ describe('using', function () {
   describe('copy', function() {
 
     it('should log basic', function (done) {
-      var gutilStub = {
-        log: function(prefix, suffix) {
-          prefix.should.eql("Copy file");
-          suffix.should.eql(ANSI_MAGENTA + "test/file.js" + ANSI_DEFAULT);
-        }
+      var fancyLogStub = function(prefix, suffix) {
+        prefix.should.eql("Copy file");
+        suffix.should.eql(ANSI_MAGENTA + "test/file.js" + ANSI_DEFAULT);
       };
-      var usingStream = getUsing(gutilStub).copy('.');
+      var usingStream = getUsing(fancyLogStub).copy('.');
       run(usingStream, done);
     });
 
     it('should log given base', function (done) {
-      var gutilStub = {
-        log: function(prefix, suffix) {
-          prefix.should.eql("Copy file");
-          suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
-        }
+      var fancyLogStub = function(prefix, suffix) {
+        prefix.should.eql("Copy file");
+        suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
       };
-      var usingStream = getUsing(gutilStub).copy('/test');
+      var usingStream = getUsing(fancyLogStub).copy('/test');
       run(usingStream, done);
     });
 

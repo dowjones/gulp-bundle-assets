@@ -2,7 +2,7 @@
 var fs = require('fs'),
   gulp = require('gulp'),
   path = require('path'),
-  gutil = require('gulp-util'),
+  PluginError = require('plugin-error'),
   proxyquire = require('proxyquire'),
   should = require('should'),
   sinon = require('sinon');
@@ -88,7 +88,7 @@ describe('index', function () {
         .on('data', function () {
         }) //noop
         .on('error', function (err) {
-          err.should.be.an.instanceof(gutil.PluginError);
+          err.should.be.an.instanceof(PluginError);
           err.message.should.startWith('Configuration file should');
           done();
         })

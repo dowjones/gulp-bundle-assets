@@ -7,7 +7,7 @@ var libPath = './../../lib',
   ConfigModel = require(libPath + '/model/config'),
   BundleType = require(libPath + '/model/bundle-type'),
   should = require('should'),
-  gutil = require('gulp-util'),
+  PluginError = require('plugin-error'),
   helpers = require('../helpers'),
   less = require('gulp-less'),
   lazypipe = require('lazypipe'),
@@ -212,7 +212,7 @@ describe('stream-bundles', function () {
           streamBundles({
             copy: 1
           });
-        }).should.throw(gutil.PluginError);
+        }).should.throw(PluginError);
 
       });
 
@@ -222,7 +222,7 @@ describe('stream-bundles', function () {
           streamBundles({
             copy: true
           });
-        }).should.throw(gutil.PluginError);
+        }).should.throw(PluginError);
 
       });
 
@@ -234,7 +234,7 @@ describe('stream-bundles', function () {
               1
             ]
           });
-        }).should.throw(gutil.PluginError);
+        }).should.throw(PluginError);
 
       });
 
@@ -246,7 +246,7 @@ describe('stream-bundles', function () {
               true
             ]
           });
-        }).should.throw(gutil.PluginError);
+        }).should.throw(PluginError);
 
       });
 
@@ -258,7 +258,7 @@ describe('stream-bundles', function () {
               ['./content/*.js']
             ]
           });
-        }).should.throw(gutil.PluginError);
+        }).should.throw(PluginError);
 
       });
 

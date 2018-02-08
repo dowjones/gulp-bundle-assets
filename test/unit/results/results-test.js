@@ -12,7 +12,7 @@ describe('results', function () {
 
   var resultPath,
     mkdirpStub,
-    gutilStub,
+    fancyLogStub,
     results;
 
   beforeEach(function() {
@@ -21,10 +21,8 @@ describe('results', function () {
       (dest).should.eql(resultPath);
       cb();
     };
-    gutilStub = {
-      log: function () {
-        //noop for less noisy output
-      }
+    fancyLogStub = function () {
+      //noop for less noisy output
     };
   });
 
@@ -71,7 +69,7 @@ describe('results', function () {
       };
 
       // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
 
       var stream = results(resultPath);
 
@@ -105,7 +103,7 @@ describe('results', function () {
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
 
       var stream = results({
         dest: resultPath,
@@ -142,7 +140,7 @@ describe('results', function () {
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
 
       var stream = results({
         dest: resultPath,
@@ -210,7 +208,7 @@ describe('results', function () {
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
 
       var stream = results({
         fileName: customFileName,
@@ -276,7 +274,7 @@ describe('results', function () {
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
 
       var stream = results({
         dest: resultPath,
@@ -410,7 +408,7 @@ describe('results', function () {
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
 
       var stream = results({
         dest: resultPath,
@@ -521,7 +519,7 @@ describe('results', function () {
       sinon.spy(fsStub, 'exists');
 
       // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).incremental;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).incremental;
 
       var stream = results(resultPath);
 
@@ -552,7 +550,7 @@ describe('results', function () {
       sinon.spy(fsStub, 'exists');
 
       // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'gulp-util': gutilStub }).incremental;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).incremental;
 
       var stream = results({
         dest: resultPath,
