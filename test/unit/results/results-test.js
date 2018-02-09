@@ -1,11 +1,10 @@
+/* eslint-env node, mocha */
+
 var libPath = './../../../lib',
   path = require('path'),
-  fs = require('fs'),
-  should = require('should'),
   Bundle = require(libPath + '/model/bundle'),
   BundleKeys = require(libPath + '/model/bundle-keys'),
   File = require('vinyl'),
-  sinon = require('sinon'),
   proxyquire = require('proxyquire');
 
 describe('results', function () {
@@ -229,79 +228,6 @@ describe('results', function () {
       stream.write(jsFile);
       stream.write(cssFile);
       stream.end();
-    });
-
-  });
-
-  describe('incremental', function() {
-
-    var jsFile,
-      cssFile;
-
-    var FsStub = function(resultFileName) {
-      var fileCount = 0;
-
-      this.writeFile = function (writePath, data, cb) {
-        (writePath).should.eql(path.join(resultPath, resultFileName));
-        if (fileCount === 0) {
-          (JSON.parse(data)).should.eql({
-            "main": {
-              "scripts": "main.js"
-            }
-          });
-        } else {
-          data.indexOf('other').should.be.lessThan(data.indexOf('main'));
-          (JSON.parse(data)).should.eql({
-            "other": {
-              "styles": "main.css"
-            },
-            "main": {
-              "scripts": "main.js"
-            }
-          });
-        }
-        fileCount++;
-        cb();
-      };
-
-      this.readFile = function (readPath, enc, cb) {
-        (readPath).should.eql(path.join(resultPath, resultFileName));
-        cb(null, JSON.stringify({
-          "main": {
-            "scripts": "main.js"
-          }
-        }));
-      };
-
-      this.exists = function(existsPath, cb) {
-        (existsPath).should.eql(path.join(resultPath, resultFileName));
-        cb(fileCount !== 0);
-      };
-    };
-
-    beforeEach(function() {
-      jsFile = new File({
-        base: '/app/public',
-        path: '/app/public/main.js',
-        contents: new Buffer('main_bundle_content')
-      });
-      jsFile.bundle = new Bundle({
-        name: 'main',
-        type: BundleKeys.SCRIPTS,
-        result: { bundleOrder: ['other', 'main'] }
-      });
-
-      cssFile = new File({
-        base: '/app/public',
-        path: '/app/public/main.css',
-        contents: new Buffer('vendor_bundle_content')
-      });
-      cssFile.bundle = new Bundle({
-        name: 'other',
-        type: BundleKeys.STYLES,
-        result: { bundleOrder: ['other', 'main'] }
-      });
-
     });
 
   });

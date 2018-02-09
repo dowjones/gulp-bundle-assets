@@ -1,26 +1,17 @@
+/* eslint-env node, mocha */
+
 'use strict';
 var libPath = './../../lib',
   path = require('path'),
   through = require('through2'),
   mergeStream = require('merge-stream'),
   streamBundles = require(libPath + '/stream-bundles.js'),
-  ConfigModel = require(libPath + '/model/config'),
-  BundleType = require(libPath + '/model/bundle-type'),
-  should = require('should'),
-  PluginError = require('plugin-error'),
-  helpers = require('../helpers'),
-  lazypipe = require('lazypipe'),
-  transformHelper = require('../../index.js').transformHelper;
+  PluginError = require('plugin-error');
 
 describe('stream-bundles', function () {
 
-  var fileCount,
+  var fileCount;
   // trailing ; signifies minification happened
-    JS_CONTENT_NOT_UGLIFIED = 'console.log(\"a\")\n',
-    MIN_JS_CONTENT_NOT_UGLIFIED = 'console.log(\"a.min\")\n',
-    JS_CONTENT_UGLIFIED = 'console.log(\"a\");\n',
-    CSS_CONTENT_NOT_MINIFIED = 'body {\n  background-color: red;\n}\n',
-    MIN_CSS_CONTENT_NOT_MINIFIED = '.a-pre-minified-file {\n  font-weight: bold;\n}\n';
 
   beforeEach(function () {
     fileCount = 0;

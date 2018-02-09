@@ -1,8 +1,9 @@
+/* eslint-env node, mocha */
+
 'use strict';
 var fs = require('fs'),
   gulp = require('gulp'),
   path = require('path'),
-  PluginError = require('plugin-error'),
   proxyquire = require('proxyquire'),
   should = require('should'),
   sinon = require('sinon');

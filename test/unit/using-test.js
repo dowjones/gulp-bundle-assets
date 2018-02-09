@@ -1,3 +1,5 @@
+/* eslint-env node, mocha */
+
 var libPath = './../../lib',
   should = require('should'),
   BundleType = require(libPath + '/model/bundle-type'),

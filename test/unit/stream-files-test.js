@@ -1,8 +1,6 @@
-var libPath = './../../lib',
-  should = require('should'),
-  path = require('path'),
-  sinon = require('sinon'),
-  proxyquire = require('proxyquire');
+/* eslint-env node, mocha */
+
+var libPath = './../../lib';
 
 describe('stream-files', function () {
 

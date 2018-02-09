@@ -1,5 +1,6 @@
+/* eslint-env node, mocha */
+
 var libPath = './../../lib',
-  should = require('should'),
   stringHelper = require(libPath + '/string-helper');
 
 describe('string-helper', function () {

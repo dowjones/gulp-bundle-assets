@@ -1,7 +1,7 @@
 var gulp = require('gulp'),
   spawn = require('child_process').spawn,
   mocha = require('gulp-mocha'),
-  jshint = require('gulp-jshint'),
+  eslint = require('gulp-eslint'),
   path = require('path'),
   istanbul = require('gulp-istanbul'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
@@ -13,12 +13,11 @@ var gulp = require('gulp'),
 // Lint all JS
 gulp.task('lint', function () {
   return gulp.src([
-    './*.js',
     './lib/**/*.js'
   ].concat(TEST_FILES))
-    .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish', {verbose: true}))
-    .pipe(jshint.reporter('fail'));
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });
 
 // Unit tests
@@ -76,4 +75,4 @@ gulp.task('watch', function () {
 });
 
 // Runs all ci validation checks
-gulp.task('ci', ['lint', 'test-cover', 'nice-package']);
+gulp.task('ci', ['lint', 'test-cover']);

@@ -1,8 +1,8 @@
+/* eslint-env node, mocha */
+
 'use strict';
 var libPath = './../../../lib',
-  ConfigModel = require(libPath + '/model/config'),
-  should = require('should'),
-  File = require('vinyl');
+  ConfigModel = require(libPath + '/model/config');
 
 describe('config', function () {
 

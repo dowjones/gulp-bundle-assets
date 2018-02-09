@@ -84,36 +84,39 @@
     "gulp": "^3.9.1",
     "gulp-clean-css": "^3.9.2",
     "gulp-concat": "^2.5.2",
-    "gulp-concat-css": "^2.3.0",
+    "gulp-concat-css": "^3.0.0",
     "gulp-if": "^2.0.1",
     "gulp-order": "^1.1.1",
     "gulp-rev": "^4.0.0",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-streamify": "^0.0.5",
-    "gulp-uglify": "^1.5.3",
-    "lazypipe": "^0.2.3",
+    "gulp-uglify": "^3.0.0",
     "lodash": "^3.9.3",
     "merge-stream": "^0.1.7",
     "mkdirp": "^0.5.1",
     "plugin-error": "^1.0.1",
-    "pretty-hrtime": "^1.0.2",
     "readable-stream": "^2.0.0",
     "through2": "^2.0.1",
     "vinyl": "^1.1.1"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
+    "gulp-eslint": "^4.0.2",
     "gulp-istanbul": "^0.10.0",
     "gulp-istanbul-enforcer": "^1.0.3",
-    "gulp-jshint": "^1.11.0",
     "gulp-mocha": "^2.1.1",
     "gulp-nice-package": "^1.0.0",
-    "jshint-stylish": "^2.0.0",
     "proxyquire": "^1.5.0",
     "should": "^6.0.3",
     "sinon": "^1.15.3"
   },
   "engines": {
     "node": ">=4.0.0"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "node": true
+    }
   }
 }

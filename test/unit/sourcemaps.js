@@ -1,6 +1,7 @@
+/* eslint-env node, mocha */
+
 var libPath = './../../lib',
-  sourcemaps = require(libPath + '/sourcemaps'),
-  should = require('should');
+  sourcemaps = require(libPath + '/sourcemaps');
 
 describe('sourcemaps', function () {
 

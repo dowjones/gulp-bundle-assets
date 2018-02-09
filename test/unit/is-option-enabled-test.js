@@ -1,7 +1,8 @@
+/* eslint-env node, mocha */
+
 'use strict';
 var libPath = './../../lib',
-  isEnabled = require(libPath + '/is-option-enabled'),
-  should = require('should');
+  isEnabled = require(libPath + '/is-option-enabled');
 
 describe('is-enabled', function() {
 

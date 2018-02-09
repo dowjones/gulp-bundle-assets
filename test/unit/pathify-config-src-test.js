@@ -1,7 +1,8 @@
+/* eslint-env node, mocha */
+
 'use strict';
 var libPath = './../../lib',
   pathifySrc = require(libPath + '/pathify-config-src'),
-  should = require('should'),
   path = require('path');
 
 describe('pathify-config-src', function () {

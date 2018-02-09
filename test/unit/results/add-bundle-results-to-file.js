@@ -1,7 +1,8 @@
+/* eslint-env node, mocha */
+
 var libPath = './../../../lib',
   addBundleResults = require(libPath + '/results/add-bundle-results-to-file'),
   BundleType = require(libPath + '/model/bundle-type'),
-  should = require('should'),
   File = require('vinyl');
 
 describe('add-bundle-results-to-file', function () {

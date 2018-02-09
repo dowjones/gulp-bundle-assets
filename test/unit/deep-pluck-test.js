@@ -1,6 +1,7 @@
+/* eslint-env node, mocha */
+
 var libPath = './../../lib',
-  deepPluck = require(libPath + '/deep-pluck'),
-  should = require('should');
+  deepPluck = require(libPath + '/deep-pluck');
 
 describe('deep-pluck', function () {
 
