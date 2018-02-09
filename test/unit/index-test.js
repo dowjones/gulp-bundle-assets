@@ -44,37 +44,10 @@ describe('index', function () {
               }
             },
             file: {
-              "base": path.join(cwdPath, "/test/fixtures/configs/"),
+              "base": path.join(cwdPath, "/test/fixtures/configs"),
               "cwd": cwdPath,
               "path": path.join(cwdPath, "/test/fixtures/configs/valid-bundle-field.js"),
               "relative": "valid-bundle-field.js"
-            },
-            options: {
-              base: '.'
-            }
-          });
-          should.config.checkProtoEql = true;
-          done();
-        });
-    });
-
-    it('when only config key defined', function (done) {
-      gulp.src(path.join(__dirname, '../fixtures/configs/valid-copy-field.js'))
-        .pipe(bundle())
-        .on('data', function () {
-        }) //noop
-        .on('error', function (err) {
-          done(err);
-        })
-        .on('end', function () {
-          should.config.checkProtoEql = false;
-          should(streamBunldesStub.getCall(0).args[0]).eql({
-            copy: 'some/file',
-            file: {
-              "base": path.join(cwdPath, "/test/fixtures/configs/"),
-              "cwd": cwdPath,
-              "path": path.join(cwdPath, "/test/fixtures/configs/valid-copy-field.js"),
-              "relative": "valid-copy-field.js"
             },
             options: {
               base: '.'
@@ -97,7 +70,7 @@ describe('index', function () {
         .on('error', function (err) {
           // Either Gulp or JS (apon throw) is mangling the type, hence no 'PluginError'.
           err.should.be.an.instanceof(Error);
-          err.message.should.startWith('Configuration file should');
+          err.message.should.startWith('Configuration file does not contain');
           done();
         })
         .on('end', function () {

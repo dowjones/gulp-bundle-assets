@@ -46,13 +46,13 @@ describe('config', function () {
     it('when no file or config given', function () {
       (function () {
         new ConfigModel();
-      }).should.throw(/^Configuration file should be in the form "{ bundle: {}, copy: {} }"/);
+      }).should.throw(/^Configuration file does not contain a "bundle" key. EG: "{ bundle: {} }"/);
     });
 
     it('when no bundle or copy property provided', function () {
       (function () {
         new ConfigModel({ junk: {} });
-      }).should.throw(/^Configuration file should be in the form "{ bundle: {}, copy: {} }"/);
+      }).should.throw(/^Configuration file does not contain a "bundle" key. EG: "{ bundle: {} }"/);
     });
 
     // todo more test cases for verifying config
