@@ -15,6 +15,8 @@ describe('index', function () {
     cwdPath = path.join(__dirname, '../..');
 
   beforeEach(function () {
+    // `should` is smart enough to see that this isn't the real deal via prototype checks.
+    // should.config.checkProtoEql = false; is used to get around this.
     streamBunldesStub = sinon.spy(function (/*config*/) {
       return [
         fs.createReadStream(path.join(__dirname, '../fixtures/content/a.js'))
@@ -34,6 +36,7 @@ describe('index', function () {
           done(err);
         })
         .on('end', function () {
+          should.config.checkProtoEql = false;
           should(streamBunldesStub.getCall(0).args[0]).eql({
             bundle: {
               main: {
@@ -50,6 +53,7 @@ describe('index', function () {
               base: '.'
             }
           });
+          should.config.checkProtoEql = true;
           done();
         });
     });
@@ -63,6 +67,7 @@ describe('index', function () {
           done(err);
         })
         .on('end', function () {
+          should.config.checkProtoEql = false;
           should(streamBunldesStub.getCall(0).args[0]).eql({
             copy: 'some/file',
             file: {
@@ -75,6 +80,7 @@ describe('index', function () {
               base: '.'
             }
           });
+          should.config.checkProtoEql = true;
           done();
         });
     });

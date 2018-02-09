@@ -107,7 +107,7 @@
     "gulp-mocha": "^5.0.0",
     "gulp-nice-package": "^1.0.0",
     "proxyquire": "^1.5.0",
-    "should": "^6.0.3",
+    "should": "^13.2.1",
     "sinon": "^4.2.2"
   },
   "engines": {
