@@ -1,6 +1,0 @@
-{
-  "base": {
-    "scripts": "<script src='/public/base.js' type='text/jsx'></script>",
-    "styles": "<link href='/public/base.css' media='all' rel='stylesheet' type='text/css'/>"
-  }
-}

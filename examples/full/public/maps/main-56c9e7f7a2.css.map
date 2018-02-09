@@ -1,1 +1,0 @@
-{"version":3,"sources":["styles/legacy.css","styles/main.less"],"names":[],"mappings":"AAAA,QACE,iBAAkB;ACCpB,KACE,iBAAA","file":"main-56c9e7f7a2.css","sourcesContent":[".legacy {\n  background-color: green;\n}","@import '_variables';\n\nbody {\n  background-color: @body-color;\n}\n"],"sourceRoot":"/source/"}

@@ -1,1 +1,0 @@
-{"version":3,"sources":["content/js/baz.js","content/js/foo.js"],"names":[],"mappings":"AAAA;ACAA","file":"main.js","sourcesContent":["(function(x){x.parentNode.removeChild(x);})(document.getElementById('error-message'));","console.log('foo')"],"sourceRoot":"/source/"}

@@ -1,1 +1,0 @@
-{"version":3,"sources":["content/js/foo.js","content/js/baz.js"],"names":["logFoo","console","log","logBaz"],"mappings":"AAAA,QAASA,UACPC,QAAQC,IAAI,OAEdF;ACHA,QAASG,UACPF,QAAQC,IAAI,OAEdC","file":"main.js","sourcesContent":["function logFoo() {\n  console.log('foo');\n}\nlogFoo();","function logBaz() {\n  console.log('baz');\n}\nlogBaz();"],"sourceRoot":"/source/"}

@@ -1,8 +1,0 @@
-{
-  "custom/path/structure/bundle-name": {
-    "scripts": "<script src='/assets/custom/path/structure/bundle-name-ca7a60f866.js' type='text/javascript'></script>"
-  },
-  "other/custom/path/my-bundle-name": {
-    "styles": "<link href='/assets/other/custom/path/my-bundle-name-b9726e20e7.css' media='all' rel='stylesheet' type='text/css'/>"
-  }
-}

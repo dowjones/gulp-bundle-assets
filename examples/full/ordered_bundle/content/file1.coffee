@@ -1,1 +1,0 @@
-fileName = 'file1.coffee'

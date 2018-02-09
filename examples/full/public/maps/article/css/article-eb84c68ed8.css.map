@@ -1,1 +1,0 @@
-{"version":3,"sources":["lib/article/styles/page.less"],"names":[],"mappings":"AACA,MACE,iBAAA","file":"article-eb84c68ed8.css","sourcesContent":["@color: red;\n.page {\n  background-color: @color;\n}\n"],"sourceRoot":"/source/"}
