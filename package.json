@@ -102,7 +102,6 @@
     "vinyl": "^1.1.1"
   },
   "devDependencies": {
-    "browserify": "^10.2.4",
     "coveralls": "^2.11.2",
     "gulp-istanbul": "^0.10.0",
     "gulp-istanbul-enforcer": "^1.0.3",
@@ -110,9 +109,7 @@
     "gulp-mocha": "^2.1.1",
     "gulp-nice-package": "^1.0.0",
     "jshint-stylish": "^2.0.0",
-    "multiline": "^1.0.2",
     "proxyquire": "^1.5.0",
-    "rimraf": "^2.5.2",
     "should": "^6.0.3",
     "sinon": "^1.15.3",
     "vinyl-source-stream": "^1.1.0"
