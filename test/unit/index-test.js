@@ -15,7 +15,7 @@ describe('index', function () {
     cwdPath = path.join(__dirname, '../..');
 
   beforeEach(function () {
-    streamBunldesStub = sinon.spy(function (config) {
+    streamBunldesStub = sinon.spy(function (/*config*/) {
       return [
         fs.createReadStream(path.join(__dirname, '../fixtures/content/a.js'))
       ];
