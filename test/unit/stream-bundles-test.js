@@ -9,7 +9,6 @@ var libPath = './../../lib',
   should = require('should'),
   PluginError = require('plugin-error'),
   helpers = require('../helpers'),
-  less = require('gulp-less'),
   lazypipe = require('lazypipe'),
   transformHelper = require('../../index.js').transformHelper;
 
@@ -28,7 +27,7 @@ describe('stream-bundles', function () {
   });
 
   function verifyFileStream(config, done, fn, expectedFileCount, expectedStreamCount) {
-    var streams = streamBundles(config);
+    var streams = streamBundles(config);//crashing here
 
     (streams.length).should.eql(typeof expectedStreamCount !== 'undefined' ? expectedStreamCount : 1);
 
@@ -268,111 +267,6 @@ describe('stream-bundles', function () {
 
   /* jshint -W035 */
   describe('styles', function () {
-
-    it('should support basic less compilation via custom transform', function (done) {
-
-      var config = {
-        bundle: {
-          main: {
-            styles: 'content/a.less',
-            options: {
-              rev: false,
-              transforms: {
-                styles: transformHelper.less()
-              }
-            }
-          }
-        },
-        options: {
-          base: path.join(__dirname, '../fixtures')
-        }
-      };
-
-      verifyFileStream(config, done, function (file) {
-        var fileContents = file.contents.toString();
-        if (file.relative === 'main.css') {
-          fileContents.should.eql(
-              '#header{color:#5B83AD}\n' +
-              helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'maps/main.css.map') {
-          // ok
-        } else {
-          helpers.errorUnexpectedFileInStream(file);
-        }
-      }, 2);
-
-    });
-
-    it('should combine less and css together', function (done) {
-
-      var config = {
-        bundle: {
-          main: {
-            styles: [
-              'content/a.css',
-              'content/a.less'
-            ],
-            options: {
-              rev: false,
-              transforms: {
-                styles: transformHelper.less()
-              }
-            }
-          }
-        },
-        options: {
-          base: path.join(__dirname, '../fixtures')
-        }
-      };
-
-      verifyFileStream(config, done, function (file) {
-        var fileContents = file.contents.toString();
-        if (file.relative === 'main.css') {
-          fileContents.should.eql(
-              'body{background-color:red}\n#header{color:#5B83AD}\n' +
-              helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'maps/main.css.map') {
-          // ok
-        } else {
-          helpers.errorUnexpectedFileInStream(file);
-        }
-      }, 2);
-
-    });
-
-    it('should compile less with @import using style transform', function (done) {
-
-      var config = {
-        bundle: {
-          main: {
-            styles: 'content/b.less',
-            options: {
-              rev: false,
-              transforms: {
-                styles: transformHelper.less()
-              }
-            }
-          }
-        },
-        options: {
-          base: path.join(__dirname, '../fixtures')
-        }
-      };
-
-      verifyFileStream(config, done, function (file) {
-        var fileContents = file.contents.toString();
-        if (file.relative === 'main.css') {
-          fileContents.should.eql(
-              '.link{color:#428bca}\n' +
-              helpers.getCssSrcMapLine(file.relative));
-        } else if (file.relative === 'maps/main.css.map') {
-          // ok
-        } else {
-          helpers.errorUnexpectedFileInStream(file);
-        }
-      }, 2);
-
-    });
 
     it('should not minify when minSrc defined', function (done) {
 

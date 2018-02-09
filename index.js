@@ -7,7 +7,6 @@ var through = require('through2'),
   mergeStream = require('merge-stream'),
   streamBundles = require('./lib/stream-bundles'),
   results = require('./lib/results'),
-  transformHelper = require('./lib/transform_helper'),
   ConfigModel = require('./lib/model/config'),
   watch = require('./lib/watch');
 
@@ -54,7 +53,6 @@ var gulpBundleAssets = function (options) {
 };
 
 gulpBundleAssets.results = results.all;
-gulpBundleAssets.transformHelper = transformHelper;
 gulpBundleAssets.watch = watch;
 
 module.exports = gulpBundleAssets;

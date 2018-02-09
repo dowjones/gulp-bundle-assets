@@ -14,6 +14,7 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 - Specification of pre-minified files (`minSrc`).
 - CoffeeScript, and LESS compilation.
 - Glob paths.
+- Environment based build conditions.
 
 ## [2.28.0] - 2017-11-17
 

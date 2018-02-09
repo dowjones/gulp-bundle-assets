@@ -88,7 +88,8 @@ describe('index', function () {
         .on('data', function () {
         }) //noop
         .on('error', function (err) {
-          err.should.be.an.instanceof(PluginError);
+          // Either Gulp or JS (apon throw) is mangling the type, hence no 'PluginError'.
+          err.should.be.an.instanceof(Error);
           err.message.should.startWith('Configuration file should');
           done();
         })

@@ -1,10 +1,8 @@
-var gulp = require('gulp-help')(require('gulp')),
+var gulp = require('gulp'),
   spawn = require('child_process').spawn,
   mocha = require('gulp-mocha'),
   jshint = require('gulp-jshint'),
   path = require('path'),
-  nicePackage = require('gulp-nice-package'),
-  shrinkwrap = require('gulp-shrinkwrap'),
   istanbul = require('gulp-istanbul'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
   TEST_FILES = [
@@ -12,20 +10,8 @@ var gulp = require('gulp-help')(require('gulp')),
     './test/integ/**/*.js'
   ];
 
-gulp.task('nice-package', 'Validates package.json', function () {
-  return gulp.src('package.json')
-    .pipe(nicePackage(null, {
-      recommendations: false
-    }));
-});
-
-gulp.task('shrinkwrap', 'Cleans package.json deps and generates npm-shrinkwrap.json', function () {
-  return gulp.src('package.json')
-    .pipe(shrinkwrap())
-    .pipe(gulp.dest('./'));
-});
-
-gulp.task('lint', 'Lint all js', function () {
+// Lint all JS
+gulp.task('lint', function () {
   return gulp.src([
     './*.js',
     './lib/**/*.js'
@@ -35,12 +21,14 @@ gulp.task('lint', 'Lint all js', function () {
     .pipe(jshint.reporter('fail'));
 });
 
-gulp.task('test', 'Tests', function () {
+// Unit tests
+gulp.task('test', function () {
   return gulp.src(TEST_FILES)
     .pipe(mocha());
 });
 
-gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
+// Unit tests and coverage
+gulp.task('test-cover', function (cb) {
   gulp.src([
     './index.js',
     './lib/**/*.js'
@@ -69,7 +57,8 @@ gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
     });
 });
 
-gulp.task('test-debug', 'Run unit tests in debug mode', function () {
+// Run unit tests in debug mode
+gulp.task('test-debug', function () {
   spawn('node', [
     '--inspect-brk',
     path.join(__dirname, 'node_modules/gulp/bin/gulp.js'),
@@ -77,7 +66,8 @@ gulp.task('test-debug', 'Run unit tests in debug mode', function () {
   ], {stdio: 'inherit'});
 });
 
-gulp.task('watch', 'Watch files and test on change', function () {
+// Watch files and test on change
+gulp.task('watch', function () {
   gulp.watch([
     './index.js',
     './lib/**/*.js',
@@ -85,4 +75,5 @@ gulp.task('watch', 'Watch files and test on change', function () {
   ], ['test']);
 });
 
-gulp.task('ci', 'Runs all ci validation checks', ['lint', 'test-cover', 'nice-package']);
+// Runs all ci validation checks
+gulp.task('ci', ['lint', 'test-cover', 'nice-package']);
