@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 This release focuses on simplifying the package for UserFrosting 4 to improve maintainability. Features unsupported by UF4 are largely removed.
 
+### Changed
+- Results file contains plain file paths by default (former `plain` bundle option).
+
 ### Removed
 - Support for CSS sourcemaps, which was broken by 2.27.2.
 - Specification of pre-minified files (`minSrc`).
@@ -16,6 +19,7 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 - Glob paths.
 - Environment based build conditions.
 - Incremental/watched builds.
+- Automatic HTML tag generation in results file.
 
 ## [2.28.0] - 2017-11-17
 

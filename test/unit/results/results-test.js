@@ -60,8 +60,8 @@ describe('results', function () {
           (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
           (JSON.parse(data)).should.eql({
             "main": {
-              "scripts": "<script src='main.js' type='text/javascript'></script>",
-              "styles": "<link href='main.css' media='all' rel='stylesheet' type='text/css'/>"
+              "scripts": "main.js",
+              "styles": "main.css"
             }
           });
           cb();
@@ -69,7 +69,7 @@ describe('results', function () {
       };
 
       // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub });
 
       var stream = results(resultPath);
 
@@ -95,15 +95,15 @@ describe('results', function () {
           (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
           (JSON.parse(data)).should.eql({
             "main": {
-              "scripts": "<script src='/public/main.js' type='text/javascript'></script>",
-              "styles": "<link href='/public/main.css' media='all' rel='stylesheet' type='text/css'/>"
+              "scripts": "/public/main.js",
+              "styles": "/public/main.css"
             }
           });
           cb();
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub });
 
       var stream = results({
         dest: resultPath,
@@ -132,15 +132,15 @@ describe('results', function () {
           (writePath).should.eql(path.join(resultPath, 'bundle.result.json'));
           (JSON.parse(data)).should.eql({
             "main": {
-              "scripts": "<script src='/public/main.js' type='text/javascript'></script>",
-              "styles": "<link href='/public/main.css' media='all' rel='stylesheet' type='text/css'/>"
+              "scripts": "/public/main.js",
+              "styles": "/public/main.css"
             }
           });
           cb();
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub });
 
       var stream = results({
         dest: resultPath,
@@ -200,15 +200,15 @@ describe('results', function () {
           (writePath).should.eql(path.join(resultPath, customFileName + '.json'));
           (JSON.parse(data)).should.eql({
             "main": {
-              "scripts": "<script src='/public/main.js' type='text/javascript'></script>",
-              "styles": "<link href='/public/main.css' media='all' rel='stylesheet' type='text/css'/>"
+              "scripts": "/public/main.js",
+              "styles": "/public/main.css"
             }
           });
           cb();
         }
       };
 
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).all;
+      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub });
 
       var stream = results({
         fileName: customFileName,
@@ -246,17 +246,17 @@ describe('results', function () {
         if (fileCount === 0) {
           (JSON.parse(data)).should.eql({
             "main": {
-              "scripts": "<script src='main.js' type='text/javascript'></script>"
+              "scripts": "main.js"
             }
           });
         } else {
           data.indexOf('other').should.be.lessThan(data.indexOf('main'));
           (JSON.parse(data)).should.eql({
             "other": {
-              "styles": "<link href='main.css' media='all' rel='stylesheet' type='text/css'/>"
+              "styles": "main.css"
             },
             "main": {
-              "scripts": "<script src='main.js' type='text/javascript'></script>"
+              "scripts": "main.js"
             }
           });
         }
@@ -268,7 +268,7 @@ describe('results', function () {
         (readPath).should.eql(path.join(resultPath, resultFileName));
         cb(null, JSON.stringify({
           "main": {
-            "scripts": "<script src='main.js' type='text/javascript'></script>"
+            "scripts": "main.js"
           }
         }));
       };
@@ -302,71 +302,6 @@ describe('results', function () {
         result: { bundleOrder: ['other', 'main'] }
       });
 
-    });
-
-    it('should write results when given string filePath', function (done) {
-
-      var fsStub = new FsStub('bundle.result.json');
-
-      sinon.spy(fsStub, 'writeFile');
-      sinon.spy(fsStub, 'readFile');
-      sinon.spy(fsStub, 'exists');
-
-      // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).incremental;
-
-      var stream = results(resultPath);
-
-      stream.on('data', function (file) {
-        // make sure it came out the same way it went in
-        file.isBuffer().should.be.ok;
-        file.bundle.should.be.ok;
-      });
-
-      stream.on('end', function () {
-        fsStub.writeFile.calledTwice.should.be.ok;
-        fsStub.readFile.calledOnce.should.be.ok;
-        fsStub.exists.calledTwice.should.be.ok;
-        done();
-      });
-
-      stream.write(jsFile);
-      stream.write(cssFile);
-      stream.end();
-    });
-
-    it('should write results to correct file when given custom file name', function (done) {
-
-      var fsStub = new FsStub('manifest.json');
-
-      sinon.spy(fsStub, 'writeFile');
-      sinon.spy(fsStub, 'readFile');
-      sinon.spy(fsStub, 'exists');
-
-      // stubbing file sys calls using proxyquire makes this test approx 10x faster (100ms down to 10ms)
-      results = proxyquire(libPath + '/results', { 'mkdirp': mkdirpStub, 'graceful-fs': fsStub, 'fancy-log': fancyLogStub }).incremental;
-
-      var stream = results({
-        dest: resultPath,
-        fileName: 'manifest'
-      });
-
-      stream.on('data', function (file) {
-        // make sure it came out the same way it went in
-        file.isBuffer().should.be.ok;
-        file.bundle.should.be.ok;
-      });
-
-      stream.on('end', function () {
-        fsStub.writeFile.calledTwice.should.be.ok;
-        fsStub.readFile.calledOnce.should.be.ok;
-        fsStub.exists.calledTwice.should.be.ok;
-        done();
-      });
-
-      stream.write(jsFile);
-      stream.write(cssFile);
-      stream.end();
     });
 
   });

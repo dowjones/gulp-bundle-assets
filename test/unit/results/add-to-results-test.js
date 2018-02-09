@@ -19,7 +19,7 @@ describe('add-to-results', function () {
       default_normal: {
         contents: {
           main: {
-            scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
+            scripts: "main-bundle.js"
           }
         },
         filename: 'bundle.result.json'
@@ -33,7 +33,7 @@ describe('add-to-results', function () {
       "default_normal": {
         "contents": {
           main: {
-            scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
+            scripts: "main-bundle.js"
           }
         },
         filename: 'bundle.result.json'
@@ -51,8 +51,8 @@ describe('add-to-results', function () {
       default_normal: {
         contents: {
           main: {
-            scripts: "<script src='main-bundle.js' type='text/javascript'></script>",
-            styles: "<link href='main-bundle.css' media='all' rel='stylesheet' type='text/css'/>"
+            scripts: "main-bundle.js",
+            styles: "main-bundle.css"
           }
         },
         filename: 'bundle.result.json'
@@ -66,8 +66,8 @@ describe('add-to-results', function () {
       "default_normal": {
         "contents": {
           main: {
-            scripts: "<script src='main-bundle.js' type='text/javascript'></script>",
-            styles: "<link href='main-bundle.css' media='all' rel='stylesheet' type='text/css'/>"
+            scripts: "main-bundle.js",
+            styles: "main-bundle.css"
           }
         },
         filename: 'bundle.result.json'
@@ -85,11 +85,11 @@ describe('add-to-results', function () {
       default_normal: {
         contents: {
           main: {
-            scripts: "<script src='main-bundle.js' type='text/javascript'></script>",
-            styles: "<link href='main-bundle.css' media='all' rel='stylesheet' type='text/css'/>"
+            scripts: "main-bundle.js",
+            styles: "main-bundle.css"
           },
           vendor: {
-            scripts: "<script src='vendor-bundle.js' type='text/javascript'></script>"
+            scripts: "vendor-bundle.js"
           }
         },
         filename: 'bundle.result.json'
@@ -113,7 +113,7 @@ describe('add-to-results', function () {
         default_normal: {
           contents: {
             main: {
-              scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
+              scripts: "main-bundle.js"
             }
           },
           filename: 'manifest.json'
@@ -135,7 +135,7 @@ describe('add-to-results', function () {
         default_normal: {
           contents: {
             main: {
-              scripts: "<script src='main-bundle.js' type='text/javascript'></script>"
+              scripts: "main-bundle.js"
             }
           },
           filename: 'bundle.result.json'
@@ -160,7 +160,7 @@ describe('add-to-results', function () {
         default_normal: {
           contents: {
             main: {
-              scripts: "<script src='/public/main-bundle.js' type='text/javascript'></script>"
+              scripts: "/public/main-bundle.js"
             }
           },
           filename: 'bundle.result.json'
@@ -169,8 +169,8 @@ describe('add-to-results', function () {
           contents: {
             main: {
               scripts: [
-                "<script src='/public/src/main-a.js' type='text/javascript'></script>",
-                "<script src='/public/src/main-b.js' type='text/javascript'></script>"
+                "/public/src/main-a.js",
+                "/public/src/main-b.js"
               ]
             }
           },
@@ -194,7 +194,7 @@ describe('add-to-results', function () {
         default_normal: {
           contents: {
             main: {
-              scripts: "<script src='/public/main-bundle.js' type='text/javascript'></script>"
+              scripts: "/public/main-bundle.js"
             }
           },
           filename: 'bundle.result.json'
@@ -203,8 +203,8 @@ describe('add-to-results', function () {
           contents: {
             main: {
               scripts: [
-                "<script src='/public/src/main-b.js' type='text/javascript'></script>",
-                "<script src='/public/src/main-a.js' type='text/javascript'></script>"
+                "/public/src/main-b.js",
+                "/public/src/main-a.js"
               ]
             }
           },

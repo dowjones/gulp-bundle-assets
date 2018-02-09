@@ -82,7 +82,7 @@
     "fancy-log": "^1.3.2",
     "graceful-fs": "^4.1.4",
     "gulp": "^3.9.1",
-    "gulp-clean-css": "^2.0.7",
+    "gulp-clean-css": "^3.9.2",
     "gulp-concat": "^2.5.2",
     "gulp-concat-css": "^2.3.0",
     "gulp-if": "^2.0.1",

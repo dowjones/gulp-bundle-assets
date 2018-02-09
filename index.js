@@ -7,8 +7,7 @@ var through = require('through2'),
   mergeStream = require('merge-stream'),
   streamBundles = require('./lib/stream-bundles'),
   results = require('./lib/results'),
-  ConfigModel = require('./lib/model/config'),
-  watch = require('./lib/watch');
+  ConfigModel = require('./lib/model/config');
 
 var gulpBundleAssets = function (options) {
   options = options || {};
@@ -52,7 +51,6 @@ var gulpBundleAssets = function (options) {
   return duplexer(writable, readable);
 };
 
-gulpBundleAssets.results = results.all;
-gulpBundleAssets.watch = watch;
+gulpBundleAssets.results = results;
 
 module.exports = gulpBundleAssets;
