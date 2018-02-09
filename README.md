@@ -9,7 +9,7 @@ _Full credit for this plugin goes to its original creater. Fork was oringally a 
 - Replaced [gulp-concat](https://github.com/contra/gulp-concat) with [gulp-concat-css](https://github.com/mariocasciaro/gulp-concat-css) for CSS to fix url rebasing.
 - Removed CSS sourcemaps which isn't supported by gulp-concat-css.
 - Removed `minSrc` support, as the debug time implementation in UF doesn't support it.
-- Removed support for CoffeeScript, SASS, and LESS compilation.
+- Removed support for CoffeeScript, and LESS compilation.
 - Removed support for glob paths.
 
 
