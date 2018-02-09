@@ -15,6 +15,7 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 - CoffeeScript, and LESS compilation.
 - Glob paths.
 - Environment based build conditions.
+- Incremental/watched builds.
 
 ## [2.28.0] - 2017-11-17
 

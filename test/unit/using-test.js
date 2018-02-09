@@ -43,33 +43,6 @@ describe('using', function () {
       run(usingStream, done);
     });
 
-    it('should log when env', function (done) {
-      var fancyLogStub = function(prefix, suffix) {
-        prefix.should.eql("Bundle '" + ANSI_GREEN + "main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
-        suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
-      };
-      var usingStream = getUsing(fancyLogStub).bundle('main', BundleType.SCRIPTS, 'production');
-      run(usingStream, done);
-    });
-
-    it('should log when env and bundleAllEnvironments', function (done) {
-      var fancyLogStub = function(prefix, suffix) {
-        prefix.should.eql("Bundle '" + ANSI_GREEN + "production.main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
-        suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
-      };
-      var usingStream = getUsing(fancyLogStub).bundle('main', BundleType.SCRIPTS, 'production', true);
-      run(usingStream, done);
-    });
-
-    it('should log as default when env and bundleAllEnvironments', function (done) {
-      var fancyLogStub = function(prefix, suffix) {
-        prefix.should.eql("Bundle '" + ANSI_GREEN + "default.main." + BundleType.SCRIPTS + ANSI_DEFAULT + "' using");
-        suffix.should.eql(ANSI_MAGENTA + "file.js" + ANSI_DEFAULT);
-      };
-      var usingStream = getUsing(fancyLogStub).bundle('main', BundleType.SCRIPTS, '', true);
-      run(usingStream, done);
-    });
-
   });
 
   describe('copy', function() {

@@ -14,7 +14,6 @@ describe('stream-files', function () {
 
       var fakeFile = {};
       streamFiles.attachStreamOptions(fakeFile, {
-        env: 'production',
         type: 'scripts',
         bundleName: 'my_bundle_name',
         isWatch: true,
@@ -22,7 +21,6 @@ describe('stream-files', function () {
       });
 
       fakeFile.bundleOptions.should.be.ok;
-      fakeFile.bundleOptions.env.should.eql('production');
       fakeFile.bundleOptions.type.should.eql('scripts');
       fakeFile.bundleOptions.bundleName.should.eql('my_bundle_name');
       fakeFile.bundleOptions.isWatch.should.be.ok;
