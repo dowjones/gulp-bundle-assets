@@ -2,7 +2,8 @@ var libPath = './../../lib',
   should = require('should'),
   File = require('vinyl'),
   BundleType = require(libPath + '/model/bundle-type'),
-  isMinSrcDefinedForFile = require(libPath + '/is-min-src-defined-for-file');
+  isMinSrcDefinedForFile = require(libPath + '/is-min-src-defined-for-file'),
+  path = require('path');
 
 describe('is-min-src-defined-for-file', function () {
 
@@ -77,27 +78,27 @@ describe('is-min-src-defined-for-file', function () {
     };
     minSrcsObj.main[BundleType.SCRIPTS] = [
       {
-        src: 'content/file.js',
-        minSrc: 'content/file.min.js'
+        src: path.normalize('content/file.js'),
+        minSrc: path.normalize('content/file.min.js')
       },
       {
-        minSrc: 'content/file-with-no-src.js'
+        minSrc: path.normalize('content/file-with-no-src.js')
       },
       {
-        src: 'content/file2.js',
-        minSrc: 'content/file2.min.js'
+        src: path.normalize('content/file2.js'),
+        minSrc: path.normalize('content/file2.min.js')
       }
     ];
     minSrcsObj.vendor[BundleType.SCRIPTS] = [
       {
-        src: 'content/file.js',
-        minSrc: 'content/file.min.js'
+        src: path.normalize('content/file.js'),
+        minSrc: path.normalize('content/file.min.js')
       }
     ];
     minSrcsObj.header[BundleType.SCRIPTS] = [
       {
-        src: 'content/file-to-find.js',
-        minSrc: 'content/file-to-find.min.js'
+        src: path.normalize('content/file-to-find.js'),
+        minSrc: path.normalize('content/file-to-find.min.js')
       }
     ];
     isMinSrcDefinedForFile(aFile, minSrcsObj, 'header', BundleType.SCRIPTS).should.be.ok;

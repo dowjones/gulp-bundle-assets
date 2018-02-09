@@ -1,7 +1,8 @@
 'use strict';
 var libPath = './../../lib',
   pathifySrc = require(libPath + '/pathify-config-src'),
-  should = require('should');
+  should = require('should'),
+  path = require('path');
 
 describe('pathify-config-src', function () {
 
@@ -16,7 +17,7 @@ describe('pathify-config-src', function () {
     });
 
     it('should modify when base is something', function () {
-      pathifySrc('./content/a.js', '/absolute/path/').should.eql('/absolute/path/content/a.js');
+      pathifySrc('./content/a.js', '/absolute/path/').should.eql(path.normalize('/absolute/path/content/a.js'));
     });
 
   });
@@ -32,7 +33,7 @@ describe('pathify-config-src', function () {
     });
 
     it('should modify when base is something', function () {
-      pathifySrc(['./content/a.js'], '/absolute/path/').should.eql(['/absolute/path/content/a.js']);
+      pathifySrc(['./content/a.js'], '/absolute/path/').should.eql([path.normalize('/absolute/path/content/a.js')]);
     });
 
   });
@@ -48,11 +49,11 @@ describe('pathify-config-src', function () {
     });
 
     it('should echo string as src with base', function () {
-      pathifySrc({src: './content/a.js'}, '/absolute/path/').should.eql('/absolute/path/content/a.js');
+      pathifySrc({src: './content/a.js'}, '/absolute/path/').should.eql(path.normalize('/absolute/path/content/a.js'));
     });
 
     it('should echo array as src with base', function () {
-      pathifySrc({src: ['./content/a.js']}, '/absolute/path/').should.eql(['/absolute/path/content/a.js']);
+      pathifySrc({src: ['./content/a.js']}, '/absolute/path/').should.eql([path.normalize('/absolute/path/content/a.js')]);
     });
 
     it('should default to src when no options', function () {

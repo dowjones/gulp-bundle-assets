@@ -60,7 +60,7 @@ describe('stream-bundles', function () {
       };
 
       verifyFileStream(config, done, function (file) {
-        file.relative.should.eql('content/a.js');
+        file.relative.should.eql(path.normalize('content/a.js'));
       });
 
     });
@@ -78,7 +78,7 @@ describe('stream-bundles', function () {
         };
 
         verifyFileStream(config, done, function (file) {
-          file.relative.should.eql('content/a.js');
+          file.relative.should.eql(path.normalize('content/a.js'));
         });
 
       });
@@ -115,7 +115,7 @@ describe('stream-bundles', function () {
         };
 
         verifyFileStream(config, done, function (file) {
-          file.relative.should.eql('content/a.js');
+          file.relative.should.eql(path.normalize('content/a.js'));
         });
 
       });
@@ -134,7 +134,7 @@ describe('stream-bundles', function () {
         };
 
         verifyFileStream(config, done, function (file) {
-          file.relative.should.eql('content/a.js');
+          file.relative.should.eql(path.normalize('content/a.js'));
         });
 
       });
@@ -175,7 +175,7 @@ describe('stream-bundles', function () {
         };
 
         verifyFileStream(config, done, function (file) {
-          file.relative.should.eql('content/a.js');
+          file.relative.should.eql(path.normalize('content/a.js'));
         });
 
       });
