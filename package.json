@@ -2,10 +2,9 @@
   "name": "gulp-uf-bundle-assets",
   "version": "3.0.0",
   "description": "Fork of gulp-bundle-assets that uses gulp-concat-css for css to correctly rebase urls. Sourcemaps may not work as a result of this change. Full credit to original creater, swapping out gulp-concat for culp-concat-css is major feat.",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
-    "test": "gulp ci",
-    "coveralls": "gulp test-cover && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "test": "gulp test"
   },
   "author": {
     "name": "Chris Montgomery",
@@ -100,12 +99,13 @@
     "vinyl": "^2.1.0"
   },
   "devDependencies": {
-    "coveralls": "^3.0.0",
+    "@babel/core": "^7.0.0-beta.39",
+    "@babel/preset-flow": "^7.0.0-beta.39",
+    "@types/node": "^9.4.4",
+    "gulp-babel": "^8.0.0-beta",
     "gulp-eslint": "^4.0.2",
-    "gulp-istanbul": "^1.1.3",
-    "gulp-istanbul-enforcer": "^1.0.3",
+    "gulp-flowtype": "^1.0.0",
     "gulp-mocha": "^5.0.0",
-    "gulp-nice-package": "^1.0.0",
     "proxyquire": "^1.5.0",
     "should": "^13.2.1",
     "sinon": "^4.2.2"

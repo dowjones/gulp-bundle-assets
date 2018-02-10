@@ -22,7 +22,7 @@ describe('index', function () {
         fs.createReadStream(path.join(__dirname, '../fixtures/content/a.js'))
       ];
     });
-    bundle = proxyquire('../../index', { './lib/stream-bundles': streamBunldesStub });
+    bundle = proxyquire('../../lib/index', { './lib/stream-bundles': streamBunldesStub });
   });
 
   describe('should bundle', function () {

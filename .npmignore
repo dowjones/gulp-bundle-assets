@@ -1,6 +1,4 @@
 .travis.yml
 /gulpfile.js
 /test/
-.DS_Store
-*.log
-/coverage/
+!/lib

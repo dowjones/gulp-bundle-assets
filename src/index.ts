@@ -1,15 +1,17 @@
+/// <reference types="node"/>
 var through = require('through2'),
-  gutil = require('gulp-util'),
-  cache = require('./lib/service/cache'),
-  logger = require('./lib/service/logger'),
+  PluginError = require('plugin-error'),
+  colors = require('ansi-colors'),
+  cache = require('./service/cache'),
+  logger = require('./service/logger'),
   readableStream = require('readable-stream'),
   duplexer = require('duplexer2'),
   mergeStream = require('merge-stream'),
-  streamBundles = require('./lib/stream-bundles'),
-  results = require('./lib/results'),
-  ConfigModel = require('./lib/model/config');
+  streamBundles = require('./stream-bundles'),
+  results = require('./results'),
+  ConfigModel = require('./model/config');
 
-var gulpBundleAssets = function (options) {
+var gulpBundleAssets = function (options: object) {
   options = options || {};
 
   var writable = new readableStream.Writable({objectMode: true});
@@ -28,16 +30,16 @@ var gulpBundleAssets = function (options) {
     }
 
     if (file.isStream()) {
-      this.emit('error', new gutil.PluginError('gulp-bundle-assets', 'Streaming not supported'));
+      this.emit('error', new PluginError('gulp-bundle-assets', 'Streaming not supported'));
       return done();
     }
 
     try {
       config = new ConfigModel(file, options);
     } catch (e) {
-      logger.log(gutil.colors.red('Failed to parse config file:'), gutil.colors.red(file.path));
+      logger.log(colors.red('Failed to parse config file:'), colors.red(file.path));
       logger.log(e);
-      this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
+      this.emit('error', new PluginError('gulp-bundle-assets', e));
       return done();
     }
 
