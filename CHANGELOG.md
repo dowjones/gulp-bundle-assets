@@ -11,6 +11,7 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 
 ### Changed
 - Results file contains plain file paths by default (former `plain` bundle option).
+- Updated to Gulp v4.
 
 ### Removed
 - Support for CSS sourcemaps, which was broken by 2.27.2.
@@ -20,6 +21,10 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 - Environment based build conditions.
 - Incremental/watched builds.
 - Automatic HTML tag generation in results file.
+- Removed copy support.
+
+### Fixed
+- Use `isVinyl` static method instead of fragile property check.
 
 ## [2.28.0] - 2017-11-17
 
