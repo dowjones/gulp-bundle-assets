@@ -2,7 +2,8 @@ var transformHelper = require('../../index.js').transformHelper,
   browserify = require('browserify'),
   sourceStream = require('vinyl-source-stream'),
   isDebug = (process.env.NODE_ENV !== 'production'),
-  gutil = require('gulp-util');
+  colors = require('ansi-colors'),
+  log = require('fancy-log');
 
 var mainStream = function (file, done) {
   browserify({
@@ -20,7 +21,7 @@ var mainStream = function (file, done) {
     .on('error', function (err) {
       // make sure browserify errors don't break the pipe during watch
       if (file.bundleOptions.isWatch) {
-        gutil.log(gutil.colors.red(err.toString()));
+        log(colors.red(err.toString()));
         this.emit('end');
       } else {
         throw err;

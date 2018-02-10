@@ -1,5 +1,6 @@
 var through = require('through2'),
-  gutil = require('gulp-util'),
+  PluginError = require('plugin-error'),
+  colors = require('ansi-colors'),
   cache = require('./lib/service/cache'),
   logger = require('./lib/service/logger'),
   readableStream = require('readable-stream'),
@@ -30,16 +31,16 @@ var gulpBundleAssets = function (options) {
     }
 
     if (file.isStream()) {
-      this.emit('error', new gutil.PluginError('gulp-bundle-assets', 'Streaming not supported'));
+      this.emit('error', new PluginError('gulp-bundle-assets', 'Streaming not supported'));
       return done();
     }
 
     try {
       config = new ConfigModel(file, options);
     } catch (e) {
-      logger.log(gutil.colors.red('Failed to parse config file:'), gutil.colors.red(file.path));
+      logger.log(colors.red('Failed to parse config file:'), colors.red(file.path));
       logger.log(e);
-      this.emit('error', new gutil.PluginError('gulp-bundle-assets', e));
+      this.emit('error', new PluginError('gulp-bundle-assets', e));
       return done();
     }
 
