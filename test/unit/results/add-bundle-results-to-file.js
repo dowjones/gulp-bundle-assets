@@ -25,7 +25,6 @@ describe('add-bundle-results-to-file', function () {
       file.bundle.should.be.ok;
       file.bundle.name.should.eql('main');
       file.bundle.type.should.eql(BundleType.SCRIPTS);
-      file.bundle.result.type.should.eql('html');
       done();
     });
 
@@ -49,7 +48,6 @@ describe('add-bundle-results-to-file', function () {
       file.bundle.should.be.ok;
       file.bundle.name.should.eql('base');
       file.bundle.type.should.eql(BundleType.SCRIPTS);
-      file.bundle.result.type.should.eql('jsx');
       done();
     });
 
