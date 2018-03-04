@@ -1,58 +1,45 @@
-/// <reference types="node"/>
-var through = require('through2'),
-  PluginError = require('plugin-error'),
-  colors = require('ansi-colors'),
-  cache = require('./service/cache'),
-  logger = require('./service/logger'),
-  readableStream = require('readable-stream'),
-  duplexer = require('duplexer2'),
-  mergeStream = require('merge-stream'),
-  streamBundles = require('./stream-bundles'),
-  results = require('./results'),
-  ConfigModel = require('./model/config');
+import * as AnsiColors from "ansi-colors";
+import * as PluginError from "plugin-error";
+import * as Stream from "stream";
+import * as Through2 from "through2";
+import * as Vinyl from "vinyl";
+import Config from "./config";
+import PluginDetails from "./plugin-details";
 
-var gulpBundleAssets = function (options: object) {
-  options = options || {};
+export default (options: object = {}): Stream.Transform => {
+    // Process configuration
+    const config = new Config(options);
 
-  var writable = new readableStream.Writable({objectMode: true});
-  var readable = through.obj(function (file, enc, cb) { // noop
-    this.push(file);
-    cb();
-  });
+    // Prepare
 
-  writable._write = function _write(file, encoding, done) {
+    // Generate bundles
+    return Through2.obj(function transformer(chunk, enc, cb) {
+        try {
+            // Make sure is Vinyl instance
+            if (!Vinyl.isVinyl(chunk)) {
+                throw new Error("Encountered unsupported chunk in stream. Only instances of Vinyl are supported.");
+            }
 
-    var config;
+            // Grab required data
 
-    if (file.isNull()) {
-      this.push(file);
-      return done();
-    }
+            // Process chunk as required.
+            if (chunk.isBuffer()) {
+                // Soon TM
+                throw new Error("Buffers aren't yet supported.");
+            } else if (chunk.isStream()) {
+                // Streams are poorly supported in the ecosystem, and appear to have implementation
+                // bugs within Vinyl as a result. It simply isn't worth the effort to support them.
+                // We error out to prevent silent failures.
+                throw new Error("Streams aren't supported.");
+            } else {
+                // Chunk is either null, or something... else. Just pass it on.
+                return cb(null, chunk);
+            }
 
-    if (file.isStream()) {
-      this.emit('error', new PluginError('gulp-bundle-assets', 'Streaming not supported'));
-      return done();
-    }
-
-    try {
-      config = new ConfigModel(file, options);
-    } catch (e) {
-      logger.log(colors.red('Failed to parse config file:'), colors.red(file.path));
-      logger.log(e);
-      this.emit('error', new PluginError('gulp-bundle-assets', e));
-      return done();
-    }
-
-    cache.set('config', config);
-
-    mergeStream.apply(mergeStream, streamBundles(config))
-      .pipe(readable);
-    return done();
-  };
-
-  return duplexer(writable, readable);
+            config.get();
+            return cb(null, chunk);
+        } catch (err) {
+            this.emit("error", new PluginError(PluginDetails.name, err));
+        }
+    });
 };
-
-gulpBundleAssets.results = results;
-
-module.exports = gulpBundleAssets;

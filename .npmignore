@@ -1,4 +1,5 @@
 .travis.yml
-/gulpfile.js
-/test/
-!/lib
+gulpfile.js
+test/
+src/
+!lib/
