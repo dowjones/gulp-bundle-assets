@@ -4,7 +4,6 @@ var gulp = require('gulp-help')(require('gulp')),
   jshint = require('gulp-jshint'),
   path = require('path'),
   nicePackage = require('gulp-nice-package'),
-  shrinkwrap = require('gulp-shrinkwrap'),
   istanbul = require('gulp-istanbul'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
   TEST_FILES = [
@@ -17,12 +16,6 @@ gulp.task('nice-package', 'Validates package.json', function () {
     .pipe(nicePackage(null, {
       recommendations: false
     }));
-});
-
-gulp.task('shrinkwrap', 'Cleans package.json deps and generates npm-shrinkwrap.json', function () {
-  return gulp.src('package.json')
-    .pipe(shrinkwrap())
-    .pipe(gulp.dest('./'));
 });
 
 gulp.task('lint', 'Lint all js', function () {
