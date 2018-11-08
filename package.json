@@ -48,6 +48,7 @@
   "engines": {
     "node": ">=7.6.0"
   },
+  "engineStrict": true,
   "ava": {
     "files": [
       "dist/**/*.test.js"
