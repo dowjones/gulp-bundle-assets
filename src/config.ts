@@ -1,4 +1,5 @@
 import * as Vinyl from "vinyl";
+import { Bundle, RawConfig } from "./raw-config";
 
 /**
  * Validates user config, filling in defaults as necessary, and then serves as wrapper.
@@ -148,66 +149,4 @@ function ValidateBundle(bundle: Bundle, name: string): void {
             }
         }
     }
-}
-
-// Everything onwards just 
-
-/**
- * Root object of raw configuration.
- */
-export interface RawConfig {
-    bundle?: Bundles;
-    PathMap?: Map<string, string>;
-}
-
-/**
- * Map of bundles.
- */
-interface Bundles {
-    [x: string]: Bundle;
-}
-
-/**
- * Represents an asset bundle
- */
-interface Bundle {
-    scripts?: string[];
-    styles?: string[];
-    options?: Options;
-}
-
-/**
- * Represents an asset bundles root options node.
- */
-interface Options {
-    sprinkle?: SprinkleOptions;
-}
-
-/**
- * Options relevent to UserFrosting's Sprinkle system.
- */
-interface SprinkleOptions {
-    onCollision?: CollisionReactions;
-}
-
-/**
- * Rules for how a bundle collision may be treated.
- */
-export enum CollisionReactions {
-    /**
-     * Replace the existing bundle.
-     */
-    Replace = "replace",
-    /**
-     * Merge with the existing bundle, with order preserved as much as possible.
-     */
-    Merge = "merge",
-    /**
-     * Leave the existing bundle alone.
-     */
-    Ignore = "ignore",
-    /**
-     * Throw an error on encountering an already defined bundle.
-     */
-    Error = "error"
 }

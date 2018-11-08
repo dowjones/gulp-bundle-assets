@@ -1,13 +1,13 @@
 import PluginError from "plugin-error";
-import Config, { RawConfig, CollisionReactions } from "./config";
+import Config from "./config";
+import { RawConfig } from "./raw-config";
 import { PluginName } from "./plugin-details";
 import { Transform, TransformCallback } from "stream";
 import * as Vinyl from "vinyl";
-import DeepAssign from "deep-assign";
-import Merge from "merge-array-object";
 
-// Foward public functions
+// Foward public exports
 export { ValidateRawConfig } from "./config";
+export { MergeRawConfigs } from "./raw-config";
 
 export default class Bundler extends Transform {
     private Config: Config;
@@ -75,93 +75,6 @@ export default class Bundler extends Transform {
 
         // Create bundles
     }
-}
-
-/**
- * Merges a collection of configurations.
- * No validation is conducted, it is expected that provided inputs are all valid.
- * 
- * `bundle->(BundleName)->options->sprinkle->onCollision = (replace|merge|ignore|error)` may be used to modify treatment of collided bundles.
- * 
- * @see {@link RawConfig} for more details.
- */
-export function MergeConfigs(rawConfigs: RawConfig[]): RawConfig {
-    // No point doing processing if we've got only 1 item
-    if (rawConfigs.length === 1) return rawConfigs[0];
-
-    let rawConfig: RawConfig = {};
-
-    // Merge configs into base
-    try {
-        rawConfigs.forEach(config => {
-            // Copy current config
-            let currentConfig = DeepAssign({}, config);
-
-            // Merge all bundle definitions into currentConfig, leaving nothing in rawConfig (permits much easier merge)
-            // TODO Move all bundle files onto currentConfig, leaving nothing in rawConfig (premits much easier merge)
-            if (rawConfig.bundle) {
-                // Ensure currentConfig has a bundle key
-                if (!currentConfig.bundle)
-                    currentConfig.bundle = {};
-
-                for (const bundleName in rawConfig.bundle) {
-                    if (rawConfig.bundle.hasOwnProperty(bundleName)) {
-                        const bundle = rawConfig.bundle[bundleName];
-
-                        // Conduct merge if already defined on currentConfig
-                        if (currentConfig.bundle.hasOwnProperty(bundleName)) {
-                            const currentBundle = currentConfig.bundle[bundleName];
-
-                            // Determine collision resolution strategy
-                            let collisionReaction = CollisionReactions.Replace;
-
-                            if (currentBundle.options
-                                && currentBundle.options.sprinkle
-                                && currentBundle.options.sprinkle.onCollision) {
-                                collisionReaction = CollisionReactions[currentBundle.options.sprinkle.onCollision];
-                            }
-
-                            // Do merge
-                            switch (collisionReaction) {
-                                // Replace (intentionally does nothing)
-                                case CollisionReactions.Replace:
-                                    break;
-                                // Merge (uses merge-array-object for backwards compatibility)
-                                case CollisionReactions.Merge:
-                                    // TODO Worth noting that there is no types for Merge currently
-                                    currentConfig.bundle[bundleName] = Merge(bundle, currentBundle);
-                                    break;
-                                // Ignore (copy existing bundle over)
-                                case CollisionReactions.Ignore:
-                                    currentConfig.bundle[bundleName] = bundle;
-                                    break;
-                                // Error, better known as EVERYBODY PANIC!
-                                case CollisionReactions.Error:
-                                    throw new Error(`The bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}' has been previously defined, and the bundle's 'onCollision' property is set to 'error'.`);
-                                default:
-                                    throw new Error(`Unexpected input '${collisionReaction}' for 'onCollision' for the bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.`);
-                            }
-                        }
-                        // Otherwise just set it
-                        else {
-                            currentConfig.bundle[bundleName] = bundle;
-                        }
-
-                        // Remove existing bundle from rawConfig
-                        delete rawConfig.bundle[bundleName];
-                    }
-                }
-            }
-
-            // Merge objects
-            DeepAssign(rawConfig, currentConfig);
-        });
-    }
-    catch (exception) {
-        throw new PluginError(PluginName, exception);
-    }
-
-    return rawConfig;
 }
 
 /**
