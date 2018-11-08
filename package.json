@@ -2,10 +2,11 @@
   "name": "gulp-uf-bundle-assets",
   "version": "3.0.0-alpha.1",
   "description": "Fork of Chris Montgomery's gulp-bundle-assets, striped back and rewritten for use with UserFrosting.",
-  "main": "./lib/index.js",
-  "module": "./lib/main.js",
+  "main": "./dist/index.js",
+  "module": "./dist/main.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "prepublish": "tsc"
   },
   "author": "Jordan Mele <SiliconSoldier@outlook.com.au> (https://github.com/Silic0nS0ldier)",
   "contributors": [
@@ -40,6 +41,7 @@
     "vinyl": "^2.2.0"
   },
   "devDependencies": {
+    "@types/node": "^10.12.3",
     "@types/vinyl": "^2.0.2"
   },
   "engines": {

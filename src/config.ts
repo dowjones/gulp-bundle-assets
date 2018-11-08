@@ -2,7 +2,6 @@ import * as Vinyl from "vinyl";
 
 /**
  * Validates user config, filling in defaults as necessary, and then serves as wrapper.
- * @internal
  */
 export class Config {
     /**
@@ -56,7 +55,7 @@ export class Config {
      * @param absolutePath 
      */
     public ResolveVirtualPath(absolutePath: string): string | null {
-
+        return "";
     }
 
     /**
@@ -65,7 +64,7 @@ export class Config {
      * @param newFile 
      */
     public ResolvePreferedFile(currentFile: Vinyl, newFile: Vinyl): Vinyl {
-
+        return new Vinyl();
     }
 }
 

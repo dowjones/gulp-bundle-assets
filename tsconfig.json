@@ -1,7 +1,13 @@
 {
     "compilerOptions": {
+        "module": "es2015",
+        "moduleResolution": "node",
         "lib": [
             "es2015"
-        ]
+        ],
+        "noEmitHelpers": true,
+        "declaration": true,
+        "target": "es2015",
+        "outDir": "./dist/"
     }
 }

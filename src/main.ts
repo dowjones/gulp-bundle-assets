@@ -2,7 +2,6 @@ import * as PluginError from "plugin-error";
 import { Config, RawConfig } from "./config";
 import { PluginName } from "./plugin-details";
 import { Transform, TransformCallback, Readable } from "stream";
-import { readFileSync } from "fs";
 import * as Vinyl from "vinyl";
 
 // Foward public functions
