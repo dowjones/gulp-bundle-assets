@@ -1,6 +1,9 @@
 # [gulp](https://github.com/gulpjs/gulp)-uf-bundle-assets
- 
- <!-- TODO Build badges -->
+
+| Branch | Tests |
+| ------ | ----- |
+| master | [![Build Status](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets.svg?branch=master)](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets) |
+| develop | [![Build Status](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets.svg?branch=develop)](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets) |
 
 Orchastrates JS and CSS bundle creation in a highly efficient and configurable manner.
 
