@@ -31,3 +31,44 @@ test("MergeConfigs(RawConfig[]) with single object", t => {
 
 	t.deepEqual(MergeConfigs([input1]), output);
 });
+
+test("MergeConfigs(RawConfig[]) with multiple objects and no collision options set", t => {
+	const input1 = {
+		bundle: {
+			testBundle: {
+				scripts: [
+					"foo.js"
+				]
+			}
+		}
+	};
+	const input2 = {
+		bundle: {
+			testBundle: {
+				scripts: [
+					"bar.js"
+				]
+			}
+		}
+	};
+	const input3 = {
+		bundle: {
+			testBundle: {
+				styles: [
+					"foo.css"
+				]
+			}
+		}
+	};
+	const output = {
+		bundle: {
+			testBundle: {
+				styles: [
+					"foo.css"
+				]
+			}
+		}
+	};
+
+	t.deepEqual(MergeConfigs([input1, input2, input3]), output);
+});

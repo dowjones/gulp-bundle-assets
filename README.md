@@ -1,7 +1,7 @@
 # [gulp](https://github.com/gulpjs/gulp)-uf-bundle-assets
 
-| Branch | Tests |
-| ------ | ----- |
+| Branch | Status |
+| ------ | ------ |
 | master | [![Build Status](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets.svg?branch=master)](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets) |
 | develop | [![Build Status](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets.svg?branch=develop)](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets) |
 

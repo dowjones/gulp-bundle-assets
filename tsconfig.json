@@ -5,6 +5,7 @@
         "lib": [
             "es2015"
         ],
+        "allowSyntheticDefaultImports": true,
         "noEmitHelpers": true,
         "declaration": true,
         "target": "es2017",

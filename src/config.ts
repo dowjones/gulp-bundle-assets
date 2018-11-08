@@ -193,7 +193,7 @@ interface SprinkleOptions {
 /**
  * Rules for how a bundle collision may be treated.
  */
-enum CollisionReactions {
+export enum CollisionReactions {
     /**
      * Replace the existing bundle.
      */
