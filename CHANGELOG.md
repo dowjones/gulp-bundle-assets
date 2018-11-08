@@ -5,27 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unknown]
+## [Unreleased]
 
 This release focuses on simplifying the package for UserFrosting 4 to improve maintainability. Features unsupported by UF4 are largely removed.
 
 ### Changed
 - Results file contains plain file paths by default (former `plain` bundle option).
-- Updated to Gulp v4.(#2)
+- Reads stream chunks (`Vinyl` instances) instead of directly from file system.
+- As an internal `gulp` pipeline is no longer responsible for bundle generation, custom `Transform`s must be provided.
 
 ### Removed
-- Support for CSS sourcemaps, which was broken by 2.27.2.
+- Support for CSS sourcemaps (broken since 2.27.2).
 - Specification of pre-minified files (`minSrc`).
 - CoffeeScript, and LESS compilation.
 - Glob paths.
 - Environment based build conditions.
 - Incremental/watched builds.
-- Automatic HTML tag generation in results file.
-- Copy support.
+- Automatic HTML tag generation for results file.
+- File copy support.
 - Raw result file support.
+- Removed dependency on `gulp` as per best practises.
 
 ### Fixed
 - Use `isVinyl` static method instead of fragile property check.
+
+## [2.28.2] - 2018-02-10
+
+### Changed
+- Removed some missed references to `gulp-util`.
+
+## [2.28.1] - 2018-02-09
+
+### Changed
+- Migrated from deprecated dependency `gulp-util`.
 
 ## [2.28.0] - 2017-11-17
 

@@ -1,3 +1,4 @@
-export default {
-    name: "gulp-uf-bundle-assets"
-};
+/**
+ * Plugin name used for logging and errors.
+ */
+export const PluginName = "gulp-uf-bundle-assets";
