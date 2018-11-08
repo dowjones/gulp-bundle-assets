@@ -6,54 +6,49 @@ import Merge from "merge-array-object";
  * No validation is conducted, it is expected that provided inputs are all valid.
  * 
  * `bundle->(BundleName)->options->sprinkle->onCollision = (replace|merge|ignore|error)` may be used to modify treatment of collided bundles.
- * 
- * @see {@link RawConfig} for more details.
  */
 export function MergeRawConfigs(rawConfigs: RawConfig[]): RawConfig {
     // No point doing processing if we've got only 1 item
     if (rawConfigs.length === 1) return rawConfigs[0];
 
-    let rawConfig: RawConfig = {};
+    let outConfig: RawConfig = {};
 
     // Merge configs into base
     rawConfigs.forEach(config => {
-        // Copy current config
-        let currentConfig = DeepAssign({}, config);
+        // Prevent modification of input
+        let nextConfig = DeepAssign({}, config);
 
-        // Merge all bundle definitions into currentConfig, leaving nothing in rawConfig (permits much easier merge)
-        // TODO Move all bundle files onto currentConfig, leaving nothing in rawConfig (premits much easier merge)
-        if (rawConfig.bundle) {
-            // Ensure currentConfig has a bundle key
-            if (!currentConfig.bundle)
-                currentConfig.bundle = {};
+        // Merge all bundle definitions into nextConfig, leaving nothing in rawConfig (permits much easier merge)
+        if (outConfig.bundle) {
+            // Ensure nextConfig has a bundle key
+            if (!nextConfig.bundle)
+                nextConfig.bundle = {};
 
-            for (const bundleName in rawConfig.bundle) {
-                if (rawConfig.bundle.hasOwnProperty(bundleName)) {
-                    // Conduct merge if already defined on currentConfig
-                    if (currentConfig.bundle.hasOwnProperty(bundleName)) {
+            for (const bundleName in outConfig.bundle) {
+                if (outConfig.bundle.hasOwnProperty(bundleName)) {
+                    // Conduct merge if already defined on nextConfig
+                    if (nextConfig.bundle.hasOwnProperty(bundleName)) {
                         try {
-                            currentConfig.bundle[bundleName] = MergeBundle(rawConfig.bundle[bundleName], currentConfig.bundle[bundleName]);
+                            nextConfig.bundle[bundleName] = MergeBundle(outConfig.bundle[bundleName], nextConfig.bundle[bundleName]);
                         }
                         catch (exception) {
                             throw new Error(`Exception raised while merging bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.\n${exception}`);
                         }
                     }
                     // Otherwise just set it
-                    else {
-                        currentConfig.bundle[bundleName] = rawConfig.bundle[bundleName];
-                    }
+                    else nextConfig.bundle[bundleName] = outConfig.bundle[bundleName];
 
-                    // Remove existing bundle from rawConfig
-                    delete rawConfig.bundle[bundleName];
+                    // Remove existing bundle from outConfig
+                    delete outConfig.bundle[bundleName];
                 }
             }
         }
 
         // Merge objects
-        DeepAssign(rawConfig, currentConfig);
+        DeepAssign(outConfig, nextConfig);
     });
 
-    return rawConfig;
+    return outConfig;
 }
 
 /**
