@@ -1,8 +1,0 @@
-{
-    "extends": "tslint:recommended",
-    "rules": {
-        "trailing-comma": {
-            "esSpecCompliant": true
-        }
-    }
-}

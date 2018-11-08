@@ -3,7 +3,7 @@ import * as Vinyl from "vinyl";
 /**
  * Validates user config, filling in defaults as necessary, and then serves as wrapper.
  */
-export class Config {
+export default class Config {
     /**
      * Used in conversion of canonical paths to virtual paths.
      * EG:

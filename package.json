@@ -5,8 +5,8 @@
   "main": "./dist/index.js",
   "module": "./dist/main.js",
   "scripts": {
-    "test": "gulp test",
-    "prepublish": "tsc"
+    "test": "tsc && ava",
+    "prepublishOnly": "tsc"
   },
   "author": "Jordan Mele <SiliconSoldier@outlook.com.au> (https://github.com/Silic0nS0ldier)",
   "contributors": [
@@ -42,9 +42,18 @@
   },
   "devDependencies": {
     "@types/node": "^10.12.3",
-    "@types/vinyl": "^2.0.2"
+    "@types/vinyl": "^2.0.2",
+    "ava": "^0.25.0"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=7.6.0"
+  },
+  "ava": {
+    "files": [
+      "dist/**/*.test.js"
+    ],
+    "require": [
+      "esm"
+    ]
   }
 }

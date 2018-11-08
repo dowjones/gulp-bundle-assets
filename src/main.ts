@@ -1,7 +1,7 @@
 import * as PluginError from "plugin-error";
-import { Config, RawConfig } from "./config";
+import Config, { RawConfig } from "./config";
 import { PluginName } from "./plugin-details";
-import { Transform, TransformCallback, Readable } from "stream";
+import { Transform, TransformCallback } from "stream";
 import * as Vinyl from "vinyl";
 
 // Foward public functions
@@ -81,9 +81,6 @@ export default class Bundler extends Transform {
  * Treatment of merged bundles within the configuration files can be modified by setting `bundle->(BundleName)->options->sprinkle->onCollision = (replace|merge|ignore|error)` where `replace` replaces the existing bundle definition, `merge` merges (order can at times get a little funny), `ignore` only applies the new definition if there is nothing already set, and `error` simply throws if a bundle is already defined.
  */
 export function MergeConfigs(rawConfigs: RawConfig[]): RawConfig {
-    // Ensure paths specified
-    if (!Array.isArray(rawConfigs)) throw new PluginError(PluginName, "Input must be an array.");
-
     let rawConfig: RawConfig = {};
 
     // Merge configs into base
