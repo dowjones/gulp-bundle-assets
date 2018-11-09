@@ -6,8 +6,7 @@ import { Transform, TransformCallback } from "stream";
 import * as Vinyl from "vinyl";
 
 // Foward public exports
-export { ValidateRawConfig } from "./config";
-export { MergeRawConfigs } from "./raw-config";
+export { MergeRawConfigs, ValidateRawConfig } from "./raw-config";
 
 export default class Bundler extends Transform {
     private Config: Config;
@@ -82,14 +81,14 @@ export default class Bundler extends Transform {
  */
 export interface Joiner {
     /**
-     * Returns a Transform that will handle bundling of style resources.
-     * @param name Name of bundle.
-     */
-    Styles(name: string): Transform;
-
-    /**
      * Returns a Transform that will handle bundling of script resources.
      * @param name Name of bundle.
      */
     Scripts(name: string): Transform;
+
+    /**
+     * Returns a Transform that will handle bundling of style resources.
+     * @param name Name of bundle.
+     */
+    Styles(name: string): Transform;
 }
