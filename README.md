@@ -49,6 +49,9 @@ Gulp.src(inputGlob)
 
 ## Integrating bundles into your app
 
+The `Bundler` class exposes a `ResultsMap` property containing a Map where the key is the bundle name and value the full path of the generated file. Any transform stream after `Bundler` changes path names then the results map will no longer be accurate, so use the built in path transforms if possible.
+
+This approach was decided on as it provides the most efficient means to integrate bundles with any system. No need to touch the file system until its absolutely necessary, and less work to optimise the output (e.g. make a `php` file out of it to reduce IO in production by maximising use of bytecode caching).
 
 ## History
 

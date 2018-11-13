@@ -18,7 +18,7 @@ export function MergeRawConfigs(rawConfigs: RawConfig[]): RawConfig {
         // Prevent modification of input
         let nextConfig = DeepAssign({}, config);
 
-        // Merge all bundle definitions into nextConfig, leaving nothing in rawConfig (permits much easier merge)
+        // Merge all bundle definitions into nextConfig (to handle collision logic correctly)
         if (outConfig.bundle) {
             // Ensure nextConfig has a bundle key
             if (!nextConfig.bundle)
@@ -97,14 +97,18 @@ export function ValidateRawConfig(config: RawConfig): void {
 
         if (typeof bundles !== "object" || bundles === null)
             throw new Error("Property bundle must be an object and not null.");
-        else
-
+        else {
             // Each property must be an object (for owned properties)
             for (const bundleName in bundles) {
                 if (bundles.hasOwnProperty(bundleName))
                     ValidateBundle(bundles[bundleName], bundleName);
             }
+        }
+    }
 
+    // If PathTransform key exists, value must be array
+    if ("PathTransform" in config) {
+        // TODO Validation
     }
 }
 
@@ -175,8 +179,16 @@ export function ValidateBundle(bundle: Bundle, name: string): void {
  * Root object of raw configuration.
  */
 export interface RawConfig {
+    /**
+     * 
+     */
     bundle?: Bundles;
-    PathMap?: Map<string, string>;
+
+    /**
+     * Paths that are matched wihtin this array will be transformed.
+     * Paths that become identical will be overriden according to position of the transform in the array (later overrides earlier).
+     */
+    PathTransforms?: [string, string][];
 }
 
 /**
