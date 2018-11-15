@@ -1,10 +1,10 @@
+import { resolve as resolvePath } from "path";
 import PluginError from "plugin-error";
-import { RawConfig, Bundle } from "./raw-config";
-import { PluginName } from "./plugin-details";
 import { Transform, TransformCallback } from "stream";
 import * as Vinyl from "vinyl";
-import { resolve as resolvePath } from "path";
-import Catchment from "catchment";
+import { BundlesProcessor } from "./bundles-processor";
+import { PluginName } from "./plugin-details";
+import { RawConfig } from "./raw-config";
 
 // Foward public exports
 export { MergeRawConfigs, ValidateRawConfig } from "./raw-config";
@@ -15,6 +15,7 @@ export default class Bundler extends Transform {
 
     /**
      * Tracks all files resolved within virtual directory tree.
+     * TODO Extensions should be removed once chunks leave the context of this package.
      */
     private ResolvedFiles: Map<string, (Vinyl & VinylExtension)> = new Map();
 
@@ -43,7 +44,7 @@ export default class Bundler extends Transform {
      * Map containing output filenames for each bundle.
      * Key is bundle name, value is the file path.
      */
-    public ResultsMap: Map<string, string> = new Map();
+    public ResultsMap: Map<string, string[]> = new Map();
 
     /**
      * 
@@ -51,7 +52,9 @@ export default class Bundler extends Transform {
      * @param joiner Object capable of generating the Transform streams needed for generation of final bundles.
      */
     constructor(config: RawConfig, joiner: Joiner) {
-        super();
+        super({
+            objectMode: true
+        });
 
         // Extract path transformations (if set) and make canonical paths absolute
         if (config.PathTransforms) {
@@ -65,12 +68,20 @@ export default class Bundler extends Transform {
                 if (config.hasOwnProperty(name)) {
                     const bundle = config.bundle[name];
                     // JS
-                    if (bundle.scripts)
-                    this.ScriptBundles.set(name, bundle.scripts);
+                    if (bundle.scripts) {
+                        let paths = [];
+                        for (const path of bundle.scripts)
+                            paths.push(resolvePath(path));
+                        this.ScriptBundles.set(name, paths);
+                    }
 
                     // CSS
-                    if (bundle.styles)
-                        this.StyleBundles.set(name, bundle.styles);
+                    if (bundle.styles) {
+                        let paths = [];
+                        for (const path of bundle.styles)
+                            paths.push(resolvePath(path));
+                        this.StyleBundles.set(name, paths);
+                    }
                 }
             }
         }
@@ -107,7 +118,7 @@ export default class Bundler extends Transform {
             const [virtualPath, precedence] = this.ResolveVirtualPath(chunk.path);
 
             // Extended chunk
-            let file: (Vinyl & VinylExtension) = chunk as (Vinyl & VinylExtension);
+            let file = chunk as (Vinyl & VinylExtension);
             file.path = virtualPath;
             file.Precedence = precedence;
 
@@ -128,37 +139,39 @@ export default class Bundler extends Transform {
     }
 
     /**
-     * 
+     * Does bundling and pushes resulting files into stream.
      * @param callback 
      */
     _flush(callback: TransformCallback): void {
-        // Track names of generated bundles (for integrations map)
+        const bundleWork: Promise<[any[], Map<string, string[]>]>[] = [];
 
-        // Create bundles
+        // Scripts
+        bundleWork.push(BundlesProcessor(this.ResolvedFiles, this.ScriptBundles, this.Joiner.Scripts));
 
-        // NOTE Use "catchment" to grab bundle stream results
-        // Script bundles
-        for (const paths of this.ScriptBundles) {
-            // Get files
+        // Styles
+        bundleWork.push(BundlesProcessor(this.ResolvedFiles, this.StyleBundles, this.Joiner.Styles));
 
-            // Create joiner instance
+        Promise.all(bundleWork)
+            .then(results => {
+                // Handle results
+                for (const [chunks, vinylPaths] of results) {
+                    // Add to ResultsMap
+                    for (const [name, paths] of vinylPaths)
+                        this.ResultsMap.set(name, paths);
 
-            // Push in data and catch result
+                    // Push chunks through
+                    for (const chunk of chunks) this.push(chunk);
+                }
 
-        }
+                // Push resolved files on through
+                for (const [virtualPath, file] of this.ResolvedFiles) {
+                    this.push(file);
+                }
+                this.ResolvedFiles.clear();
 
-        // Style bundles
-        for (const paths of this.StyleBundles) {
-            // Get files
-
-            // Create joiner instance
-
-            // Push in data and catch result
-
-        }
-
-        // Indicate flush is complete
-        callback();
+                callback();
+            })
+            .catch(error => callback(new PluginError(PluginName, error)));
     }
 }
 
@@ -168,25 +181,33 @@ export default class Bundler extends Transform {
 export interface Joiner {
     /**
      * Returns a Transform that will handle bundling of script resources.
-     * @param name Name of bundle.
      */
-    Scripts(name: string): Transform;
+    Scripts: BundlerStreamFactory
 
     /**
      * Returns a Transform that will handle bundling of style resources.
-     * @param name Name of bundle.
      */
-    Styles(name: string): Transform;
+    Styles: BundlerStreamFactory;
 }
 
 /**
  * An extension interface used for providing type hinting to modified Vinyl files.
  * This is intended for internal use only, so extensions should be removed once they are no longer needed.
  */
-interface VinylExtension {
+export interface VinylExtension {
     /**
      * Represents the Vinyl instances priority.
      * Used to override files correctly.
      */
     Precedence: number
+}
+
+/**
+ * A function that returns a stream that will be used to bundle assets.
+ */
+export interface BundlerStreamFactory {
+    /**
+     * @param name Name of bundle.
+     */
+    (name: string): Transform;
 }
