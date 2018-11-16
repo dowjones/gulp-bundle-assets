@@ -1,4 +1,5 @@
 import { Transform, TransformCallback } from "stream";
+import LazyPromise from "p-lazy";
 
 /**
  * All this does is collect all stream data and once all read resolves a promise with the collected chunks.
@@ -10,11 +11,6 @@ export class Catcher extends Transform {
     public Collected: Promise<any[]>;
 
     /**
-     * A reference to the resolve callback of this.Collected.
-     */
-    private Resolve?: (value?: any[] | PromiseLike<any[]>) => void;
-
-    /**
      * Holds caught stream content.
      */
     private Results: any[] = [];
@@ -23,9 +19,9 @@ export class Catcher extends Transform {
         super({
             objectMode: true
         });
-        
-        this.Collected = new Promise<any[]>((resolve) => {
-            this.Resolve = resolve;
+
+        this.Collected = new LazyPromise<any[]>(resolve => {
+            resolve(this.Results);
         });
     }
 
@@ -45,8 +41,7 @@ export class Catcher extends Transform {
      * @param callback 
      */
     _flush(callback: TransformCallback): void {
-        if (this.Resolve) this.Resolve(this.Results);
-
-        callback();
+        // Probe lazy-promise to trigger call chain
+        this.Collected.then(() => callback());
     }
 }

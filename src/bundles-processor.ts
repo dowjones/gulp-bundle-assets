@@ -1,7 +1,13 @@
-import * as Vinyl from "vinyl";
+import Vinyl, { isVinyl } from "vinyl";
 import { Catcher } from "./catcher";
 import { BundlerStreamFactory, VinylExtension } from "./main";
 
+/**
+ * 
+ * @param files Map of files and virtual paths to take bundle resources from.
+ * @param bundles Bundles to build.
+ * @param bundleStreamFactory Source of streams used to generate bundles.
+ */
 export async function BundlesProcessor(
     files: Map<string, (Vinyl & VinylExtension)>,
     bundles: Map<string, string[]>,
@@ -19,20 +25,21 @@ export async function BundlesProcessor(
         // Push in content
         for (const path of paths) {
             if (files.has(path)) stream.push(files.get(path).clone());
-            else throw new Error (`No file was resovled for ${path} of bundle ${name}.`);
+            else throw new Error(`No file was resovled for ${path} of bundle ${name}.`);
         }
 
         // Catch results
         const catcher = new Catcher();
         stream.pipe(catcher);
         const chunks = await catcher.Collected;
-        
+
         // Add to resultPaths and resultChunks
         const chunkPaths: string[] = [];
         for (const chunk of chunks) {
-            // Note path is a Vinyl object and has a path
-            if (Vinyl.isVinyl(chunk) && chunk.path)
+            // Track the path if chunk is a valid Vinyl object
+            if (isVinyl(chunk) && chunk.path) {
                 chunkPaths.push(chunk.path);
+            }
 
             // Store the chunk
             resultChunks.push(chunk);
@@ -42,5 +49,5 @@ export async function BundlesProcessor(
         resultPaths.set(name, chunkPaths)
     }
 
-    return [[], new Map()];
+    return [resultChunks, resultPaths];
 }

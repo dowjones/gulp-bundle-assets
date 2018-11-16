@@ -1,7 +1,7 @@
 import { resolve as resolvePath } from "path";
 import PluginError from "plugin-error";
 import { Transform, TransformCallback } from "stream";
-import * as Vinyl from "vinyl";
+import Vinyl from "vinyl";
 import { BundlesProcessor } from "./bundles-processor";
 import { PluginName } from "./plugin-details";
 import { RawConfig } from "./raw-config";
@@ -197,7 +197,7 @@ export interface Joiner {
 export interface VinylExtension {
     /**
      * Represents the Vinyl instances priority.
-     * Used to override files correctly.
+     * Used to override files correctly. We could just use the path history in Vinyl, however this is quicker.
      */
     Precedence: number
 }
