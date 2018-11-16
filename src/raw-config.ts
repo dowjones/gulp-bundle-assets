@@ -1,5 +1,5 @@
-import DeepAssign from "deep-assign";
 import Merge from "merge-array-object";
+import Extend from "just-extend";
 
 /**
  * Merges a collection of configurations.
@@ -16,7 +16,7 @@ export function MergeRawConfigs(rawConfigs: RawConfig[]): RawConfig {
     // Merge configs into base
     rawConfigs.forEach(config => {
         // Prevent modification of input
-        let nextConfig = DeepAssign({}, config);
+        let nextConfig = Extend({}, config) as RawConfig;
 
         // Merge all bundle definitions into nextConfig (to handle collision logic correctly)
         if (outConfig.bundle) {
@@ -45,7 +45,7 @@ export function MergeRawConfigs(rawConfigs: RawConfig[]): RawConfig {
         }
 
         // Merge objects
-        DeepAssign(outConfig, nextConfig);
+        Extend(outConfig, nextConfig);
     });
 
     return outConfig;
