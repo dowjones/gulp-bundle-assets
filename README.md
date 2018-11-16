@@ -10,7 +10,7 @@ Orchastrates JS and CSS bundle creation in a highly efficient and configurable m
 ## Install
 
 ```bash
-$ npm install gulp-uf-bundle-assets --save-dev
+npm install gulp-uf-bundle-assets --save-dev
 ```
 
 ## Usage
@@ -18,6 +18,10 @@ $ npm install gulp-uf-bundle-assets --save-dev
 ```js
 import Bundler from "gulp-uf-bundle-assets";
 import Gulp from "gulp";
+import CleanCss from "gulp-clean-css";
+import ConcatCss from "gulp-concat-css";
+import Uglify from "gulp-uglify";
+import ConcatJs from "gulp-concat-js";
 
 const config = {
     bundle: {
@@ -35,10 +39,14 @@ const config = {
 };
 const joiner = {
     Scripts = function(name) {
-        // TODO
+        return ConcatJs(name + ".js")
+            .pipe(Uglify());
     },
     Styles = function(name) {
-        // TODO
+        return ConcatCss(name + ".css")
+            .pipe(CleanCss({
+                compatibility: "ie10"
+            }));
     }
 };
 
