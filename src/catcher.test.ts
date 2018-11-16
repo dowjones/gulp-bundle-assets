@@ -3,7 +3,7 @@ import { Catcher } from "./catcher";
 import { Readable } from "stream"
 
 test("Catcher catches all stream content", async t => {
-    const streamItems = [{}];
+    const streamItems = [{}, "test", 21];
     const stream = new Readable({
         objectMode: true,
         read() {
@@ -15,7 +15,6 @@ test("Catcher catches all stream content", async t => {
     });
     const catcher = new Catcher();
     stream.pipe(catcher);
-    const result = await catcher.Collected;
 
-    t.deepEqual(streamItems, result);
+    t.deepEqual(streamItems, await catcher.Collected);
 });

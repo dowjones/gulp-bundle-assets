@@ -1,6 +1,7 @@
 import Vinyl, { isVinyl } from "vinyl";
 import { Catcher } from "./catcher";
 import { BundlerStreamFactory, VinylExtension } from "./main";
+import { Readable } from "stream";
 
 /**
  * 
@@ -19,18 +20,27 @@ export async function BundlesProcessor(
 
     // Process each bundle
     for (const [name, paths] of bundles) {
-        // Create bundle stream
-        const stream = bundleStreamFactory(name);
+        // Create content stream
+        const stream = new Readable({
+            objectMode: true,
+            read() {
+                for (const path of paths) {
+                    if (files.has(path)) this.push(files.get(path).clone());
+                    else throw new Error(`No file was resovled for ${path} of bundle ${name}.`);
+                }
+                this.push(null);
+            }
+        });
 
-        // Push in content
-        for (const path of paths) {
-            if (files.has(path)) stream.push(files.get(path).clone());
-            else throw new Error(`No file was resovled for ${path} of bundle ${name}.`);
-        }
+        // Create catcher
+        const catcher = new Catcher();
+
+        // Pipe bundler and catcher into stream
+        stream
+            .pipe(bundleStreamFactory(name))
+            .pipe(catcher);
 
         // Catch results
-        const catcher = new Catcher();
-        stream.pipe(catcher);
         const chunks = await catcher.Collected;
 
         // Add to resultPaths and resultChunks

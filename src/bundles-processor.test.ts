@@ -2,7 +2,17 @@ import { BundlesProcessor } from "./bundles-processor";
 import { test } from "ava";
 import Vinyl from "vinyl";
 import { VinylExtension, BundlerStreamFactory } from "./main";
-import { Transform } from "stream";
+import { Transform, TransformCallback } from "stream";
+
+/**
+ * Simple stub for testing purposes
+ */
+class TestTransform extends Transform {
+    _transform(chunk: any, encoding: string, callback: TransformCallback): void {
+        this.push(chunk);
+        callback();
+    }
+}
 
 test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with iterable inputs empty", async t => {
     const files: Map<string, (Vinyl & VinylExtension)> = new Map();
@@ -42,7 +52,7 @@ test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string
     const bundles: Map<string, string[]> = new Map();
     bundles.set("test", ["test"]);
     const bundleStreamFactory: BundlerStreamFactory = (name: string): Transform => {
-        return new Transform({ objectMode: true });
+        return new TestTransform({ objectMode: true });
     };
     
     const resultChunks: any[] = [
