@@ -5,28 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.0.0-alpha.1] - 2018-11-17
 
 This release focuses on simplifying the package for UserFrosting 4 to improve maintainability. Features unsupported by UF4 are largely removed.
 
 ### Added
 - Raw configuration validation.
 - Raw configuration merging.
+- Path transformation with support for file replacement based on rule order (later rules superseed earlier ones).
 
 ### Changed
-- Results file contains plain file paths by default (former `plain` bundle option).
+- Functionality offered by results file has been replaced by `ResultsMap` property.
 - Reads stream chunks (`Vinyl` instances) instead of directly from file system.
-- As an internal `gulp` pipeline is no longer responsible for bundle generation, custom `Transform`s must be provided.
+- As an internal `gulp` pipeline is no longer responsible for bundle generation, custom `Transform`s (e.g. `gulp-concat-css`) must be provided.
 
 ### Removed
 - Support for CSS sourcemaps (broken since 2.27.2).
 - Specification of pre-minified files (`minSrc`).
-- CoffeeScript, and LESS compilation.
+- CoffeeScript, and LESS compilation (functionality can be implemented manually through provided `Bundlers`).
 - Glob paths.
-- Environment based build conditions.
+- Environment based build conditions (functionality can be implemented manually through provided `Bundlers`).
 - Incremental/watched builds.
 - Automatic HTML tag generation for results file.
-- File copy support.
+- File copy support (use `gulp.dest` or an equivalent)
 - Raw result file support.
 - Removed dependency on `gulp` as per best practises.
 
