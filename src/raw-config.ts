@@ -73,7 +73,7 @@ export function MergeBundle(existingBundle: Bundle, nextBundle: Bundle): Bundle 
             return nextBundle;
         // Merge - Return the merged result (uses merge-array-object for backwards compatibility)
         case CollisionReactions.merge:
-            // TODO Worth noting that there is no types for Merge currently
+            // TODO Worth noting that there is no typing for Merge currently
             return Merge(existingBundle, nextBundle);
         // Ignore - Return existing bundle
         case CollisionReactions.ignore:
@@ -108,7 +108,7 @@ export function ValidateRawConfig(config: RawConfig): void {
 
     // If PathTransform key exists, value must be array
     if ("PathTransform" in config) {
-        // TODO Validation
+        // TODO Validate that provided transformations make sense (e.g. no empty strings)
     }
 }
 

@@ -9,13 +9,13 @@ import { RawConfig } from "./raw-config";
 // Foward public exports
 export { MergeRawConfigs, ValidateRawConfig } from "./raw-config";
 
-// TODO How do vinyl files get renamed?
-
+/**
+ * Assists in orchastrating bundle operations.
+ */
 export default class Bundler extends Transform {
 
     /**
      * Tracks all files resolved within virtual directory tree.
-     * TODO Extensions should be removed once chunks leave the context of this package.
      */
     private ResolvedFiles: Map<string, (Vinyl & VinylExtension)> = new Map();
 
@@ -36,9 +36,9 @@ export default class Bundler extends Transform {
     private StyleBundles: Map<string, string[]> = new Map();
 
     /**
-     * 
+     * Bundlers to use when generating bundles.
      */
-    private Joiner: Joiner;
+    private Bundlers: Bundlers;
 
     /**
      * Map containing output filenames for each bundle.
@@ -47,11 +47,10 @@ export default class Bundler extends Transform {
     public ResultsMap: Map<string, string[]> = new Map();
 
     /**
-     * 
      * @param config Raw (but valid) configuration file used for bundle resolution.
      * @param joiner Object capable of generating the Transform streams needed for generation of final bundles.
      */
-    constructor(config: RawConfig, joiner: Joiner) {
+    constructor(config: RawConfig, joiner: Bundlers) {
         super({
             objectMode: true
         });
@@ -86,7 +85,7 @@ export default class Bundler extends Transform {
             }
         }
 
-        this.Joiner = joiner;
+        this.Bundlers = joiner;
     }
 
     /**
@@ -108,77 +107,90 @@ export default class Bundler extends Transform {
     /**
      * Collects copies of applicable files to later bundle.
      * 
-     * @param chunk 
-     * @param encoding 
-     * @param callback 
+     * @param chunk Stream chunk, may be a Vinyl object.
+     * @param encoding Encoding of chunk, if applicable.
+     * @param callback Callback to indicate processing is completed.
      */
-    _transform(chunk: any, encoding: string, callback: TransformCallback): void {
-        if (Vinyl.isVinyl(chunk)) {
-            // Grab virtual path
-            const [virtualPath, precedence] = this.ResolveVirtualPath(chunk.path);
+    public _transform(chunk: any, encoding: string, callback: TransformCallback): void {
+        try {
+            if (Vinyl.isVinyl(chunk)) {
+                // Grab virtual path
+                const [virtualPath, precedence] = this.ResolveVirtualPath(chunk.path);
 
-            // Extended chunk
-            let file = chunk as (Vinyl & VinylExtension);
-            file.path = virtualPath;
-            file.Precedence = precedence;
+                // Extended chunk
+                let file = chunk as (Vinyl & VinylExtension);
+                file.path = virtualPath;
+                file.Precedence = precedence;
 
-            // Add to resolved files (handling collisions according to precedence)
-            if (this.ResolvedFiles.has(file.path)) {
-                if (this.ResolvedFiles.get(file.path).Precedence < file.Precedence)
-                    this.ResolvedFiles.set(file.path, file);
+                // Add to resolved files (handling collisions according to precedence)
+                if (this.ResolvedFiles.has(file.path)) {
+                    if (this.ResolvedFiles.get(file.path).Precedence < file.Precedence)
+                        this.ResolvedFiles.set(file.path, file);
+                }
+                else this.ResolvedFiles.set(file.path, file);
             }
-            else this.ResolvedFiles.set(file.path, file);
-        }
-        else {
-            // Push incompatible chunk on through
-            this.push(chunk);
-        }
+            else {
+                // Push incompatible chunk on through
+                this.push(chunk);
+            }
 
-        // Indicate transform is complete
-        callback();
+            // Indicate transform is complete
+            callback();
+        }
+        catch (error) {
+            // Shouldn't ever hit this, but ensures errors are piped properly in the worst case scenario.
+            callback(new PluginError(PluginName, error));
+        }
     }
 
     /**
      * Does bundling and pushes resulting files into stream.
-     * @param callback 
+     * @param callback Callback to indicate processing is completed.
      */
-    _flush(callback: TransformCallback): void {
-        const bundleWork: Promise<[any[], Map<string, string[]>]>[] = [];
+    public _flush(callback: TransformCallback): void {
+        try {
+            const bundleWork: Promise<[any[], Map<string, string[]>]>[] = [];
 
-        // Scripts
-        bundleWork.push(BundlesProcessor(this.ResolvedFiles, this.ScriptBundles, this.Joiner.Scripts));
+            // Scripts
+            bundleWork.push(BundlesProcessor(this.ResolvedFiles, this.ScriptBundles, this.Bundlers.Scripts));
 
-        // Styles
-        bundleWork.push(BundlesProcessor(this.ResolvedFiles, this.StyleBundles, this.Joiner.Styles));
+            // Styles
+            bundleWork.push(BundlesProcessor(this.ResolvedFiles, this.StyleBundles, this.Bundlers.Styles));
 
-        Promise.all(bundleWork)
-            .then(results => {
-                // Handle results
-                for (const [chunks, vinylPaths] of results) {
-                    // Add to ResultsMap
-                    for (const [name, paths] of vinylPaths)
-                        this.ResultsMap.set(name, paths);
+            Promise.all(bundleWork)
+                .then(results => {
+                    // Handle results
+                    for (const [chunks, vinylPaths] of results) {
+                        // Add to ResultsMap
+                        for (const [name, paths] of vinylPaths)
+                            this.ResultsMap.set(name, paths);
 
-                    // Push chunks through
-                    for (const chunk of chunks) this.push(chunk);
-                }
+                        // Push chunks through
+                        for (const chunk of chunks) this.push(chunk);
+                    }
 
-                // Push resolved files on through
-                for (const [virtualPath, file] of this.ResolvedFiles) {
-                    this.push(file);
-                }
-                this.ResolvedFiles.clear();
+                    // Push resolved files on through
+                    for (const [virtualPath, file] of this.ResolvedFiles) {
+                        delete file.Precedence;
+                        this.push(file);
+                    }
+                    this.ResolvedFiles.clear();
 
-                callback();
-            })
-            .catch(error => callback(new PluginError(PluginName, error)));
+                    callback();
+                })
+                .catch(error => callback(new PluginError(PluginName, error)));
+        }
+        catch (error) {
+            // Shouldn't ever hit this, but ensures errors are piped properly in the worst case scenario.
+            callback(new PluginError(PluginName, error));
+        }
     }
 }
 
 /**
- * 
+ * Interface defining factories required to bundle styles and scripts.
  */
-export interface Joiner {
+export interface Bundlers {
     /**
      * Returns a Transform that will handle bundling of script resources.
      */
@@ -197,7 +209,7 @@ export interface Joiner {
 export interface VinylExtension {
     /**
      * Represents the Vinyl instances priority.
-     * Used to override files correctly. We could just use the path history in Vinyl, however this is quicker.
+     * Used to override files correctly and efficiently.
      */
     Precedence: number
 }

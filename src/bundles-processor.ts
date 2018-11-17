@@ -4,9 +4,9 @@ import { BundlerStreamFactory, VinylExtension } from "./main";
 import { Readable } from "stream";
 
 /**
- * 
+ * Processes provided bundle definitions.
  * @param files Map of files and virtual paths to take bundle resources from.
- * @param bundles Bundles to build.
+ * @param bundles Definition of bundles to build.
  * @param bundleStreamFactory Source of streams used to generate bundles.
  */
 export async function BundlesProcessor(

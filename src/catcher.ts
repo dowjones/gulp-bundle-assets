@@ -26,7 +26,7 @@ export class Catcher extends Transform {
     }
 
     /**
-     * 
+     * Collects incoming chunks.
      * @param chunk 
      * @param encoding 
      * @param callback 
@@ -37,7 +37,7 @@ export class Catcher extends Transform {
     }
 
     /**
-     * 
+     * Triggers lazy promise to return final results.
      * @param callback 
      */
     _flush(callback: TransformCallback): void {
