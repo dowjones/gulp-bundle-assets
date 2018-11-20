@@ -1,25 +1,26 @@
 import { BundlesProcessor } from "./bundles-processor";
-import { test } from "ava";
+import test, { GenericTestContext, Context } from "ava";
 import Vinyl from "vinyl";
 import { VinylExtension, BundlerStreamFactory } from "./main";
 import { Transform, TransformCallback, Readable } from "stream";
 
-test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with iterable inputs empty", async t => {
+test("BundlesProcessor with iterable inputs empty", async t => {
     const files: Map<string, (Vinyl & VinylExtension)> = new Map();
     const bundles: Map<string, string[]> = new Map();
 
-    t.deepEqual([[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory));
+    TestBundler(t, [[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory));
+    
 });
 
-test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with files but no bundles", async t => {
+test("BundlesProcessor with files but no bundles", async t => {
     const files: Map<string, (Vinyl & VinylExtension)> = new Map();
     files.set("test", MakeExtendedVinyl("test", "test"));
     const bundles: Map<string, string[]> = new Map();
 
-    t.deepEqual([[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory));
+    TestBundler(t, [[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory));
 });
 
-test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with files and bundles", async t => {
+test("BundlesProcessor with files and bundles", async t => {
     const files: Map<string, (Vinyl & VinylExtension)> = new Map();
     files.set("test", MakeExtendedVinyl("test", "test"));
     const bundles: Map<string, string[]> = new Map();
@@ -31,8 +32,20 @@ test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string
     const resultPaths: Map<string, string[]> = new Map();
     resultPaths.set("test", ["test"]);
 
-    t.deepEqual([resultChunks, resultPaths], await BundlesProcessor(files, bundles, BundleStreamFactory));
+    TestBundler(t, [resultChunks, resultPaths], await BundlesProcessor(files, bundles, BundleStreamFactory));
 });
+
+function TestBundler(t: GenericTestContext<Context<any>>, expected: [any[], Map<string, string[]>], actual: [any[], Map<string, string[]>]): void {
+    // Check result chunks (order insensitive)
+    t.deepEqual(expected[0].sort(), actual[0].sort());
+
+    // Sort result paths
+    expected[1].forEach(paths => paths.sort());
+    actual[1].forEach(paths => paths.sort());
+    
+    // Check result paths
+    t.deepEqual(expected[1], actual[1]);
+}
 
 /**
  * Simple stub for testing purposes
