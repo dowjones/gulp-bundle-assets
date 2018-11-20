@@ -87,8 +87,8 @@ export function MergeBundle(existingBundle: Bundle, nextBundle: Bundle): Bundle 
 }
 
 /**
- * Throws an exception 
- * @param config 
+ * Throws an exception if the provided raw config contains invalid data.
+ * @param config Raw configuration to validate.
  */
 export function ValidateRawConfig(config: RawConfig): void {
     // If bundle key exists, value must be an object
@@ -180,15 +180,25 @@ export function ValidateBundle(bundle: Bundle, name: string): void {
  */
 export interface RawConfig {
     /**
-     * 
+     * Bundle definitions.
      */
     bundle?: Bundles;
 
     /**
-     * Paths that are matched wihtin this array will be transformed.
+     * Paths that are matched wihtin this array will be transformed. All paths should be relative, or undefined behaviour may occur.
      * Paths that become identical will be overriden according to position of the transform in the array (later overrides earlier).
      */
     PathTransforms?: [string, string][];
+
+    /**
+     * Base path to resolve bundle paths against. Defaults to current working directory.
+     */
+    BundlesBasePath?: string;
+
+    /**
+     * Base path to resolve path transformations against. Defaults to current working directory.
+     */
+    PathTransformBasePath?: string;
 }
 
 /**

@@ -1,6 +1,6 @@
 import { resolve as resolvePath } from "path";
 import PluginError from "plugin-error";
-import { Transform, TransformCallback } from "stream";
+import { Transform, TransformCallback, Readable } from "stream";
 import Vinyl from "vinyl";
 import { BundlesProcessor } from "./bundles-processor";
 import { PluginName } from "./plugin-details";
@@ -55,22 +55,34 @@ export default class Bundler extends Transform {
             objectMode: true
         });
 
+        // Set path transform base path to current working directory if not set
+        if (!config.PathTransformBasePath) {
+            config.PathTransformBasePath = process.cwd();
+        }
+
         // Extract path transformations (if set) and make canonical paths absolute
         if (config.PathTransforms) {
-            for (const [path, vPath] of config.PathTransforms)
-                this.PathTransforms.push([resolvePath(path), vPath]);
+            for (const [oldPath, newPath] of config.PathTransforms)
+                this.PathTransforms.push([
+                    resolvePath(config.PathTransformBasePath + "/" + oldPath),
+                    resolvePath(config.PathTransformBasePath + "/" + newPath)]);
+        }
+
+        // Set bundle base path to current working directory if not set
+        if (!config.BundlesBasePath) {
+            config.BundlesBasePath = process.cwd();
         }
 
         // Add bundles
         if (config.bundle) {
             for (const name in config.bundle) {
-                if (config.hasOwnProperty(name)) {
+                if (config.bundle.hasOwnProperty(name)) {
                     const bundle = config.bundle[name];
                     // JS
                     if (bundle.scripts) {
                         let paths = [];
                         for (const path of bundle.scripts)
-                            paths.push(resolvePath(path));
+                            paths.push(resolvePath(config.BundlesBasePath + "/" + path));
                         this.ScriptBundles.set(name, paths);
                     }
 
@@ -78,7 +90,7 @@ export default class Bundler extends Transform {
                     if (bundle.styles) {
                         let paths = [];
                         for (const path of bundle.styles)
-                            paths.push(resolvePath(path));
+                            paths.push(resolvePath(config.BundlesBasePath + "/" + path));
                         this.StyleBundles.set(name, paths);
                     }
                 }
@@ -91,16 +103,19 @@ export default class Bundler extends Transform {
     /**
      * Attempts to create a virutal path from the provided path.
      * On failure, the provided path is returned.
+     * 
      * @param path Absolute path to try and resolve.
+     * 
+     * @returns New or existing path and precedence.
      */
     private ResolveVirtualPath(path: string): [string, number] {
         // Try to resolve a virtual path
-        for (const [index, [pathStart, vPathStart]] of this.PathTransforms.entries()) {
-            if (path.startsWith(pathStart))
-                return [path.replace(path, vPathStart), index];
+        for (const [index, [oldPathStart, newPathStart]] of this.PathTransforms.entries()) {
+            if (path.startsWith(oldPathStart))
+                return [resolvePath(path.replace(oldPathStart, newPathStart)), index];
         }
 
-        // No matches
+        // No matches, lowest precedence
         return [path, 0];
     }
 
@@ -147,38 +162,34 @@ export default class Bundler extends Transform {
      * Does bundling and pushes resulting files into stream.
      * @param callback Callback to indicate processing is completed.
      */
-    public _flush(callback: TransformCallback): void {
+    public async _flush(callback: TransformCallback): Promise<void> {
         try {
-            const bundleWork: Promise<[any[], Map<string, string[]>]>[] = [];
-
             // Scripts
-            bundleWork.push(BundlesProcessor(this.ResolvedFiles, this.ScriptBundles, this.Bundlers.Scripts));
+            let [chunks, resultsMap] = await BundlesProcessor(this.ResolvedFiles, this.ScriptBundles, this.Bundlers.Scripts);
+
+            for (const chunk of chunks)
+                this.push(chunk);
+
+            for (const [name, paths] of resultsMap)
+                this.ResultsMap.set(name, paths);
 
             // Styles
-            bundleWork.push(BundlesProcessor(this.ResolvedFiles, this.StyleBundles, this.Bundlers.Styles));
+            [chunks, resultsMap] = await BundlesProcessor(this.ResolvedFiles, this.StyleBundles, this.Bundlers.Styles);
+            
+            for (const chunk of chunks)
+                this.push(chunk);
 
-            Promise.all(bundleWork)
-                .then(results => {
-                    // Handle results
-                    for (const [chunks, vinylPaths] of results) {
-                        // Add to ResultsMap
-                        for (const [name, paths] of vinylPaths)
-                            this.ResultsMap.set(name, paths);
+            for (const [name, paths] of resultsMap)
+                this.ResultsMap.set(name, paths);
 
-                        // Push chunks through
-                        for (const chunk of chunks) this.push(chunk);
-                    }
+            // Push resolved files on through
+            for (const [virtualPath, file] of this.ResolvedFiles) {
+                delete file.Precedence;
+                this.push(file);
+            }
+            this.ResolvedFiles.clear();
 
-                    // Push resolved files on through
-                    for (const [virtualPath, file] of this.ResolvedFiles) {
-                        delete file.Precedence;
-                        this.push(file);
-                    }
-                    this.ResolvedFiles.clear();
-
-                    callback();
-                })
-                .catch(error => callback(new PluginError(PluginName, error)));
+            callback();
         }
         catch (error) {
             // Shouldn't ever hit this, but ensures errors are piped properly in the worst case scenario.
@@ -221,5 +232,5 @@ export interface BundlerStreamFactory {
     /**
      * @param name Name of bundle.
      */
-    (name: string): Transform;
+    (src: Readable, name: string): Transform;
 }
