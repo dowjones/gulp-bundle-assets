@@ -2,70 +2,70 @@ import { BundlesProcessor } from "./bundles-processor";
 import { test } from "ava";
 import Vinyl from "vinyl";
 import { VinylExtension, BundlerStreamFactory } from "./main";
-import { Transform, TransformCallback } from "stream";
+import { Transform, TransformCallback, Readable } from "stream";
+
+test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with iterable inputs empty", async t => {
+    const files: Map<string, (Vinyl & VinylExtension)> = new Map();
+    const bundles: Map<string, string[]> = new Map();
+
+    t.deepEqual([[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory));
+});
+
+test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with files but no bundles", async t => {
+    const files: Map<string, (Vinyl & VinylExtension)> = new Map();
+    files.set("test", MakeExtendedVinyl("test", "test"));
+    const bundles: Map<string, string[]> = new Map();
+
+    t.deepEqual([[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory));
+});
+
+test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with files and bundles", async t => {
+    const files: Map<string, (Vinyl & VinylExtension)> = new Map();
+    files.set("test", MakeExtendedVinyl("test", "test"));
+    const bundles: Map<string, string[]> = new Map();
+    bundles.set("test", ["test"]);
+
+    const resultChunks: any[] = [
+        MakeExtendedVinyl("test", "test")
+    ];
+    const resultPaths: Map<string, string[]> = new Map();
+    resultPaths.set("test", ["test"]);
+
+    t.deepEqual([resultChunks, resultPaths], await BundlesProcessor(files, bundles, BundleStreamFactory));
+});
 
 /**
  * Simple stub for testing purposes
  */
 class TestTransform extends Transform {
+    constructor() {
+        super({ objectMode: true });
+
+    }
+
     _transform(chunk: any, encoding: string, callback: TransformCallback): void {
         this.push(chunk);
         callback();
     }
 }
 
-test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with iterable inputs empty", async t => {
-    const files: Map<string, (Vinyl & VinylExtension)> = new Map();
-    const bundles: Map<string, string[]> = new Map();
-    const bundleStreamFactory: BundlerStreamFactory = (name: string): Transform => {
-        return new Transform({ objectMode: true });
-    };
-
-    t.deepEqual([[], new Map()], await BundlesProcessor(files, bundles, bundleStreamFactory));
-});
-
-test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with files but no bundles", async t => {
-    const files: Map<string, (Vinyl & VinylExtension)> = new Map();
-    files.set("test", Object.assign(
+/**
+ * Makes an extended Vinyl object. For testing purposes.
+ * @param contents Contents used to make buffer.
+ * @param path Path of file.
+ * @param precedence Precedence value. Optional.
+ */
+function MakeExtendedVinyl(contents: string, path: string, precedence: number = 0): (Vinyl & VinylExtension) {
+    return Object.assign(
         new Vinyl({
-            contents: Buffer.from("test")
+            contents: Buffer.from(contents),
+            path
         }), {
-            Precedence: 1
-        } as VinylExtension));
-    const bundles: Map<string, string[]> = new Map();
-    const bundleStreamFactory: BundlerStreamFactory = (name: string): Transform => {
-        return new Transform({ objectMode: true });
-    };
+            Precedence: precedence
+        }
+    );
+}
 
-    t.deepEqual([[], new Map()], await BundlesProcessor(files, bundles, bundleStreamFactory));
-});
-
-test("BundlesProcessor(Map<string, (Vinyl & VinylExtension)>, Map<string, string[]>, BundlerStreamFactory): Promise<[any[], Map<string, string[]>]> with files and bundles", async t => {
-    const files: Map<string, (Vinyl & VinylExtension)> = new Map();
-    files.set("test", Object.assign(
-        new Vinyl({
-            contents: Buffer.from("test"),
-            path: "test"
-        }), {
-            Precedence: 1
-        } as VinylExtension));
-    const bundles: Map<string, string[]> = new Map();
-    bundles.set("test", ["test"]);
-    const bundleStreamFactory: BundlerStreamFactory = (name: string): Transform => {
-        return new TestTransform({ objectMode: true });
-    };
-    
-    const resultChunks: any[] = [
-        Object.assign(
-            new Vinyl({
-                contents: Buffer.from("test"),
-                path: "test"
-            }), {
-                Precedence: 1
-            } as VinylExtension)
-    ];
-    const resultPaths: Map<string, string[]> = new Map();
-    resultPaths.set("test", ["test"]);
-
-    t.deepEqual([resultChunks, resultPaths], await BundlesProcessor(files, bundles, bundleStreamFactory));
-});
+const BundleStreamFactory: BundlerStreamFactory = (src: Readable): Transform => {
+    return src.pipe(new TestTransform());
+};
