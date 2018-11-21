@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unknown]
+## [3.0.0-alpha.3] - 2018-11-21
 
 ### Changed
 - Path transformations will no longer be applied to files due to complexity around how paths are managed in `gulp`. Instead this feature will be used for override logic alone.
