@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Path transformations will no longer be applied to files due to complexity around how paths are managed in `gulp`. Instead this feature will be used for override logic alone.
+- Removed `PathTransformsBasePath` as a possible configuration value.
 
 ## [3.0.0-alpha.2] - 2018-11-20
 
