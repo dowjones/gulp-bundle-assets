@@ -171,9 +171,9 @@ test("MergeBundle(Bundle,Bundle):Bundle with merge collision rules set", t => {
 	};
 	const output: Bundle = {
 		scripts: [
+			"foo.js",
 			"bar.js",
-			"zeta.js",
-			"foo.js"
+			"zeta.js"
 		],
 		styles: [
 			"foo.css"
@@ -210,10 +210,9 @@ test("MergeBundle(Bundle,Bundle):Bundle with merge collision rules set and array
 	};
 	const output: Bundle = {
 		scripts: [
-			"bar.js",
 			"foo.js",
-			"zeta.js",
-			"foo.js"
+			"bar.js",
+			"zeta.js"
 		],
 		styles: [
 			"foo.css"

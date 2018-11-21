@@ -1,4 +1,3 @@
-import Merge from "merge-array-object";
 import Extend from "just-extend";
 import { resolve as resolvePath } from "path";
 
@@ -73,9 +72,16 @@ export function MergeBundle(existingBundle: Bundle, nextBundle: Bundle): Bundle 
         case CollisionReactions.replace:
             return nextBundle;
         // Merge - Return the merged result (uses merge-array-object for backwards compatibility)
-        case CollisionReactions.merge:
+        case CollisionReactions.merge: {
             // TODO Worth noting that there is no typing for Merge currently
-            return Merge(existingBundle, nextBundle);
+            // Merge arrays manually if needed
+            if (existingBundle.scripts && nextBundle.scripts)
+                nextBundle.scripts = [...new Set([...existingBundle.scripts, ...nextBundle.scripts])];
+            if (existingBundle.styles && nextBundle.styles)
+                nextBundle.styles = [...new Set([...existingBundle.styles, ...nextBundle.styles])];
+
+            return Extend(existingBundle, nextBundle);
+        }
         // Ignore - Return existing bundle
         case CollisionReactions.ignore:
             return existingBundle;

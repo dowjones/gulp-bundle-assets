@@ -38,12 +38,14 @@ const config = {
     }
 };
 const joiner = {
-    Scripts = function(name) {
-        return ConcatJs(name + ".js")
+    Scripts = function(src, name) {
+        return src
+            .pipe(ConcatJs(name + ".js"))
             .pipe(Uglify());
     },
-    Styles = function(name) {
-        return ConcatCss(name + ".css")
+    Styles = function(src, name) {
+        return src
+            .pipe(ConcatCss(name + ".css"))
             .pipe(CleanCss({
                 compatibility: "ie10"
             }));

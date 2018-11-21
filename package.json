@@ -31,20 +31,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Silic0nS0ldier/gulp-uf-bundle-assets"
+    "url": "https://github.com/userfrosting/gulp-uf-bundle-assets"
   },
   "bugs": {
-    "url": "https://github.com/Silic0nS0ldier/gulp-uf-bundle-assets/issues"
+    "url": "https://github.com/userfrosting/gulp-uf-bundle-assets/issues"
   },
   "dependencies": {
     "esm": "^3.0.84",
     "just-extend": "^4.0.2",
-    "merge-array-object": "^1.0.5",
     "plugin-error": "^1.0.1",
     "vinyl": "^2.2.0"
   },
   "devDependencies": {
-    "@types/deep-assign": "^0.1.1",
     "@types/just-extend": "^1.1.0",
     "@types/node": "^10.12.9",
     "@types/vinyl": "^2.0.2",
