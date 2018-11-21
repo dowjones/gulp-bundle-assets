@@ -16,8 +16,9 @@ export default class Bundler extends Transform {
 
     /**
      * Tracks all files resolved within virtual directory tree.
+     * Number is used to track preference during inital file collection.
      */
-    private ResolvedFiles: Map<string, (Vinyl & VinylExtension)> = new Map();
+    private ResolvedFiles: Map<string, [Vinyl, number]> = new Map();
 
     /**
      * Used in conversion of canonical paths to virtual paths (for scenarios with resource overriding, etc).
@@ -61,16 +62,16 @@ export default class Bundler extends Transform {
         }
 
         // Extract path transformations (if set) and make canonical paths absolute
-        if (config.PathTransforms) {
-            for (const [oldPath, newPath] of config.PathTransforms)
+        if (config.VirtualPathRules) {
+            for (const [oldPath, newPath] of config.VirtualPathRules)
                 this.PathTransforms.push([
                     resolvePath(config.PathTransformBasePath + "/" + oldPath),
                     resolvePath(config.PathTransformBasePath + "/" + newPath)]);
         }
 
         // Set bundle base path to current working directory if not set
-        if (!config.BundlesBasePath) {
-            config.BundlesBasePath = process.cwd();
+        if (!config.BundlesVirtualBasePath) {
+            config.BundlesVirtualBasePath = process.cwd();
         }
 
         // Add bundles
@@ -82,7 +83,7 @@ export default class Bundler extends Transform {
                     if (bundle.scripts) {
                         let paths = [];
                         for (const path of bundle.scripts)
-                            paths.push(resolvePath(config.BundlesBasePath + "/" + path));
+                            paths.push(resolvePath(config.BundlesVirtualBasePath + "/" + path));
                         this.ScriptBundles.set(name, paths);
                     }
 
@@ -90,7 +91,7 @@ export default class Bundler extends Transform {
                     if (bundle.styles) {
                         let paths = [];
                         for (const path of bundle.styles)
-                            paths.push(resolvePath(config.BundlesBasePath + "/" + path));
+                            paths.push(resolvePath(config.BundlesVirtualBasePath + "/" + path));
                         this.StyleBundles.set(name, paths);
                     }
                 }
@@ -106,7 +107,7 @@ export default class Bundler extends Transform {
      * 
      * @param path Absolute path to try and resolve.
      * 
-     * @returns New or existing path and precedence.
+     * @returns New or existing path and preference.
      */
     private ResolveVirtualPath(path: string): [string, number] {
         // Try to resolve a virtual path
@@ -115,7 +116,7 @@ export default class Bundler extends Transform {
                 return [resolvePath(path.replace(oldPathStart, newPathStart)), index];
         }
 
-        // No matches, lowest precedence
+        // No matches, lowest preference
         return [path, 0];
     }
 
@@ -130,19 +131,14 @@ export default class Bundler extends Transform {
         try {
             if (Vinyl.isVinyl(chunk)) {
                 // Grab virtual path
-                const [virtualPath, precedence] = this.ResolveVirtualPath(chunk.path);
+                const [virtualPath, preference] = this.ResolveVirtualPath(chunk.path);
 
-                // Extended chunk
-                let file = chunk as (Vinyl & VinylExtension);
-                file.path = virtualPath;
-                file.Precedence = precedence;
-
-                // Add to resolved files (handling collisions according to precedence)
-                if (this.ResolvedFiles.has(file.path)) {
-                    if (this.ResolvedFiles.get(file.path).Precedence < file.Precedence)
-                        this.ResolvedFiles.set(file.path, file);
+                // Add to resolved files (handling collisions according to preference)
+                if (this.ResolvedFiles.has(virtualPath)) {
+                    if (this.ResolvedFiles.get(virtualPath)[1] < preference)
+                        this.ResolvedFiles.set(virtualPath, [chunk, preference]);
                 }
-                else this.ResolvedFiles.set(file.path, file);
+                else this.ResolvedFiles.set(virtualPath, [chunk, preference]);
             }
             else {
                 // Push incompatible chunk on through
@@ -183,9 +179,8 @@ export default class Bundler extends Transform {
                 this.ResultsMap.set(name, paths);
 
             // Push resolved files on through
-            for (const [virtualPath, file] of this.ResolvedFiles) {
-                delete file.Precedence;
-                this.push(file);
+            for (const [virtualPath, [chunk]] of this.ResolvedFiles) {
+                this.push(chunk);
             }
             this.ResolvedFiles.clear();
 
@@ -211,18 +206,6 @@ export interface Bundlers {
      * Returns a Transform that will handle bundling of style resources.
      */
     Styles: BundlerStreamFactory;
-}
-
-/**
- * An extension interface used for providing type hinting to modified Vinyl files.
- * This is intended for internal use only, so extensions should be removed once they are no longer needed.
- */
-export interface VinylExtension {
-    /**
-     * Represents the Vinyl instances priority.
-     * Used to override files correctly and efficiently.
-     */
-    Precedence: number
 }
 
 /**

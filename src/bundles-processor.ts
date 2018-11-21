@@ -1,6 +1,6 @@
 import Vinyl, { isVinyl } from "vinyl";
 import { Catcher } from "./catcher";
-import { BundlerStreamFactory, VinylExtension } from "./main";
+import { BundlerStreamFactory } from "./main";
 import { Readable } from "stream";
 
 /**
@@ -10,7 +10,7 @@ import { Readable } from "stream";
  * @param bundleStreamFactory Source of streams used to generate bundles.
  */
 export async function BundlesProcessor(
-    files: Map<string, (Vinyl & VinylExtension)>,
+    files: Map<string, [Vinyl, number]>,
     bundles: Map<string, string[]>,
     bundleStreamFactory: BundlerStreamFactory
 ): Promise<[any[], Map<string, string[]>]> {
@@ -61,13 +61,13 @@ class BundleSource extends Readable {
     /**
      * Map to pull fully resolved files from.
      */
-    private readonly files: Map<string, (Vinyl & VinylExtension)>; 
+    private readonly files: Map<string, [Vinyl, number]>; 
 
     /**
      * @param files File map to retrieve files from.
      * @param paths Paths to use as keys in file map.
      */
-    constructor(files: Map<string, (Vinyl & VinylExtension)>, paths: string[]) {
+    constructor(files: Map<string, [Vinyl, number]>, paths: string[]) {
         super({
             objectMode: true
         });
@@ -84,7 +84,7 @@ class BundleSource extends Readable {
     _read() {
         if (this.paths.length > 0) {
             const path = this.paths.pop();
-            if (this.files.has(path)) this.push(this.files.get(path).clone());
+            if (this.files.has(path)) this.push(this.files.get(path)[0].clone());
             else new Error(`No file could be resolved for ${path}.`);
         }
         else this.push(null);

@@ -185,15 +185,19 @@ export interface RawConfig {
     bundle?: Bundles;
 
     /**
-     * Paths that are matched wihtin this array will be transformed. All paths should be relative, or undefined behaviour may occur.
-     * Paths that become identical will be overriden according to position of the transform in the array (later overrides earlier).
+     * Defines path transformations that are used for overriding files.
+     * Later rules result in a higher preference.
+     * Duplicate matcher paths will end up being ignored.
+     * All paths should be relative, or undefined behaviour may occur.
      */
-    PathTransforms?: [string, string][];
+    VirtualPathRules?: [string, string][];
 
     /**
-     * Base path to resolve bundle paths against. Defaults to current working directory.
+     * Base path bundle resources will be resolved against.
+     * Use to match against virtual path rules if they are used.
+     * Defaults to current working directory.
      */
-    BundlesBasePath?: string;
+    BundlesVirtualBasePath?: string;
 
     /**
      * Base path to resolve path transformations against. Defaults to current working directory.
