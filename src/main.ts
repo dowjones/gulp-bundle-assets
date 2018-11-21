@@ -56,17 +56,12 @@ export default class Bundler extends Transform {
             objectMode: true
         });
 
-        // Set path transform base path to current working directory if not set
-        if (!config.PathTransformBasePath) {
-            config.PathTransformBasePath = process.cwd();
-        }
-
         // Extract path transformations (if set) and make canonical paths absolute
         if (config.VirtualPathRules) {
             for (const [oldPath, newPath] of config.VirtualPathRules)
                 this.PathTransforms.push([
-                    resolvePath(config.PathTransformBasePath + "/" + oldPath),
-                    resolvePath(config.PathTransformBasePath + "/" + newPath)]);
+                    resolvePath(oldPath),
+                    resolvePath(newPath)]);
         }
 
         // Set bundle base path to current working directory if not set

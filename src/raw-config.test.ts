@@ -337,6 +337,33 @@ test("ValidateRawConfig(RawConfig):void with invalid bundle key", t => {
 	t.throws(() => ValidateRawConfig(input), "Property bundle must be an object and not null.");
 });
 
+test("ValidateRawConfig(RawConfig):void with valid virtual path rules", t => {
+	const input: RawConfig = {
+		VirtualPathRules: [
+			["test", "testtest"]
+		]
+	}
+	t.notThrows(() => ValidateRawConfig(input));
+});
+
+test("ValidateRawConfig(RawConfig):void with invalid empty matcher virtual path rules", t => {
+	const input: RawConfig = {
+		VirtualPathRules: [
+			["", "testtest"]
+		]
+	}
+	t.throws(() => ValidateRawConfig(input), "Value matcher of property VirtualPathRules is empty.");
+});
+
+test("ValidateRawConfig(RawConfig):void with invalid empty replacement virtual path rules", t => {
+	const input: RawConfig = {
+		VirtualPathRules: [
+			["test", ""]
+		]
+	}
+	t.throws(() => ValidateRawConfig(input), "Value replacement of property VirtualPathRules is empty.");
+});
+
 /**
  * ValidateBundle(Bundle,string):void
  */
