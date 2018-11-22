@@ -40,8 +40,14 @@ test("Bundler basic scenario", async t => {
         }
     });
 
+    // Build results map callback test
+    t.plan(2);
+    const bundleResultsMapTest = (results: Map<string, string[]>) => {
+        t.deepEqual(assetMapResult, results);
+    };
+
     // Run stream
-    const bundler = new Bundler(config, joiner);
+    const bundler = new Bundler(config, joiner, bundleResultsMapTest);
     const catcher = new Catcher();
     stream
         .pipe(bundler)
@@ -49,7 +55,4 @@ test("Bundler basic scenario", async t => {
 
     // Check stream outputs (order is unimportant)
     t.deepEqual(streamResult.sort(), (await catcher.Collected).sort());
-
-    // Check asset map
-    t.deepEqual(assetMapResult, bundler.ResultsMap);
 });

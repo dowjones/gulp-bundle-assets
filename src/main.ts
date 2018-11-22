@@ -45,13 +45,18 @@ export default class Bundler extends Transform {
      * Map containing output filenames for each bundle.
      * Key is bundle name, value is the file path.
      */
-    public ResultsMap: Map<string, string[]> = new Map();
+    private BundleResultsMap: Map<string, string[]> = new Map();
+
+    /**
+     * Callback to execute once bundle results map is complete.
+     */
+    private BundleResultsCallback?: (results: Map<string, string[]>) => void;
 
     /**
      * @param config Raw (but valid) configuration file used for bundle resolution.
      * @param joiner Object capable of generating the Transform streams needed for generation of final bundles.
      */
-    constructor(config: RawConfig, joiner: Bundlers) {
+    constructor(config: RawConfig, joiner: Bundlers, bundleResultsCallback?: (results: Map<string, string[]>) => void) {
         super({
             objectMode: true
         });
@@ -94,6 +99,8 @@ export default class Bundler extends Transform {
         }
 
         this.Bundlers = joiner;
+
+        this.BundleResultsCallback = bundleResultsCallback;
     }
 
     /**
@@ -162,7 +169,7 @@ export default class Bundler extends Transform {
                 this.push(chunk);
 
             for (const [name, paths] of resultsMap)
-                this.ResultsMap.set(name, paths);
+                this.BundleResultsMap.set(name, paths);
 
             // Styles
             [chunks, resultsMap] = await BundlesProcessor(this.ResolvedFiles, this.StyleBundles, this.Bundlers.Styles);
@@ -171,13 +178,16 @@ export default class Bundler extends Transform {
                 this.push(chunk);
 
             for (const [name, paths] of resultsMap)
-                this.ResultsMap.set(name, paths);
+                this.BundleResultsMap.set(name, paths);
 
             // Push resolved files on through
             for (const [virtualPath, [chunk]] of this.ResolvedFiles) {
                 this.push(chunk);
             }
             this.ResolvedFiles.clear();
+
+            if (this.BundleResultsCallback)
+                this.BundleResultsCallback(this.BundleResultsMap);
 
             callback();
         }

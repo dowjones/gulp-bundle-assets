@@ -71,7 +71,7 @@ export function MergeBundle(existingBundle: Bundle, nextBundle: Bundle): Bundle 
         // Replace - Return the next bundle
         case CollisionReactions.replace:
             return nextBundle;
-        // Merge - Return the merged result (uses merge-array-object for backwards compatibility)
+        // Merge
         case CollisionReactions.merge: {
             // TODO Worth noting that there is no typing for Merge currently
             // Merge arrays manually if needed
