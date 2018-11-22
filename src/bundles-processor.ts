@@ -13,9 +13,9 @@ export async function BundlesProcessor(
     files: Map<string, [Vinyl, number]>,
     bundles: Map<string, string[]>,
     bundleStreamFactory: BundlerStreamFactory
-): Promise<[any[], Map<string, string[]>]> {
+): Promise<[any[], Map<string, Vinyl[]>]> {
     // Track results
-    const resultPaths: Map<string, string[]> = new Map();
+    const resultFileInfo: Map<string, Vinyl[]> = new Map();
     const resultChunks = [];
 
     // Process each bundle
@@ -31,11 +31,14 @@ export async function BundlesProcessor(
         const chunks = await catcher.Collected;
 
         // Add to resultPaths and resultChunks
-        const chunkPaths: string[] = [];
+        const resultFiles: Vinyl[] = [];
         for (const chunk of chunks) {
             // Track the path if chunk is a valid Vinyl object
+            // Copy and track a null file version of each vinyl file
             if (isVinyl(chunk) && chunk.path) {
-                chunkPaths.push(chunk.path);
+                const resultFile = chunk.clone();
+                resultFile.contents = null;
+                resultFiles.push(resultFile);
             }
 
             // Store the chunk
@@ -43,10 +46,10 @@ export async function BundlesProcessor(
         }
 
         // Store the chunkPaths
-        resultPaths.set(name, chunkPaths)
+        resultFileInfo.set(name, resultFiles)
     }
 
-    return [resultChunks, resultPaths];
+    return [resultChunks, resultFileInfo];
 }
 
 /**

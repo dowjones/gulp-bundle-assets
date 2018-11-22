@@ -3,6 +3,7 @@ import Bundler, { Bundlers } from "./main";
 import { RawConfig } from "./raw-config";
 import { Transform, Readable } from "stream";
 import { Catcher } from "./catcher";
+import Vinyl from "vinyl";
 
 test("Bundler basic scenario", async t => {
     const config: RawConfig = {
@@ -22,7 +23,7 @@ test("Bundler basic scenario", async t => {
     }
 
     // Results
-    const assetMapResult: Map<string, string[]> = new Map();
+    const assetMapResult: Map<string, Vinyl[]> = new Map();
     const streamResult: any[] = [
         {},
         "test",
@@ -42,7 +43,7 @@ test("Bundler basic scenario", async t => {
 
     // Build results map callback test
     t.plan(2);
-    const bundleResultsMapTest = (results: Map<string, string[]>) => {
+    const bundleResultsMapTest = (results: Map<string, Vinyl[]>) => {
         t.deepEqual(assetMapResult, results);
     };
 

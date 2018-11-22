@@ -29,13 +29,13 @@ test("BundlesProcessor with files and bundles", async t => {
     const resultChunks: any[] = [
         MakeVinyl("test", "test")
     ];
-    const resultPaths: Map<string, string[]> = new Map();
-    resultPaths.set("test", ["test"]);
+    const resultPaths: Map<string, Vinyl[]> = new Map();
+    resultPaths.set("test", [new Vinyl({contents: null, path: "test"})]);
 
     TestBundler(t, [resultChunks, resultPaths], await BundlesProcessor(files, bundles, BundleStreamFactory));
 });
 
-function TestBundler(t: GenericTestContext<Context<any>>, expected: [any[], Map<string, string[]>], actual: [any[], Map<string, string[]>]): void {
+function TestBundler(t: GenericTestContext<Context<any>>, expected: [any[], Map<string, Vinyl[]>], actual: [any[], Map<string, Vinyl[]>]): void {
     // Check result chunks (order insensitive)
     t.deepEqual(expected[0].sort(), actual[0].sort());
 
