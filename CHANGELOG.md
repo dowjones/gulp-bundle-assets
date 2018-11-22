@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unknown]
 
+## [3.0.0-alpha.4] 2018-11-22
+
 ### Changed
 - Bundle results are now retrieved via a callback.
+- Bundle results now consist of collections of `Vinyl` `NullFiles` to retain as much useful information as possible.
 
 ## [3.0.0-alpha.3] - 2018-11-21
 
