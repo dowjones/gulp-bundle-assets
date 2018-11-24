@@ -3,5 +3,6 @@ src/
 !dist/
 **/*.test.js
 **/*.test.d.ts
+dist/index.d.ts
 tsconfig.json
 .gitattributes

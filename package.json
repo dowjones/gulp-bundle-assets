@@ -6,8 +6,12 @@
   "module": "./dist/main.js",
   "types": "./dist/main.d.ts",
   "scripts": {
-    "test": "tsc && ava",
-    "prepublishOnly": "tsc"
+    "pretest": "tsc",
+    "test": "ava",
+    "prepublishOnly": "tsc",
+    "prevsion": "npm test",
+    "version": "changelog-updater && git add CHANGELOG.md",
+    "postversion": "git push && git push --tags"
   },
   "author": "Jordan Mele <SiliconSoldier@outlook.com.au> (https://github.com/Silic0nS0ldier)",
   "contributors": [
@@ -47,6 +51,7 @@
     "@types/node": "^10.12.9",
     "@types/vinyl": "^2.0.2",
     "ava": "^0.25.0",
+    "changelog-updater": "^1.1.0",
     "typescript": "^3.1.6"
   },
   "engines": {
