@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unknown]
 
+### Fixed
+- Corrected order of files emitted into provided bundle streams.
+
 ## [3.0.0-alpha.4] 2018-11-22
 
 ### Changed

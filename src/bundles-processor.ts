@@ -86,7 +86,7 @@ class BundleSource extends Readable {
      */
     _read() {
         if (this.paths.length > 0) {
-            const path = this.paths.pop();
+            const path = this.paths.shift();
             if (this.files.has(path)) this.push(this.files.get(path)[0].clone());
             else new Error(`No file could be resolved for ${path}.`);
         }
