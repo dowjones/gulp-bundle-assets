@@ -5,12 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unknown]
+## [Unreleased]
+
+## [3.0.0-alpha.5] - 2018-11-24
 
 ### Fixed
 - Corrected order of files emitted into provided bundle streams.
 
-## [3.0.0-alpha.4] 2018-11-22
+## [3.0.0-alpha.4] - 2018-11-22
 
 ### Changed
 - Bundle results are now retrieved via a callback.
