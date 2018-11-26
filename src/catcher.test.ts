@@ -34,7 +34,7 @@ test("Catcher when there is a lot of content in the stream", async t => {
  * @param result Expected output data (sensitive insensitive)
  */
 async function TestCatcher(t: GenericTestContext<Context<any>>, input: any[], result: any[]): Promise<void> {
-    const catcher = new Catcher();
+    const catcher = new Catcher(() => {});
     new TestSource(input).pipe(catcher);
 
     t.deepEqual(result.sort(), (await catcher.Collected).sort());

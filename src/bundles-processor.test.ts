@@ -8,7 +8,7 @@ test("BundlesProcessor with iterable inputs empty", async t => {
     const files: Map<string, [Vinyl, number]> = new Map();
     const bundles: Map<string, string[]> = new Map();
 
-    TestBundler(t, [[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory));
+    TestBundler(t, [[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory, () => {}));
 
 });
 
@@ -17,7 +17,7 @@ test("BundlesProcessor with files but no bundles", async t => {
     files.set("test", [MakeVinyl("test", "test"), 0]);
     const bundles: Map<string, string[]> = new Map();
 
-    TestBundler(t, [[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory));
+    TestBundler(t, [[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory, () => {}));
 });
 
 test("BundlesProcessor with files and bundles", async t => {
@@ -32,7 +32,7 @@ test("BundlesProcessor with files and bundles", async t => {
     const resultPaths: Map<string, Vinyl[]> = new Map();
     resultPaths.set("test", [new Vinyl({contents: null, path: "test"})]);
 
-    TestBundler(t, [resultChunks, resultPaths], await BundlesProcessor(files, bundles, BundleStreamFactory));
+    TestBundler(t, [resultChunks, resultPaths], await BundlesProcessor(files, bundles, BundleStreamFactory, () => {}));
 });
 
 function TestBundler(t: GenericTestContext<Context<any>>, expected: [any[], Map<string, Vinyl[]>], actual: [any[], Map<string, Vinyl[]>]): void {

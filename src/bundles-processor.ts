@@ -2,6 +2,7 @@ import Vinyl, { isVinyl } from "vinyl";
 import { Catcher } from "./catcher";
 import { BundlerStreamFactory } from "./main";
 import { Readable } from "stream";
+import { LogLevel } from "./config";
 
 /**
  * Processes provided bundle definitions.
@@ -12,44 +13,55 @@ import { Readable } from "stream";
 export async function BundlesProcessor(
     files: Map<string, [Vinyl, number]>,
     bundles: Map<string, string[]>,
-    bundleStreamFactory: BundlerStreamFactory
+    bundleStreamFactory: BundlerStreamFactory,
+    logger: (value: string, level: LogLevel) => void
 ): Promise<[any[], Map<string, Vinyl[]>]> {
-    // Track results
-    const resultFileInfo: Map<string, Vinyl[]> = new Map();
-    const resultChunks = [];
+    try {
+        // Track results
+        const resultFileInfo: Map<string, Vinyl[]> = new Map();
+        const resultChunks = [];
 
-    // Process each bundle
-    for (const [name, paths] of bundles) {
-        // Create catcher
-        const catcher = new Catcher();
+        // Process each bundle
+        for (const [name, paths] of bundles) {
+            logger(`Building bundle "${name}"`, LogLevel.Normal);
 
-        // Build bundler with source and bundle name
-        bundleStreamFactory(new BundleSource(files, paths), name)
-            .pipe(catcher);
+            // Create catcher
+            const catcher = new Catcher(logger);
 
-        // Catch results
-        const chunks = await catcher.Collected;
+            // Build bundler with source and bundle name
+            logger("Invoking provided bundler", LogLevel.Silly);
+            bundleStreamFactory(new BundleSource(files, paths), name)
+                .pipe(catcher);
 
-        // Add to resultPaths and resultChunks
-        const resultFiles: Vinyl[] = [];
-        for (const chunk of chunks) {
-            // Track the path if chunk is a valid Vinyl object
-            // Copy and track a null file version of each vinyl file
-            if (isVinyl(chunk) && chunk.path) {
-                const resultFile = chunk.clone();
-                resultFile.contents = null;
-                resultFiles.push(resultFile);
+            // Catch results
+            logger("Catching outputs", LogLevel.Silly);
+            const chunks = await catcher.Collected;
+
+            // Add to resultPaths and resultChunks
+            const resultFiles: Vinyl[] = [];
+            for (const chunk of chunks) {
+                // Copy and track a null file version of each vinyl file
+                if (isVinyl(chunk) && chunk.path) {
+                    const resultFile = chunk.clone();
+                    resultFile.contents = null;
+                    resultFiles.push(resultFile);
+                }
+
+                // Store the chunk
+                resultChunks.push(chunk);
             }
 
-            // Store the chunk
-            resultChunks.push(chunk);
+            // Store the chunkPaths
+            resultFileInfo.set(name, resultFiles)
         }
 
-        // Store the chunkPaths
-        resultFileInfo.set(name, resultFiles)
+        logger("Returning bundling results", LogLevel.Silly);
+        return [resultChunks, resultFileInfo];
     }
-
-    return [resultChunks, resultFileInfo];
+    catch (error) {
+        logger("BundlesProcessor completed with error", LogLevel.Scream);
+        throw error;
+    }
 }
 
 /**
@@ -60,11 +72,11 @@ class BundleSource extends Readable {
      * Paths yet to be processed.
      */
     private readonly paths: string[];
-    
+
     /**
      * Map to pull fully resolved files from.
      */
-    private readonly files: Map<string, [Vinyl, number]>; 
+    private readonly files: Map<string, [Vinyl, number]>;
 
     /**
      * @param files File map to retrieve files from.

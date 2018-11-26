@@ -1,12 +1,12 @@
 import test from "ava";
 import Bundler, { Bundlers } from "./main";
-import { RawConfig } from "./raw-config";
+import { Config } from "./config";
 import { Transform, Readable } from "stream";
 import { Catcher } from "./catcher";
 import Vinyl from "vinyl";
 
 test("Bundler basic scenario", async t => {
-    const config: RawConfig = {
+    const config: Config = {
 
     };
     const joiner: Bundlers = {
@@ -49,7 +49,7 @@ test("Bundler basic scenario", async t => {
 
     // Run stream
     const bundler = new Bundler(config, joiner, bundleResultsMapTest);
-    const catcher = new Catcher();
+    const catcher = new Catcher(() => {});
     stream
         .pipe(bundler)
         .pipe(catcher);

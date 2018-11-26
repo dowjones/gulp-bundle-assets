@@ -7,16 +7,16 @@ import { resolve as resolvePath } from "path";
  * 
  * `bundle->(BundleName)->options->sprinkle->onCollision = (replace|merge|ignore|error)` may be used to modify treatment of collided bundles.
  */
-export function MergeRawConfigs(rawConfigs: RawConfig[]): RawConfig {
+export function MergeRawConfigs(rawConfigs: Config[]): Config {
     // No point doing processing if we've got only 1 item
     if (rawConfigs.length === 1) return rawConfigs[0];
 
-    let outConfig: RawConfig = {};
+    let outConfig: Config = {};
 
     // Merge configs into base
     rawConfigs.forEach(config => {
         // Prevent modification of input
-        let nextConfig = Extend({}, config) as RawConfig;
+        let nextConfig = Extend({}, config) as Config;
 
         // Merge all bundle definitions into nextConfig (to handle collision logic correctly)
         if (outConfig.bundle) {
@@ -97,18 +97,20 @@ export function MergeBundle(existingBundle: Bundle, nextBundle: Bundle): Bundle 
  * Throws an exception if the provided raw config contains invalid data.
  * @param config Raw configuration to validate.
  */
-export function ValidateRawConfig(config: RawConfig): void {
+export function ValidateRawConfig(config: Config): void {
     // If bundle key exists, value must be an object
     if ("bundle" in config) {
         const bundles = config.bundle;
 
-        if (typeof bundles !== "object" || bundles === null)
-            throw new Error("Property bundle must be an object and not null.");
+        if (typeof bundles !== "object" || bundles === null) {
+            throw new Error(`Property "bundle" must be an object and not null.`);
+        }
         else {
             // Each property must be an object (for owned properties)
             for (const bundleName in bundles) {
-                if (bundles.hasOwnProperty(bundleName))
+                if (bundles.hasOwnProperty(bundleName)) {
                     ValidateBundle(bundles[bundleName], bundleName);
+                }
             }
         }
     }
@@ -117,22 +119,26 @@ export function ValidateRawConfig(config: RawConfig): void {
     if ("VirtualPathRules" in config) {
         const virtualPathRules = config.VirtualPathRules;
 
-        if (!Array.isArray(virtualPathRules))
-            throw new Error("Property VirtualPathRules must be an object and not null.");
+        if (!Array.isArray(virtualPathRules)) {
+            throw new Error(`Property "VirtualPathRules" must be an object and not null.`);
+        }
         else {
             // Matchers must all be unique, and all values must be not empty
             const matchers = [];
             for (const [matcher, replacement] of virtualPathRules) {
                 // Must be non-empty
-                if (matcher === "")
-                    throw new Error("Value matcher of property VirtualPathRules is empty.");
-                if (replacement === "")
-                    throw new Error("Value replacement of property VirtualPathRules is empty.");
+                if (matcher === "") {
+                    throw new Error(`Value matcher of property "VirtualPathRules" is empty.`);
+                }
+                if (replacement === "") {
+                    throw new Error(`Value replacement of property "VirtualPathRules" is empty.`);
+                }
                 
                 const resolved = resolvePath(matcher);
-                if (matchers.indexOf(resolved) !== -1)
-                    throw new Error("Value of property VirtualPathRules is a duplicate. Value: " + matcher);
-                else
+                if (matchers.indexOf(resolved) !== -1) {
+                    throw new Error(`Value matcher of property "VirtualPathRules" is a duplicate: "${matcher}"`);
+                }
+                else 
                     matchers.push(matcher);
             }
         }
@@ -205,7 +211,7 @@ export function ValidateBundle(bundle: Bundle, name: string): void {
 /**
  * Root object of raw configuration.
  */
-export interface RawConfig {
+export interface Config {
     /**
      * Bundle definitions.
      */
@@ -225,6 +231,38 @@ export interface RawConfig {
      * Defaults to current working directory.
      */
     BundlesVirtualBasePath?: string;
+
+    /**
+     * Optional logger that will be used throughout bundling process.
+     * @param value Message to log.
+     * @param level Log level for message.
+     */
+    Logger?(value: string, level: LogLevel): void;
+}
+
+/**
+ * Log levels.
+ */
+export enum LogLevel {
+    /**
+     * A lot will be tagged as silly.
+     * These messages should only be used for debugging.
+     * Creativity may be required to distill anything useful.
+     */
+    Silly,
+    /**
+     * General events of note such as progress milestones.
+     */
+    Normal,
+    /**
+     * Anything that is notable but doesn't result in an error will be logged with this.
+     * This includes any detected bad practises or habits.
+     */
+    Complain,
+    /**
+     * Shit is about to hit the fan. Expect an unrecoverable error very soon.
+     */
+    Scream
 }
 
 /**

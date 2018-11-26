@@ -1,5 +1,5 @@
 import test from "ava";
-import { MergeRawConfigs, RawConfig, Bundle, MergeBundle, ValidateRawConfig, ValidateBundle } from "./raw-config";
+import { MergeRawConfigs, Config, Bundle, MergeBundle, ValidateRawConfig, ValidateBundle } from "./config";
 
 /**
  * MergeConfigs(RawConfig[]):RawConfig
@@ -14,7 +14,7 @@ test("MergeConfigs(RawConfig[]):RawConfig with multiple empty objects", t => {
 });
 
 test("MergeConfigs(RawConfig[]):RawConfig with single object", t => {
-	const input1: RawConfig = {
+	const input1: Config = {
 		bundle: {
 			testBundle: {
 				scripts: [
@@ -23,7 +23,7 @@ test("MergeConfigs(RawConfig[]):RawConfig with single object", t => {
 			}
 		}
 	};
-	const output: RawConfig = {
+	const output: Config = {
 		bundle: {
 			testBundle: {
 				scripts: [
@@ -37,7 +37,7 @@ test("MergeConfigs(RawConfig[]):RawConfig with single object", t => {
 });
 
 test("MergeConfigs(RawConfig[]):RawConfig with multiple objects", t => {
-	const input1: RawConfig = {
+	const input1: Config = {
 		bundle: {
 			testBundle: {
 				scripts: [
@@ -46,7 +46,7 @@ test("MergeConfigs(RawConfig[]):RawConfig with multiple objects", t => {
 			}
 		}
 	};
-	const input2: RawConfig = {
+	const input2: Config = {
 		bundle: {
 			testBundle: {
 				scripts: [
@@ -55,7 +55,7 @@ test("MergeConfigs(RawConfig[]):RawConfig with multiple objects", t => {
 			}
 		}
 	};
-	const input3: RawConfig = {
+	const input3: Config = {
 		bundle: {
 			testBundle: {
 				styles: [
@@ -64,7 +64,7 @@ test("MergeConfigs(RawConfig[]):RawConfig with multiple objects", t => {
 			}
 		}
 	};
-	const output: RawConfig = {
+	const output: Config = {
 		bundle: {
 			testBundle: {
 				styles: [
@@ -78,7 +78,7 @@ test("MergeConfigs(RawConfig[]):RawConfig with multiple objects", t => {
 });
 
 test("MergeConfigs(RawConfig[]):RawConfig identifies error source when MergeBundle(Bundle,Bundle) fails", t => {
-	const input1: RawConfig = {
+	const input1: Config = {
 		bundle: {
 			testBundle: {
 				scripts: [
@@ -87,7 +87,7 @@ test("MergeConfigs(RawConfig[]):RawConfig identifies error source when MergeBund
 			}
 		}
 	};
-	const input2: RawConfig = {
+	const input2: Config = {
 		bundle: {
 			testBundle: {
 				scripts: [
@@ -319,48 +319,54 @@ test("MergeBundle(Bundle,Bundle):Bundle with error collision rules set", t => {
  */
 
 test("ValidateRawConfig(RawConfig):void with empty object", t => {
-	t.notThrows(() => ValidateRawConfig({}));
+	t.notThrows(() => ValidateRawConfig({}
+		));
 });
 
 test("ValidateRawConfig(RawConfig):void with empty object bundle key", t => {
 	const input: any = {
 		bundle: {}
 	}
-	t.notThrows(() => ValidateRawConfig(input));
+	t.notThrows(() => ValidateRawConfig(input
+		));
 });
 
 test("ValidateRawConfig(RawConfig):void with invalid bundle key", t => {
 	const input: any = {
 		bundle: "a string"
 	}
-	t.throws(() => ValidateRawConfig(input), "Property bundle must be an object and not null.");
+	t.throws(() => ValidateRawConfig(input
+		), `Property "bundle" must be an object and not null.`);
 });
 
 test("ValidateRawConfig(RawConfig):void with valid virtual path rules", t => {
-	const input: RawConfig = {
+	const input: Config = {
 		VirtualPathRules: [
 			["test", "testtest"]
 		]
 	}
-	t.notThrows(() => ValidateRawConfig(input));
+	t.notThrows(() => ValidateRawConfig(input
+		));
 });
 
 test("ValidateRawConfig(RawConfig):void with invalid empty matcher virtual path rules", t => {
-	const input: RawConfig = {
+	const input: Config = {
 		VirtualPathRules: [
 			["", "testtest"]
 		]
 	}
-	t.throws(() => ValidateRawConfig(input), "Value matcher of property VirtualPathRules is empty.");
+	t.throws(() => ValidateRawConfig(input
+		), `Value matcher of property "VirtualPathRules" is empty.`);
 });
 
 test("ValidateRawConfig(RawConfig):void with invalid empty replacement virtual path rules", t => {
-	const input: RawConfig = {
+	const input: Config = {
 		VirtualPathRules: [
 			["test", ""]
 		]
 	}
-	t.throws(() => ValidateRawConfig(input), "Value replacement of property VirtualPathRules is empty.");
+	t.throws(() => ValidateRawConfig(input
+		), `Value replacement of property "VirtualPathRules" is empty.`);
 });
 
 /**
@@ -370,19 +376,22 @@ test("ValidateRawConfig(RawConfig):void with invalid empty replacement virtual p
 // Param 1 Base
 
 test("ValidateBundle(Bundle,string):void with empty object", t => {
-	t.notThrows(() => ValidateBundle({}, "test"));
+	t.notThrows(() => ValidateBundle({}, "test"
+	));
 });
 
 test("ValidateBundle(Bundle,string):void with non-object first paramater", t => {
 	const input1: any = "a string";
-	t.throws(() => ValidateBundle(input1, "test"), "Property bundle>test must be an object and not null.");
+	t.throws(() => ValidateBundle(input1, "test"
+	), "Property bundle>test must be an object and not null.");
 });
 
 // Param 2
 
 test("ValidateBundle(Bundle,string):void with non-string second paramater", t => {
 	const input2: any = 22;
-	t.throws(() => ValidateBundle({}, input2), "Bundle name must be a string.");
+	t.throws(() => ValidateBundle({}, input2
+		), "Bundle name must be a string.");
 });
 
 // Param 1 Scripts
@@ -391,7 +400,8 @@ test("ValidateBundle(Bundle,string):void with non-array for scripts", t => {
 	const input1: any = {
 		scripts: "a string"
 	};
-	t.throws(() => ValidateBundle(input1, "test"), "Property bundle>test>scripts must be an array.");
+	t.throws(() => ValidateBundle(input1, "test"
+	), "Property bundle>test>scripts must be an array.");
 });
 
 test("ValidateBundle(Bundle,string):void with array containing non-strings for scripts", t => {
@@ -402,7 +412,8 @@ test("ValidateBundle(Bundle,string):void with array containing non-strings for s
 			22
 		]
 	};
-	t.throws(() => ValidateBundle(input1, "test"), "All indexes of bundle>test>scripts must be a string.");
+	t.throws(() => ValidateBundle(input1, "test"
+	), "All indexes of bundle>test>scripts must be a string.");
 });
 
 test("ValidateBundle(Bundle,string):void with valid array for scripts", t => {
@@ -412,7 +423,8 @@ test("ValidateBundle(Bundle,string):void with valid array for scripts", t => {
 			"bar.js"
 		]
 	};
-	t.notThrows(() => ValidateBundle(input1, "test"));
+	t.notThrows(() => ValidateBundle(input1, "test"
+	));
 });
 
 // Param 1 scripts
@@ -421,7 +433,8 @@ test("ValidateBundle(Bundle,string):void with non-array for styles", t => {
 	const input1: any = {
 		styles: "a string"
 	};
-	t.throws(() => ValidateBundle(input1, "test"), "Property bundle>test>styles must be an array.");
+	t.throws(() => ValidateBundle(input1, "test"
+	), "Property bundle>test>styles must be an array.");
 });
 
 test("ValidateBundle(Bundle,string):void with array containing non-strings for styles", t => {
@@ -432,7 +445,8 @@ test("ValidateBundle(Bundle,string):void with array containing non-strings for s
 			22
 		]
 	};
-	t.throws(() => ValidateBundle(input1, "test"), "All indexes of bundle>test>styles must be a string.");
+	t.throws(() => ValidateBundle(input1, "test"
+	), "All indexes of bundle>test>styles must be a string.");
 });
 
 test("ValidateBundle(Bundle,string):void with valid array for styles", t => {
@@ -442,7 +456,8 @@ test("ValidateBundle(Bundle,string):void with valid array for styles", t => {
 			"bar.css"
 		]
 	};
-	t.notThrows(() => ValidateBundle(input1, "test"));
+	t.notThrows(() => ValidateBundle(input1, "test"
+	));
 });
 
 // Param 1 Options
@@ -451,7 +466,8 @@ test("ValidateBundle(Bundle,string):void with non-object for options", t => {
 	const input1: any = {
 		options: 22
 	};
-	t.throws(() => ValidateBundle(input1, "test"), "Property bundle>test>options must be an object and not null.");
+	t.throws(() => ValidateBundle(input1, "test"
+	), "Property bundle>test>options must be an object and not null.");
 });
 
 test("ValidateBundle(Bundle,string):void with non-object for options>sprinkle", t => {
@@ -460,7 +476,8 @@ test("ValidateBundle(Bundle,string):void with non-object for options>sprinkle", 
 			sprinkle: 22
 		}
 	};
-	t.throws(() => ValidateBundle(input1, "test"), "Property bundle>test>options>sprinkle must be an object and not null.");
+	t.throws(() => ValidateBundle(input1, "test"
+	), "Property bundle>test>options>sprinkle must be an object and not null.");
 });
 
 test("ValidateBundle(Bundle,string):void ensures onCollision option is valid", t => {
@@ -472,18 +489,23 @@ test("ValidateBundle(Bundle,string):void ensures onCollision option is valid", t
 			}
 		}
 	};
-	t.notThrows(() => ValidateBundle(input1, "test"));
+	t.notThrows(() => ValidateBundle(input1, "test"
+	));
 	// merge
 	input1.options.sprinkle.onCollision = "merge";
-	t.notThrows(() => ValidateBundle(input1, "test"));
+	t.notThrows(() => ValidateBundle(input1, "test"
+	));
 	// error
 	input1.options.sprinkle.onCollision = "error";
-	t.notThrows(() => ValidateBundle(input1, "test"));
+	t.notThrows(() => ValidateBundle(input1, "test"
+	));
 	// ignore
 	input1.options.sprinkle.onCollision = "ignore";
-	t.notThrows(() => ValidateBundle(input1, "test"));
+	t.notThrows(() => ValidateBundle(input1, "test"
+	));
 
 	// Bad
 	input1.options.sprinkle.onCollision = "an invalid collision reaction";
-	t.throws(() => ValidateBundle(input1, "test"), "Property bundle>test>options>sprinkle>onCollision must be a valid rule.");
+	t.throws(() => ValidateBundle(input1, "test"
+	), "Property bundle>test>options>sprinkle>onCollision must be a valid rule.");
 });

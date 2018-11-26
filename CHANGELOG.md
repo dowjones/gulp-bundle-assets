@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## Changed
+- Moved package under `@UserFrosting` organisation in NPM and removed superfluous `uf` from package name.
+
+### Added
+- Support for comprehensive logging through a passed logger function.
+
 ## [3.0.0-alpha.5] - 2018-11-24
 
 ### Fixed

@@ -1,5 +1,5 @@
 {
-  "name": "gulp-uf-bundle-assets",
+  "name": "@userfrosting/gulp-bundle-assets",
   "version": "3.0.0-alpha.5",
   "description": "Fork of Chris Montgomery's gulp-bundle-assets, striped back and rewritten for use with UserFrosting.",
   "main": "./dist/index.js",
