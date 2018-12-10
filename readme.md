@@ -53,6 +53,7 @@ module.exports = {
   copy: './content/**/*.{png,svg}'
 };
 ```
+(:bulb: make sure all files to be bundled have the correct path otherwise your bundle might not be created!)
 
 Then, calling
 
