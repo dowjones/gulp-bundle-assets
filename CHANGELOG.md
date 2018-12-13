@@ -7,55 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [3.0.0-alpha.6] - 2018-11-27
-
-## Changed
-- Moved package under `@UserFrosting` organisation in NPM and removed superfluous `uf` from package name.
-
-### Added
-- Support for comprehensive logging through a passed logger function.
-
-## [3.0.0-alpha.5] - 2018-11-24
-
-### Fixed
-- Corrected order of files emitted into provided bundle streams.
-
-## [3.0.0-alpha.4] - 2018-11-22
-
-### Changed
-- Bundle results are now retrieved via a callback.
-- Bundle results now consist of collections of `Vinyl` `NullFiles` to retain as much useful information as possible.
-
-## [3.0.0-alpha.3] - 2018-11-21
-
-### Changed
-- Path transformations will no longer be applied to files due to complexity around how paths are managed in `gulp`. Instead this feature will be used for override logic alone.
-- Removed `PathTransformsBasePath` as a possible configuration value.
-
-## [3.0.0-alpha.2] - 2018-11-20
-
-### Added
-- Ability to specify base path for resolution of bundle resources and path transformations.
-
-### Fixed
-- Declaration file wasn't specified resulting in missing types when imported as a NPM dependency.
-- Bundles never being used due to bad `hasOwnProperty` check.
-- Transformed paths being entirely replaced.
-- Catcher resolving collection promise too soon.
-
-## [3.0.0-alpha.1] - 2018-11-17
-
 This release focuses on simplifying the package for UserFrosting 4 to improve maintainability. Features unsupported by UF4 are largely removed.
 
 ### Added
 - Raw configuration validation.
 - Raw configuration merging.
 - Path transformation with support for file replacement based on rule order (later rules superseed earlier ones).
+- Ability to specify base path for resolution of bundle resources and path transformations.
+- Support for comprehensive logging through a passed logger function.
 
 ### Changed
 - Functionality offered by results file has been replaced by `ResultsMap` property.
 - Reads stream chunks (`Vinyl` instances) instead of directly from file system.
 - As an internal `gulp` pipeline is no longer responsible for bundle generation, custom `Transform`s (e.g. `gulp-concat-css`) must be provided.
+- Path transformations will no longer be applied to files due to complexity around how paths are managed in `gulp`. Instead this feature will be used for override logic alone.
+- Removed `PathTransformsBasePath` as a possible configuration value.
+- Bundle results are now retrieved via a callback which is given a collection of `Vinyl` `NullFiles` to retain as much useful information as possible.
+- Moved package under `@UserFrosting` organisation in NPM and removed superfluous `uf` from package name.
 
 ### Removed
 - Support for CSS sourcemaps (broken since 2.27.2).
@@ -64,13 +32,10 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 - Glob paths.
 - Environment based build conditions (functionality can be implemented manually through provided `Bundlers`).
 - Incremental/watched builds.
-- Automatic HTML tag generation for results file.
-- File copy support (use `gulp.dest` or an equivalent)
-- Raw result file support.
+- Automatic HTML tag generation for results file (use results callback to implement this manually).
+- File copy support (use `gulp.dest` or an equivalent).
+- Result file support (replaced by callback).
 - Removed dependency on `gulp` as per best practises.
-
-### Fixed
-- Use `isVinyl` static method instead of fragile property check.
 
 ## [2.28.2] - 2018-02-10
 
