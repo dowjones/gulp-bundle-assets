@@ -71,7 +71,7 @@ export default class Bundler extends Transform {
         if (config.Logger) this.Logger = config.Logger;
 
         // Deep clone config object to prevent mutations from spilling out
-        config = Extend({}, config);
+        config = Extend(true, {}, config);
 
         // Extract virtual path (if set) and make canonical paths absolute
         if (config.VirtualPathRules) {

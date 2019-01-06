@@ -16,7 +16,7 @@ export function MergeRawConfigs(rawConfigs: Config[]): Config {
     // Merge configs into base
     rawConfigs.forEach(config => {
         // Prevent modification of input
-        let nextConfig = Extend({}, config) as Config;
+        let nextConfig = Extend(true, {}, config) as Config;
 
         // Merge all bundle definitions into nextConfig (to handle collision logic correctly)
         if (outConfig.bundle) {
@@ -45,7 +45,7 @@ export function MergeRawConfigs(rawConfigs: Config[]): Config {
         }
 
         // Merge objects
-        Extend(outConfig, nextConfig);
+        Extend(true, outConfig, nextConfig);
     });
 
     return outConfig;
@@ -80,7 +80,7 @@ export function MergeBundle(existingBundle: Bundle, nextBundle: Bundle): Bundle 
             if (existingBundle.styles && nextBundle.styles)
                 nextBundle.styles = [...new Set([...existingBundle.styles, ...nextBundle.styles])];
 
-            return Extend(existingBundle, nextBundle);
+            return Extend(true, existingBundle, nextBundle);
         }
         // Ignore - Return existing bundle
         case CollisionReactions.ignore:
