@@ -1,5 +1,5 @@
 import { BundlesProcessor } from "./bundles-processor";
-import test, { GenericTestContext, Context } from "ava";
+import test, { ExecutionContext } from "ava";
 import Vinyl from "vinyl";
 import { BundlerStreamFactory } from "./main";
 import { Transform, TransformCallback, Readable } from "stream";
@@ -35,7 +35,7 @@ test("BundlesProcessor with files and bundles", async t => {
     TestBundler(t, [resultChunks, resultPaths], await BundlesProcessor(files, bundles, BundleStreamFactory, () => {}));
 });
 
-function TestBundler(t: GenericTestContext<Context<any>>, expected: [any[], Map<string, Vinyl[]>], actual: [any[], Map<string, Vinyl[]>]): void {
+function TestBundler(t: ExecutionContext, expected: [any[], Map<string, Vinyl[]>], actual: [any[], Map<string, Vinyl[]>]): void {
     // Check result chunks (order insensitive)
     t.deepEqual(expected[0].sort(), actual[0].sort());
 

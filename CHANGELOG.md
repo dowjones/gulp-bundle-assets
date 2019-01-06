@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Updated `ava` to stable (`^0.25.0` to `^1.0.1`).
+
 ### Fixed
 - `just-extend` incorrectly used for deep-extending objects.
 

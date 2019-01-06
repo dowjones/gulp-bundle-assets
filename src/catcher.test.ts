@@ -1,4 +1,4 @@
-import test, { GenericTestContext, Context } from "ava";
+import test, { ExecutionContext } from "ava";
 import { Catcher } from "./catcher";
 import { Readable } from "stream"
 
@@ -33,7 +33,7 @@ test("Catcher when there is a lot of content in the stream", async t => {
  * @param input Data to feed into stream.
  * @param result Expected output data (sensitive insensitive)
  */
-async function TestCatcher(t: GenericTestContext<Context<any>>, input: any[], result: any[]): Promise<void> {
+async function TestCatcher(t: ExecutionContext, input: any[], result: any[]): Promise<void> {
     const catcher = new Catcher(() => {});
     new TestSource(input).pipe(catcher);
 

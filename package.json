@@ -50,7 +50,7 @@
     "@types/just-extend": "^1.1.0",
     "@types/node": "^10.12.9",
     "@types/vinyl": "^2.0.2",
-    "ava": "^0.25.0",
+    "ava": "^1.0.1",
     "changelog-updater": "^1.1.0",
     "typescript": "^3.1.6"
   },
@@ -64,6 +64,7 @@
     ],
     "require": [
       "esm"
-    ]
+    ],
+    "babel": false
   }
 }

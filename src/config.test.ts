@@ -226,7 +226,7 @@ test("MergeBundle(Bundle,Bundle):Bundle with merge collision rules set and array
 	t.deepEqual(MergeBundle(existingBundle, nextBundle), output);
 });
 
-test("MergeBundle(Bundle,Bundle):Bundle with ignore collision rules set", t => {
+test("MergeBundle(Bundle,Bundle):Bundle with ignore collision rules set (1)", t => {
 	const existingBundle: Bundle = {
 		scripts: [
 			"foo.js"
@@ -254,7 +254,7 @@ test("MergeBundle(Bundle,Bundle):Bundle with ignore collision rules set", t => {
 	t.deepEqual(MergeBundle(existingBundle, nextBundle), output);
 });
 
-test("MergeBundle(Bundle,Bundle):Bundle with ignore collision rules set", t => {
+test("MergeBundle(Bundle,Bundle):Bundle with ignore collision rules set (2)", t => {
 	const existingBundle: Bundle = {
 		scripts: [
 			"foo.js"
