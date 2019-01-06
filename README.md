@@ -1,4 +1,4 @@
-# [gulp](https://github.com/gulpjs/gulp)-uf-bundle-assets
+# [gulp](https://github.com/gulpjs/gulp)-bundle-assets
 
 | Branch | Status |
 | ------ | ------ |
@@ -10,13 +10,13 @@ Orchastrates JS and CSS bundle creation in a highly efficient and configurable m
 ## Install
 
 ```bash
-npm install gulp-uf-bundle-assets@alpha --save-dev
+npm install @userfrosting/gulp-bundle-assets@alpha --save-dev
 ```
 
 ## Usage
 
 ```js
-import Bundler from "gulp-uf-bundle-assets";
+import Bundler from "@userfrosting/gulp-bundle-assets";
 import Gulp from "gulp";
 import CleanCss from "gulp-clean-css";
 import ConcatCss from "gulp-concat-css";
@@ -68,6 +68,8 @@ This approach was decided on as it provides the most efficient means to integrat
 This plugin was originally forked from [gulp-bundle-assets](https://github.com/dowjones/gulp-bundle-assets) to fix a CSS import bug.
 
 It has since been entirely reworked to better suit the requirements of the UserFrosting's Sprinkle system and follow the Gulp plugin guidelines (namely not unncessarily depending on it). Though TypeScript is now the preferred language the output targetted to ES2015 and uses ES Modules (via the `esm` package) to ensure source it can be easily debugged if issues are observed in the wild.
+
+This package was previously published under `gulp-uf-bundle-assets` and as of v3 is published under `@userfrosting/gulp-bundle-assets` to assist in longterm project management.
 
 ## Release process
 
