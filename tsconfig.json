@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "es2015",
+        "moduleResolution": "node",
+        "lib": [
+            "es2015"
+        ],
+        "allowSyntheticDefaultImports": true,
+        "noEmitHelpers": true,
+        "declaration": true,
+        "target": "es2017",
+        "outDir": "./dist/"
+    }
+}

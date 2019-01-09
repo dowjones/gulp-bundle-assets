@@ -1,1 +1,0 @@
-var app = <Nav color="blue" />;

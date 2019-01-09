@@ -1,1 +1,0 @@
-(function(x){x.parentNode.removeChild(x);})(document.getElementById('error-message'));

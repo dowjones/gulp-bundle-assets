@@ -1,1 +1,0 @@
-{"version":3,"sources":["content/styles/one.css","content/styles/threve.css"],"names":[],"mappings":"AAAA,KACE,iBAAiB;ACDnB,KACE,YAAa","file":"main.css","sourcesContent":["body {\n  background-color:red;\n}","body {\n  font-weight: bold;\n}"],"sourceRoot":"/source/"}

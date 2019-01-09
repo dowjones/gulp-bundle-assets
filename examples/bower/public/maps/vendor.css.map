@@ -1,1 +1,0 @@
-{"version":3,"sources":["bower_components/bootstrap/dist/css/bootstrap.min.css","bower_components/bootstrap/dist/css/bootstrap-theme.min.css"],"names":[],"mappings":"AAAA;AACA;AACA;ACFA;AACA;AACA","file":"vendor.css","sourcesContent":[".bootstrap.min {\n  background-color: blue;\n}",".bootstrap-theme.min {\n  background-color: blue;\n}"],"sourceRoot":"/source/"}

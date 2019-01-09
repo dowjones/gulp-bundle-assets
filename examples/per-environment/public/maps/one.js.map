@@ -1,1 +1,0 @@
-{"version":3,"sources":["content/js/one.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"one.js","sourcesContent":["if (true) {\n  console.log(\"one\");\n} else {\n  console.log(\"this line should NOT be in uglified output\");\n}"],"sourceRoot":"/source/"}
