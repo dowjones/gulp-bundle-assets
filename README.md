@@ -10,51 +10,58 @@ Orchastrates JS and CSS bundle creation in a highly efficient and configurable m
 ## Install
 
 ```bash
-npm install @userfrosting/gulp-bundle-assets@alpha --save-dev
+npm install @userfrosting/gulp-bundle-assets --save-dev
 ```
 
 ## Usage
 
 ```js
-import Bundler from "@userfrosting/gulp-bundle-assets";
-import Gulp from "gulp";
-import CleanCss from "gulp-clean-css";
-import ConcatCss from "gulp-concat-css";
-import Uglify from "gulp-uglify";
-import ConcatJs from "gulp-concat-js";
+// gulpfile.esm.js
+import assetBundler from "@userfrosting/gulp-bundle-assets";
+import { src, dest } from "gulp";
+import cleanCss from "gulp-clean-css";
+import concatCss from "gulp-concat-css";
+import uglify from "gulp-uglify";
+import concatJs from "gulp-concat-js";
 
-const config = {
-    bundle: {
-        example: {
-            scripts: [
-                "foo.js",
-                "bar.js"
-            ],
-            styles: [
-                "foo.css",
-                "bar.css"
-            ]
+export function bundle() {
+    const config = {
+        bundle: {
+            example: {
+                scripts: [
+                    "foo.js",
+                    "bar.js"
+                ],
+                styles: [
+                    "foo.css",
+                    "bar.css"
+                ]
+            }
         }
-    }
-};
-const joiner = {
-    Scripts = function(src, name) {
-        return src
-            .pipe(ConcatJs(name + ".js"))
-            .pipe(Uglify());
-    },
-    Styles = function(src, name) {
-        return src
-            .pipe(ConcatCss(name + ".css"))
-            .pipe(CleanCss({
-                compatibility: "ie10"
-            }));
-    }
-};
+    };
+    const joiner = {
+        Scripts = function(bundleStream, name) {
+            return bundleStream
+                .pipe(concatJs(name + ".js"))// example.js
+                .pipe(uglify());
+        },
+        Styles = function(bundleStream, name) {
+            return bundleStream
+                .pipe(concatCss(name + ".css"))// example.css
+                .pipe(cleanCss({
+                    compatibility: "ie10"
+                }));
+        }
+    };
 
-Gulp.src(inputGlob)
-    .pipe(Bundler(config, joiner))
-    .pipe(Gulp.dest(outputDir));
+    return src("src/**")
+        .pipe(assetBundler(config, joiner))
+        .pipe(dest("public/assets/"));
+}
+```
+
+```bash
+$ gulp bundle
 ```
 
 ## Integrating bundles into your app
@@ -62,6 +69,10 @@ Gulp.src(inputGlob)
 The `Bundler` class exposes a `ResultsMap` property containing a Map where the key is the bundle name and value the full path of the generated file. If any transform stream after `Bundler` that changes path names then the results map will no longer be accurate, so use the built in path transforms if possible.
 
 This approach was decided on as it provides the most efficient means to integrate bundles with any system. No need to touch the file system until its absolutely necessary, and less work to optimise the output (e.g. make a `php` file out of it to reduce IO in production by maximising use of bytecode caching).
+
+## API
+
+Generation of API documentation is not yet implemented however the API surface is fully documented interally. Use VS Code or look at the source on GitHub in the meantime.
 
 ## History
 

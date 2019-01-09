@@ -7,19 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Changed
-- Updated `ava` to stable (`^0.25.0` to `^1.0.1`).
-
-### Fixed
-- `just-extend` incorrectly used for deep-extending objects.
-
-## [3.0.0-beta.1] - 2018-12-13
-
 This release focuses on simplifying the package for UserFrosting 4 to improve maintainability. Features unsupported by UF4 are largely removed.
 
 ### Added
 - Raw configuration validation.
-- Raw configuration merging.
+- Raw configuration merging with collision logic (ported from UserFrosting `gulpfile`).
 - Path transformation with support for file replacement based on rule order (later rules superseed earlier ones).
 - Ability to specify base path for resolution of bundle resources and path transformations.
 - Support for comprehensive logging through a passed logger function.
@@ -27,11 +19,10 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 ### Changed
 - Functionality offered by results file has been replaced by `ResultsMap` property.
 - Reads stream chunks (`Vinyl` instances) instead of directly from file system.
-- As an internal `gulp` pipeline is no longer responsible for bundle generation, custom `Transform`s (e.g. `gulp-concat-css`) must be provided.
+- As an internal `gulp` pipeline is no longer responsible for bundle generation, custom `Transform` streams (e.g. `gulp-concat-css`) must be provided.
 - Path transformations will no longer be applied to files due to complexity around how paths are managed in `gulp`. Instead this feature will be used for override logic alone.
-- Removed `PathTransformsBasePath` as a possible configuration value.
 - Bundle results are now retrieved via a callback which is given a collection of `Vinyl` `NullFiles` to retain as much useful information as possible.
-- Moved package under `@UserFrosting` organisation in NPM and removed superfluous `uf` from package name.
+- Moved package under `@userfrosting` organisation in NPM and removed superfluous `uf` from package name.
 
 ### Removed
 - Support for CSS sourcemaps (broken since 2.27.2).
