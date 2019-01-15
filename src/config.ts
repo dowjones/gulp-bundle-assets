@@ -4,7 +4,7 @@ import { resolve as resolvePath } from "path";
 /**
  * Merges a collection of configurations.
  * No validation is conducted, it is expected that provided inputs are all valid.
- * 
+ *
  * `bundle->(BundleName)->options->sprinkle->onCollision = (replace|merge|ignore|error)` may be used to modify treatment of collided bundles.
  */
 export function MergeRawConfigs(rawConfigs: Config[]): Config {
@@ -133,12 +133,12 @@ export function ValidateRawConfig(config: Config): void {
                 if (replacement === "") {
                     throw new Error(`Value replacement of property "VirtualPathRules" is empty.`);
                 }
-                
+
                 const resolved = resolvePath(matcher);
                 if (matchers.indexOf(resolved) !== -1) {
                     throw new Error(`Value matcher of property "VirtualPathRules" is a duplicate: "${matcher}"`);
                 }
-                else 
+                else
                     matchers.push(matcher);
             }
         }
@@ -293,7 +293,7 @@ interface Options {
  */
 interface SprinkleOptions {
     /**
-     * 
+     *
      */
     onCollision?: CollisionReactions | string;
 }

@@ -7,7 +7,7 @@
   "types": "./dist/main.d.ts",
   "scripts": {
     "pretest": "tsc",
-    "test": "ava",
+    "test": "nyc ava",
     "prepublishOnly": "tsc",
     "prevsion": "npm test",
     "version": "changelog-updater && git add CHANGELOG.md",

@@ -5,7 +5,7 @@ import { Readable } from "stream"
 test("Catcher catches all stream content", async t => {
     const input = [{}, "test", 21];
     const result = [{}, "test", 21];
-  
+
     await TestCatcher(t, input, result);
 });
 

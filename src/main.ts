@@ -86,7 +86,7 @@ export default class Bundler extends Transform {
         if (!config.BundlesVirtualBasePath) {
             config.BundlesVirtualBasePath = process.cwd();
         }
-        
+
         this.Logger(`Bundle resources will be resolved with: "${config.BundlesVirtualBasePath}"`, LogLevel.Silly);
 
         // Add bundles
@@ -134,9 +134,9 @@ export default class Bundler extends Transform {
     /**
      * Attempts to create a virutal path from the provided path.
      * On failure, the provided path is returned.
-     * 
+     *
      * @param path Absolute path to try and resolve.
-     * 
+     *
      * @returns New or existing path and preference.
      */
     private ResolveVirtualPath(path: string): [string, number] {
@@ -157,7 +157,7 @@ export default class Bundler extends Transform {
 
     /**
      * Collects copies of applicable files to later bundle.
-     * 
+     *
      * @param chunk Stream chunk, may be a Vinyl object.
      * @param encoding Encoding of chunk, if applicable.
      * @param callback Callback to indicate processing is completed.
@@ -209,7 +209,7 @@ export default class Bundler extends Transform {
             // Scripts
             this.Logger("Starting bundling of scripts", LogLevel.Normal);
             let [chunks, resultsMap] = await BundlesProcessor(this.ResolvedFiles, this.ScriptBundles, this.Bundlers.Scripts, this.Logger);
-            
+
 
             for (const chunk of chunks) {
                 this.push(chunk);
@@ -223,15 +223,15 @@ export default class Bundler extends Transform {
             // Styles
             this.Logger("Starting bundling of styles", LogLevel.Normal);
             [chunks, resultsMap] = await BundlesProcessor(this.ResolvedFiles, this.StyleBundles, this.Bundlers.Styles, this.Logger);
-            
-            
+
+
             for (const chunk of chunks) {
                 this.push(chunk);
             }
 
             for (const [name, paths] of resultsMap)
                 this.BundleResultsMap.set(name, paths);
-            
+
             this.Logger("Completed bundling of styles", LogLevel.Normal);
 
             this.Logger("All bundles have been built", LogLevel.Normal);

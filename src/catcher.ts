@@ -25,7 +25,7 @@ export class Catcher extends Transform {
      * Resolver for promise, may not be immeditately set.
      */
     private Resolve?: (value?: any[] | PromiseLike<any[]>) => void;
-    
+
     constructor(logger: (value: string, level: LogLevel) => void) {
         super({
             objectMode: true
