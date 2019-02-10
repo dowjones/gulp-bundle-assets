@@ -1,14 +1,16 @@
 import Extend from "just-extend";
 import { resolve as resolvePath } from "path";
 import PluginError from "plugin-error";
-import { Readable, Transform, TransformCallback } from "stream";
+import { Readable, Transform, TransformCallback, Stream } from "stream";
 import Vinyl from "vinyl";
 import { BundlesProcessor } from "./bundles-processor";
-import { Config, LogLevel } from "./config";
+import { LogLevel } from "./log-levels";
 import { PluginName } from "./plugin-details";
+import { Config } from "./config/config";
 
 // Foward public exports
-export { MergeRawConfigs, ValidateRawConfig } from "./config";
+export { default as MergeRawConfigs } from "./config/merge-configs";
+export { default as ValidateRawConfig } from "./config/validate-config";
 
 /**
  * Assists in orchastrating bundle operations.
@@ -86,7 +88,7 @@ export default class Bundler extends Transform {
         if (!config.BundlesVirtualBasePath) {
             config.BundlesVirtualBasePath = process.cwd();
         }
-        
+
         this.Logger(`Bundle resources will be resolved with: "${config.BundlesVirtualBasePath}"`, LogLevel.Silly);
 
         // Add bundles
@@ -102,7 +104,7 @@ export default class Bundler extends Transform {
                         for (const path of bundle.scripts) {
                             this.Logger(`Original path: ${path}`, LogLevel.Silly);
                             const resolvedPath = resolvePath(config.BundlesVirtualBasePath + "/" + path);
-                            this.Logger(`Resolved path: ${resolvePath}`, LogLevel.Silly);
+                            this.Logger(`Resolved path: "${resolvedPath}"`, LogLevel.Silly);
                             paths.push(resolvedPath);
                         }
                         this.ScriptBundles.set(name, paths);
@@ -116,7 +118,7 @@ export default class Bundler extends Transform {
                         for (const path of bundle.styles) {
                             this.Logger(`Original path: ${path}`, LogLevel.Silly);
                             const resolvedPath = resolvePath(config.BundlesVirtualBasePath + "/" + path);
-                            this.Logger(`Resolved path: ${resolvePath}`, LogLevel.Silly);
+                            this.Logger(`Resolved path: ${resolvedPath}`, LogLevel.Silly);
                             paths.push(resolvedPath);
                         }
                         this.StyleBundles.set(name, paths);
@@ -134,9 +136,9 @@ export default class Bundler extends Transform {
     /**
      * Attempts to create a virutal path from the provided path.
      * On failure, the provided path is returned.
-     * 
+     *
      * @param path Absolute path to try and resolve.
-     * 
+     *
      * @returns New or existing path and preference.
      */
     private ResolveVirtualPath(path: string): [string, number] {
@@ -157,7 +159,7 @@ export default class Bundler extends Transform {
 
     /**
      * Collects copies of applicable files to later bundle.
-     * 
+     *
      * @param chunk Stream chunk, may be a Vinyl object.
      * @param encoding Encoding of chunk, if applicable.
      * @param callback Callback to indicate processing is completed.
@@ -194,8 +196,9 @@ export default class Bundler extends Transform {
             callback();
         }
         catch (error) {
-            // Shouldn't ever hit this, but ensures errors are piped properly in the worst case scenario.
+            /* istanbul ignore next: Applying coverage here is out of scope as errors produced cannot yet be predicted. */
             this.Logger("_transform completed with error", LogLevel.Scream);
+            /* istanbul ignore next */
             callback(new PluginError(PluginName, error));
         }
     }
@@ -209,7 +212,6 @@ export default class Bundler extends Transform {
             // Scripts
             this.Logger("Starting bundling of scripts", LogLevel.Normal);
             let [chunks, resultsMap] = await BundlesProcessor(this.ResolvedFiles, this.ScriptBundles, this.Bundlers.Scripts, this.Logger);
-            
 
             for (const chunk of chunks) {
                 this.push(chunk);
@@ -223,15 +225,21 @@ export default class Bundler extends Transform {
             // Styles
             this.Logger("Starting bundling of styles", LogLevel.Normal);
             [chunks, resultsMap] = await BundlesProcessor(this.ResolvedFiles, this.StyleBundles, this.Bundlers.Styles, this.Logger);
-            
-            
+
+
             for (const chunk of chunks) {
                 this.push(chunk);
             }
 
-            for (const [name, paths] of resultsMap)
-                this.BundleResultsMap.set(name, paths);
-            
+            for (const [name, paths] of resultsMap) {
+                if (this.BundleResultsMap.has(name)) {
+                    const allPaths = this.BundleResultsMap.get(name);
+                    allPaths.push(...paths)
+                    this.BundleResultsMap.set(name, allPaths);
+                }
+                else this.BundleResultsMap.set(name, paths);
+            }
+
             this.Logger("Completed bundling of styles", LogLevel.Normal);
 
             this.Logger("All bundles have been built", LogLevel.Normal);
@@ -254,7 +262,7 @@ Actual path: "${chunk.path}`, LogLevel.Silly);
             callback();
         }
         catch (error) {
-            // Shouldn't ever hit this, but ensures errors are piped properly in the worst case scenario.
+            // Ideally this shouldn't ever be needed, however we *are* dealing with external data.
             this.Logger("_flush completed with error", LogLevel.Scream);
             callback(new PluginError(PluginName, error));
         }
@@ -283,5 +291,5 @@ export interface BundlerStreamFactory {
     /**
      * @param name Name of bundle.
      */
-    (src: Readable, name: string): Transform;
+    (src: Readable, name: string): Stream;
 }

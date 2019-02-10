@@ -9,6 +9,7 @@
         "noEmitHelpers": true,
         "declaration": true,
         "target": "es2017",
-        "outDir": "./dist/"
+        "outDir": "./dist/",
+        "sourceMap": true
     }
 }

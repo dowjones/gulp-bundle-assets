@@ -1,9 +1,8 @@
 import { Transform, TransformCallback } from "stream";
-import { LogLevel } from "./config";
+import { LogLevel } from "./log-levels";
 
 /**
  * All this does is collect all stream data and once all read resolves a promise with the collected chunks.
- * TODO Handle when the stream source has no chunks to pass
  */
 export class Catcher extends Transform {
     /**
@@ -25,13 +24,16 @@ export class Catcher extends Transform {
      * Resolver for promise, may not be immeditately set.
      */
     private Resolve?: (value?: any[] | PromiseLike<any[]>) => void;
-    
+
+    /**
+     * @param logger Used for logging events and errors.
+     */
     constructor(logger: (value: string, level: LogLevel) => void) {
         super({
             objectMode: true
         });
 
-        this.Logger = logger;
+        this.Logger = (msg, lvl) => logger(`Catcher > ${msg}`, lvl);
 
         // Set promise
         this.Logger("Creating promise with external completion source", LogLevel.Silly);
@@ -58,7 +60,9 @@ export class Catcher extends Transform {
      */
     _flush(callback: TransformCallback): void {
         this.Logger("Starting resolution of catcher promise", LogLevel.Silly);
+        // Ensure promise has had chance to run
         const resolver = () => {
+            /* istanbul ignore else */
             if (this.Resolve) {
                 this.Resolve(this.Results);
                 this.Logger("Catcher promise has resolved", LogLevel.Silly);
