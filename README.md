@@ -7,6 +7,8 @@
 
 Orchastrates JS and CSS bundle creation in a highly efficient and configurable manner.
 
+**CAUTION** The implementation currently produces a great deal backpressure. This can result in signficiant RAM usage. Projects dealing with a significant number resources are better off not using this tool until the custom stream source is implemented in v4.
+
 ## Install
 
 ```bash

@@ -2,20 +2,29 @@ import test, { ExecutionContext } from "ava";
 import { Catcher } from "./catcher";
 import { Readable } from "stream"
 
-test("Catcher catches all stream content", async t => {
+/**
+ * Should return all arbitrary objects pushed into stream.
+ */
+test("Range of stream objects", async t => {
     const input = [{}, "test", 21];
     const result = [{}, "test", 21];
 
     await TestCatcher(t, input, result);
 });
 
-test("Catcher when no content is read into the stream", async t => {
+/**
+ * Should return nothing when there is nothing to collect.
+ */
+test("Stream with no content", async t => {
     const input = [];
     const result = [];
 
     await TestCatcher(t, input, result);
 });
 
+/**
+ * Should return all strings 100,000 strings.
+ */
 test("Catcher when there is a lot of content in the stream", async t => {
     const input = [];
     for (let i = 0; i <= 100_000; i++)
@@ -27,11 +36,13 @@ test("Catcher when there is a lot of content in the stream", async t => {
     await TestCatcher(t, input, result);
 });
 
+// TODO Replicate edge case where catcher would never resolve with an empty source.
+
 /**
  * Runs common test logic.
  * @param t Test context from test function callback.
  * @param input Data to feed into stream.
- * @param result Expected output data (sensitive insensitive)
+ * @param result Expected output data.
  */
 async function TestCatcher(t: ExecutionContext, input: any[], result: any[]): Promise<void> {
     const catcher = new Catcher(() => {});

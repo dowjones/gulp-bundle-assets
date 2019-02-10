@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+This release focused on internal refactoring and improving test coverage. Many discoverd bugs have been fixed.
+
+### Fixed
+- Potential deadlock in bundles processor.
+- Swallowing of exceptions raised within bundler factory and bundler factory streams.
+- Virtual path rules in a config not being correctly checked for duplicate matchers.
+- Fixed edge case where if the first file in a bundle failed to a resolve a file the resulting exception would never bubble up due to the source stream never being unpaused. #21
+- Fixed issue where bundles using both `scripts` and `styles` would result in only files emitted as part of `styles` bundling appearing in the results callback data. #22
+- Other undocumented assorted edge cases.
+
 ## [3.0.0-rc.1] - 2019-01-09
 
 This release focuses on simplifying the package for UserFrosting 4 to improve maintainability. Features unsupported by UF4 are largely removed.
