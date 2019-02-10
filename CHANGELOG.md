@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.0-rc.2] - 2019-02-10
+
 This release focused on internal refactoring and improving test coverage. Many discoverd bugs have been fixed.
 
 ### Fixed
