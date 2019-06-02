@@ -41,18 +41,18 @@
     "url": "https://github.com/userfrosting/gulp-uf-bundle-assets/issues"
   },
   "dependencies": {
-    "esm": "^3.2.3",
+    "esm": "^3.2.25",
     "just-extend": "^4.0.2",
     "plugin-error": "^1.0.1",
     "vinyl": "^2.2.0"
   },
   "devDependencies": {
     "@types/just-extend": "^1.1.0",
-    "@types/node": "^10.12.21",
-    "@types/vinyl": "^2.0.2",
-    "ava": "^1.2.1",
+    "@types/node": "^12.0.4",
+    "@types/vinyl": "^2.0.3",
+    "ava": "^2.0.0",
     "changelog-updater": "^1.1.0",
-    "typescript": "^3.3.3"
+    "typescript": "^3.5.1"
   },
   "engines": {
     "node": ">=8.0.0"
