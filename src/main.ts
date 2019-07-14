@@ -3,7 +3,7 @@ import { resolve as resolvePath } from "path";
 import PluginError from "plugin-error";
 import { Readable, Transform, TransformCallback, Stream } from "stream";
 import Vinyl from "vinyl";
-import { BundlesProcessor } from "./bundles-processor";
+import { BundlesProcessor, FileMap } from "./bundles-processor";
 import { LogLevel } from "./log-levels";
 import { PluginName } from "./plugin-details";
 import { Config } from "./config/config";
@@ -19,9 +19,8 @@ export default class Bundler extends Transform {
 
     /**
      * Tracks all files resolved within virtual directory tree.
-     * Number is used to track preference during inital file collection.
      */
-    private ResolvedFiles: Map<string, [Vinyl, number]> = new Map();
+    private ResolvedFiles: FileMap = new Map();
 
     /**
      * Used in conversion of canonical paths to virtual paths (for scenarios with resource overriding, etc).
@@ -94,6 +93,7 @@ export default class Bundler extends Transform {
         // Add bundles
         if (config.bundle) {
             for (const name in config.bundle) {
+                /* istanbul ignore else */
                 if (config.bundle.hasOwnProperty(name)) {
                     const bundle = config.bundle[name];
 
@@ -177,18 +177,18 @@ export default class Bundler extends Transform {
                 if (existingFile) {
                     if (existingFile[1] < preference) {
                         this.Logger(`File "${chunk.path}" with preference ${preference} is overriding file "${existingFile[0].path}" with preference ${existingFile[1]} identified by "${virtualPath}"`, LogLevel.Silly);
-                        this.ResolvedFiles.set(virtualPath, [chunk, preference]);
+                        this.ResolvedFiles.set(virtualPath, [chunk, preference, encoding]);
                     }
                     else this.Logger(`File "${chunk.path}" with preference ${preference} is being discarded in favour of a file with a higher preference identified by "${virtualPath}"`, LogLevel.Silly);
                 }
                 else {
-                    this.ResolvedFiles.set(virtualPath, [chunk, preference]);
+                    this.ResolvedFiles.set(virtualPath, [chunk, preference, encoding]);
                     this.Logger(`File "${chunk.path}" with preference ${preference} is now being tracked and is identified by "${virtualPath}"`, LogLevel.Silly);
                 }
             }
             else {
                 // Push incompatible chunk on through
-                this.push(chunk);
+                this.push(chunk, encoding);
                 this.Logger("Pushed incompatible chunk onward, stream should only contain Vinyl instances", LogLevel.Complain);
             }
 

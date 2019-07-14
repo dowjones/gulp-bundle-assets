@@ -17,6 +17,7 @@ export default function ValidateConfig(config: Config): void {
         else {
             // Each property must be an object (for owned properties)
             for (const bundleName in bundles) {
+                /* istanbul ignore else */
                 if (bundles.hasOwnProperty(bundleName)) {
                     ValidateBundle(bundles[bundleName], bundleName);
                 }

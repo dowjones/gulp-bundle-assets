@@ -7,9 +7,5 @@ node_js:
   - "10"
   - "11"
   - "lts/*"
-cache: npm
-before_script: npm i -g nyc
-script: nyc --reporter=lcov --reporter=text-lcov --exclude-after-remap=false npm test
 after_success:
-  - npm i -g codecov
   - codecov

@@ -11,7 +11,7 @@ import { LogLevel } from "./log-levels";
  * @param bundleStreamFactory Source of streams used to generate bundles.
  */
 export async function BundlesProcessor(
-    files: Map<string, [Vinyl, number]>,
+    files: FileMap,
     bundles: Map<string, string[]>,
     bundleStreamFactory: BundlerStreamFactory,
     logger: (value: string, level: LogLevel) => void
@@ -104,7 +104,7 @@ class BundleSource extends Readable {
     /**
      * Map to pull fully resolved files from.
      */
-    private readonly files: Map<string, [Vinyl, number]>;
+    private readonly files: FileMap;
 
     private readonly Logger: (value: string, level: LogLevel) => void;
 
@@ -112,7 +112,7 @@ class BundleSource extends Readable {
      * @param files File map to retrieve files from.
      * @param paths Paths to use as keys in file map.
      */
-    constructor(files: Map<string, [Vinyl, number]>, paths: string[], logger: (value: string, level: LogLevel) => void) {
+    constructor(files: FileMap, paths: string[], logger: (value: string, level: LogLevel) => void) {
         super({
             objectMode: true
         });
@@ -151,3 +151,13 @@ class BundleSource extends Readable {
         }
     }
 }
+
+/**
+ * Used to track all files resolved within virtual directory tree.
+ * Key is virtual path.
+ * Value tuple is;
+ * - 1 is the Vinyl file.
+ * - 2 is file preference, used during initial file collection.
+ * - 3 is encoding, which is passed back into streams.
+ */
+export type FileMap = Map<string, [Vinyl, number, string]>;

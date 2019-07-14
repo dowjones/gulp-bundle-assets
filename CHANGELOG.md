@@ -7,10 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Increased test coverage (back to 100%).
+
+## Changed
+- Updated dependencies.
+- Consolidated file tracking type definition into single source of truth.
+- Updated Travis CI config.
+
 ## [3.0.1] - 2019-06-02
 
 ### Changed
-- Updated dependencies
+- Updated dependencies.
 
 ## [3.0.0] - 2019-03-12
 

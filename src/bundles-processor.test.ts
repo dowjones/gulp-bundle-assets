@@ -1,4 +1,4 @@
-import { BundlesProcessor } from "./bundles-processor";
+import { BundlesProcessor, FileMap } from "./bundles-processor";
 import test, { ExecutionContext } from "ava";
 import Vinyl from "vinyl";
 import { BundlerStreamFactory } from "./main";
@@ -8,7 +8,7 @@ import { Transform, TransformCallback, Readable } from "stream";
  * Should return empty results.
  */
 test("Empty inputs", async t => {
-    const files: Map<string, [Vinyl, number]> = new Map();
+    const files: FileMap = new Map();
     const bundles: Map<string, string[]> = new Map();
 
     TestBundler(t, [[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory, () => {}));
@@ -18,8 +18,8 @@ test("Empty inputs", async t => {
  * Should return empty results.
  */
 test("Files but no bundles", async t => {
-    const files: Map<string, [Vinyl, number]> = new Map();
-    files.set("test", [MakeVinyl("test", "test"), 0]);
+    const files: FileMap = new Map();
+    files.set("test", [MakeVinyl("test", "test"), 0, ""]);
     const bundles: Map<string, string[]> = new Map();
 
     TestBundler(t, [[], new Map()], await BundlesProcessor(files, bundles, BundleStreamFactory, () => {}));
@@ -29,7 +29,7 @@ test("Files but no bundles", async t => {
  * Should return empty bundle in results.
  */
 test("Empty bundle but no files", async t => {
-    const files: Map<string, [Vinyl, number]> = new Map();
+    const files: FileMap = new Map();
     const bundles: Map<string, string[]> = new Map();
     bundles.set('test', []);
 
@@ -43,8 +43,8 @@ test("Empty bundle but no files", async t => {
  * Should have tangible results.
  */
 test("Normal files and bundles", async t => {
-    const files: Map<string, [Vinyl, number]> = new Map();
-    files.set("test", [MakeVinyl("test", "test"), 0]);
+    const files: FileMap = new Map();
+    files.set("test", [MakeVinyl("test", "test"), 0, ""]);
     const bundles: Map<string, string[]> = new Map();
     bundles.set("test", ["test"]);
 
@@ -61,8 +61,8 @@ test("Normal files and bundles", async t => {
  * Should throw an exception indicating that no file could be resolved.
  */
 test("Unsatisfiable bundles", async t => {
-    const files: Map<string, [Vinyl, number]> = new Map();
-    files.set("test2", [MakeVinyl("test", "test"), 0]);
+    const files: FileMap = new Map();
+    files.set("test2", [MakeVinyl("test", "test"), 0, ""]);
     const bundles: Map<string, string[]> = new Map();
     bundles.set("test", ["test"]);
 
@@ -86,8 +86,8 @@ test("Non-Vinyl chunks emitted by bundle factory", async t => {
         return src.pipe(new TestNonVinylTransform());
     };
 
-    const files: Map<string, [Vinyl, number]> = new Map();
-    files.set("test", [MakeVinyl("test", "test"), 0]);
+    const files: FileMap = new Map();
+    files.set("test", [MakeVinyl("test", "test"), 0, ""]);
     const bundles: Map<string, string[]> = new Map();
     bundles.set("test", ["test"]);
 
@@ -110,8 +110,8 @@ test("Bundle factory that throws exception (before stream)", async t => {
         throw new Error("RIP");
     };
 
-    const files: Map<string, [Vinyl, number]> = new Map();
-    files.set("test", [MakeVinyl("test", "test"), 0]);
+    const files: FileMap = new Map();
+    files.set("test", [MakeVinyl("test", "test"), 0, ""]);
     const bundles: Map<string, string[]> = new Map();
     bundles.set("test", ["test"]);
 

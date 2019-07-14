@@ -146,18 +146,27 @@ test("Non-object for options>sprinkle", t => {
 });
 
 /**
+ * Should not throw if the sprinkle property of options is not set.
+ */
+test("Nothing for options>sprinkle", t => {
+    const bundle: Bundle = { options: {} };
+    t.notThrows(() => ValidateBundle(bundle, "test"));
+});
+
+/**
  * Should complete without throwing for all valid collision rules.
  * Should throw when given an invalid collision rule.
  */
 test("All possible collision rules", t => {
-    // replace
+    // none specified
     const bundle: Bundle = {
         options: {
-            sprinkle: {
-                onCollision: "replace"
-            }
+            sprinkle: {}
         }
     };
+    t.notThrows(() => ValidateBundle(bundle, "test"));
+    // replace
+    bundle.options.sprinkle.onCollision = "replace";
     t.notThrows(() => ValidateBundle(bundle, "test"));
     // merge
     bundle.options.sprinkle.onCollision = "merge";

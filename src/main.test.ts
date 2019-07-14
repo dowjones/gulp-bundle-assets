@@ -6,7 +6,6 @@ import Vinyl from "vinyl";
 import { Config } from "./config/config";
 import { SimplePluginError } from "plugin-error";
 import { resolve as resolvePath } from "path";
-import { stringify } from "querystring";
 
 /**
  * Generic joiner to use for mocking the bundling of resources.
@@ -129,6 +128,82 @@ test("Bundler complex success scenario 2", async t => {
                 ['testdir', 'magicdir'],
                 ['tdir', 'magicdir']
             ]
+        },
+        Joiner
+    };
+
+    // Define inputs
+    const streamInputs = [
+        new Vinyl({
+            path: resolvePath("tdir/test.css"),
+            contents: Buffer.from(".test { color: #121435; }")
+        }),
+        // Will end up being ignored
+        new Vinyl({
+            path: resolvePath("testdir/test.css"),
+            contents: Buffer.from(".test { color: #121435; }")
+        }),
+        // Will end up being ignored
+        new Vinyl({
+            path: resolvePath("testdir/test.js"),
+            contents: Buffer.from("const the = 'thing';")
+        }),
+        new Vinyl({
+            path: resolvePath("tdir/test.js"),
+            contents: Buffer.from("const the = 'thing';")
+        })
+    ];
+
+    // Define expected outputs
+    const expected = [
+        new Vinyl({
+            path: resolvePath("tdir/test.css"),
+            contents: Buffer.from(".test { color: #121435; }")
+        }),
+        // Returned by joiner
+        new Vinyl({
+            path: resolvePath("tdir/test.css"),
+            contents: Buffer.from(".test { color: #121435; }")
+        }),
+        new Vinyl({
+            path: resolvePath("tdir/test.js"),
+            contents: Buffer.from("const the = 'thing';")
+        }),
+        // Returned by joiner
+        new Vinyl({
+            path: resolvePath("tdir/test.js"),
+            contents: Buffer.from("const the = 'thing';")
+        })
+    ];
+
+    // Test
+    await testBundlerResults(t, args, streamInputs, expected);
+});
+
+/**
+ * Should complete without throwing, and return all files from input stream.
+ */
+test("Bundler complex success scenario 3", async t => {
+    // Create bundler args
+    const args: BundlerArgs = {
+        Config: {
+            bundle: {
+                test1: {
+                    styles: [
+                        "magicdir/test.css"
+                    ]
+                },
+                test2: {
+                    scripts: [
+                        "magicdir/test.js"
+                    ]
+                }
+            },
+            VirtualPathRules: [
+                ['testdir', './assets/magicdir'],
+                ['tdir', './assets/magicdir']
+            ],
+            BundlesVirtualBasePath: "./assets/"
         },
         Joiner
     };

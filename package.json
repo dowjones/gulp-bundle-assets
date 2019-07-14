@@ -1,70 +1,72 @@
 {
-  "name": "@userfrosting/gulp-bundle-assets",
-  "version": "3.0.1",
-  "description": "Fork of Chris Montgomery's gulp-bundle-assets, striped back and rewritten for use with UserFrosting.",
-  "main": "./dist/index.js",
-  "module": "./dist/main.js",
-  "types": "./dist/main.d.ts",
-  "scripts": {
-    "pretest": "tsc",
-    "test": "ava",
-    "prepublishOnly": "tsc",
-    "prevsion": "npm test",
-    "version": "changelog-updater && git add CHANGELOG.md",
-    "postversion": "git push && git push --tags"
-  },
-  "author": "Jordan Mele <SiliconSoldier@outlook.com.au> (https://github.com/Silic0nS0ldier)",
-  "contributors": [
-    "Chris Montgomery (http://www.chrismontgomery.info/)",
-    "Christian Sherland (https://github.com/csherland)",
-    "Roberto Soares (https://github.com/roberto)",
-    "bas (https://github.com/21brains-zh)",
-    "gregorymaertens (https://github.com/gregorymaertens)",
-    "narthollis (https://github.com/narthollis)",
-    "PlasmaPower (https://github.com/PlasmaPower)",
-    "jcarrivick-adapt (https://github.com/jcarrivick-adapt)"
-  ],
-  "license": "MIT",
-  "keywords": [
-    "gulpplugin",
-    "bundle",
-    "bundling",
-    "javascript",
-    "js",
-    "css"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/userfrosting/gulp-uf-bundle-assets"
-  },
-  "bugs": {
-    "url": "https://github.com/userfrosting/gulp-uf-bundle-assets/issues"
-  },
-  "dependencies": {
-    "esm": "^3.2.25",
-    "just-extend": "^4.0.2",
-    "plugin-error": "^1.0.1",
-    "vinyl": "^2.2.0"
-  },
-  "devDependencies": {
-    "@types/just-extend": "^1.1.0",
-    "@types/node": "^12.0.4",
-    "@types/vinyl": "^2.0.3",
-    "ava": "^2.0.0",
-    "changelog-updater": "^1.1.0",
-    "typescript": "^3.5.1"
-  },
-  "engines": {
-    "node": ">=8.0.0"
-  },
-  "engineStrict": true,
-  "ava": {
-    "files": [
-      "dist/**/*.test.js"
+    "name": "@userfrosting/gulp-bundle-assets",
+    "version": "3.0.1",
+    "description": "Fork of Chris Montgomery's gulp-bundle-assets, striped back and rewritten for use with UserFrosting.",
+    "main": "./dist/index.js",
+    "module": "./dist/main.js",
+    "types": "./dist/main.d.ts",
+    "scripts": {
+        "pretest": "tsc",
+        "test": "is-ci && nyc --reporter=lcov --reporter=text-lcov --exclude-after-remap=false ava || ava",
+        "prepublishOnly": "tsc",
+        "preversion": "npm test",
+        "version": "changelog-updater && git add CHANGELOG.md",
+        "postversion": "git push && git push --tags"
+    },
+    "author": "Jordan Mele <SiliconSoldier@outlook.com.au> (https://github.com/Silic0nS0ldier)",
+    "contributors": [
+        "Chris Montgomery (http://www.chrismontgomery.info/)",
+        "Christian Sherland (https://github.com/csherland)",
+        "Roberto Soares (https://github.com/roberto)",
+        "bas (https://github.com/21brains-zh)",
+        "gregorymaertens (https://github.com/gregorymaertens)",
+        "narthollis (https://github.com/narthollis)",
+        "PlasmaPower (https://github.com/PlasmaPower)",
+        "jcarrivick-adapt (https://github.com/jcarrivick-adapt)"
     ],
-    "require": [
-      "esm"
+    "license": "MIT",
+    "keywords": [
+        "gulpplugin",
+        "bundle",
+        "bundling",
+        "javascript",
+        "js",
+        "css"
     ],
-    "babel": false
-  }
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/userfrosting/gulp-uf-bundle-assets"
+    },
+    "bugs": {
+        "url": "https://github.com/userfrosting/gulp-uf-bundle-assets/issues"
+    },
+    "dependencies": {
+        "esm": "^3.2.25",
+        "just-extend": "^4.0.2",
+        "plugin-error": "^1.0.1",
+        "vinyl": "^2.2.0"
+    },
+    "devDependencies": {
+        "@types/just-extend": "^1.1.0",
+        "@types/node": "^12.0.4",
+        "@types/vinyl": "^2.0.3",
+        "ava": "^2.2.0",
+        "changelog-updater": "^1.1.0",
+        "is-ci": "^2.0.0",
+        "nyc": "^14.1.1",
+        "typescript": "^3.5.3"
+    },
+    "engines": {
+        "node": ">=8.0.0"
+    },
+    "engineStrict": true,
+    "ava": {
+        "files": [
+            "dist/**/*.test.js"
+        ],
+        "require": [
+            "esm"
+        ],
+        "babel": false
+    }
 }
