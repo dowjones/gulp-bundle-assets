@@ -7,7 +7,7 @@
     "types": "./dist/main.d.ts",
     "scripts": {
         "pretest": "tsc",
-        "test": "is-ci && nyc --reporter=lcov --reporter=text-summary ava || nyc ava",
+        "test": "is-ci && nyc --reporter=lcov --reporter=text ava || nyc ava",
         "prepublishOnly": "tsc",
         "preversion": "npm test",
         "version": "changelog-updater && git add CHANGELOG.md",
