@@ -8,4 +8,4 @@ node_js:
   - "11"
   - "lts/*"
 after_success:
-  - codecov
+  - ./node_modules/.bin/codecov
