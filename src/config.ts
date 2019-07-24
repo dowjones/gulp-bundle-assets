@@ -1,3 +1,5 @@
+import { Logger } from "ts-log";
+
 /**
  * Rules for how a bundle collision may be treated.
  */
@@ -18,7 +20,7 @@ export enum CollisionReactions {
     /**
      * Throw an error on encountering an already defined bundle.
      */
-    error
+    error,
 }
 
 /**
@@ -26,7 +28,7 @@ export enum CollisionReactions {
  */
 interface SprinkleOptions {
     /**
-     * How a bundle collision should be handled when bundles are being merged.
+     * Optional specification for how to handle bundle collisions.
      */
     onCollision?: CollisionReactions | string;
 }
@@ -64,8 +66,7 @@ export interface Config {
     bundle?: Bundles;
 
     /**
-     * Current working directory to use when resolving the full paths of bundle dependencies.
-     * Defaults to `process.cwd()`.
+     * Optional logger that will be used throughout bundling process.
      */
-    cwd?: string;
+    Logger?: Logger;
 }

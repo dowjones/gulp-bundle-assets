@@ -24,33 +24,4 @@ export default function ValidateConfig(config: Config): void {
             }
         }
     }
-
-    // If PathTransform key exists, value must be array
-    if ("VirtualPathRules" in config) {
-        const virtualPathRules = config.VirtualPathRules;
-
-        if (!Array.isArray(virtualPathRules)) {
-            throw new Error(`Property "VirtualPathRules" must be an object and not null.`);
-        }
-        else {
-            // Matchers must all be unique, and all values must be not empty
-            const matchers = [];
-            for (const [matcher, replacement] of virtualPathRules) {
-                // Must be non-empty
-                if (matcher === "") {
-                    throw new Error(`Value matcher of property "VirtualPathRules" is empty.`);
-                }
-                if (replacement === "") {
-                    throw new Error(`Value replacement of property "VirtualPathRules" is empty.`);
-                }
-
-                const resolved = resolvePath(matcher);
-                if (matchers.indexOf(resolved) !== -1) {
-                    throw new Error(`Value matcher of property "VirtualPathRules" has a duplicate "${matcher}" which resolves to "${resolved}"`);
-                }
-                else
-                    matchers.push(resolved);
-            }
-        }
-    }
 }
