@@ -3,10 +3,13 @@ import MergeBundle from "./merge-bundle";
 import Extend from "just-extend";
 
 /**
+ * @todo Finish docblock
  * Merges a collection of configurations.
  * No validation is conducted, it is expected that provided inputs are all valid.
  *
  * `bundle->(BundleName)->options->sprinkle->onCollision = (replace|merge|ignore|error)` may be used to modify treatment of collided bundles.
+ * @param rawConfigs
+ * @public
  */
 export default function MergeConfigs(rawConfigs: Config[]): Config {
     // No point doing processing if we've got only 1 item

@@ -6,10 +6,13 @@ import getStream from "get-stream";
 
 /**
  * A function that returns a stream that will be used to bundle assets.
+ * @public
  */
 export interface BundleStreamFactory {
     /**
-     * @param name Name of bundle.
+     * @todo Finish docblock
+     * @param src - TODO
+     * @param name - Name of bundle.
      */
     (src: Readable, name: string): Stream;
 }

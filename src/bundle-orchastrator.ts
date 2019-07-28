@@ -1,7 +1,7 @@
 import Vinyl from "vinyl";
 import { Transform, TransformCallback, Readable } from "stream";
 import { Logger, dummyLogger } from "ts-log";
-import { Config } from "./config";
+import { Config } from "./config/config";
 import extend from "just-extend";
 import { resolve as resolvePath } from "path";
 import PluginError from "plugin-error";
@@ -9,17 +9,26 @@ import { BundleStreamFactory, Bundle } from "./bundle";
 
 const PluginName = "@userfrosting/gulp-bundle-assets";
 
+/**
+ * @todo Finish docblock
+ * @public
+ */
 export interface Results {
     scripts: Map<string, Vinyl[]>;
     styles: Map<string, Vinyl[]>;
 }
 
+/**
+ * @todo Finish docblock
+ * @public
+ */
 export interface ResultsCallback {
     (results: Results): void
 }
 
 /**
  * Interface defining factories required to bundle styles and scripts.
+ * @public
  */
 export interface Bundlers {
     /**
@@ -33,6 +42,14 @@ export interface Bundlers {
     Styles: BundleStreamFactory;
 }
 
+/**
+ * @todo Finish docblock
+ * @param name
+ * @param rawPaths
+ * @param cwd
+ * @param joiner
+ * @param logger
+ */
 function bundleFactory(
     name: string,
     rawPaths: string[],
@@ -71,6 +88,7 @@ async function handleVinylChunk(
 
 /**
  * Orchastrates bundling.
+ * @public
  */
 export class BundleOrchastrator extends Transform {
 
@@ -88,9 +106,10 @@ export class BundleOrchastrator extends Transform {
     private logger: Logger = dummyLogger;
 
     /**
-     * @param config Raw (but valid) configuration file used for bundle resolution.
-     * @param joiner Object capable of generating the Transform streams needed for generation of final bundles.
-     * @param resultsCallback
+     * @todo Finish docblock
+     * @param config - Raw (but valid) configuration file used for bundle resolution.
+     * @param joiner - Object capable of generating the Transform streams needed for generation of final bundles.
+     * @param resultsCallback - TODO
      */
     constructor(config: Config, joiner: Bundlers, resultsCallback?: ResultsCallback) {
         super({
@@ -138,9 +157,9 @@ export class BundleOrchastrator extends Transform {
     /**
      * Collects copies of applicable files to later bundle.
      *
-     * @param chunk Stream chunk, may be a Vinyl object.
-     * @param encoding Encoding of chunk, if applicable.
-     * @param callback Callback to indicate processing is completed.
+     * @param chunk - Stream chunk, may be a Vinyl object.
+     * @param encoding - Encoding of chunk, if applicable.
+     * @param callback - Callback to indicate processing is completed.
      */
     public async _transform(chunk: any, encoding: string, callback: TransformCallback): Promise<void> {
         try {

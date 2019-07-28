@@ -1,5 +1,8 @@
+import { Logger } from "ts-log";
+
 /**
  * Rules for how a bundle collision may be treated.
+ * @public
  */
 export enum CollisionReactions {
     /**
@@ -23,8 +26,9 @@ export enum CollisionReactions {
 
 /**
  * Options relevent to UserFrosting's Sprinkle system.
+ * @public
  */
-interface SprinkleOptions {
+export interface SprinkleOptions {
     /**
      * How a bundle collision should be handled when bundles are being merged.
      */
@@ -33,13 +37,15 @@ interface SprinkleOptions {
 
 /**
  * Represents an asset bundles root options node.
+ * @public
  */
-interface Options {
+export interface Options {
     sprinkle?: SprinkleOptions;
 }
 
 /**
  * Represents an asset bundle
+ * @public
  */
 export interface Bundle {
     scripts?: string[];
@@ -49,19 +55,26 @@ export interface Bundle {
 
 /**
  * Map of bundles.
+ * @public
  */
-interface Bundles {
+export interface Bundles {
     [x: string]: Bundle;
 }
 
 /**
  * Root object of raw configuration.
+ * @public
  */
 export interface Config {
     /**
      * Bundle definitions.
      */
     bundle?: Bundles;
+
+    /**
+     * Optional logger that will be used throughout bundling process.
+     */
+    Logger?: Logger;
 
     /**
      * Current working directory to use when resolving the full paths of bundle dependencies.
