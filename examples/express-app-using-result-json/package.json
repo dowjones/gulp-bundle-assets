@@ -10,7 +10,7 @@
     "morgan": "~1.7.0",
     "cookie-parser": "~1.4.1",
     "body-parser": "~1.15.1",
-    "debug": "~2.2.0",
+    "debug": "~4.1.1",
     "hjs": "~0.0.6"
   },
   "devDependencies": {
