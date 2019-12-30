@@ -1,3 +1,10 @@
+// AVA TS patch
+declare global {
+    export interface SymbolConstructor {
+        readonly observable: symbol;
+    }
+}
+
 import test, { ExecutionContext } from "ava";
 import { Catcher } from "./catcher";
 import { Readable } from "stream"

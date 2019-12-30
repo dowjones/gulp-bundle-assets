@@ -1,3 +1,10 @@
+// AVA TS patch
+declare global {
+    export interface SymbolConstructor {
+        readonly observable: symbol;
+    }
+}
+
 import test, { ExecutionContext } from "ava";
 import Bundler, { Bundlers } from "./main";
 import { Readable, Stream } from "stream";

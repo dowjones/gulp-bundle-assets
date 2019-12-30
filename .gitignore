@@ -3,3 +3,4 @@ npm-debug.log
 dist/
 .nyc_output
 coverage
+temp

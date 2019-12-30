@@ -4,7 +4,9 @@ import ValidateBundle from "./validate-bundle";
 
 /**
  * Throws an exception if the provided raw config contains invalid data.
- * @param config Raw configuration to validate.
+ * @param config - Raw configuration to validate.
+ *
+ * @public
  */
 export default function ValidateConfig(config: Config): void {
     // If bundle key exists, value must be an object

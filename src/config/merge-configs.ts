@@ -7,6 +7,8 @@ import Extend from "just-extend";
  * No validation is conducted, it is expected that provided inputs are all valid.
  *
  * `bundle->(BundleName)->options->sprinkle->onCollision = (replace|merge|ignore|error)` may be used to modify treatment of collided bundles.
+ *
+ * @public
  */
 export default function MergeConfigs(rawConfigs: Config[]): Config {
     // No point doing processing if we've got only 1 item

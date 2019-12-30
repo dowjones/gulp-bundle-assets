@@ -1,3 +1,11 @@
+// AVA TS patch
+declare global {
+    export interface SymbolConstructor {
+        readonly observable: symbol;
+    }
+}
+
+
 import { BundlesProcessor, FileMap } from "./bundles-processor";
 import test, { ExecutionContext } from "ava";
 import Vinyl from "vinyl";
