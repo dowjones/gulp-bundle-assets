@@ -1,5 +1,7 @@
 /**
  * Log levels.
+ *
+ * @public
  */
 export enum LogLevel {
     /**

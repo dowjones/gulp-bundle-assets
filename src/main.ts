@@ -11,9 +11,13 @@ import { Config } from "./config/config";
 // Foward public exports
 export { default as MergeRawConfigs } from "./config/merge-configs";
 export { default as ValidateRawConfig } from "./config/validate-config";
+export { Config, Bundles, Bundle, CollisionReactions, Options, SprinkleOptions } from "./config/config";
+export { LogLevel } from "./log-levels";
 
 /**
  * Assists in orchastrating bundle operations.
+ *
+ * @public
  */
 export default class Bundler extends Transform {
 
@@ -60,8 +64,8 @@ export default class Bundler extends Transform {
     private Logger = (value: string, level: LogLevel) => {};
 
     /**
-     * @param config Raw (but valid) configuration file used for bundle resolution.
-     * @param joiner Object capable of generating the Transform streams needed for generation of final bundles.
+     * @param config - Raw (but valid) configuration file used for bundle resolution.
+     * @param joiner - Object capable of generating the Transform streams needed for generation of final bundles.
      */
     constructor(config: Config, joiner: Bundlers, bundleResultsCallback?: (results: Map<string, Vinyl[]>) => void) {
         super({
@@ -137,7 +141,7 @@ export default class Bundler extends Transform {
      * Attempts to create a virutal path from the provided path.
      * On failure, the provided path is returned.
      *
-     * @param path Absolute path to try and resolve.
+     * @param path - Absolute path to try and resolve.
      *
      * @returns New or existing path and preference.
      */
@@ -160,9 +164,9 @@ export default class Bundler extends Transform {
     /**
      * Collects copies of applicable files to later bundle.
      *
-     * @param chunk Stream chunk, may be a Vinyl object.
-     * @param encoding Encoding of chunk, if applicable.
-     * @param callback Callback to indicate processing is completed.
+     * @param chunk - Stream chunk, may be a Vinyl object.
+     * @param encoding - Encoding of chunk, if applicable.
+     * @param callback - Callback to indicate processing is completed.
      */
     public _transform(chunk: any, encoding: string, callback: TransformCallback): void {
         try {
@@ -205,7 +209,7 @@ export default class Bundler extends Transform {
 
     /**
      * Does bundling and pushes resulting files into stream.
-     * @param callback Callback to indicate processing is completed.
+     * @param callback - Callback to indicate processing is completed.
      */
     public async _flush(callback: TransformCallback): Promise<void> {
         try {
@@ -271,6 +275,8 @@ Actual path: "${chunk.path}`, LogLevel.Silly);
 
 /**
  * Interface defining factories required to bundle styles and scripts.
+ *
+ * @public
  */
 export interface Bundlers {
     /**
@@ -286,10 +292,12 @@ export interface Bundlers {
 
 /**
  * A function that returns a stream that will be used to bundle assets.
+ *
+ * @public
  */
 export interface BundlerStreamFactory {
     /**
-     * @param name Name of bundle.
+     * @param name - Name of bundle.
      */
     (src: Readable, name: string): Stream;
 }

@@ -2,6 +2,8 @@ import { LogLevel } from "../log-levels";
 
 /**
  * Rules for how a bundle collision may be treated.
+ *
+ * @public
  */
 export enum CollisionReactions {
     /**
@@ -25,8 +27,10 @@ export enum CollisionReactions {
 
 /**
  * Options relevent to UserFrosting's Sprinkle system.
+ *
+ * @public
  */
-interface SprinkleOptions {
+export interface SprinkleOptions {
     /**
      * TODO
      */
@@ -35,13 +39,17 @@ interface SprinkleOptions {
 
 /**
  * Represents an asset bundles root options node.
+ *
+ * @public
  */
-interface Options {
+export interface Options {
     sprinkle?: SprinkleOptions;
 }
 
 /**
  * Represents an asset bundle
+ *
+ * @public
  */
 export interface Bundle {
     scripts?: string[];
@@ -51,6 +59,8 @@ export interface Bundle {
 
 /**
  * Root object of raw configuration.
+ *
+ * @public
  */
 export interface Config {
     /**
@@ -75,15 +85,17 @@ export interface Config {
 
     /**
      * Optional logger that will be used throughout bundling process.
-     * @param value Message to log.
-     * @param level Log level for message.
+     * @param value - Message to log.
+     * @param level - Log level for message.
      */
     Logger?(value: string, level: LogLevel): void;
 }
 
 /**
  * Map of bundles.
+ *
+ * @public
  */
-interface Bundles {
+export interface Bundles {
     [x: string]: Bundle;
 }
