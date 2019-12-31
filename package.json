@@ -2,6 +2,7 @@
     "name": "@userfrosting/gulp-bundle-assets",
     "version": "4.0.0-alpha.0",
     "description": "Fork of Chris Montgomery's gulp-bundle-assets, striped back and rewritten for use with UserFrosting.",
+    "funding": "https://opencollective.com/userfrosting",
     "main": "./dist/index.js",
     "module": "./dist/main.js",
     "types": "./dist/main.d.ts",
@@ -45,7 +46,7 @@
     "dependencies": {
         "esm": "^3.2.25",
         "get-stream": "^5.1.0",
-        "into-stream": "^5.1.0",
+        "into-stream": "^5.1.1",
         "just-extend": "^4.0.2",
         "plugin-error": "^1.0.1",
         "ts-log": "^2.1.4",
@@ -63,7 +64,7 @@
         "typescript": "^3.7.4"
     },
     "engines": {
-        "node": ">=8.0.0"
+        "node": ">=10.0.0"
     },
     "engineStrict": true,
     "ava": {

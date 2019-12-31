@@ -5,14 +5,12 @@
 | master | [![Continuous Integration](https://github.com/userfrosting/gulp-uf-bundle-assets/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/userfrosting/gulp-uf-bundle-assets/actions) [![codecov](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/master/graph/badge.svg)](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/master) |
 | develop | [![Continuous Integration](https://github.com/userfrosting/gulp-uf-bundle-assets/workflows/Continuous%20Integration/badge.svg?branch=develop)](https://github.com/userfrosting/gulp-uf-bundle-assets/actions) [![codecov](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/develop/graph/badge.svg)](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/develop) |
 
-Orchastrates JS and CSS bundle creation in a highly efficient and configurable manner.
-
-**CAUTION** The implementation currently produces a great deal backpressure. This can result in signficiant RAM usage. Projects dealing with a significant number resources are better off not using this tool until the custom stream source is implemented in v4.
+Orchastrates JS and CSS bundle creation in an efficient and configurable manner.
 
 ## Install
 
 ```bash
-npm install @userfrosting/gulp-bundle-assets --save-dev
+npm i -D  @userfrosting/gulp-bundle-assets
 ```
 
 ## Usage
@@ -84,6 +82,8 @@ This plugin was originally forked from [gulp-bundle-assets](https://github.com/d
 It has since been entirely reworked to better suit the requirements of the UserFrosting's Sprinkle system and follow the Gulp plugin guidelines (namely not unncessarily depending on it). Though TypeScript is now the preferred language the output targetted to ES2015 and uses ES Modules (via the `esm` package) to ensure source it can be easily debugged if issues are observed in the wild.
 
 This package was previously published under `gulp-uf-bundle-assets` and as of v3 is published under `@userfrosting/gulp-bundle-assets` to assist in longterm project management.
+
+As of v4 virtual path logic was extracted into a separate package [@userfrosting/vinyl-fs-vpath](https://github.com/userfrosting/vinyl-fs-vpath). This change enabled a significant simplification of core logic along with a significantly faster and more efficient way to support virtual path mappings.
 
 ## Release process
 

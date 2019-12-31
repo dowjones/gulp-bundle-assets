@@ -1,5 +1,5 @@
 import Vinyl from "vinyl";
-import { Transform, TransformCallback, Readable } from "stream";
+import { Transform, TransformCallback } from "stream";
 import { Logger, dummyLogger } from "ts-log";
 import { Config } from "./config/config";
 import extend from "just-extend";
@@ -10,7 +10,7 @@ import { BundleStreamFactory, Bundle } from "./bundle";
 const PluginName = "@userfrosting/gulp-bundle-assets";
 
 /**
- * @todo Finish docblock
+ * Bundler results data shape.
  * @public
  */
 export interface Results {
@@ -19,10 +19,13 @@ export interface Results {
 }
 
 /**
- * @todo Finish docblock
+ * Bundler results callback function interface.
  * @public
  */
 export interface ResultsCallback {
+    /**
+     * @param results - Results data.
+     */
     (results: Results): void
 }
 
@@ -43,12 +46,12 @@ export interface Bundlers {
 }
 
 /**
- * @todo Finish docblock
- * @param name
- * @param rawPaths
- * @param cwd
- * @param joiner
- * @param logger
+ * Helper responsible for constructing bundle instances.
+ * @param name - Name of bundle.
+ * @param rawPaths - Array of paths to assets which have not yet been fully resolved.
+ * @param cwd - The current working directory to use for resolving raw paths.
+ * @param joiner - User provided 'glue' functions.
+ * @param logger - Logging interface.
  */
 function bundleFactory(
     name: string,
@@ -67,12 +70,19 @@ function bundleFactory(
     return new Bundle(name, paths, joiner, logger);
 }
 
+/**
+ * Helper responsible for 'offering' chunks (Vinyl instances) to bundles.
+ * Removes bundles from set if they have all their needed chunks.
+ * @param chunk - A Vinyl instance.
+ * @param bundles - Set of bundles that will be offered chunk.
+ * @param tracker - Tracks bundles and their chunks.
+ * @param push - Callback used to push out completed bundles.
+ */
 async function handleVinylChunk(
     chunk: Vinyl,
     bundles: Set<Bundle>,
     tracker: Map<string, Vinyl[]>,
-    push: (chunk: any) => void,
-    logger: Logger
+    push: (chunk: any) => void
 ) {
     for (const bundle of bundles) {
         const results = await bundle.feed(chunk);
@@ -106,10 +116,9 @@ export class BundleOrchastrator extends Transform {
     private logger: Logger = dummyLogger;
 
     /**
-     * @todo Finish docblock
      * @param config - Raw (but valid) configuration file used for bundle resolution.
      * @param joiner - Object capable of generating the Transform streams needed for generation of final bundles.
-     * @param resultsCallback - TODO
+     * @param resultsCallback - Callback invoked once all bundles generated.
      */
     constructor(config: Config, joiner: Bundlers, resultsCallback?: ResultsCallback) {
         super({
@@ -173,8 +182,8 @@ export class BundleOrchastrator extends Transform {
             this.logger.trace("Recieved Vinyl chunk", { pathHistory: chunk.history });
 
             // Offer chunks to bundles, return any results
-            await handleVinylChunk(chunk, this.scriptBundles, this.results.scripts, this.push, this.logger);
-            await handleVinylChunk(chunk, this.styleBundles, this.results.styles, this.push, this.logger);
+            await handleVinylChunk(chunk, this.scriptBundles, this.results.scripts, this.push);
+            await handleVinylChunk(chunk, this.styleBundles, this.results.styles, this.push);
 
             // Push chunk on through
             this.push(chunk);

@@ -10,8 +10,7 @@ import getStream from "get-stream";
  */
 export interface BundleStreamFactory {
     /**
-     * @todo Finish docblock
-     * @param src - TODO
+     * @param src - Source stream.
      * @param name - Name of bundle.
      */
     (src: Readable, name: string): Stream;
