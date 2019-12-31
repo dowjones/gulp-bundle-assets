@@ -1,3 +1,10 @@
+// AVA TS patch
+declare global {
+    export interface SymbolConstructor {
+        readonly observable: symbol;
+    }
+}
+
 import test from "ava";
 import MergeConfig from "./merge-configs";
 import { Config } from "./config";

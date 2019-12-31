@@ -20,13 +20,14 @@ This release focuses on improving performance and maintainability. These have be
 
 ### Fixed
 - Flaw in results API surface, results are now correctly separated according to their type (script/style).
+- Applied fix for type validation in unit tests
 
 ## [3.0.2] - 2019-07-14
 
 ### Added
 - Increased test coverage (back to 100%).
 
-## Changed
+### Changed
 - Updated dependencies.
 - Consolidated file tracking type definition into single source of truth.
 - Updated Travis CI config.

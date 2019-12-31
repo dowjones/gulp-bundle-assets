@@ -2,8 +2,8 @@
 
 | Branch | Status |
 | ------ | ------ |
-| master | [![Build Status](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets.svg?branch=master)](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets) [![codecov](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/master/graph/badge.svg)](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/master) |
-| develop | [![Build Status](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets.svg?branch=develop)](https://travis-ci.org/userfrosting/gulp-uf-bundle-assets) [![codecov](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/develop/graph/badge.svg)](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/develop) |
+| master | [![Continuous Integration](https://github.com/userfrosting/gulp-uf-bundle-assets/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/userfrosting/gulp-uf-bundle-assets/actions) [![codecov](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/master/graph/badge.svg)](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/master) |
+| develop | [![Continuous Integration](https://github.com/userfrosting/gulp-uf-bundle-assets/workflows/Continuous%20Integration/badge.svg?branch=develop)](https://github.com/userfrosting/gulp-uf-bundle-assets/actions) [![codecov](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/develop/graph/badge.svg)](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/develop) |
 
 Orchastrates JS and CSS bundle creation in a highly efficient and configurable manner.
 
@@ -74,7 +74,8 @@ This approach was decided on as it provides the most efficient means to integrat
 
 ## API
 
-Generation of API documentation is not yet implemented however the API surface is fully documented interally. Use VS Code or look at the source on GitHub in the meantime.
+API documentation is regenerated for every release using [API Extractor](https://www.npmjs.com/package/@microsoft/api-extractor) and [API Documenter](https://www.npmjs.com/package/@microsoft/api-documenter).
+The results reside in [docs/api](./docs/api/index.md).
 
 ## History
 

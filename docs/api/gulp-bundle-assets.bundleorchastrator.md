@@ -16,7 +16,7 @@ export declare class BundleOrchastrator extends Transform
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(config, joiner, resultsCallback)](./gulp-bundle-assets.bundleorchastrator.(constructor).md) |  |  Finish docblock |
+|  [(constructor)(config, joiner, resultsCallback)](./gulp-bundle-assets.bundleorchastrator._constructor_.md) |  |  Finish docblock |
 
 ## Methods
 

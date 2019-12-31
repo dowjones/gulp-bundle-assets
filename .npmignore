@@ -12,3 +12,4 @@ src/
 temp/
 test-data/
 tsconfig.json
+.github

@@ -10,5 +10,12 @@
     },
     "docModel": {
         "enabled": true
+    },
+    "messages": {
+        "tsdocMessageReporting": {
+            "tsdoc-undefined-tag": {
+                "logLevel": "none"
+            }
+        }
     }
 }

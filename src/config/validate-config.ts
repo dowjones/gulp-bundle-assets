@@ -1,4 +1,3 @@
-import { resolve as resolvePath } from "path";
 import { Config } from "./config";
 import ValidateBundle from "./validate-bundle";
 
