@@ -1,12 +1,5 @@
-// AVA TS patch
-declare global {
-    export interface SymbolConstructor {
-        readonly observable: symbol;
-    }
-}
-
 import test from "ava";
-import { Bundle } from "./config";
+import { Bundle, CollisionReactions } from "./config";
 import ValidateBundle from "./validate-bundle";
 
 /**
@@ -173,20 +166,20 @@ test("All possible collision rules", t => {
     };
     t.notThrows(() => ValidateBundle(bundle, "test"));
     // replace
-    bundle.options.sprinkle.onCollision = "replace";
+    bundle!.options!.sprinkle!.onCollision = "replace";
     t.notThrows(() => ValidateBundle(bundle, "test"));
     // merge
-    bundle.options.sprinkle.onCollision = "merge";
+    bundle!.options!.sprinkle!.onCollision = "merge";
     t.notThrows(() => ValidateBundle(bundle, "test"));
     // error
-    bundle.options.sprinkle.onCollision = "error";
+    bundle!.options!.sprinkle!.onCollision = "error";
     t.notThrows(() => ValidateBundle(bundle, "test"));
     // ignore
-    bundle.options.sprinkle.onCollision = "ignore";
+    bundle!.options!.sprinkle!.onCollision = "ignore";
     t.notThrows(() => ValidateBundle(bundle, "test"));
 
     // Bad
-    bundle.options.sprinkle.onCollision = "an invalid collision reaction";
+    bundle!.options!.sprinkle!.onCollision = "an invalid collision reaction" as keyof typeof CollisionReactions;
     t.throws(
         () => ValidateBundle(bundle, "test"),
         "Property bundle>test>options>sprinkle>onCollision must be a valid rule."

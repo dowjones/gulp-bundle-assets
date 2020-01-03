@@ -86,7 +86,10 @@ export class Bundle {
         if (this.remainingPaths.length === 0) {
             const orderedFiles: Vinyl[] = [];
             for (const path of this.initialPaths) {
-                orderedFiles.push(this.files.get(path));
+                const file = this.files.get(path);
+                /* istanbul ignore else */
+                if (file) orderedFiles.push(file);
+                else throw new Error("Unexpected condition, previously tracked file is undefined");
             }
 
             // Perform bundling, and collect results

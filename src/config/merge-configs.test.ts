@@ -1,13 +1,6 @@
-// AVA TS patch
-declare global {
-    export interface SymbolConstructor {
-        readonly observable: symbol;
-    }
-}
-
 import test from "ava";
 import MergeConfig from "./merge-configs";
-import { Config } from "./config";
+import { Config, CollisionReactions } from "./config";
 
 /**
  * Should return empty object.
@@ -127,7 +120,7 @@ test("Colliding bundle with invalid collision rule on incoming bundle", t => {
 				],
 				options: {
 					sprinkle: {
-						onCollision: "badCollisionHandler"
+						onCollision: "badCollisionHandler" as keyof typeof CollisionReactions
 					}
 				}
 			}
@@ -153,7 +146,7 @@ test("Colliding bundle with invalid collision rule on target bundle", t => {
 				],
 				options: {
 					sprinkle: {
-						onCollision: "badCollisionHandler"
+						onCollision: "badCollisionHandler" as keyof typeof CollisionReactions
 					}
 				}
 			}

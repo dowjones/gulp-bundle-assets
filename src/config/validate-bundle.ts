@@ -1,4 +1,4 @@
-import { Bundle } from "./config";
+import { Bundle, CollisionReactions } from "./config";
 
 /**
  * Throws an exception if the provided bundle is invalid.
@@ -56,7 +56,7 @@ export default function ValidateBundle(bundle: Bundle, name: string): void {
             if ("onCollision" in sprinkle) {
                 if (typeof sprinkle.onCollision !== "string")
                     throw new Error(`Property bundle>${name}>options>sprinkle>onCollision must be a string.`);
-                if (["replace", "merge", "ignore", "error"].indexOf(sprinkle.onCollision) === -1)
+                if (Object.keys(CollisionReactions).indexOf(sprinkle.onCollision) === -1)
                     throw new Error(`Property bundle>${name}>options>sprinkle>onCollision must be a valid rule.`);
             }
         }

@@ -1,10 +1,3 @@
-// AVA TS patch
-declare global {
-    export interface SymbolConstructor {
-        readonly observable: symbol;
-    }
-}
-
 import test from "ava";
 import ValidateConfig from "./validate-config";
 import { Config } from "./config";

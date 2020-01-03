@@ -32,7 +32,7 @@ export interface SprinkleOptions {
     /**
      * How a bundle collision should be handled when bundles are being merged.
      */
-    onCollision?: CollisionReactions | string;
+    onCollision?: keyof typeof CollisionReactions;
 }
 
 /**

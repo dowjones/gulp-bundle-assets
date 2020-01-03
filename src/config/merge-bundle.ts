@@ -10,10 +10,10 @@ export default function MergeBundle(existingBundle: Bundle, nextBundle: Bundle):
     // Determine collision resolution strategy
     let collisionReaction = CollisionReactions.replace;
 
-    if (nextBundle.options
-        && nextBundle.options.sprinkle
-        && nextBundle.options.sprinkle.onCollision) {
-        collisionReaction = CollisionReactions[nextBundle.options.sprinkle.onCollision];
+    const rawCollisionRule = nextBundle?.options?.sprinkle?.onCollision;
+
+    if (rawCollisionRule) {
+        collisionReaction = CollisionReactions[rawCollisionRule];
     }
 
     // Do merge
@@ -38,6 +38,6 @@ export default function MergeBundle(existingBundle: Bundle, nextBundle: Bundle):
         case CollisionReactions.error:
             throw new Error(`The bundle has been previously defined, and the bundle's 'onCollision' property is set to 'error'.`);
         default:
-            throw new Error(`Unexpected input '${nextBundle.options.sprinkle.onCollision}' for 'onCollision' option of next bundle.`);
+            throw new Error(`Unexpected input '${rawCollisionRule}' for 'onCollision' option of next bundle.`);
     }
 }
