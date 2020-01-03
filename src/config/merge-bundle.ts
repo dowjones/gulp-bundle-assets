@@ -1,5 +1,5 @@
 import { Bundle, CollisionReactions } from "./config";
-import Extend from "just-extend";
+import extend from "just-extend";
 
 /**
  * Merges 2 bundles, respecting the collision logic of the second bundle if specified.
@@ -29,8 +29,7 @@ export default function MergeBundle(existingBundle: Bundle, nextBundle: Bundle):
             if (existingBundle.styles && nextBundle.styles)
                 nextBundle.styles = [...new Set([...existingBundle.styles, ...nextBundle.styles])];
 
-            // TODO Worth noting that there is no typing for Extend currently
-            return Extend(true, existingBundle, nextBundle);
+            return extend(true, existingBundle, nextBundle);
         }
         // Ignore - Return existing bundle
         case CollisionReactions.ignore:

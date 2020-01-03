@@ -1,6 +1,6 @@
 import { Config } from "./config";
 import MergeBundle from "./merge-bundle";
-import Extend from "just-extend";
+import extend from "just-extend";
 
 /**
  * Merges a collection of configurations.
@@ -19,7 +19,7 @@ export default function MergeConfigs(rawConfigs: Config[]): Config {
     // Merge configs into base
     rawConfigs.forEach(config => {
         // Prevent modification of input
-        let nextConfig = Extend(true, {}, config) as Config;
+        let nextConfig = extend(true, {}, config);
 
         // Merge all bundle definitions into nextConfig (to handle collision logic correctly)
         if (outConfig.bundle) {
@@ -49,7 +49,7 @@ export default function MergeConfigs(rawConfigs: Config[]): Config {
         }
 
         // Merge objects
-        Extend(true, outConfig, nextConfig);
+        extend(true, outConfig, nextConfig);
     });
 
     return outConfig;
