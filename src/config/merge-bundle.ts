@@ -10,7 +10,7 @@ export default function MergeBundle(existingBundle: Bundle, nextBundle: Bundle):
     // Determine collision resolution strategy
     let collisionReaction = CollisionReactions.replace;
 
-    const rawCollisionRule = nextBundle?.options?.sprinkle?.onCollision;
+    const rawCollisionRule = nextBundle.options?.sprinkle?.onCollision;
 
     if (rawCollisionRule) {
         collisionReaction = CollisionReactions[rawCollisionRule];
