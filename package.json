@@ -3,8 +3,12 @@
     "version": "4.0.0-alpha.0",
     "description": "Fork of Chris Montgomery's gulp-bundle-assets, striped back and rewritten for use with UserFrosting.",
     "funding": "https://opencollective.com/userfrosting",
+    "type": "commonjs",
     "main": "./dist/index.js",
-    "module": "./dist/main.js",
+    "exports": {
+        "require": "./dist/index.js",
+        "import": "./dist/main.js"
+    },
     "types": "./dist/main.d.ts",
     "scripts": {
         "pretest": "tsc",
