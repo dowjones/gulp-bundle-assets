@@ -1,11 +1,11 @@
-export { default as MergeRawConfigs } from "./config/merge-configs";
-export { default as ValidateRawConfig } from "./config/validate-config";
+export { default as MergeRawConfigs } from "./config/merge-configs.js";
+export { default as ValidateRawConfig } from "./config/validate-config.js";
 export {
     BundleOrchastrator,
     Bundlers,
     Results,
     ResultsCallback,
-} from "./bundle-orchastrator";
+} from "./bundle-orchastrator.js";
 export { BundleStreamFactory } from "./bundle";
 export {
     Bundle,
@@ -14,4 +14,4 @@ export {
     Config,
     Options,
     SprinkleOptions,
-} from "./config/config";
+} from "./config/config.js";

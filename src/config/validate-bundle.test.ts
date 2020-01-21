@@ -1,6 +1,6 @@
 import test from "ava";
-import { Bundle, CollisionReactions } from "./config";
-import ValidateBundle from "./validate-bundle";
+import { Bundle, CollisionReactions } from "./config.js";
+import ValidateBundle from "./validate-bundle.js";
 
 /**
  * Should complete without throwing.

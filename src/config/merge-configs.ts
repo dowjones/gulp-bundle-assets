@@ -1,5 +1,5 @@
-import { Config } from "./config";
-import MergeBundle from "./merge-bundle";
+import { Config } from "./config.js";
+import MergeBundle from "./merge-bundle.js";
 import extend from "just-extend";
 
 /**

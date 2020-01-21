@@ -1,6 +1,6 @@
 import test from "ava";
-import MergeConfig from "./merge-configs";
-import { Config, CollisionReactions } from "./config";
+import MergeConfig from "./merge-configs.js";
+import { Config, CollisionReactions } from "./config.js";
 
 /**
  * Should return empty object.

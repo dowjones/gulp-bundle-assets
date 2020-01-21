@@ -1,6 +1,6 @@
 import test from "ava";
-import MergeBundle from "./merge-bundle";
-import { Bundle } from "./config";
+import MergeBundle from "./merge-bundle.js";
+import { Bundle } from "./config.js";
 
 /**
  * Should return empty results.

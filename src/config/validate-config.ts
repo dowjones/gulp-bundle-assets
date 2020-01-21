@@ -1,5 +1,5 @@
-import { Config } from "./config";
-import ValidateBundle from "./validate-bundle";
+import { Config } from "./config.js";
+import ValidateBundle from "./validate-bundle.js";
 
 /**
  * Throws an exception if the provided raw config contains invalid data.

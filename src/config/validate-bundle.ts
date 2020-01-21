@@ -1,4 +1,4 @@
-import { Bundle, CollisionReactions } from "./config";
+import { Bundle, CollisionReactions } from "./config.js";
 
 /**
  * Throws an exception if the provided bundle is invalid.

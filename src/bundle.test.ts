@@ -1,5 +1,5 @@
 import test from "ava";
-import { Bundle } from "./bundle";
+import { Bundle } from "./bundle.js";
 import { Stream, Readable } from "stream";
 import { dummyLogger } from "ts-log";
 import { resolve as resolvePath } from "path";

@@ -1,4 +1,4 @@
-import { Bundle, CollisionReactions } from "./config";
+import { Bundle, CollisionReactions } from "./config.js";
 import extend from "just-extend";
 
 /**

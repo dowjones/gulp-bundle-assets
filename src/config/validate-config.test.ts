@@ -1,6 +1,6 @@
 import test from "ava";
-import ValidateConfig from "./validate-config";
-import { Config } from "./config";
+import ValidateConfig from "./validate-config.js";
+import { Config } from "./config.js";
 
 /**
  * Should complete without throwing.

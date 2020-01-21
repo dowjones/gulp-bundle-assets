@@ -1,11 +1,11 @@
 import Vinyl from "vinyl";
 import { Transform, TransformCallback } from "stream";
 import { Logger, dummyLogger } from "ts-log";
-import { Config } from "./config/config";
+import { Config } from "./config/config.js";
 import extend from "just-extend";
 import { resolve as resolvePath } from "path";
 import PluginError from "plugin-error";
-import { BundleStreamFactory, Bundle } from "./bundle";
+import { BundleStreamFactory, Bundle } from "./bundle.js";
 
 const PluginName = "@userfrosting/gulp-bundle-assets";
 
