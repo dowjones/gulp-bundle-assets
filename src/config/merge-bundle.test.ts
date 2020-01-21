@@ -256,7 +256,10 @@ test("Collision rule set to error", t => {
     };
     t.throws(
         () => MergeBundle(existingBundle, nextBundle),
-        "The bundle has been previously defined, and the bundle's 'onCollision' property is set to 'error'."
+        {
+            instanceOf: Error,
+            message: "The bundle has been previously defined, and the bundle's 'onCollision' property is set to 'error'.",
+        }
     );
 });
 

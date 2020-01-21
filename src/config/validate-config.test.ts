@@ -40,6 +40,9 @@ test("Non-object bundle property", t => {
 	}
 	t.throws(
         () => ValidateConfig(config),
-        `Property "bundle" must be an object and not null.`
+        {
+            instanceOf: TypeError,
+            message: `Property "bundle" must be an object and not null.`,
+        }
     );
 });

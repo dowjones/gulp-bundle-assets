@@ -129,8 +129,10 @@ test("Colliding bundle with invalid collision rule on incoming bundle", t => {
 
 	t.throws(
         () => MergeConfig([config1, config2]),
-        "Exception raised while merging bundle 'testBundle' in the raw configuration at index '1'.\n"
-         + "Error: Unexpected input 'badCollisionHandler' for 'onCollision' option of next bundle."
+        {
+            instanceOf: Error,
+            message: "Exception raised while merging bundle 'testBundle' in the raw configuration at index '1'.",
+        }
     );
 });
 

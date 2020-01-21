@@ -44,6 +44,7 @@
         "url": "https://github.com/userfrosting/gulp-uf-bundle-assets/issues"
     },
     "dependencies": {
+        "errlop": "^2.0.0",
         "esm": "^3.2.25",
         "get-stream": "^5.1.0",
         "into-stream": "^5.1.1",
@@ -57,7 +58,7 @@
         "@microsoft/api-extractor": "^7.7.0",
         "@types/node": "^13.1.1",
         "@types/vinyl": "^2.0.4",
-        "ava": "^2.4.0",
+        "ava": "^3.0.0",
         "changelog-updater": "^1.1.0",
         "nyc": "^15.0.0",
         "typescript": "^3.7.4"

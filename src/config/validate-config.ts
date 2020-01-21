@@ -12,7 +12,7 @@ export default function ValidateConfig(config: Config): void {
         const bundles = config.bundle;
 
         if (typeof bundles !== "object" || bundles === null) {
-            throw new Error(`Property "bundle" must be an object and not null.`);
+            throw new TypeError(`Property "bundle" must be an object and not null.`);
         }
         else {
             // Each property must be an object (for owned properties)

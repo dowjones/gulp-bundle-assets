@@ -12,8 +12,3 @@ declare module "just-extend" {
 
     export = extend;
 }
-
-// AVA TS patch
-declare interface SymbolConstructor {
-    readonly observable: symbol;
-}
