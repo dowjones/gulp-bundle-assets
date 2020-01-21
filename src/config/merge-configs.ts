@@ -27,24 +27,21 @@ export default function MergeConfigs(rawConfigs: Config[]): Config {
             if (!nextConfig.bundle)
                 nextConfig.bundle = {};
 
-            for (const bundleName in outConfig.bundle) {
-                /* istanbul ignore else */
-                if (outConfig.bundle.hasOwnProperty(bundleName)) {
-                    // Conduct merge if already defined on nextConfig
-                    if (nextConfig.bundle.hasOwnProperty(bundleName)) {
-                        try {
-                            nextConfig.bundle[bundleName] = MergeBundle(outConfig.bundle[bundleName], nextConfig.bundle[bundleName]);
-                        }
-                        catch (exception) {
-                        throw new Errlop(`Exception raised while merging bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.`, exception);
-                        }
+            for (const bundleName of Object.getOwnPropertyNames(outConfig.bundle)) {
+                // Conduct merge if already defined on nextConfig
+                if (nextConfig.bundle.hasOwnProperty(bundleName)) {
+                    try {
+                        nextConfig.bundle[bundleName] = MergeBundle(outConfig.bundle[bundleName], nextConfig.bundle[bundleName]);
                     }
-                    // Otherwise just set it
-                    else nextConfig.bundle[bundleName] = outConfig.bundle[bundleName];
-
-                    // Remove existing bundle from outConfig
-                    delete outConfig.bundle[bundleName];
+                    catch (exception) {
+                        throw new Errlop(`Exception raised while merging bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.`, exception);
+                    }
                 }
+                // Otherwise just set it
+                else nextConfig.bundle[bundleName] = outConfig.bundle[bundleName];
+
+                // Remove existing bundle from outConfig
+                delete outConfig.bundle[bundleName];
             }
         }
 

@@ -138,12 +138,7 @@ export class BundleOrchastrator extends Transform {
 
         // Add bundles
         if (config.bundle) {
-            for (const name in config.bundle) {
-                /* istanbul ignore else */
-                if (!config.bundle.hasOwnProperty(name)) {
-                    continue;
-                }
-
+            for (const name of Object.getOwnPropertyNames(config.bundle)) {
                 const bundle = config.bundle[name];
 
                 // JS
