@@ -177,8 +177,8 @@ export class BundleOrchastrator extends Transform {
             this.logger.trace("Recieved Vinyl chunk", { pathHistory: chunk.history });
 
             // Offer chunks to bundles, return any results
-            await handleVinylChunk(chunk, this.scriptBundles, this.results.scripts, this.push);
-            await handleVinylChunk(chunk, this.styleBundles, this.results.styles, this.push);
+            await handleVinylChunk(chunk, this.scriptBundles, this.results.scripts, this.push.bind(this));
+            await handleVinylChunk(chunk, this.styleBundles, this.results.styles, this.push.bind(this));
 
             // Push chunk on through
             this.push(chunk);

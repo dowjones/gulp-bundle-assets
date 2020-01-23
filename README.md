@@ -17,7 +17,7 @@ npm i -D  @userfrosting/gulp-bundle-assets
 
 ```js
 // gulpfile.esm.js
-import assetBundler from "@userfrosting/gulp-bundle-assets";
+import AssetBundler from "@userfrosting/gulp-bundle-assets";
 import { src, dest } from "gulp";
 import cleanCss from "gulp-clean-css";
 import concatCss from "gulp-concat-css";
@@ -55,7 +55,7 @@ export function bundle() {
     };
 
     return src("src/**")
-        .pipe(assetBundler(config, joiner))
+        .pipe(new AssetBundler(config, joiner))
         .pipe(dest("public/assets/"));
 }
 ```

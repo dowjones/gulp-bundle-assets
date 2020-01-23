@@ -300,5 +300,4 @@ test("Ignore collision rule on target bundle", t => {
         "The bundle has been previously defined, and the bundle's 'onCollision' property is set to 'error'."
     );
     t.deepEqual(MergeBundle(existingBundle, nextBundle), output);
-
 });

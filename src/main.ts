@@ -6,6 +6,7 @@ export {
     Results,
     ResultsCallback,
 } from "./bundle-orchastrator.js";
+export default BundleOrchastrator;
 export { BundleStreamFactory } from "./bundle";
 export {
     Bundle,
