@@ -4,7 +4,7 @@
 
 ## Results interface
 
- Finish docblock
+Bundler results data shape.
 
 <b>Signature:</b>
 

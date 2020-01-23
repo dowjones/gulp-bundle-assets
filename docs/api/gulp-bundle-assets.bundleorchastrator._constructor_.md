@@ -4,7 +4,7 @@
 
 ## BundleOrchastrator.(constructor)
 
- Finish docblock
+Constructs a new instance of the `BundleOrchastrator` class
 
 <b>Signature:</b>
 
@@ -18,5 +18,5 @@ constructor(config: Config, joiner: Bundlers, resultsCallback?: ResultsCallback)
 |  --- | --- | --- |
 |  config | <code>Config</code> | Raw (but valid) configuration file used for bundle resolution. |
 |  joiner | <code>Bundlers</code> | Object capable of generating the Transform streams needed for generation of final bundles. |
-|  resultsCallback | <code>ResultsCallback</code> | TODO |
+|  resultsCallback | <code>ResultsCallback</code> | Callback invoked once all bundles generated. |
 

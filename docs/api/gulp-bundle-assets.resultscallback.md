@@ -4,7 +4,7 @@
 
 ## ResultsCallback interface
 
- Finish docblock
+Bundler results callback function interface.
 
 <b>Signature:</b>
 
