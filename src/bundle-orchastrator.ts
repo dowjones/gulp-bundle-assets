@@ -134,7 +134,8 @@ export class BundleOrchastrator extends Transform {
         // Deep clone config object to prevent mutations from spilling out
         config = extend(true, {}, config);
 
-        // TODO Will we need to have a cwd to be able to match paths? Probably.
+        // Current working directory
+        const cwd = config.cwd ?? process.cwd();
 
         // Add bundles
         if (config.bundle) {
@@ -144,14 +145,14 @@ export class BundleOrchastrator extends Transform {
                 // JS
                 if (bundle.scripts) {
                     this.logger.trace("Starting processing of script paths");
-                    this.scriptBundles.add(bundleFactory(name, bundle.scripts, process.cwd(), joiner.Scripts, this.logger));
+                    this.scriptBundles.add(bundleFactory(name, bundle.scripts, cwd, joiner.Scripts, this.logger));
                     this.logger.trace("Completed processing of script paths");
                 }
 
                 // CSS
                 if (bundle.styles) {
                     this.logger.trace("Starting processing of style paths");
-                    this.styleBundles.add(bundleFactory(name, bundle.styles, process.cwd(), joiner.Styles, this.logger));
+                    this.styleBundles.add(bundleFactory(name, bundle.styles, cwd, joiner.Styles, this.logger));
                     this.logger.trace("Completed processing of style paths");
                 }
             }
