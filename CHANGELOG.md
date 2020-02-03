@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Custom cwd support
+
 ## [4.0.0-alpha.1] - 2020-01-23
 
 This release focuses on improving performance and maintainability. These have been achieved by separating virtual path logic into a separate package.
