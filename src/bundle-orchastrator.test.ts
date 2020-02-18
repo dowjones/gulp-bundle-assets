@@ -6,6 +6,7 @@ import { Readable, Stream } from "stream";
 import Vinyl from "vinyl";
 import { resolve as resolvePath } from "path";
 import sortOn from "sort-on";
+import { mapAvaLoggerToStandard } from "./test-util.js";
 
 /**
  * Returns a pretend bundle for testing purposes.
@@ -52,6 +53,7 @@ function bundleFactoryCss(_: Readable, name: string): Stream {
 function buildBundler(t: ExecutionContext) {
     return new BundleOrchastrator(
         {
+            Logger: mapAvaLoggerToStandard(t),
             bundle: {
                 bund1: {
                     scripts: [
@@ -99,6 +101,26 @@ test("Bundles with all dependencies met", async t => {
             'history'
         )
     );
+});
+
+test("Non-vinyl chunk pushed out when feed in", async t => {
+    try {
+        const result = await getStream.array(
+            intoStream.object([
+                new Vinyl({ path: resolvePath("./123/bar.js") }),
+                new Vinyl({ path: resolvePath("./123/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.js") }),
+                "nonsense-input",
+            ])
+                .pipe(buildBundler(t))
+        ) as (Vinyl|string)[];
+
+        t.true(result.includes("nonsense-input"));
+    } catch (e) {
+        t.log(e);
+        t.fail();
+    }
 });
 
 test("Bundles with unmet dependencies", async t => {

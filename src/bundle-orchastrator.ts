@@ -172,6 +172,7 @@ export class BundleOrchastrator extends Transform {
             if (!Vinyl.isVinyl(chunk)) {
                 this.logger.warn("Ignoring recieved non-Vinyl chunk");
                 this.push(chunk, encoding);
+                callback();
                 return;
             }
 
@@ -185,10 +186,12 @@ export class BundleOrchastrator extends Transform {
             this.push(chunk);
 
             callback();
+            return;
         }
         catch (error) {
             this.logger.error("_transform completed with error", { error });
             callback(new PluginError(PluginName, error));
+            return;
         }
     }
 
