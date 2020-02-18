@@ -1,7 +1,7 @@
 {
     "name": "@userfrosting/gulp-bundle-assets",
     "version": "4.0.0-alpha.2",
-    "description": "Fork of Chris Montgomery's gulp-bundle-assets, striped back and rewritten for use with UserFrosting.",
+    "description": "Orchastrates JS and CSS bundle creation in an efficient and configurable manner.",
     "funding": "https://opencollective.com/userfrosting",
     "type": "commonjs",
     "main": "./dist/index.js",
@@ -58,11 +58,11 @@
         "vinyl": "^2.2.0"
     },
     "devDependencies": {
-        "@microsoft/api-documenter": "^7.7.8",
-        "@microsoft/api-extractor": "^7.7.5",
-        "@types/node": "^13.1.8",
+        "@microsoft/api-documenter": "^7.7.12",
+        "@microsoft/api-extractor": "^7.7.8",
+        "@types/node": "^13.7.2",
         "@types/vinyl": "^2.0.4",
-        "ava": "^3.0.0",
+        "ava": "^3.3.0",
         "changelog-updater": "^1.1.0",
         "nyc": "^15.0.0",
         "sort-on": "^4.1.0",
