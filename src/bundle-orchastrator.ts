@@ -126,6 +126,7 @@ export class BundleOrchastrator extends Transform {
         });
 
         // First up, we assign the logger if its there
+        /* istanbul ignore else */
         if (config.Logger) this.logger = config.Logger;
 
         // Results callback
@@ -186,12 +187,12 @@ export class BundleOrchastrator extends Transform {
             this.push(chunk);
 
             callback();
-            return;
         }
         catch (error) {
+            /* istanbul ignore next This is only here to ensure we are a polite pipeline member, and cannot be reasonably tested */
             this.logger.error("_transform completed with error", { error });
+            /* istanbul ignore next */
             callback(new PluginError(PluginName, error));
-            return;
         }
     }
 
