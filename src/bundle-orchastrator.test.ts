@@ -60,6 +60,16 @@ interface IBundleBuilderFlags {
      * Don't include any bundle specs.
      */
     noBundles?: boolean;
+
+    /**
+     * Don't include any style bundles.
+     */
+    noStyleBundles?: boolean;
+
+    /**
+     * Don't include any script bundles.
+     */
+    noScriptBundles?: boolean;
 }
 
 /**
@@ -78,14 +88,18 @@ function buildBundler(t: ExecutionContext, flags: IBundleBuilderFlags = {}) {
                 ? undefined
                 : {
                 bund1: {
-                    scripts: [
-                        "./123/bar.js",
-                        "./abc/foo.js",
-                    ],
-                    styles: [
-                        "./123/foo.css",
-                        "./abc/foo.css",
-                    ]
+                    scripts: flags.noScriptBundles
+                        ? undefined
+                        : [
+                            "./123/bar.js",
+                            "./abc/foo.js",
+                        ],
+                    styles: flags.noStyleBundles
+                        ? undefined
+                        : [
+                            "./123/foo.css",
+                            "./abc/foo.css",
+                        ]
                 }
             }
         },
@@ -178,6 +192,62 @@ test("No bundles to build", async t => {
                 new Vinyl({ path: resolvePath("./123/foo.css") }),
                 new Vinyl({ path: resolvePath("./abc/foo.css") }),
                 new Vinyl({ path: resolvePath("./abc/foo.js") }),
+            ],
+            'history'
+        )
+    );
+});
+
+test("No style bundles", async t => {
+    const result = await getStream.array(
+        intoStream.object([
+            new Vinyl({ path: resolvePath("./123/bar.js") }),
+            new Vinyl({ path: resolvePath("./123/foo.css") }),
+            new Vinyl({ path: resolvePath("./abc/foo.css") }),
+            new Vinyl({ path: resolvePath("./abc/foo.js") }),
+        ])
+            .pipe(buildBundler(t, { noStyleBundles: true }))
+    ) as Vinyl[];
+
+    t.deepEqual(
+        sortOn(result, 'history'),
+        sortOn(
+            [
+                // Original inputs
+                new Vinyl({ path: resolvePath("./123/bar.js") }),
+                new Vinyl({ path: resolvePath("./123/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.js") }),
+                // Bundles
+                new Vinyl({ path: resolvePath("./bund1.js") }),
+            ],
+            'history'
+        )
+    );
+});
+
+test("No script bundles", async t => {
+    const result = await getStream.array(
+        intoStream.object([
+            new Vinyl({ path: resolvePath("./123/bar.js") }),
+            new Vinyl({ path: resolvePath("./123/foo.css") }),
+            new Vinyl({ path: resolvePath("./abc/foo.css") }),
+            new Vinyl({ path: resolvePath("./abc/foo.js") }),
+        ])
+            .pipe(buildBundler(t, { noScriptBundles: true }))
+    ) as Vinyl[];
+
+    t.deepEqual(
+        sortOn(result, 'history'),
+        sortOn(
+            [
+                // Original inputs
+                new Vinyl({ path: resolvePath("./123/bar.js") }),
+                new Vinyl({ path: resolvePath("./123/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.js") }),
+                // Bundles
+                new Vinyl({ path: resolvePath("./bund1.css") }),
             ],
             'history'
         )
