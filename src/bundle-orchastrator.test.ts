@@ -50,11 +50,33 @@ function bundleFactoryCss(_: Readable, name: string): Stream {
     return newSrc;
 }
 
-function buildBundler(t: ExecutionContext) {
+interface IBundleBuilderFlags {
+    /**
+     * Explicitly set cwd.
+     */
+    explicitCwd?: boolean;
+
+    /**
+     * Don't include any bundle specs.
+     */
+    noBundles?: boolean;
+}
+
+/**
+ * Tool to help build bundler for tests.
+ * @param t Execution context from test.
+ * @param flags Flags used to modify returned bundler.
+ */
+function buildBundler(t: ExecutionContext, flags: IBundleBuilderFlags = {}) {
     return new BundleOrchastrator(
         {
+            cwd: flags.explicitCwd
+                ? process.cwd()
+                : undefined,
             Logger: mapAvaLoggerToStandard(t),
-            bundle: {
+            bundle: flags.noBundles
+                ? undefined
+                : {
                 bund1: {
                     scripts: [
                         "./123/bar.js",
@@ -97,6 +119,65 @@ test("Bundles with all dependencies met", async t => {
                 // Bundles
                 new Vinyl({ path: resolvePath("./bund1.js") }),
                 new Vinyl({ path: resolvePath("./bund1.css") }),
+            ],
+            'history'
+        )
+    );
+});
+
+/**
+ * @todo This should be improved to account for _different_ `cwd`s. Currently UserFrosting covers
+ * this via its usage of this library.
+ */
+test("Bundles with all dependencies met and custom cwd", async t => {
+    const result = await getStream.array(
+        intoStream.object([
+            new Vinyl({ path: resolvePath("./123/bar.js") }),
+            new Vinyl({ path: resolvePath("./123/foo.css") }),
+            new Vinyl({ path: resolvePath("./abc/foo.css") }),
+            new Vinyl({ path: resolvePath("./abc/foo.js") }),
+        ])
+            .pipe(buildBundler(t, { explicitCwd: true }))
+    ) as Vinyl[];
+
+    t.deepEqual(
+        sortOn(result, 'history'),
+        sortOn(
+            [
+                // Original inputs
+                new Vinyl({ path: resolvePath("./123/bar.js") }),
+                new Vinyl({ path: resolvePath("./123/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.js") }),
+                // Bundles
+                new Vinyl({ path: resolvePath("./bund1.js") }),
+                new Vinyl({ path: resolvePath("./bund1.css") }),
+            ],
+            'history'
+        )
+    );
+});
+
+test("No bundles to build", async t => {
+    const result = await getStream.array(
+        intoStream.object([
+            new Vinyl({ path: resolvePath("./123/bar.js") }),
+            new Vinyl({ path: resolvePath("./123/foo.css") }),
+            new Vinyl({ path: resolvePath("./abc/foo.css") }),
+            new Vinyl({ path: resolvePath("./abc/foo.js") }),
+        ])
+            .pipe(buildBundler(t, { noBundles: true }))
+    ) as Vinyl[];
+
+    t.deepEqual(
+        sortOn(result, 'history'),
+        sortOn(
+            [
+                // Original inputs
+                new Vinyl({ path: resolvePath("./123/bar.js") }),
+                new Vinyl({ path: resolvePath("./123/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.css") }),
+                new Vinyl({ path: resolvePath("./abc/foo.js") }),
             ],
             'history'
         )
