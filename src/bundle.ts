@@ -68,8 +68,8 @@ export class Bundle {
             this.logger.trace(
                 "Retaining file for later bundling",
                 {
-                    path: file.path,
                     bundleName: this.name,
+                    path: file.path,
                 }
             );
         }
@@ -77,8 +77,8 @@ export class Bundle {
             this.logger.trace(
                 "Ignoring unused file",
                 {
-                    path: file.path,
                     bundleName: this.name,
+                    path: file.path,
                 }
             );
         }
@@ -93,11 +93,11 @@ export class Bundle {
             }
 
             // Perform bundling, and collect results
-            this.logger.trace(
+            this.logger.info(
                 "Creating bundle stream",
                 {
-                    files: this.initialPaths,
                     bundleName: this.name,
+                    inFiles: this.initialPaths,
                 }
             );
             const chunks = await getStream.array(
@@ -120,6 +120,12 @@ export class Bundle {
                     throw new Error(`Non-Vinyl chunk returned bu bundle stream for bundle '${this.name}'`);
                 }
             }
+
+            // Perform bundling, and collect results
+            this.logger.info(
+                "Bundle stream completed",
+                { bundleName: this.name }
+            );
 
             return chunks as Vinyl[];
         }
