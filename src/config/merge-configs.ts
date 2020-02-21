@@ -1,13 +1,13 @@
-import { Config } from "./config";
-import MergeBundle from "./merge-bundle";
-import Extend from "just-extend";
-
+import { Config } from "./config.js";
+import MergeBundle from "./merge-bundle.js";
+import extend from "just-extend";
+import Errlop from "errlop";
 /**
  * Merges a collection of configurations.
  * No validation is conducted, it is expected that provided inputs are all valid.
  *
  * `bundle->(BundleName)->options->sprinkle->onCollision = (replace|merge|ignore|error)` may be used to modify treatment of collided bundles.
- *
+ * @param rawConfigs - Raw (untransformed) configurations to merge.
  * @public
  */
 export default function MergeConfigs(rawConfigs: Config[]): Config {
@@ -19,7 +19,7 @@ export default function MergeConfigs(rawConfigs: Config[]): Config {
     // Merge configs into base
     rawConfigs.forEach(config => {
         // Prevent modification of input
-        let nextConfig = Extend(true, {}, config) as Config;
+        let nextConfig = extend(true, {}, config);
 
         // Merge all bundle definitions into nextConfig (to handle collision logic correctly)
         if (outConfig.bundle) {
@@ -27,29 +27,26 @@ export default function MergeConfigs(rawConfigs: Config[]): Config {
             if (!nextConfig.bundle)
                 nextConfig.bundle = {};
 
-            for (const bundleName in outConfig.bundle) {
-                /* istanbul ignore else */
-                if (outConfig.bundle.hasOwnProperty(bundleName)) {
-                    // Conduct merge if already defined on nextConfig
-                    if (nextConfig.bundle.hasOwnProperty(bundleName)) {
-                        try {
-                            nextConfig.bundle[bundleName] = MergeBundle(outConfig.bundle[bundleName], nextConfig.bundle[bundleName]);
-                        }
-                        catch (exception) {
-                            throw new Error(`Exception raised while merging bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.\n${exception}`);
-                        }
+            for (const bundleName of Object.getOwnPropertyNames(outConfig.bundle)) {
+                // Conduct merge if already defined on nextConfig
+                if (nextConfig.bundle.hasOwnProperty(bundleName)) {
+                    try {
+                        nextConfig.bundle[bundleName] = MergeBundle(outConfig.bundle[bundleName], nextConfig.bundle[bundleName]);
                     }
-                    // Otherwise just set it
-                    else nextConfig.bundle[bundleName] = outConfig.bundle[bundleName];
-
-                    // Remove existing bundle from outConfig
-                    delete outConfig.bundle[bundleName];
+                    catch (exception) {
+                        throw new Errlop(`Exception raised while merging bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.`, exception);
+                    }
                 }
+                // Otherwise just set it
+                else nextConfig.bundle[bundleName] = outConfig.bundle[bundleName];
+
+                // Remove existing bundle from outConfig
+                delete outConfig.bundle[bundleName];
             }
         }
 
         // Merge objects
-        Extend(true, outConfig, nextConfig);
+        extend(true, outConfig, nextConfig);
     });
 
     return outConfig;

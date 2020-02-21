@@ -9,5 +9,5 @@ Returns a Transform that will handle bundling of script resources.
 <b>Signature:</b>
 
 ```typescript
-Scripts: BundlerStreamFactory;
+Scripts: BundleStreamFactory;
 ```

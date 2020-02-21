@@ -16,6 +16,6 @@ export interface Bundlers
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [Scripts](./gulp-bundle-assets.bundlers.scripts.md) | <code>BundlerStreamFactory</code> | Returns a Transform that will handle bundling of script resources. |
-|  [Styles](./gulp-bundle-assets.bundlers.styles.md) | <code>BundlerStreamFactory</code> | Returns a Transform that will handle bundling of style resources. |
+|  [Scripts](./gulp-bundle-assets.bundlers.scripts.md) | <code>BundleStreamFactory</code> | Returns a Transform that will handle bundling of script resources. |
+|  [Styles](./gulp-bundle-assets.bundlers.styles.md) | <code>BundleStreamFactory</code> | Returns a Transform that will handle bundling of style resources. |
 

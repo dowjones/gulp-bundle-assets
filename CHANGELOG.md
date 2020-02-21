@@ -7,11 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-Maintenance release.
-- Bumped dependency versions
-- Applied fix for type validation in unit tests
-- Transferred CI onto GitHub Actions from Travis
-- Added API Documentation
+## [4.0.0-alpha.3] - 2020-02-20
+
+Test coverage improvements.
+
+## [4.0.0-alpha.2] - 2020-02-03
+
+### Added
+- Custom cwd support
+
+## [4.0.0-alpha.1] - 2020-01-23
+
+This release focuses on improving performance and maintainability. These have been achieved by separating virtual path logic into a separate package.
+
+### Added
+- API docs.
+
+### Changed
+- Logging interface, now uses [`ts-log`](https://www.npmjs.com/package/ts-log).
+
+### Removed
+- Virtual path logic in favour of [`@userfrosting/vinly-fs-vpath`](https://github.com/userfrosting/vinyl-fs-vpath).
+
+### Fixed
+- Flaw in results API surface, results are now correctly separated according to their type (script/style).
 
 ## [3.0.2] - 2019-07-14
 

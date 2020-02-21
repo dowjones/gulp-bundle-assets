@@ -9,5 +9,5 @@ Returns a Transform that will handle bundling of style resources.
 <b>Signature:</b>
 
 ```typescript
-Styles: BundlerStreamFactory;
+Styles: BundleStreamFactory;
 ```

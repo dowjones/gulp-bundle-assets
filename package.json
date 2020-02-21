@@ -1,9 +1,14 @@
 {
     "name": "@userfrosting/gulp-bundle-assets",
-    "version": "3.0.2",
-    "description": "Fork of Chris Montgomery's gulp-bundle-assets, striped back and rewritten for use with UserFrosting.",
+    "version": "4.0.0-alpha.3",
+    "description": "Orchastrates JS and CSS bundle creation in an efficient and configurable manner.",
+    "funding": "https://opencollective.com/userfrosting",
+    "type": "commonjs",
     "main": "./dist/index.js",
-    "module": "./dist/main.js",
+    "exports": {
+        "require": "./dist/index.js",
+        "import": "./dist/main.js"
+    },
     "types": "./dist/main.d.ts",
     "scripts": {
         "pretest": "tsc",
@@ -43,24 +48,29 @@
         "url": "https://github.com/userfrosting/gulp-uf-bundle-assets/issues"
     },
     "dependencies": {
+        "errlop": "^2.0.0",
         "esm": "^3.2.25",
+        "get-stream": "^5.1.0",
+        "into-stream": "^5.1.1",
         "just-extend": "^4.0.2",
         "plugin-error": "^1.0.1",
+        "ts-log": "^2.1.4",
         "vinyl": "^2.2.0"
     },
     "devDependencies": {
-        "@microsoft/api-documenter": "^7.7.2",
-        "@microsoft/api-extractor": "^7.7.0",
-        "@types/just-extend": "^1.1.0",
-        "@types/node": "^13.1.1",
+        "@microsoft/api-documenter": "^7.7.12",
+        "@microsoft/api-extractor": "^7.7.8",
+        "@types/node": "^13.7.2",
         "@types/vinyl": "^2.0.4",
-        "ava": "^2.4.0",
+        "ava": "^3.3.0",
         "changelog-updater": "^1.1.0",
         "nyc": "^15.0.0",
-        "typescript": "^3.7.4"
+        "p-defer": "^3.0.0",
+        "sort-on": "^4.1.0",
+        "typescript": "^3.7.5"
     },
     "engines": {
-        "node": ">=8.0.0"
+        "node": ">=10.0.0"
     },
     "engineStrict": true,
     "ava": {
@@ -69,7 +79,6 @@
         ],
         "require": [
             "esm"
-        ],
-        "babel": false
+        ]
     }
 }

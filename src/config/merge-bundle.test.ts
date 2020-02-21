@@ -1,6 +1,6 @@
 import test from "ava";
-import MergeBundle from "./merge-bundle";
-import { Bundle } from "./config";
+import MergeBundle from "./merge-bundle.js";
+import { Bundle } from "./config.js";
 
 /**
  * Should return empty results.
@@ -256,7 +256,10 @@ test("Collision rule set to error", t => {
     };
     t.throws(
         () => MergeBundle(existingBundle, nextBundle),
-        "The bundle has been previously defined, and the bundle's 'onCollision' property is set to 'error'."
+        {
+            instanceOf: Error,
+            message: "The bundle has been previously defined, and the bundle's 'onCollision' property is set to 'error'.",
+        }
     );
 });
 
@@ -297,5 +300,4 @@ test("Ignore collision rule on target bundle", t => {
         "The bundle has been previously defined, and the bundle's 'onCollision' property is set to 'error'."
     );
     t.deepEqual(MergeBundle(existingBundle, nextBundle), output);
-
 });

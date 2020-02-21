@@ -16,5 +16,5 @@ export interface SprinkleOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [onCollision](./gulp-bundle-assets.sprinkleoptions.oncollision.md) | <code>CollisionReactions &#124; string</code> | TODO |
+|  [onCollision](./gulp-bundle-assets.sprinkleoptions.oncollision.md) | <code>keyof typeof CollisionReactions</code> | How a bundle collision should be handled when bundles are being merged. |
 

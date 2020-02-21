@@ -18,7 +18,7 @@ export default function MergeConfigs(rawConfigs: Config[]): Config;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  rawConfigs | <code>Config[]</code> |  |
+|  rawConfigs | <code>Config[]</code> | Raw (untransformed) configurations to merge. |
 
 <b>Returns:</b>
 

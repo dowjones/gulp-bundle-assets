@@ -8,14 +8,13 @@
 
 |  Class | Description |
 |  --- | --- |
-|  [Bundler](./gulp-bundle-assets.bundler.md) | Assists in orchastrating bundle operations. |
+|  [BundleOrchastrator](./gulp-bundle-assets.bundleorchastrator.md) | Orchastrates bundling. |
 
 ## Enumerations
 
 |  Enumeration | Description |
 |  --- | --- |
 |  [CollisionReactions](./gulp-bundle-assets.collisionreactions.md) | Rules for how a bundle collision may be treated. |
-|  [LogLevel](./gulp-bundle-assets.loglevel.md) | Log levels. |
 
 ## Functions
 
@@ -30,9 +29,11 @@
 |  --- | --- |
 |  [Bundle](./gulp-bundle-assets.bundle.md) | Represents an asset bundle |
 |  [Bundlers](./gulp-bundle-assets.bundlers.md) | Interface defining factories required to bundle styles and scripts. |
-|  [BundlerStreamFactory](./gulp-bundle-assets.bundlerstreamfactory.md) | A function that returns a stream that will be used to bundle assets. |
 |  [Bundles](./gulp-bundle-assets.bundles.md) | Map of bundles. |
+|  [BundleStreamFactory](./gulp-bundle-assets.bundlestreamfactory.md) | A function that returns a stream that will be used to bundle assets. |
 |  [Config](./gulp-bundle-assets.config.md) | Root object of raw configuration. |
 |  [Options](./gulp-bundle-assets.options.md) | Represents an asset bundles root options node. |
+|  [Results](./gulp-bundle-assets.results.md) | Bundler results data shape. |
+|  [ResultsCallback](./gulp-bundle-assets.resultscallback.md) | Bundler results callback function interface. |
 |  [SprinkleOptions](./gulp-bundle-assets.sprinkleoptions.md) | Options relevent to UserFrosting's Sprinkle system. |
 

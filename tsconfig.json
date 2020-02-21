@@ -10,6 +10,7 @@
         "declaration": true,
         "target": "es2017",
         "outDir": "./dist/",
-        "sourceMap": true
+        "sourceMap": true,
+        "strict": true
     }
 }
