@@ -93,13 +93,14 @@ export class Bundle {
             }
 
             // Perform bundling, and collect results
-            this.logger.info(
+            this.logger.trace(
                 "Creating bundle stream",
                 {
                     bundleName: this.name,
                     inFiles: this.initialPaths,
                 }
             );
+            this.logger.info("Started bundling", { bundleName: this.name });
             const chunks = await getStream.array(
                 this.streamFactory(
                     intoStream.object(orderedFiles),
@@ -122,10 +123,8 @@ export class Bundle {
             }
 
             // Perform bundling, and collect results
-            this.logger.info(
-                "Bundle stream completed",
-                { bundleName: this.name }
-            );
+            this.logger.trace("Bundle stream completed", { bundleName: this.name });
+            this.logger.info("Finished bundling", { bundleName: this.name });
 
             return chunks as Vinyl[];
         }
