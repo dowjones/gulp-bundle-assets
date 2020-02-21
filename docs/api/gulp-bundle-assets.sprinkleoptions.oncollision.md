@@ -4,10 +4,10 @@
 
 ## SprinkleOptions.onCollision property
 
-TODO
+How a bundle collision should be handled when bundles are being merged.
 
 <b>Signature:</b>
 
 ```typescript
-onCollision?: CollisionReactions | string;
+onCollision?: keyof typeof CollisionReactions;
 ```

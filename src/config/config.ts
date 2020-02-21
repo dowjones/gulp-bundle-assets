@@ -1,8 +1,7 @@
-import { LogLevel } from "../log-levels";
+import { Logger } from "ts-log";
 
 /**
  * Rules for how a bundle collision may be treated.
- *
  * @public
  */
 export enum CollisionReactions {
@@ -27,19 +26,17 @@ export enum CollisionReactions {
 
 /**
  * Options relevent to UserFrosting's Sprinkle system.
- *
  * @public
  */
 export interface SprinkleOptions {
     /**
-     * TODO
+     * How a bundle collision should be handled when bundles are being merged.
      */
-    onCollision?: CollisionReactions | string;
+    onCollision?: keyof typeof CollisionReactions;
 }
 
 /**
  * Represents an asset bundles root options node.
- *
  * @public
  */
 export interface Options {
@@ -48,7 +45,6 @@ export interface Options {
 
 /**
  * Represents an asset bundle
- *
  * @public
  */
 export interface Bundle {
@@ -58,8 +54,15 @@ export interface Bundle {
 }
 
 /**
+ * Map of bundles.
+ * @public
+ */
+export interface Bundles {
+    [x: string]: Bundle;
+}
+
+/**
  * Root object of raw configuration.
- *
  * @public
  */
 export interface Config {
@@ -69,33 +72,13 @@ export interface Config {
     bundle?: Bundles;
 
     /**
-     * Defines path transformations that are used for overriding files.
-     * Later rules result in a higher preference.
-     * Duplicate matcher paths will end up being ignored.
-     * All paths should be relative, or undefined behaviour may occur.
-     */
-    VirtualPathRules?: [string, string][];
-
-    /**
-     * Base path bundle resources will be resolved against.
-     * Use to match against virtual path rules if they are used.
-     * Defaults to current working directory.
-     */
-    BundlesVirtualBasePath?: string;
-
-    /**
      * Optional logger that will be used throughout bundling process.
-     * @param value - Message to log.
-     * @param level - Log level for message.
      */
-    Logger?(value: string, level: LogLevel): void;
-}
+    Logger?: Logger;
 
-/**
- * Map of bundles.
- *
- * @public
- */
-export interface Bundles {
-    [x: string]: Bundle;
+    /**
+     * Current working directory to use when resolving the full paths of bundle dependencies.
+     * Defaults to `process.cwd()`.
+     */
+    cwd?: string;
 }

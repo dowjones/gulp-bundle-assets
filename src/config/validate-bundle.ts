@@ -1,4 +1,4 @@
-import { Bundle } from "./config";
+import { Bundle, CollisionReactions } from "./config.js";
 
 /**
  * Throws an exception if the provided bundle is invalid.
@@ -7,21 +7,21 @@ import { Bundle } from "./config";
  */
 export default function ValidateBundle(bundle: Bundle, name: string): void {
     if (typeof name !== "string")
-        throw new Error("Bundle name must be a string.");
+        throw new TypeError("Bundle name must be a string.");
 
     if (typeof bundle !== "object" || bundle === null)
-        throw new Error(`Property bundle>${name} must be an object and not null.`);
+        throw new TypeError(`Property bundle>${name} must be an object and not null.`);
 
     // If scripts key exists, it must be an array of strings
     if ("scripts" in bundle) {
         const scripts = bundle.scripts;
 
         if (!Array.isArray(scripts))
-            throw new Error(`Property bundle>${name}>scripts must be an array.`);
+            throw new TypeError(`Property bundle>${name}>scripts must be an array.`);
 
         scripts.forEach(path => {
             if (typeof path !== "string")
-                throw new Error(`All indexes of bundle>${name}>scripts must be a string.`);
+                throw new TypeError(`All indexes of bundle>${name}>scripts must be a string.`);
         });
     }
 
@@ -30,11 +30,11 @@ export default function ValidateBundle(bundle: Bundle, name: string): void {
         const styles = bundle.styles;
 
         if (!Array.isArray(styles))
-            throw new Error(`Property bundle>${name}>styles must be an array.`);
+            throw new TypeError(`Property bundle>${name}>styles must be an array.`);
 
         styles.forEach(path => {
             if (typeof path !== "string")
-                throw new Error(`All indexes of bundle>${name}>styles must be a string.`);
+                throw new TypeError(`All indexes of bundle>${name}>styles must be a string.`);
         });
     }
 
@@ -43,21 +43,21 @@ export default function ValidateBundle(bundle: Bundle, name: string): void {
         const options = bundle.options;
 
         if (typeof options !== "object" || options === null)
-            throw new Error(`Property bundle>${name}>options must be an object and not null.`);
+            throw new TypeError(`Property bundle>${name}>options must be an object and not null.`);
 
         // If sprinkle key exists, value must be an object
         if ("sprinkle" in options) {
             const sprinkle = options.sprinkle;
 
             if (typeof sprinkle !== "object" || sprinkle === null)
-                throw new Error(`Property bundle>${name}>options>sprinkle must be an object and not null.`);
+                throw new TypeError(`Property bundle>${name}>options>sprinkle must be an object and not null.`);
 
             // If onCollision exists, value must be a string and match a set of values
             if ("onCollision" in sprinkle) {
                 if (typeof sprinkle.onCollision !== "string")
-                    throw new Error(`Property bundle>${name}>options>sprinkle>onCollision must be a string.`);
-                if (["replace", "merge", "ignore", "error"].indexOf(sprinkle.onCollision) === -1)
-                    throw new Error(`Property bundle>${name}>options>sprinkle>onCollision must be a valid rule.`);
+                    throw new TypeError(`Property bundle>${name}>options>sprinkle>onCollision must be a string.`);
+                if (Object.keys(CollisionReactions).indexOf(sprinkle.onCollision) === -1)
+                    throw new TypeError(`Property bundle>${name}>options>sprinkle>onCollision must be a valid rule.`);
             }
         }
     }

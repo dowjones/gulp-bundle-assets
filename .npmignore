@@ -6,6 +6,7 @@
 **/*.test.d.ts
 **/*.test.js
 **/*.test.js.map
+**/test-util.js
 api-extractor.json
 dist/index.d.ts
 src/

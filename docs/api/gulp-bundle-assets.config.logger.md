@@ -2,24 +2,12 @@
 
 [Home](./index.md) &gt; [@userfrosting/gulp-bundle-assets](./gulp-bundle-assets.md) &gt; [Config](./gulp-bundle-assets.config.md) &gt; [Logger](./gulp-bundle-assets.config.logger.md)
 
-## Config.Logger() method
+## Config.Logger property
 
 Optional logger that will be used throughout bundling process.
 
 <b>Signature:</b>
 
 ```typescript
-Logger?(value: string, level: LogLevel): void;
+Logger?: Logger;
 ```
-
-## Parameters
-
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  value | <code>string</code> | Message to log. |
-|  level | <code>LogLevel</code> | Log level for message. |
-
-<b>Returns:</b>
-
-`void`
-

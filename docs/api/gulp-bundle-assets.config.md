@@ -17,12 +17,6 @@ export interface Config
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [bundle](./gulp-bundle-assets.config.bundle.md) | <code>Bundles</code> | Bundle definitions. |
-|  [BundlesVirtualBasePath](./gulp-bundle-assets.config.bundlesvirtualbasepath.md) | <code>string</code> | Base path bundle resources will be resolved against. Use to match against virtual path rules if they are used. Defaults to current working directory. |
-|  [VirtualPathRules](./gulp-bundle-assets.config.virtualpathrules.md) | <code>[string, string][]</code> | Defines path transformations that are used for overriding files. Later rules result in a higher preference. Duplicate matcher paths will end up being ignored. All paths should be relative, or undefined behaviour may occur. |
-
-## Methods
-
-|  Method | Description |
-|  --- | --- |
-|  [Logger(value, level)](./gulp-bundle-assets.config.logger.md) | Optional logger that will be used throughout bundling process. |
+|  [cwd](./gulp-bundle-assets.config.cwd.md) | <code>string</code> | Current working directory to use when resolving the full paths of bundle dependencies. Defaults to <code>process.cwd()</code>. |
+|  [Logger](./gulp-bundle-assets.config.logger.md) | <code>Logger</code> | Optional logger that will be used throughout bundling process. |
 

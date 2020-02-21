@@ -1,5 +1,5 @@
-import { Bundle, CollisionReactions } from "./config";
-import Extend from "just-extend";
+import { Bundle, CollisionReactions } from "./config.js";
+import extend from "just-extend";
 
 /**
  * Merges 2 bundles, respecting the collision logic of the second bundle if specified.
@@ -10,10 +10,10 @@ export default function MergeBundle(existingBundle: Bundle, nextBundle: Bundle):
     // Determine collision resolution strategy
     let collisionReaction = CollisionReactions.replace;
 
-    if (nextBundle.options
-        && nextBundle.options.sprinkle
-        && nextBundle.options.sprinkle.onCollision) {
-        collisionReaction = CollisionReactions[nextBundle.options.sprinkle.onCollision];
+    const rawCollisionRule = nextBundle.options?.sprinkle?.onCollision;
+
+    if (rawCollisionRule) {
+        collisionReaction = CollisionReactions[rawCollisionRule];
     }
 
     // Do merge
@@ -29,8 +29,7 @@ export default function MergeBundle(existingBundle: Bundle, nextBundle: Bundle):
             if (existingBundle.styles && nextBundle.styles)
                 nextBundle.styles = [...new Set([...existingBundle.styles, ...nextBundle.styles])];
 
-            // TODO Worth noting that there is no typing for Extend currently
-            return Extend(true, existingBundle, nextBundle);
+            return extend(true, existingBundle, nextBundle);
         }
         // Ignore - Return existing bundle
         case CollisionReactions.ignore:
@@ -39,6 +38,6 @@ export default function MergeBundle(existingBundle: Bundle, nextBundle: Bundle):
         case CollisionReactions.error:
             throw new Error(`The bundle has been previously defined, and the bundle's 'onCollision' property is set to 'error'.`);
         default:
-            throw new Error(`Unexpected input '${nextBundle.options.sprinkle.onCollision}' for 'onCollision' option of next bundle.`);
+            throw new RangeError(`Unexpected input '${rawCollisionRule}' for 'onCollision' option of next bundle.`);
     }
 }
