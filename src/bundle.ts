@@ -16,11 +16,14 @@ export interface BundleStreamFactory {
     (src: Readable, name: string): Stream;
 }
 
+export type BundleType = "style" | "script";
+
 /**
  * Represents a bundle to be bundled, assists in process.
  */
 export class Bundle {
     public readonly name: string;
+    private readonly type: BundleType;
     private readonly initialPaths: readonly string[];
     private remainingPaths: string[];
     private readonly files: Map<string, Vinyl> = new Map();
@@ -34,11 +37,13 @@ export class Bundle {
      */
     constructor(
         name: string,
+        type: BundleType,
         paths: string[],
         streamFactory: BundleStreamFactory,
         logger: Logger
     ) {
         this.name = name;
+        this.type = type;
         this.initialPaths = paths.slice(0);
         this.remainingPaths = paths.slice(0);
         this.streamFactory = streamFactory;
@@ -47,6 +52,7 @@ export class Bundle {
             "Bundle tracker created",
             {
                 bundleName: this.name,
+                type: this.type,
                 files: this.initialPaths,
             }
         );
@@ -69,6 +75,7 @@ export class Bundle {
                 "Retaining file for later bundling",
                 {
                     bundleName: this.name,
+                    type: this.type,
                     path: file.path,
                 }
             );
@@ -78,6 +85,7 @@ export class Bundle {
                 "Ignoring unused file",
                 {
                     bundleName: this.name,
+                    type: this.type,
                     path: file.path,
                 }
             );
@@ -97,10 +105,11 @@ export class Bundle {
                 "Creating bundle stream",
                 {
                     bundleName: this.name,
+                    type: this.type,
                     inFiles: this.initialPaths,
                 }
             );
-            this.logger.info("Started bundling", { bundleName: this.name });
+            this.logger.info("Started bundling", { bundleName: this.name, type: this.type });
             const chunks = await getStream.array(
                 this.streamFactory(
                     intoStream.object(orderedFiles),
@@ -115,6 +124,7 @@ export class Bundle {
                         "Chunk returned by bundle stream is not a Vinyl instance",
                         {
                             bundleName: this.name,
+                            type: this.type,
                             chunk,
                         }
                     );
@@ -123,8 +133,8 @@ export class Bundle {
             }
 
             // Perform bundling, and collect results
-            this.logger.trace("Bundle stream completed", { bundleName: this.name });
-            this.logger.info("Finished bundling", { bundleName: this.name });
+            this.logger.trace("Bundle stream completed", { bundleName: this.name, type: this.type });
+            this.logger.info("Finished bundling", { bundleName: this.name, type: this.type });
 
             return chunks as Vinyl[];
         }

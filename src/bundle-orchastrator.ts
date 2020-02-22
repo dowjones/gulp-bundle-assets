@@ -5,7 +5,7 @@ import { Config } from "./config/config.js";
 import extend from "just-extend";
 import { resolve as resolvePath } from "path";
 import PluginError from "plugin-error";
-import { BundleStreamFactory, Bundle } from "./bundle.js";
+import { BundleStreamFactory, Bundle, BundleType } from "./bundle.js";
 
 const PluginName = "@userfrosting/gulp-bundle-assets";
 
@@ -55,6 +55,7 @@ export interface Bundlers {
  */
 function bundleFactory(
     name: string,
+    type: BundleType,
     rawPaths: string[],
     cwd: string,
     joiner: BundleStreamFactory,
@@ -67,7 +68,7 @@ function bundleFactory(
         paths.push(path);
         logger.trace(`Resolved path: "${path}"`);
     }
-    return new Bundle(name, paths, joiner, logger);
+    return new Bundle(name, type, paths, joiner, logger);
 }
 
 /**
@@ -146,14 +147,14 @@ export class BundleOrchastrator extends Transform {
                 // JS
                 if (bundle.scripts) {
                     this.logger.trace("Starting processing of script paths");
-                    this.scriptBundles.add(bundleFactory(name, bundle.scripts, cwd, joiner.Scripts, this.logger));
+                    this.scriptBundles.add(bundleFactory(name, "script", bundle.scripts, cwd, joiner.Scripts, this.logger));
                     this.logger.trace("Completed processing of script paths");
                 }
 
                 // CSS
                 if (bundle.styles) {
                     this.logger.trace("Starting processing of style paths");
-                    this.styleBundles.add(bundleFactory(name, bundle.styles, cwd, joiner.Styles, this.logger));
+                    this.styleBundles.add(bundleFactory(name, "style", bundle.styles, cwd, joiner.Styles, this.logger));
                     this.logger.trace("Completed processing of style paths");
                 }
             }
