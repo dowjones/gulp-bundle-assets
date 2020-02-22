@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Including bundle type in logging.
+
 ## [4.0.0-rc.0] - 2020-02-21
 
 ## [4.0.0-alpha.3] - 2020-02-20
