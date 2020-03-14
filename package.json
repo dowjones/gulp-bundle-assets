@@ -52,7 +52,7 @@
         "esm": "^3.2.25",
         "get-stream": "^5.1.0",
         "into-stream": "^5.1.1",
-        "just-extend": "^4.0.2",
+        "just-extend": "^4.1.0",
         "plugin-error": "^1.0.1",
         "ts-log": "^2.1.4",
         "vinyl": "^2.2.0"
@@ -62,12 +62,12 @@
         "@microsoft/api-extractor": "^7.7.8",
         "@types/node": "^13.7.2",
         "@types/vinyl": "^2.0.4",
-        "ava": "^3.3.0",
+        "ava": "^3.5.0",
         "changelog-updater": "^1.1.0",
         "nyc": "^15.0.0",
         "p-defer": "^3.0.0",
         "sort-on": "^4.1.0",
-        "typescript": "^3.7.5"
+        "typescript": "^3.8.3"
     },
     "engines": {
         "node": ">=10.0.0"
