@@ -1,6 +1,6 @@
 {
     "name": "@userfrosting/gulp-bundle-assets",
-    "version": "4.0.0-rc.1",
+    "version": "4.0.0",
     "description": "Orchastrates JS and CSS bundle creation in an efficient and configurable manner.",
     "funding": "https://opencollective.com/userfrosting",
     "type": "commonjs",
