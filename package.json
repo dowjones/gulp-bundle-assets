@@ -1,6 +1,6 @@
 {
     "name": "@userfrosting/gulp-bundle-assets",
-    "version": "4.0.0-rc.1",
+    "version": "4.0.0",
     "description": "Orchestrates JS and CSS bundle creation in an efficient and configurable manner.",
     "funding": "https://opencollective.com/userfrosting",
     "type": "commonjs",
@@ -58,11 +58,11 @@
         "vinyl": "^2.2.0"
     },
     "devDependencies": {
-        "@microsoft/api-documenter": "^7.7.12",
-        "@microsoft/api-extractor": "^7.7.8",
-        "@types/node": "^13.7.2",
+        "@microsoft/api-documenter": "^7.7.16",
+        "@microsoft/api-extractor": "^7.7.12",
+        "@types/node": "^13.9.8",
         "@types/vinyl": "^2.0.4",
-        "ava": "^3.5.0",
+        "ava": "^3.5.2",
         "changelog-updater": "^1.1.0",
         "nyc": "^15.0.0",
         "p-defer": "^3.0.0",
