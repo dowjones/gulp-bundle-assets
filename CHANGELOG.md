@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.1] - 2020-04-18
+
 [//]: # (spell-checker:disable)
 
 ### Fixed

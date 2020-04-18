@@ -35,5 +35,5 @@
 |  [Options](./gulp-bundle-assets.options.md) | Represents an asset bundles root options node. |
 |  [Results](./gulp-bundle-assets.results.md) | Bundler results data shape. |
 |  [ResultsCallback](./gulp-bundle-assets.resultscallback.md) | Bundler results callback function interface. |
-|  [SprinkleOptions](./gulp-bundle-assets.sprinkleoptions.md) | Options relevent to UserFrosting's Sprinkle system. |
+|  [SprinkleOptions](./gulp-bundle-assets.sprinkleoptions.md) | Options relevant to UserFrosting's Sprinkle system. |
 

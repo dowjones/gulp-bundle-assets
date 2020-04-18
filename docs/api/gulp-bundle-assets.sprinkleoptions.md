@@ -4,7 +4,7 @@
 
 ## SprinkleOptions interface
 
-Options relevent to UserFrosting's Sprinkle system.
+Options relevant to UserFrosting's Sprinkle system.
 
 <b>Signature:</b>
 
