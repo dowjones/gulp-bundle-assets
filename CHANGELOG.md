@@ -9,9 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [//]: # (spell-checker:disable)
 
+### Fixed
+- Missing bundles and files not being logged when stream completes without providing all required files.
+
 ### Changed
 - Name of bundle class, existing symbol name preserved to maintain compatibility.
-- Deprecated export `BundleOrchastrator` in favour of `BundleOrchestrator`
+- Deprecated export `BundleOrchastrator` in favour of `BundleOrchestrator`.
 
 [//]: # (spell-checker:enable)
 
