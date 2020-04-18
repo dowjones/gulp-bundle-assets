@@ -172,13 +172,13 @@ export class BundleOrchestrator extends Transform {
         try {
             // Only handle Vinyl chunks
             if (!Vinyl.isVinyl(chunk)) {
-                this.logger.warn("Ignoring recieved non-Vinyl chunk");
+                this.logger.warn("Ignoring received non-Vinyl chunk");
                 this.push(chunk, encoding);
                 callback();
                 return;
             }
 
-            this.logger.trace("Recieved Vinyl chunk", { pathHistory: chunk.history });
+            this.logger.trace("Received Vinyl chunk", { pathHistory: chunk.history });
 
             // Offer chunks to bundles, return any results
             await handleVinylChunk(chunk, this.scriptBundles, this.results.scripts, this.push.bind(this));
@@ -201,7 +201,7 @@ export class BundleOrchestrator extends Transform {
         try {
             // Produce error if there are bundles without all requirements
             if (this.scriptBundles.size > 0 || this.styleBundles.size > 0) {
-                throw new Error("Stream completed before all bundles recieved their dependencies");
+                throw new Error("Stream completed before all bundles received their dependencies");
             }
 
             // Invoke results callback

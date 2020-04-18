@@ -25,7 +25,7 @@ export enum CollisionReactions {
 }
 
 /**
- * Options relevent to UserFrosting's Sprinkle system.
+ * Options relevant to UserFrosting's Sprinkle system.
  * @public
  */
 export interface SprinkleOptions {

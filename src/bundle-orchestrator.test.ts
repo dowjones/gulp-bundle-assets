@@ -309,7 +309,7 @@ test("Bundles with unmet dependencies", async t => {
         },
         {
             instanceOf: Error,
-            message: "Stream completed before all bundles recieved their dependencies",
+            message: "Stream completed before all bundles received their dependencies",
         }
     );
 });
@@ -324,7 +324,7 @@ test("Bundles with all dependencies unmet", async t => {
         },
         {
             instanceOf: Error,
-            message: "Stream completed before all bundles recieved their dependencies",
+            message: "Stream completed before all bundles received their dependencies",
         }
     );
 });
