@@ -1,5 +1,5 @@
 import test, { ExecutionContext } from "ava";
-import { BundleOrchastrator, ResultsCallback } from "./bundle-orchastrator.js";
+import { BundleOrchestrator, ResultsCallback } from "./bundle-orchestrator.js";
 import intoStream from "into-stream";
 import getStream from "get-stream";
 import { Readable, Stream } from "stream";
@@ -84,7 +84,7 @@ interface IBundleBuilderFlags {
  * @param flags Flags used to modify returned bundler.
  */
 function buildBundler(t: ExecutionContext, flags: IBundleBuilderFlags = {}) {
-    return new BundleOrchastrator(
+    return new BundleOrchestrator(
         {
             cwd: flags.explicitCwd
                 ? process.cwd()
@@ -309,7 +309,7 @@ test("Bundles with unmet dependencies", async t => {
         },
         {
             instanceOf: Error,
-            message: "Stream completed before all bundles recieved their dependencies",
+            message: "Stream completed before all bundles received their dependencies",
         }
     );
 });
@@ -324,7 +324,7 @@ test("Bundles with all dependencies unmet", async t => {
         },
         {
             instanceOf: Error,
-            message: "Stream completed before all bundles recieved their dependencies",
+            message: "Stream completed before all bundles received their dependencies",
         }
     );
 });

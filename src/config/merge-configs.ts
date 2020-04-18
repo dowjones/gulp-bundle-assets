@@ -1,7 +1,8 @@
 import { Config } from "./config.js";
 import MergeBundle from "./merge-bundle.js";
 import extend from "just-extend";
-import Errlop from "errlop";
+import ExtendedError from "errlop";
+
 /**
  * Merges a collection of configurations.
  * No validation is conducted, it is expected that provided inputs are all valid.
@@ -34,7 +35,7 @@ export default function MergeConfigs(rawConfigs: Config[]): Config {
                         nextConfig.bundle[bundleName] = MergeBundle(outConfig.bundle[bundleName], nextConfig.bundle[bundleName]);
                     }
                     catch (exception) {
-                        throw new Errlop(`Exception raised while merging bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.`, exception);
+                        throw new ExtendedError(`Exception raised while merging bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.`, exception);
                     }
                 }
                 // Otherwise just set it

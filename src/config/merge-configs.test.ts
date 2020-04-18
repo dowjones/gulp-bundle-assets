@@ -24,7 +24,7 @@ test("First object with bundle property and second object empty", t => {
 });
 
 /**
- * Should return object equviliant to input.
+ * Should return object equivalent to input.
  */
 test("Single object", t => {
 	const config: Config = {

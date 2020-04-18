@@ -95,7 +95,7 @@ export class Bundle {
             const orderedFiles: Vinyl[] = [];
             for (const path of this.initialPaths) {
                 const file = this.files.get(path);
-                /* istanbul ignore else map.get can testnically be undefined */
+                /* istanbul ignore else map.get can technically be undefined */
                 if (file) orderedFiles.push(file);
                 else throw new Error("Unexpected condition, previously tracked file is undefined");
             }
@@ -141,5 +141,17 @@ export class Bundle {
         else {
             return false;
         }
+    }
+
+    /**
+     * Returns an object used for reporting bundle status when the stream completes before all required
+     * files have been received.
+     */
+    public report() {
+        return {
+            type: this.type,
+            name: this.name,
+            remainingFiles: this.remainingPaths.slice(),
+        };
     }
 }

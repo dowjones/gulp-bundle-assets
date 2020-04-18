@@ -10,7 +10,7 @@ test("Empty object", t => {
 });
 
 /**
- * Should thow if the bundle is not an object.
+ * Should throw if the bundle is not an object.
  */
 test("Non-object bundle", t => {
     const bundle: any = "a string";

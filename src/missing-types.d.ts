@@ -1,4 +1,4 @@
-// TODO Typings here cannot be made 100% accurate in all cases untill https://github.com/microsoft/TypeScript/issues/5453 or another alternative is implemented
+// TODO Typings here cannot be made 100% accurate in all cases until https://github.com/microsoft/TypeScript/issues/5453 or another alternative is implemented
 declare module "just-extend" {
     function extend<T extends object, U extends object>(target: T, source: U): T & U;
     function extend<T extends object, U extends object, V extends object>(target: T, source1: U, source2: V): T & U & V;
