@@ -60,8 +60,23 @@
             "runs-on": "ubuntu-latest",
             "steps": [
                 {
+                    "name": "Checkout",
+                    "uses": "actions/checkout@v1"
+                },
+                {
+                    "name": "Setup node",
+                    "uses": "actions/setup-node@v1",
+                    "with": {
+                        "node-version": "13.x"
+                    }
+                },
+                {
+                    "name": "Install cspell",
+                    "run": "npm i -g cspell"
+                },
+                {
                     "name": "Check spelling",
-                    "uses": "sbates130272/spellcheck-github-actions@v0.6.0"
+                    "run": "cspell 'src/**/*.ts'"
                 }
             ]
         }
