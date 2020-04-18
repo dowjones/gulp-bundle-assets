@@ -98,10 +98,10 @@ async function handleVinylChunk(
 }
 
 /**
- * Orchastrates bundling.
+ * Orchestrates bundling.
  * @public
  */
-export class BundleOrchastrator extends Transform {
+export class BundleOrchestrator extends Transform {
 
     private scriptBundles: Set<Bundle> = new Set();
 

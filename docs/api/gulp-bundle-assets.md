@@ -8,7 +8,7 @@
 
 |  Class | Description |
 |  --- | --- |
-|  [BundleOrchastrator](./gulp-bundle-assets.bundleorchastrator.md) | Orchastrates bundling. |
+|  [BundleOrchestrator](./gulp-bundle-assets.bundleorchestrator.md) | Orchestrates bundling. |
 
 ## Enumerations
 
