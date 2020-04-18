@@ -223,7 +223,7 @@ export class BundleOrchestrator extends Transform {
             callback();
         }
         catch (error) {
-            this.logger.error("_flush completed with error", { error: error?.toString() ?? error });
+            this.logger.error("_flush completed with error", { error: error.toString() });
             callback(new PluginError(PluginName, error));
         }
     }
