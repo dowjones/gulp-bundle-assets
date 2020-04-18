@@ -61,7 +61,7 @@
             "steps": [
                 {
                     "name": "Check spelling",
-                    "uses": "rojopolis/spellcheck-github-actions@0.2.0"
+                    "uses": "sbates130272/spellcheck-github-actions@v0.6.0"
                 }
             ]
         }
