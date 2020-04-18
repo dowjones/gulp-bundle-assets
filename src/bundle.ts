@@ -142,4 +142,16 @@ export class Bundle {
             return false;
         }
     }
+
+    /**
+     * Returns an object used for reporting bundle status when the stream completes before all required
+     * files have been received.
+     */
+    public report() {
+        return {
+            type: this.type,
+            name: this.name,
+            remainingFiles: this.remainingPaths.slice(),
+        };
+    }
 }

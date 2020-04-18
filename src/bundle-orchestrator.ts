@@ -201,7 +201,20 @@ export class BundleOrchestrator extends Transform {
         try {
             // Produce error if there are bundles without all requirements
             if (this.scriptBundles.size > 0 || this.styleBundles.size > 0) {
-                throw new Error("Stream completed before all bundles received their dependencies");
+                const missingBundles: {
+                    type: BundleType,
+                    name: string,
+                    remainingFiles: string[],
+                }[] = [];
+                for (const bundle of this.scriptBundles) {
+                    missingBundles.push(bundle.report());
+                }
+                for (const bundle of this.styleBundles) {
+                    missingBundles.push(bundle.report());
+                }
+                const errMessage = "Stream completed before all bundles received their dependencies";
+                this.logger.error(errMessage, missingBundles);
+                throw new Error(errMessage);
             }
 
             // Invoke results callback
@@ -210,7 +223,7 @@ export class BundleOrchestrator extends Transform {
             callback();
         }
         catch (error) {
-            this.logger.error("_flush completed with error", { error });
+            this.logger.error("_flush completed with error", { error: error?.toString() ?? error });
             callback(new PluginError(PluginName, error));
         }
     }
