@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+[//]: # (spell-checker:disable)
+
 ### Changed
 - Name of bundle class, existing symbol name preserved to maintain compatibility.
 - Deprecated export `BundleOrchastrator` in favour of `BundleOrchestrator`
+
+[//]: # (spell-checker:enable)
 
 ## [4.0.0] - 2020-03-14
 
@@ -40,7 +44,7 @@ This release focuses on improving performance and maintainability. These have be
 - Logging interface, now uses [`ts-log`](https://www.npmjs.com/package/ts-log).
 
 ### Removed
-- Virtual path logic in favour of [`@userfrosting/vinly-fs-vpath`](https://github.com/userfrosting/vinyl-fs-vpath).
+- Virtual path logic in favour of [`@userfrosting/vinyl-fs-vpath`](https://github.com/userfrosting/vinyl-fs-vpath).
 
 ### Fixed
 - Flaw in results API surface, results are now correctly separated according to their type (script/style).
@@ -67,7 +71,7 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 ### Added
 - Raw configuration validation.
 - Raw configuration merging with collision logic (ported from UserFrosting `gulpfile`).
-- Path transformation with support for file replacement based on rule order (later rules superseed earlier ones).
+- Path transformation with support for file replacement based on rule order (later rules supersede earlier ones).
 - Ability to specify base path for resolution of bundle resources and path transformations.
 - Support for comprehensive logging through a passed logger function.
 
@@ -77,7 +81,7 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 - As an internal `gulp` pipeline is no longer responsible for bundle generation, custom `Transform` streams (e.g. `gulp-concat-css`) must be provided.
 - Path transformations will no longer be applied to files due to complexity around how paths are managed in `gulp`. Instead this feature will be used for override logic alone.
 - Bundle results are now retrieved via a callback which is given a collection of `Vinyl` `NullFiles` to retain as much useful information as possible.
-- Moved package under `@userfrosting` organisation in NPM and removed superfluous `uf` from package name.
+- Moved package under `@userfrosting` organization in NPM and removed superfluous `uf` from package name.
 
 ### Removed
 - Support for CSS sourcemaps (broken since 2.27.2).
@@ -89,7 +93,7 @@ This release focuses on simplifying the package for UserFrosting 4 to improve ma
 - Automatic HTML tag generation for results file (use results callback to implement this manually).
 - File copy support (use `gulp.dest` or an equivalent).
 - Result file support (replaced by callback).
-- Removed dependency on `gulp` as per best practises.
+- Removed dependency on `gulp` as per best practices.
 
 ## [2.28.2] - 2018-02-10
 

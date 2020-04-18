@@ -5,7 +5,7 @@
 | master | [![Continuous Integration](https://github.com/userfrosting/gulp-uf-bundle-assets/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/userfrosting/gulp-uf-bundle-assets/actions?query=branch:master+workflow:"Continuous+Integration") [![codecov](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/master/graph/badge.svg)](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/master) |
 | develop | [![Continuous Integration](https://github.com/userfrosting/gulp-uf-bundle-assets/workflows/Continuous%20Integration/badge.svg?branch=develop)](https://github.com/userfrosting/gulp-uf-bundle-assets/actions?query=branch:develop+workflow:"Continuous+Integration") [![codecov](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/develop/graph/badge.svg)](https://codecov.io/gh/userfrosting/gulp-uf-bundle-assets/branch/develop) |
 
-Orchastrates JS and CSS bundle creation in an efficient and configurable manner.
+Orchestrates JS and CSS bundle creation in an efficient and configurable manner.
 
 ## Install
 
@@ -68,7 +68,7 @@ $ gulp bundle
 
 The `Bundler` class exposes a `ResultsMap` property containing a Map where the key is the bundle name and value the full path of the generated file. If any transform stream after `Bundler` that changes path names then the results map will no longer be accurate, so use the built in path transforms if possible.
 
-This approach was decided on as it provides the most efficient means to integrate bundles with any system. No need to touch the file system until its absolutely necessary, and less work to optimise the output (e.g. make a `php` file out of it to reduce IO in production by maximising use of bytecode caching).
+This approach was decided on as it provides the most efficient means to integrate bundles with any system. No need to touch the file system until its absolutely necessary, and less work to optimise the output (e.g. make a `php` file out of it to reduce IO in production by maximizing use of bytecode caching).
 
 ## API
 
@@ -79,9 +79,9 @@ The results reside in [docs/api](./docs/api/index.md).
 
 This plugin was originally forked from [gulp-bundle-assets](https://github.com/dowjones/gulp-bundle-assets) to fix a CSS import bug.
 
-It has since been entirely reworked to better suit the requirements of the UserFrosting's Sprinkle system and follow the Gulp plugin guidelines (namely not unncessarily depending on it). Though TypeScript is now the preferred language the output targetted to ES2015 and uses ES Modules (via the `esm` package) to ensure source it can be easily debugged if issues are observed in the wild.
+It has since been entirely reworked to better suit the requirements of the UserFrosting's Sprinkle system and follow the Gulp plugin guidelines (namely not unnecessarily depending on it). Though TypeScript is now the preferred language the output targeted to ES2015 and uses ES Modules (via the `esm` package) to ensure source it can be easily debugged if issues are observed in the wild.
 
-This package was previously published under `gulp-uf-bundle-assets` and as of v3 is published under `@userfrosting/gulp-bundle-assets` to assist in longterm project management.
+This package was previously published under `gulp-uf-bundle-assets` and as of v3 is published under `@userfrosting/gulp-bundle-assets` to assist in long-term project management.
 
 As of v4 virtual path logic was extracted into a separate package [@userfrosting/vinyl-fs-vpath](https://github.com/userfrosting/vinyl-fs-vpath). This change enabled a significant simplification of core logic along with a significantly faster and more efficient way to support virtual path mappings.
 
