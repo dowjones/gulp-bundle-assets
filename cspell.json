@@ -30,7 +30,8 @@
         "api-extractor.json",
         "docs/api/",
         "dist/",
-        "temp/"
+        "temp/",
+        "docs/api-extractor/"
     ],
     "ignoreRegExpList": [
         "/Silic0nS0lider/"
