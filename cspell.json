@@ -11,7 +11,8 @@
         "Soares",
         "jcarrivick",
         "bytecode",
-        "backported"
+        "backported",
+        "lockfiles"
     ],
     "ignoreWords": [
         "userfrosting",
@@ -30,5 +31,8 @@
         "docs/api/",
         "dist/",
         "temp/"
+    ],
+    "ignoreRegExpList": [
+        "/Silic0nS0lider/"
     ]
 }
