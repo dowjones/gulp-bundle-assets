@@ -79,6 +79,10 @@
                     "run": "cspell '**'"
                 },
                 {
+                    "name": "Install package dependencies",
+                    "run": "npm ci"
+                },
+                {
                     "name": "Check for unconfirmed API changes",
                     "run": "./node_modules/.bin/api-extractor run"
                 }
