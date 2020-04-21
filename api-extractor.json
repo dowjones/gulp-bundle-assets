@@ -3,19 +3,14 @@
     "projectFolder": "./",
     "mainEntryPointFilePath": "<projectFolder>/dist/main.d.ts",
     "apiReport": {
-        "enabled": false
+        "enabled": true,
+        "reportFolder": "<projectFolder>/docs/api-extractor",
+        "reportFileName": "api-report.md"
     },
     "dtsRollup": {
         "enabled": false
     },
     "docModel": {
         "enabled": true
-    },
-    "messages": {
-        "tsdocMessageReporting": {
-            "tsdoc-undefined-tag": {
-                "logLevel": "none"
-            }
-        }
     }
 }

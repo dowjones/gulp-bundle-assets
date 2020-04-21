@@ -11,7 +11,7 @@
     },
     "types": "./dist/main.d.ts",
     "scripts": {
-        "pretest": "tsc",
+        "pretest": "tsc && api-extractor run --local",
         "test": "nyc --reporter=text ava",
         "prepublishOnly": "tsc",
         "preversion": "npm test",
@@ -58,13 +58,13 @@
         "vinyl": "^2.2.0"
     },
     "devDependencies": {
-        "@microsoft/api-documenter": "^7.7.16",
-        "@microsoft/api-extractor": "^7.7.12",
-        "@types/node": "^13.9.8",
+        "@microsoft/api-documenter": "^7.7.18",
+        "@microsoft/api-extractor": "^7.7.13",
+        "@types/node": "^13.13.1",
         "@types/vinyl": "^2.0.4",
-        "ava": "^3.5.2",
+        "ava": "^3.7.1",
         "changelog-updater": "^1.1.0",
-        "nyc": "^15.0.0",
+        "nyc": "^15.0.1",
         "p-defer": "^3.0.0",
         "sort-on": "^4.1.0",
         "typescript": "^3.8.3"
