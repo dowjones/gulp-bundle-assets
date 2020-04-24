@@ -22,7 +22,8 @@
         "codecov",
         "vpath",
         "gulpplugin",
-        "gulpfile"
+        "gulpfile",
+        "automerged"
     ],
     "ignorePaths": [
         "cspell.json",
