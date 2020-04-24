@@ -4,7 +4,7 @@ update_configs:
   # new versions are published to the npm registry
   - package_manager: "javascript"
     directory: "/"
-    update_schedule: "weekly"
+    update_schedule: "live"
     target_branch: "develop"
     default_reviewers:
         - Silic0nS0lider
