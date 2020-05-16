@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Updated interface of `BundleOrchestrator._transform` reflecting tighter constraints in `@types/node` v14. No modification to runtime logic, method only used by NodeJS streams.
+
 ## [4.0.1] - 2020-04-18
 
 [//]: # (spell-checker:disable)
