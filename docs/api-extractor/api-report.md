@@ -26,7 +26,7 @@ class BundleOrchestrator extends Transform {
     constructor(config: Config, joiner: Bundlers, resultsCallback?: ResultsCallback);
     // (undocumented)
     _flush(callback: TransformCallback): Promise<void>;
-    _transform(chunk: any, encoding: string, callback: TransformCallback): Promise<void>;
+    _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback): Promise<void>;
 }
 
 export { BundleOrchestrator as BundleOrchastrator }
