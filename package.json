@@ -20,7 +20,7 @@
         "version:changelogBump": "changelog-updater && git add CHANGELOG.md",
         "version:apiDocRefresh": "api-extractor run && api-documenter markdown -i ./temp -o ./docs/api && git add ./docs/api/*"
     },
-    "author": "Jordan Mele <SiliconSoldier@outlook.com.au> (https://github.com/Silic0nS0ldier)",
+    "author": "Jordan Mele <SiliconSoldier@outlook.com.au> (https://djmm.me/)",
     "contributors": [
         "Chris Montgomery (http://www.chrismontgomery.info/)",
         "Christian Sherland (https://github.com/csherland)",
@@ -48,7 +48,7 @@
         "url": "https://github.com/userfrosting/gulp-uf-bundle-assets/issues"
     },
     "dependencies": {
-        "errlop": "^2.0.0",
+        "errlop": "^3.0.0",
         "esm": "^3.2.25",
         "get-stream": "^5.1.0",
         "into-stream": "^5.1.1",
