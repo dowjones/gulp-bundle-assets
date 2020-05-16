@@ -168,7 +168,7 @@ export class BundleOrchestrator extends Transform {
      * @param encoding - Encoding of chunk, if applicable.
      * @param callback - Callback to indicate processing is completed.
      */
-    public async _transform(chunk: any, encoding: string, callback: TransformCallback): Promise<void> {
+    public async _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback): Promise<void> {
         try {
             // Only handle Vinyl chunks
             if (!Vinyl.isVinyl(chunk)) {
