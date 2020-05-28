@@ -1,4 +1,4 @@
-import { Logger } from "ts-log";
+import TsLog from "ts-log";
 import { ExecutionContext } from "ava";
 
 /**
@@ -6,7 +6,7 @@ import { ExecutionContext } from "ava";
  * @param t Execution context for test. Needed to associate logs with tests.
  */
 /* istanbul ignore next */
-export function mapAvaLoggerToStandard(t: ExecutionContext): Logger {
+export function mapAvaLoggerToStandard(t: ExecutionContext): TsLog.Logger {
     return {
         debug(message, ...optionalParams) {
             return t.log("DEBUG: " + message, ...optionalParams);

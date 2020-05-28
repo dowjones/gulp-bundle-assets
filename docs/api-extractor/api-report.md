@@ -4,11 +4,11 @@
 
 ```ts
 
-import { Logger } from 'ts-log';
 import { Readable } from 'stream';
 import { Stream } from 'stream';
 import { Transform } from 'stream';
 import { TransformCallback } from 'stream';
+import TsLog from 'ts-log';
 import Vinyl from 'vinyl';
 
 // @public
@@ -65,7 +65,7 @@ export enum CollisionReactions {
 export interface Config {
     bundle?: Bundles;
     cwd?: string;
-    Logger?: Logger;
+    Logger?: TsLog.Logger;
 }
 
 // @public

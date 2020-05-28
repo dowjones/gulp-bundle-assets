@@ -3,12 +3,8 @@
     "version": "4.0.1",
     "description": "Orchestrates JS and CSS bundle creation in an efficient and configurable manner.",
     "funding": "https://opencollective.com/userfrosting",
-    "type": "commonjs",
-    "main": "./dist/index.js",
-    "exports": {
-        "require": "./dist/index.js",
-        "import": "./dist/main.js"
-    },
+    "type": "module",
+    "exports": "./dist/main.js",
     "types": "./dist/main.d.ts",
     "scripts": {
         "pretest": "tsc && api-extractor run --local",
@@ -49,7 +45,6 @@
     },
     "dependencies": {
         "errlop": "^3.0.0",
-        "esm": "^3.2.25",
         "get-stream": "^5.1.0",
         "into-stream": "^5.1.1",
         "just-extend": "^4.1.0",
@@ -70,14 +65,11 @@
         "typescript": "^3.8.3"
     },
     "engines": {
-        "node": ">=10.0.0"
+        "node": "^12.17.0 || >=13"
     },
     "ava": {
         "files": [
             "dist/**/*.test.js"
-        ],
-        "require": [
-            "esm"
         ]
     }
 }

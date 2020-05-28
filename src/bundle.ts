@@ -1,6 +1,6 @@
 import { Readable, Stream } from "stream";
 import Vinyl from "vinyl";
-import { Logger } from "ts-log";
+import TsLog from "ts-log";
 import intoStream from "into-stream";
 import getStream from "get-stream";
 
@@ -28,7 +28,7 @@ export class Bundle {
     private remainingPaths: string[];
     private readonly files: Map<string, Vinyl> = new Map();
     private readonly streamFactory: BundleStreamFactory;
-    private readonly logger: Logger;
+    private readonly logger: TsLog.Logger;
 
     /**
      * @param name Name of bundle, passed to bundle stream factory.
@@ -40,7 +40,7 @@ export class Bundle {
         type: BundleType,
         paths: string[],
         streamFactory: BundleStreamFactory,
-        logger: Logger
+        logger: TsLog.Logger
     ) {
         this.name = name;
         this.type = type;

@@ -1,4 +1,4 @@
-import { Logger } from "ts-log";
+import TsLog from "ts-log";
 
 /**
  * Rules for how a bundle collision may be treated.
@@ -74,7 +74,7 @@ export interface Config {
     /**
      * Optional logger that will be used throughout bundling process.
      */
-    Logger?: Logger;
+    Logger?: TsLog.Logger;
 
     /**
      * Current working directory to use when resolving the full paths of bundle dependencies.

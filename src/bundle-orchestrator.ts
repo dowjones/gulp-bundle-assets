@@ -1,6 +1,6 @@
 import Vinyl from "vinyl";
 import { Transform, TransformCallback } from "stream";
-import { Logger, dummyLogger } from "ts-log";
+import TsLog from "ts-log";
 import { Config } from "./config/config.js";
 import extend from "just-extend";
 import { resolve as resolvePath } from "path";
@@ -59,7 +59,7 @@ function bundleFactory(
     rawPaths: string[],
     cwd: string,
     joiner: BundleStreamFactory,
-    logger: Logger
+    logger: TsLog.Logger
 ) {
     const paths = [];
     for (const rawPath of rawPaths) {
@@ -114,7 +114,7 @@ export class BundleOrchestrator extends Transform {
 
     private resultsCallback?: ResultsCallback;
 
-    private logger: Logger = dummyLogger;
+    private logger: TsLog.Logger = TsLog.dummyLogger;
 
     /**
      * @param config - Raw (but valid) configuration file used for bundle resolution.

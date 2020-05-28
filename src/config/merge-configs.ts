@@ -35,7 +35,8 @@ export default function MergeConfigs(rawConfigs: Config[]): Config {
                         nextConfig.bundle[bundleName] = MergeBundle(outConfig.bundle[bundleName], nextConfig.bundle[bundleName]);
                     }
                     catch (exception) {
-                        throw new ExtendedError(`Exception raised while merging bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.`, exception);
+                        // @ts-ignore
+                        throw new ExtendedError.default(`Exception raised while merging bundle '${bundleName}' in the raw configuration at index '${rawConfigs.indexOf(config)}'.`, exception);
                     }
                 }
                 // Otherwise just set it
